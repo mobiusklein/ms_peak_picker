@@ -1,0 +1,6 @@
+recursive-include peak_picker *.pyx
+recursive-include peak_picker *.pxd
+recursive-include peak_picker *.c
+recursive-include peak_picker *.h
+
+include README.rst

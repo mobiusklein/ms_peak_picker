@@ -1,0 +1,4 @@
+*.pyc
+ms_peak_picker/*.html
+build/
+*.egg-info
