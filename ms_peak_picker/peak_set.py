@@ -10,6 +10,10 @@ class FittedPeak(Base):
         self.index = index
         self.full_width_at_half_max = full_width_at_half_max
 
+    def clone(self):
+        return FittedPeak(self.mz, self.intensity, self.signal_to_noise,
+                          self.peak_count, self.index, self.full_width_at_half_max)
+
 
 class PeakSet(Base):
     def __init__(self, peaks):
@@ -28,6 +32,9 @@ class PeakSet(Base):
         if isinstance(item, slice):
             return PeakSet(self.peaks[item])
         return self.peaks[item]
+
+    def clone(self):
+        return PeakSet(p.clone() for p in self)
 
 
 def _sweep_solution(array, value, lo, hi, tolerance, verbose=False):

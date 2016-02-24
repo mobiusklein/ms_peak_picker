@@ -5,8 +5,12 @@ import numpy as np
 
 ctypedef np.float64_t DTYPE_t
 
+cdef bint isclose(DTYPE_t x, DTYPE_t y, DTYPE_t rtol=1.e-5, DTYPE_t atol=1.e-8):
+    return abs(x-y) <= (atol + rtol * abs(y))
+
 cdef bint aboutzero(DTYPE_t x):
-    return np.isclose(x, 0)
+    return isclose(x, 0)
+
 
 @cython.boundscheck(False)
 cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1] intensity_array, size_t index):
