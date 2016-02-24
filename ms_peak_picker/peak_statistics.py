@@ -252,11 +252,11 @@ def lorenztian_fit(mz_array, intensity_array, index, full_width_at_half_max):
 try:
     from . import _peak_statistics
     _find_signal_to_noise = find_signal_to_noise
-    _find_full_width_at_half_max = find_full_width_at_half_max
-    _curve_reg = curve_reg
+    # _find_full_width_at_half_max = find_full_width_at_half_max
+    # _curve_reg = curve_reg
 
     find_signal_to_noise = _peak_statistics.find_signal_to_noise
-    find_full_width_at_half_max = _peak_statistics.find_full_width_at_half_max
-    curve_reg = _peak_statistics.curve_reg
+    # find_full_width_at_half_max = _peak_statistics.find_full_width_at_half_max
+    # curve_reg = _peak_statistics.curve_reg
 except ImportError:
     pass
