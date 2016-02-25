@@ -93,6 +93,6 @@ try:
     _FittedPeak = FittedPeak
     _PeakSet = PeakSet
     _p_binary_search = binary_search
-    from ._peak_set import FittedPeak, PeakSet, binary_search
+    # from ._peak_set import FittedPeak, PeakSet, binary_search
 except ImportError:
     pass

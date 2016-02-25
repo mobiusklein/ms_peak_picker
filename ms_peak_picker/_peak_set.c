@@ -812,7 +812,7 @@ static PyTypeObject *__pyx_ptype_7cpython_4type_type = 0;
 
 /* Module declarations from 'cpython.mem' */
 
-/* Module declarations from 'cpython.tuple' */
+/* Module declarations from 'cpython.list' */
 
 /* Module declarations from 'cpython.sequence' */
 
@@ -874,7 +874,7 @@ static PyTypeObject *__pyx_ptype_7cpython_7complex_complex = 0;
 
 /* Module declarations from 'cpython.object' */
 
-/* Module declarations from 'cpython.list' */
+/* Module declarations from 'cpython.tuple' */
 
 /* Module declarations from 'ms_peak_picker._peak_set' */
 static PyTypeObject *__pyx_ptype_14ms_peak_picker_9_peak_set_FittedPeak = 0;
@@ -2642,7 +2642,6 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
  *     def __repr__(self):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
-  if (!(likely(PyList_CheckExact(__pyx_v_self->peaks))||((__pyx_v_self->peaks) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_self->peaks)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_1 = __pyx_v_self->peaks;
   __Pyx_INCREF(__pyx_t_1);
   __pyx_t_2 = ((PyObject *)__pyx_f_14ms_peak_picker_9_peak_set_binary_search(((PyObject*)__pyx_t_1), __pyx_v_mz, __pyx_v_tolerance, 0)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -3924,7 +3923,7 @@ static int __pyx_pf_14ms_peak_picker_9_peak_set_7PeakSet_5peaks_4__del__(struct 
 /* "ms_peak_picker\_peak_set.pyx":92
  * 
  * 
- * cpdef FittedPeak binary_search(list array, double value, double tolerance):             # <<<<<<<<<<<<<<
+ * cpdef FittedPeak binary_search(tuple array, double value, double tolerance):             # <<<<<<<<<<<<<<
  *     return _binary_search(array, value, 0, len(array), tolerance)
  * 
  */
@@ -3942,7 +3941,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
 
   /* "ms_peak_picker\_peak_set.pyx":93
  * 
- * cpdef FittedPeak binary_search(list array, double value, double tolerance):
+ * cpdef FittedPeak binary_search(tuple array, double value, double tolerance):
  *     return _binary_search(array, value, 0, len(array), tolerance)             # <<<<<<<<<<<<<<
  * 
  * 
@@ -3952,7 +3951,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_array); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyTuple_GET_SIZE(__pyx_v_array); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_2 = ((PyObject *)__pyx_f_14ms_peak_picker_9_peak_set__binary_search(__pyx_v_array, __pyx_v_value, 0, __pyx_t_1, __pyx_v_tolerance)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = ((struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *)__pyx_t_2);
@@ -3962,7 +3961,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
   /* "ms_peak_picker\_peak_set.pyx":92
  * 
  * 
- * cpdef FittedPeak binary_search(list array, double value, double tolerance):             # <<<<<<<<<<<<<<
+ * cpdef FittedPeak binary_search(tuple array, double value, double tolerance):             # <<<<<<<<<<<<<<
  *     return _binary_search(array, value, 0, len(array), tolerance)
  * 
  */
@@ -4041,7 +4040,7 @@ static PyObject *__pyx_pw_14ms_peak_picker_9_peak_set_1binary_search(PyObject *_
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_array), (&PyList_Type), 1, "array", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_array), (&PyTuple_Type), 1, "array", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_14ms_peak_picker_9_peak_set_binary_search(__pyx_self, __pyx_v_array, __pyx_v_value, __pyx_v_tolerance);
 
   /* function exit code */
@@ -4082,7 +4081,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_9_peak_set_binary_search(CYTHON_UNUSE
 /* "ms_peak_picker\_peak_set.pyx":96
  * 
  * 
- * cdef FittedPeak _binary_search(list array, double value, size_t lo, size_t hi, double tolerance):             # <<<<<<<<<<<<<<
+ * cdef FittedPeak _binary_search(tuple array, double value, size_t lo, size_t hi, double tolerance):             # <<<<<<<<<<<<<<
  *     cdef:
  *         size_t mid
  */
@@ -4144,7 +4143,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
  *         return _sweep_solution(array, value, lo, hi, tolerance)
  *     else:
  *         mid = (hi + lo) / 2             # <<<<<<<<<<<<<<
- *         target = <FittedPeak>PyList_GET_ITEM(array, mid)
+ *         target = <FittedPeak>PyTuple_GET_ITEM(array, mid)
  *         target_value = target.mz
  */
   /*else*/ {
@@ -4153,11 +4152,11 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
     /* "ms_peak_picker\_peak_set.pyx":105
  *     else:
  *         mid = (hi + lo) / 2
- *         target = <FittedPeak>PyList_GET_ITEM(array, mid)             # <<<<<<<<<<<<<<
+ *         target = <FittedPeak>PyTuple_GET_ITEM(array, mid)             # <<<<<<<<<<<<<<
  *         target_value = target.mz
  *         error = ppm_error(value, target_value)
  */
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_v_array, __pyx_v_mid);
+    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_v_array, __pyx_v_mid);
     __pyx_t_2 = ((PyObject *)__pyx_t_3);
     __Pyx_INCREF(__pyx_t_2);
     __pyx_v_target = ((struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *)__pyx_t_2);
@@ -4165,7 +4164,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
 
     /* "ms_peak_picker\_peak_set.pyx":106
  *         mid = (hi + lo) / 2
- *         target = <FittedPeak>PyList_GET_ITEM(array, mid)
+ *         target = <FittedPeak>PyTuple_GET_ITEM(array, mid)
  *         target_value = target.mz             # <<<<<<<<<<<<<<
  *         error = ppm_error(value, target_value)
  * 
@@ -4174,7 +4173,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
     __pyx_v_target_value = __pyx_t_4;
 
     /* "ms_peak_picker\_peak_set.pyx":107
- *         target = <FittedPeak>PyList_GET_ITEM(array, mid)
+ *         target = <FittedPeak>PyTuple_GET_ITEM(array, mid)
  *         target_value = target.mz
  *         error = ppm_error(value, target_value)             # <<<<<<<<<<<<<<
  * 
@@ -4277,7 +4276,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
  *         elif target_value < value:
  *             return _binary_search(array, value, mid, hi, tolerance)             # <<<<<<<<<<<<<<
  * 
- * cdef FittedPeak _sweep_solution(list array, double value, size_t lo, size_t hi, double tolerance):
+ * cdef FittedPeak _sweep_solution(tuple array, double value, size_t lo, size_t hi, double tolerance):
  */
       __Pyx_XDECREF(((PyObject *)__pyx_r));
       __pyx_t_2 = ((PyObject *)__pyx_f_14ms_peak_picker_9_peak_set__binary_search(__pyx_v_array, __pyx_v_value, __pyx_v_mid, __pyx_v_hi, __pyx_v_tolerance)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -4299,7 +4298,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
   /* "ms_peak_picker\_peak_set.pyx":96
  * 
  * 
- * cdef FittedPeak _binary_search(list array, double value, size_t lo, size_t hi, double tolerance):             # <<<<<<<<<<<<<<
+ * cdef FittedPeak _binary_search(tuple array, double value, size_t lo, size_t hi, double tolerance):             # <<<<<<<<<<<<<<
  *     cdef:
  *         size_t mid
  */
@@ -4321,7 +4320,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
 /* "ms_peak_picker\_peak_set.pyx":116
  *             return _binary_search(array, value, mid, hi, tolerance)
  * 
- * cdef FittedPeak _sweep_solution(list array, double value, size_t lo, size_t hi, double tolerance):             # <<<<<<<<<<<<<<
+ * cdef FittedPeak _sweep_solution(tuple array, double value, size_t lo, size_t hi, double tolerance):             # <<<<<<<<<<<<<<
  *     cdef:
  *         long best_size
  */
@@ -4357,7 +4356,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
  *     best_index = -1
  *     best_error = 1000000000000000             # <<<<<<<<<<<<<<
  *     for i in range(hi - lo):
- *         target = <FittedPeak>PyList_GET_ITEM(array, lo + i)
+ *         target = <FittedPeak>PyTuple_GET_ITEM(array, lo + i)
  */
   __pyx_v_best_error = 1000000000000000.0;
 
@@ -4365,7 +4364,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
  *     best_index = -1
  *     best_error = 1000000000000000
  *     for i in range(hi - lo):             # <<<<<<<<<<<<<<
- *         target = <FittedPeak>PyList_GET_ITEM(array, lo + i)
+ *         target = <FittedPeak>PyTuple_GET_ITEM(array, lo + i)
  *         error = ppm_error(value, target.mz)
  */
   __pyx_t_1 = (__pyx_v_hi - __pyx_v_lo);
@@ -4375,11 +4374,11 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
     /* "ms_peak_picker\_peak_set.pyx":124
  *     best_error = 1000000000000000
  *     for i in range(hi - lo):
- *         target = <FittedPeak>PyList_GET_ITEM(array, lo + i)             # <<<<<<<<<<<<<<
+ *         target = <FittedPeak>PyTuple_GET_ITEM(array, lo + i)             # <<<<<<<<<<<<<<
  *         error = ppm_error(value, target.mz)
  *         abs_error = abs(error)
  */
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_v_array, (__pyx_v_lo + __pyx_v_i));
+    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_v_array, (__pyx_v_lo + __pyx_v_i));
     __pyx_t_4 = ((PyObject *)__pyx_t_3);
     __Pyx_INCREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_target, ((struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *)__pyx_t_4));
@@ -4387,7 +4386,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
 
     /* "ms_peak_picker\_peak_set.pyx":125
  *     for i in range(hi - lo):
- *         target = <FittedPeak>PyList_GET_ITEM(array, lo + i)
+ *         target = <FittedPeak>PyTuple_GET_ITEM(array, lo + i)
  *         error = ppm_error(value, target.mz)             # <<<<<<<<<<<<<<
  *         abs_error = abs(error)
  *         if abs_error < tolerance and abs_error < best_error:
@@ -4395,7 +4394,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
     __pyx_v_error = __pyx_f_14ms_peak_picker_9_peak_set_ppm_error(__pyx_v_value, __pyx_v_target->mz);
 
     /* "ms_peak_picker\_peak_set.pyx":126
- *         target = <FittedPeak>PyList_GET_ITEM(array, lo + i)
+ *         target = <FittedPeak>PyTuple_GET_ITEM(array, lo + i)
  *         error = ppm_error(value, target.mz)
  *         abs_error = abs(error)             # <<<<<<<<<<<<<<
  *         if abs_error < tolerance and abs_error < best_error:
@@ -4464,7 +4463,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
  *     if best_index == -1:
  *         return None             # <<<<<<<<<<<<<<
  *     else:
- *         return <FittedPeak>PyList_GET_ITEM(array, best_index)
+ *         return <FittedPeak>PyTuple_GET_ITEM(array, best_index)
  */
     __Pyx_XDECREF(((PyObject *)__pyx_r));
     __Pyx_INCREF(Py_None);
@@ -4483,11 +4482,11 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
   /* "ms_peak_picker\_peak_set.pyx":133
  *         return None
  *     else:
- *         return <FittedPeak>PyList_GET_ITEM(array, best_index)             # <<<<<<<<<<<<<<
+ *         return <FittedPeak>PyTuple_GET_ITEM(array, best_index)             # <<<<<<<<<<<<<<
  */
   /*else*/ {
     __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_v_array, __pyx_v_best_index);
+    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_v_array, __pyx_v_best_index);
     __Pyx_INCREF(((PyObject *)((struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *)__pyx_t_3)));
     __pyx_r = ((struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *)__pyx_t_3);
     goto __pyx_L0;
@@ -4496,7 +4495,7 @@ static struct __pyx_obj_14ms_peak_picker_9_peak_set_FittedPeak *__pyx_f_14ms_pea
   /* "ms_peak_picker\_peak_set.pyx":116
  *             return _binary_search(array, value, mid, hi, tolerance)
  * 
- * cdef FittedPeak _sweep_solution(list array, double value, size_t lo, size_t hi, double tolerance):             # <<<<<<<<<<<<<<
+ * cdef FittedPeak _sweep_solution(tuple array, double value, size_t lo, size_t hi, double tolerance):             # <<<<<<<<<<<<<<
  *     cdef:
  *         long best_size
  */
@@ -5282,7 +5281,7 @@ PyMODINIT_FUNC PyInit__peak_set(void)
   #endif
 
   /* "ms_peak_picker\_peak_set.pyx":1
- * from cpython.list cimport PyList_GET_ITEM             # <<<<<<<<<<<<<<
+ * from cpython.tuple cimport PyTuple_GET_ITEM             # <<<<<<<<<<<<<<
  * from cpython cimport PyObject
  * 
  */
