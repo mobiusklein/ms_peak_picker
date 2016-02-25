@@ -1,4 +1,4 @@
-from cpython.list cimport PyList_GET_ITEM
+from cpython.tuple cimport PyTuple_GET_ITEM
 from cpython cimport PyObject
 
 cdef double ppm_error(double x, double y):
@@ -89,11 +89,11 @@ cdef class PeakSet(object):
         return PeakSet, (tuple(),), self.__getstate__()
 
 
-cpdef FittedPeak binary_search(list array, double value, double tolerance):
+cpdef FittedPeak binary_search(tuple array, double value, double tolerance):
     return _binary_search(array, value, 0, len(array), tolerance)
 
 
-cdef FittedPeak _binary_search(list array, double value, size_t lo, size_t hi, double tolerance):
+cdef FittedPeak _binary_search(tuple array, double value, size_t lo, size_t hi, double tolerance):
     cdef:
         size_t mid
         FittedPeak target
@@ -102,7 +102,7 @@ cdef FittedPeak _binary_search(list array, double value, size_t lo, size_t hi, d
         return _sweep_solution(array, value, lo, hi, tolerance)
     else:
         mid = (hi + lo) / 2
-        target = <FittedPeak>PyList_GET_ITEM(array, mid)
+        target = <FittedPeak>PyTuple_GET_ITEM(array, mid)
         target_value = target.mz
         error = ppm_error(value, target_value)
 
@@ -113,7 +113,7 @@ cdef FittedPeak _binary_search(list array, double value, size_t lo, size_t hi, d
         elif target_value < value:
             return _binary_search(array, value, mid, hi, tolerance)
 
-cdef FittedPeak _sweep_solution(list array, double value, size_t lo, size_t hi, double tolerance):
+cdef FittedPeak _sweep_solution(tuple array, double value, size_t lo, size_t hi, double tolerance):
     cdef:
         long best_size
         double best_error, error, abs_error
@@ -121,7 +121,7 @@ cdef FittedPeak _sweep_solution(list array, double value, size_t lo, size_t hi, 
     best_index = -1
     best_error = 1000000000000000
     for i in range(hi - lo):
-        target = <FittedPeak>PyList_GET_ITEM(array, lo + i)
+        target = <FittedPeak>PyTuple_GET_ITEM(array, lo + i)
         error = ppm_error(value, target.mz)
         abs_error = abs(error)
         if abs_error < tolerance and abs_error < best_error:
@@ -130,4 +130,4 @@ cdef FittedPeak _sweep_solution(list array, double value, size_t lo, size_t hi, 
     if best_index == -1:
         return None
     else:
-        return <FittedPeak>PyList_GET_ITEM(array, best_index)
+        return <FittedPeak>PyTuple_GET_ITEM(array, best_index)
