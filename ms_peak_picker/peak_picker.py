@@ -160,6 +160,8 @@ class PeakProcessor(object):
 
 def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode='profile',
                signal_to_noise_threshold=1, intensity_threshold=1, threshold_data=False):
+    mz_array = mz_array.astype(float)
+    intensity_array = intensity_array.astype(float)
     processor = PeakProcessor(fit_type, peak_mode, signal_to_noise_threshold, intensity_threshold, threshold_data)
     processor.discover_peaks(mz_array, intensity_array)
     return PeakSet(processor)

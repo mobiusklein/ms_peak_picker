@@ -36,6 +36,18 @@ class PeakSet(Base):
     def clone(self):
         return PeakSet(p.clone() for p in self)
 
+    def between(self, m1, m2, tolerance=1e-5):
+        acc = []
+        collecting = False
+        for peak in self:
+            if not collecting and peak.mz >= m1:
+                collecting = True
+            elif collecting and peak.mz >= m2:
+                break
+            elif collecting:
+                acc.append(peak)
+        return self.__class__(acc)
+
 
 def _sweep_solution(array, value, lo, hi, tolerance, verbose=False):
     best_index = -1
