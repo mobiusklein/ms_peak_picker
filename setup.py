@@ -10,11 +10,13 @@ try:
     extensions = cythonize([
         Extension(name="ms_peak_picker._peak_statistics", sources=["ms_peak_picker/_peak_statistics.pyx"],
                   include_dirs=[numpy.get_include()]),
+        Extension(name='ms_peak_picker._peak_set', sources=["ms_peak_picker/_peak_set.pyx"])
         ])
 except ImportError:
     extensions = ([
         Extension(name="ms_peak_picker._peak_statistics", sources=["ms_peak_picker/_peak_statistics.c"],
                   include_dirs=[numpy.get_include()]),
+        Extension(name='ms_peak_picker._peak_set', sources=["ms_peak_picker/_peak_set.c"])
         ])
 
 

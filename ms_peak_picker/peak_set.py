@@ -88,3 +88,11 @@ def binary_search(array, value, tolerance=2e-5, verbose=False):
     if size == 0:
         return None
     return _binary_search(array, value, 0, size, tolerance, verbose)
+
+try:
+    _FittedPeak = FittedPeak
+    _PeakSet = PeakSet
+    _p_binary_search = binary_search
+    from ._peak_set import FittedPeak, PeakSet, binary_search
+except ImportError:
+    pass
