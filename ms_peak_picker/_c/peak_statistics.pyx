@@ -3,16 +3,25 @@ cimport numpy as np
 from libc cimport math
 import numpy as np
 
+from .search import get_nearest
+
 ctypedef np.float64_t DTYPE_t
 
+@cython.nonecheck(False)
+@cython.cdivision(True)
 cdef bint isclose(DTYPE_t x, DTYPE_t y, DTYPE_t rtol=1.e-5, DTYPE_t atol=1.e-8):
     return abs(x-y) <= (atol + rtol * abs(y))
 
+
+@cython.nonecheck(False)
+@cython.cdivision(True)
 cdef bint aboutzero(DTYPE_t x):
     return isclose(x, 0)
 
 
 @cython.boundscheck(False)
+@cython.nonecheck(False)
+@cython.cdivision(True)
 cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1] intensity_array, size_t index):
     cdef:
         DTYPE_t min_intensity_left, min_intensity_right
@@ -51,6 +60,8 @@ cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1
     return target_val / min_intensity_left
 
 
+@cython.nonecheck(False)
+@cython.cdivision(True)
 @cython.boundscheck(False)
 cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1] x, np.ndarray[DTYPE_t, ndim=1] y, size_t n, np.ndarray[DTYPE_t, ndim=1] terms, size_t nterms):
     cdef:
@@ -95,13 +106,15 @@ cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1] x, np.ndarray[DTYPE_t, ndim=
     return mse
 
 
+@cython.nonecheck(False)
+@cython.cdivision(True)
 @cython.boundscheck(False)
 cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array, size_t data_index,
                                           double signal_to_noise=0.):
     cdef:
         int points
         DTYPE_t peak, peak_half, mass, X1, X2, Y1, Y2, mse
-        DTYPE_t upper, lower
+        DTYPE_t upper, lower, current_mass
         size_t size, index, j, k
         np.ndarray[DTYPE_t, ndim=1] coef
         list vect_mzs, vect_intensity
@@ -124,7 +137,7 @@ cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1] mz_array, 
     for index in range(data_index, -1, -1):
         current_mass = mz_array[index]
         Y1 = intensity_array[index]
-        if ((Y1 < peak_half) or (math.fabs(mass - current_mass) > 5.0) or (
+        if ((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or (
                 (index < 1 or intensity_array[index - 1] > Y1) and (
                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < 4.0))):
             Y2 = intensity_array[index + 1]
@@ -155,10 +168,10 @@ cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1] mz_array, 
                     upper = coef[1] * peak_half + coef[0]
             break
     lower = mz_array[size]
-    for index in range(size):
+    for index in range(data_index, size):
         current_mass = mz_array[index]
         Y1 = intensity_array[index]
-        if((Y1 < peak_half) or (math.fabs(mass - current_mass) > 5.0) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (
+        if((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (
                     index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < 4.0)):
             Y2 = intensity_array[index - 1]
             X1 = mz_array[index]
@@ -187,7 +200,73 @@ cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1] mz_array, 
             break
 
     if aboutzero(upper):
-        return 2 * math.fabs(mass - lower)
+        return 2 * abs(mass - lower)
     if aboutzero(lower):
-        return 2 * math.fabs(mass - upper)
-    return math.fabs(upper - lower)
+        return 2 * abs(mass - upper)
+    return abs(upper - lower)
+
+
+@cython.boundscheck(False)
+@cython.nonecheck(False)
+@cython.cdivision(True)
+cdef double lorenztian_least_squares(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array, double amplitude, double full_width_at_half_max,
+                                     double vo, size_t lstart, size_t lstop):
+
+    cdef:
+        double root_mean_squared_error, u, Y2
+        long Y1
+        size_t index
+
+
+    root_mean_squared_error = 0
+
+    for index in range(lstart, lstop + 1):
+        u = 2 / float(full_width_at_half_max) * (mz_array[index] - vo)
+        Y1 = int(amplitude / float(1 + u * u))
+        Y2 = intensity_array[index]
+
+        root_mean_squared_error += (Y1 - Y2) * (Y1 - Y2)
+
+    return root_mean_squared_error
+
+
+@cython.boundscheck(False)
+@cython.nonecheck(False)
+@cython.cdivision(True)
+cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array, size_t index, double full_width_at_half_max):
+    cdef:
+        double amplitude
+        DTYPE_t vo, E, CE, le
+        size_t lstart, lstop, i
+
+    amplitude = intensity_array[index]
+    vo = mz_array[index]
+    E = math.fabs((vo - mz_array[index + 1]) / 100.0)
+
+    if index < 1:
+        return mz_array[index]
+    elif index >= mz_array.shape[0] - 1:
+        return mz_array[-1]
+
+    lstart = get_nearest(mz_array, vo + full_width_at_half_max, index) + 1
+    lstop = get_nearest(mz_array, vo - full_width_at_half_max, index) - 1
+
+    CE = lorenztian_least_squares(mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+    for i in range(50):
+        le = CE
+        vo = vo + E
+        CE = lorenztian_least_squares(mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+        if (CE > le):
+            break
+
+    vo = vo - E
+    CE = lorenztian_least_squares(mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+    for i in range(50):
+        le = CE
+        vo = vo - E
+        CE = lorenztian_least_squares(mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+        if (CE > le):
+            break
+
+    vo += E
+    return vo

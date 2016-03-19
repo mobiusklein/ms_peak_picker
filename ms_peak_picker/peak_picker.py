@@ -7,6 +7,7 @@ from .peak_statistics import (
 
 from .search import get_nearest_binary
 from .peak_set import FittedPeak, PeakSet
+from .peak_index import PeakIndex
 
 
 class PeakProcessor(object):
@@ -137,7 +138,7 @@ class PeakProcessor(object):
                             index += 1
                         if index > 0 and index < size and incremented:
                             index -= 1
-        self.peak_data = peak_data
+        self.peak_data.extend(peak_data)
         return len(peak_data)
 
     def fit_peak(self, index, mz_array, intensity_array):
@@ -159,9 +160,17 @@ class PeakProcessor(object):
 
 
 def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode='profile',
-               signal_to_noise_threshold=1, intensity_threshold=1, threshold_data=False):
+               signal_to_noise_threshold=1, intensity_threshold=1, threshold_data=False,
+               target_envelopes=None):
     mz_array = mz_array.astype(float)
     intensity_array = intensity_array.astype(float)
     processor = PeakProcessor(fit_type, peak_mode, signal_to_noise_threshold, intensity_threshold, threshold_data)
-    processor.discover_peaks(mz_array, intensity_array)
-    return PeakSet(processor)
+    if target_envelopes is None:
+        processor.discover_peaks(mz_array, intensity_array)
+    else:
+        for start, stop in sorted(target_envelopes):
+            processor.discover_peaks(mz_array, intensity_array, start_mz=start, stop_mz=stop)
+    peaks = PeakSet(processor)
+    for i, peak in enumerate(peaks):
+        peak.peak_count = i
+    return PeakIndex(mz_array, intensity_array, peaks)

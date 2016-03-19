@@ -55,7 +55,7 @@ def quadratic_fit(mz_array, intensity_array, index):
 
 def curve_reg(x, y, n, terms, nterms):
     """
-    Fit a linear least squares regression
+    Fit a least squares regression
 
     Parameters
     ----------
@@ -106,6 +106,7 @@ def curve_reg(x, y, n, terms, nterms):
         out[0, i] = yfit
         out[1, i] = y[i] - yfit
         mse += y[i] - yfit
+
     return mse
 
 
@@ -141,7 +142,6 @@ def find_full_width_at_half_max(mz_array, intensity_array, data_index, signal_to
                 upper = X1
                 points = data_index - index + 1
                 if points >= 3:
-
                     vect_mzs = []
                     vect_intensity = []
 
@@ -162,7 +162,7 @@ def find_full_width_at_half_max(mz_array, intensity_array, data_index, signal_to
             break
 
     lower = mz_array[size]
-    for index in range(size):
+    for index in range(data_index, size):
         current_mass = mz_array[index]
         Y1 = intensity_array[index]
         if((Y1 < peak_half) or (np.fabs(mass - current_mass) > 5.0) or (
@@ -177,6 +177,7 @@ def find_full_width_at_half_max(mz_array, intensity_array, data_index, signal_to
             else:
                 lower = X1
                 points = index - data_index + 1
+
                 if points >= 3:
                     vect_mzs = []
                     vect_intensity = []
@@ -249,13 +250,58 @@ def lorenztian_fit(mz_array, intensity_array, index, full_width_at_half_max):
     vo += E
     return vo
 
+
+def gaussian_shape(peak):
+    center = peak.mz
+    amplitude = peak.intensity
+    fwhm = peak.full_width_at_half_max
+    spread = fwhm / 2.35482
+    x = np.arange(center - fwhm - 0.02, center + fwhm + 0.02, 0.0001)
+    y = amplitude * np.exp(-((x - center) ** 2) / (2 * spread ** 2))
+    return x, y
+
+
+def gaussian_volume(peak):
+    x, y = gaussian_shape(peak)
+    return np.trapz(y, x, dx=0.0001)
+
+
+def lorenztian_shape(peak):
+    center = peak.mz
+    fwhm = peak.full_width_at_half_max
+    x = np.arange(center - fwhm - 0.02, center + fwhm + 0.02, 0.0001)
+    spread = fwhm / 2.
+    a = peak.intensity
+    b = (spread ** 2)
+    c = (x - center) ** 2 + spread ** 2
+    return x, a * (b / c)
+
+
+def lorenztian_volume(peak):
+    x, y = lorenztian_shape(peak)
+    return np.trapz(y, x, dx=0.0001)
+
+
+def peak_area(mz_array, intensity_array, start, stop):
+    area = 0.
+
+    for i in range(start + 1, stop):
+        x1 = mz_array[i - 1]
+        y1 = intensity_array[i - 1]
+        x2 = mz_array[i]
+        y2 = intensity_array[i]
+        area += (y1 * (x2 - x1)) + ((y2 - y1) * (x2 - x1) / 2.)
+
+    return area
+
+
 try:
-    from . import _peak_statistics
+    from ._c import peak_statistics
     _find_signal_to_noise = find_signal_to_noise
     # _find_full_width_at_half_max = find_full_width_at_half_max
     # _curve_reg = curve_reg
 
-    find_signal_to_noise = _peak_statistics.find_signal_to_noise
+    find_signal_to_noise = peak_statistics.find_signal_to_noise
     # find_full_width_at_half_max = _peak_statistics.find_full_width_at_half_max
     # curve_reg = _peak_statistics.curve_reg
 except ImportError:

@@ -8,15 +8,29 @@ import numpy
 try:
     from Cython.Build import cythonize
     extensions = cythonize([
-        Extension(name="ms_peak_picker._peak_statistics", sources=["ms_peak_picker/_peak_statistics.pyx"],
+        Extension(name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.pyx"],
                   include_dirs=[numpy.get_include()]),
-        Extension(name='ms_peak_picker._peak_set', sources=["ms_peak_picker/_peak_set.pyx"])
+        Extension(name='ms_peak_picker._c.peak_set', sources=["ms_peak_picker/_c/peak_set.pyx"]),
+        Extension(name='ms_peak_picker._c.fft_patterson_charge_state',
+                  sources=["ms_peak_picker/_c/fft_patterson_charge_state.pyx"],
+                  include_dirs=[numpy.get_include()]),
+        Extension(name="ms_peak_picker._c.search", sources=["ms_peak_picker/_c/search.pyx"],
+                  include_dirs=[numpy.get_include()]),
+        Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.pyx"],
+                  include_dirs=[numpy.get_include()])
         ])
 except ImportError:
     extensions = ([
-        Extension(name="ms_peak_picker._peak_statistics", sources=["ms_peak_picker/_peak_statistics.c"],
+        Extension(name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.c"],
                   include_dirs=[numpy.get_include()]),
-        Extension(name='ms_peak_picker._peak_set', sources=["ms_peak_picker/_peak_set.c"])
+        Extension(name='ms_peak_picker._c.peak_set', sources=["ms_peak_picker/_c/peak_set.c"]),
+        Extension(name='ms_peak_picker._c.fft_patterson_charge_state',
+                  sources=["ms_peak_picker/_c/fft_patterson_charge_state.c"],
+                  include_dirs=[numpy.get_include()]),
+        Extension(name="ms_peak_picker._c.search", sources=["ms_peak_picker/_c/search.c"],
+                  include_dirs=[numpy.get_include()]),
+        Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.c"],
+                  include_dirs=[numpy.get_include()])
         ])
 
 
@@ -29,12 +43,6 @@ if sys.platform == 'win32':
     # 2.6's distutils.msvc9compiler can raise an IOError when failing to
     # find the compiler
     ext_errors += (IOError,)
-
-c_ext = "pyx"
-try:
-    from Cython.Build import cythonize
-except:
-    c_ext = "c"
 
 
 def has_option(name):

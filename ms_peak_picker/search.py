@@ -110,3 +110,17 @@ def get_nearest(vec, target_val, start_index):
         return nearest_right(vec, target_val, next_index)
     else:
         return nearest_left(vec, target_val, next_index)
+
+
+_has_c = True
+
+try:
+
+    _nearest_left = nearest_left
+    _nearest_right = nearest_right
+    _get_nearest_binary = get_nearest_binary
+    _get_nearest = get_nearest
+    from ms_peak_picker._c.search import (
+        nearest_left, nearest_right, get_nearest_binary, get_nearest)
+except ImportError:
+    pass

@@ -3,6 +3,9 @@ try:
 except:
     range = range
 
+from collections import defaultdict
+import numpy as np
+
 
 def simple_repr(self):  # pragma: no cover
     template = "{self.__class__.__name__}({d})"
@@ -19,6 +22,35 @@ class Base(object):
 
 def ppm_error(x, y):
     return (x - y) / y
+
+
+def gaussian_volume(peak):
+    center = peak.mz
+    amplitude = peak.intensity
+    fwhm = peak.full_width_at_half_max
+    spread = fwhm / 2.35482
+    x = np.arange(center - fwhm - 0.02, center + fwhm + 0.02, 0.001)
+    return x, amplitude * np.exp(-((x - center) ** 2) / (2 * spread ** 2))
+
+
+def add_peak_volume(a, axis=None):
+    xa, ya = gaussian_volume(a)
+    if axis is None:
+        axis = defaultdict(float)
+    for x, y in zip(xa, ya):
+        axis[x] += y
+    return axis
+
+
+def peaklist_to_profile(peaks):
+    axis = defaultdict(float)
+    for p in peaks:
+        add_peak_volume(p, axis)
+    axis_xs = defaultdict(float)
+    for x, y in axis.items():
+        axis_xs[round(x, 3)] += y
+    xs, ys = map(np.array, zip(*sorted(axis_xs.items())))
+    return xs, ys
 
 try:
     has_plot = True
@@ -37,7 +69,7 @@ try:
         kwargs.setdefault("width", 0.01)
         if ax is None:
             fig, ax = plt.subplots(1)
-        ax.bar([p.mz for p in peaklist], [p.intensity for p in peaklist], **kwargs)
+        ax.bar([p.mz - kwargs.get("width")/2. for p in peaklist], [p.intensity for p in peaklist], **kwargs)
         ax.xaxis.set_ticks_position('none')
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")
