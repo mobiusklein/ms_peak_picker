@@ -2,3 +2,5 @@
 ms_peak_picker/*.html
 build/
 *.egg-info
+*.pyd
+*.so
