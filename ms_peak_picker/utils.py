@@ -65,11 +65,23 @@ try:
         ax.set_ylabel("Relative Intensity")
         return ax
 
+    def peaklist_to_vector(peaklist):
+        mzs = []
+        intensities = []
+        for peak in peaklist:
+            mzs.append(peak.mz - .000001)
+            intensities.append(0.)
+            mzs.append(peak.mz)
+            intensities.append(peak.intensity)
+            mzs.append(peak.mz + .000001)
+            intensities.append(0.)
+        return np.array(mzs), np.array(intensities)
+
     def draw_peaklist(peaklist, ax=None, **kwargs):
-        kwargs.setdefault("width", 0.01)
         if ax is None:
             fig, ax = plt.subplots(1)
-        ax.bar([p.mz - kwargs.get("width")/2. for p in peaklist], [p.intensity for p in peaklist], **kwargs)
+        mz_array, intensity_array = peaklist_to_vector(peaklist)
+        ax.plot(mz_array, intensity_array, **kwargs)
         ax.xaxis.set_ticks_position('none')
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")

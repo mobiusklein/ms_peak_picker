@@ -6,6 +6,7 @@ cdef class FittedPeak(object):
         public double full_width_at_half_max
         public long peak_count
         public long index
+        public double area
 
     cpdef bint _eq(self, FittedPeak other)
 
@@ -18,6 +19,8 @@ cdef class PeakSet(object):
     cdef FittedPeak _has_peak(self, double mz, double tolerance=*)
 
     cdef PeakSet _between(self, double m1, double m2)
+
+    cdef FittedPeak getitem(self, size_t i)
 
 
 cpdef FittedPeak binary_search_ppm_error(tuple array, double value, double tolerance)

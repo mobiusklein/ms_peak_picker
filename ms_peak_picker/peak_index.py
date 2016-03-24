@@ -20,7 +20,8 @@ class PeakIndex(object):
         return self.peaks.get_nearest_peak(mz)
 
     def slice(self, start, stop):
-        return PeakIndex(self.mz_array[start:stop], self.intensity_array[start:stop], self.peaks)
+        return (PeakIndex(self.mz_array[start:stop], self.intensity_array[start:stop],
+                self.peaks.between(self.mz_array[start], self.mz_array[stop] + 1)))
 
     def between(self, start, stop):
         return self.peaks.between(start, stop)
@@ -40,9 +41,14 @@ class PeakIndex(object):
         return len(self.peaks)
 
     def area(self, peak):
-        lo = self.get_nearest(peak.mz - peak.mz * peak.full_width_at_half_max, peak.index)
-        hi = self.get_nearest(peak.mz + peak.mz * peak.full_width_at_half_max, peak.index)
+        lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
+        hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
         return peak_area(self.mz_array, self.intensity_array, lo, hi)
+
+    def points_along(self, peak):
+        lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
+        hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+        return self.mz_array[lo:hi], self.intensity_array[lo:hi]
 
     def set_peaks(self, peaks):
         self.peaks = self.peaks.__class__(tuple(peaks))

@@ -3,14 +3,10 @@ import numpy as np
 
 from .search cimport get_nearest
 from ms_peak_picker._c.peak_set cimport PeakSet, FittedPeak
-from ms_peak_picker.peak_statistics import peak_area
+from .peak_statistics import peak_area
 from ms_peak_picker.fft_patterson_charge_state import fft_patterson_charge_state
 
 cdef class PeakIndex(object):
-    cdef:
-        public np.ndarray mz_array
-        public np.ndarray intensity_array
-        public PeakSet peaks
 
     def __init__(self, mz_array, intensity_array, peaks):
         self.mz_array = mz_array
@@ -29,7 +25,8 @@ cdef class PeakIndex(object):
         return self.peaks._get_nearest_peak(mz, &err), err
 
     def slice(self, size_t start, size_t stop):
-        return PeakIndex(self.mz_array[start:stop], self.intensity_array[start:stop], self.peaks)
+        return (PeakIndex(self.mz_array[start:stop], self.intensity_array[start:stop],
+                self.peaks.between(self.mz_array[start], self.mz_array[stop] + 1)))
 
     def between(self, double start, double stop):
         return self.peaks._between(start, stop)
@@ -41,10 +38,20 @@ cdef class PeakIndex(object):
         return self.peaks[index]
 
     def has_peak(self, double mz, double tolerance=2e-5):
-        return self.peaks._has_peak(mz, tolerance)
+        cdef:
+            FittedPeak peak
+        peak = self.peaks._has_peak(mz, tolerance)
+        if peak.mz == -1:
+            return None
+        return peak
 
     cdef FittedPeak _has_peak(self, double mz, double tolerance=2e-5):
-        return self.peaks._has_peak(mz, tolerance)    
+        cdef:
+            FittedPeak peak
+        peak = self.peaks._has_peak(mz, tolerance)
+        if peak.mz == -1:
+            return None
+        return peak
 
     predict_charge_state = fft_patterson_charge_state
 
@@ -52,12 +59,20 @@ cdef class PeakIndex(object):
         return len(self.peaks)
 
     def area(self, peak):
-        lo = self.get_nearest(peak.mz - peak.mz * peak.full_width_at_half_max, peak.index)
-        hi = self.get_nearest(peak.mz + peak.mz * peak.full_width_at_half_max, peak.index)
+        lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
+        hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
         return peak_area(self.mz_array, self.intensity_array, lo, hi)
 
     def set_peaks(self, peaks):
         self.peaks = self.peaks.__class__(tuple(peaks))
+
+    def points_along(self, peak):
+        lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
+        hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+        return self.mz_array[lo:hi], self.intensity_array[lo:hi]
+
+    def __reduce__(self):
+        return PeakIndex, (self.mz_array, self.intensity_array, self.peaks)
 
 
 def has_peak_within_tolerance(peaklist, mz, tol):

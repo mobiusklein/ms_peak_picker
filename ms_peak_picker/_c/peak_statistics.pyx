@@ -1,3 +1,5 @@
+#cython profile=True
+
 cimport cython
 cimport numpy as np
 from libc cimport math
@@ -5,7 +7,6 @@ import numpy as np
 
 from .search import get_nearest
 
-ctypedef np.float64_t DTYPE_t
 
 @cython.nonecheck(False)
 @cython.cdivision(True)
@@ -270,3 +271,23 @@ cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTY
 
     vo += E
     return vo
+
+
+@cython.boundscheck(False)
+@cython.nonecheck(False)
+@cython.cdivision(True)
+cpdef double peak_area(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1]  intensity_array, size_t start, size_t stop):
+    cdef:
+        double area
+        size_t i
+        DTYPE_t x1, y1, x2, y2
+
+    area = 0.
+    for i in range(start + 1, stop):
+        x1 = mz_array[i - 1]
+        y1 = intensity_array[i - 1]
+        x2 = mz_array[i]
+        y2 = intensity_array[i]
+        area += (y1 * (x2 - x1)) + ((y2 - y1) * (x2 - x1) / 2.)
+
+    return area

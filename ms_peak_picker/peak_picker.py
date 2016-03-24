@@ -3,9 +3,10 @@ A Peak Picker/Fitter adapted from Decon2LS's DeconEngine
 '''
 
 from .peak_statistics import (
-    find_full_width_at_half_max, find_signal_to_noise, quadratic_fit, lorenztian_fit)
+    find_full_width_at_half_max, find_signal_to_noise, quadratic_fit, lorenztian_fit,
+    peak_area)
 
-from .search import get_nearest_binary
+from .search import get_nearest_binary, get_nearest
 from .peak_set import FittedPeak, PeakSet
 from .peak_index import PeakIndex
 
@@ -89,7 +90,7 @@ class PeakProcessor(object):
                 signal_to_noise = current_intensity / intensity_threshold
                 full_width_at_half_max = 0.6
                 peak_data.append(FittedPeak(mz, current_intensity, signal_to_noise, len(
-                    peak_data), index, full_width_at_half_max))
+                    peak_data), index, full_width_at_half_max, current_intensity))
             else:
                 # Three point peak picking. Check if the peak is greater than both the previous and next points
                 if (current_intensity >= last_intensity and current_intensity >= next_intensity and
@@ -127,9 +128,11 @@ class PeakProcessor(object):
                                 mz_array, intensity_array, index, signal_to_noise)
 
                         if full_width_at_half_max > 0:
+                            area = self.area(mz_array, intensity_array, fitted_mz, full_width_at_half_max, index)
+
                             peak_data.append(FittedPeak(
                                 fitted_mz, current_intensity, signal_to_noise,
-                                len(peak_data), index, full_width_at_half_max))
+                                len(peak_data), index, full_width_at_half_max, area))
 
                         # Move past adjacent equal-height peaks
                         incremented = False
@@ -154,6 +157,11 @@ class PeakProcessor(object):
 
         return 0.0
 
+    def area(self, mz_array, intensity_array, mz, full_width_at_half_max, index):
+        lo = get_nearest(mz_array, mz - full_width_at_half_max, index)
+        hi = get_nearest(mz_array, mz + full_width_at_half_max, index)
+        return peak_area(mz_array, intensity_array, lo, hi)
+
     def __iter__(self):
         for peak in self.peak_data:
             yield peak
@@ -171,6 +179,5 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode='profi
         for start, stop in sorted(target_envelopes):
             processor.discover_peaks(mz_array, intensity_array, start_mz=start, stop_mz=stop)
     peaks = PeakSet(processor)
-    for i, peak in enumerate(peaks):
-        peak.peak_count = i
+    peaks._index()
     return PeakIndex(mz_array, intensity_array, peaks)

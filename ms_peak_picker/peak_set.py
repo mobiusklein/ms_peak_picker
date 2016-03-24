@@ -1,4 +1,6 @@
+import operator
 import numpy as np
+
 from .utils import Base, ppm_error, range
 
 
@@ -6,24 +8,27 @@ class FittedPeak(Base):
 
     __slots__ = [
         "mz", "intensity", "signal_to_noise", "peak_count",
-        "index", "full_width_at_half_max"
+        "index", "full_width_at_half_max", "area"
     ]
 
-    def __init__(self, mz, intensity, signal_to_noise, peak_count, index, full_width_at_half_max):
+    def __init__(self, mz, intensity, signal_to_noise, peak_count, index, full_width_at_half_max, area):
         self.mz = mz
         self.intensity = intensity
         self.signal_to_noise = signal_to_noise
         self.peak_count = peak_count
         self.index = index
         self.full_width_at_half_max = full_width_at_half_max
+        self.area = area
 
     def clone(self):
         return FittedPeak(self.mz, self.intensity, self.signal_to_noise,
-                          self.peak_count, self.index, self.full_width_at_half_max)
+                          self.peak_count, self.index, self.full_width_at_half_max,
+                          self.area)
 
     def __reduce__(self):
         return self.__class__, (self.mz, self.intensity, self.signal_to_noise,
-                                self.peak_count, self.index, self.full_width_at_half_max)
+                                self.peak_count, self.index, self.full_width_at_half_max,
+                                self.area)
 
     def __hash__(self):
         return hash((self.mz, self.intensity, self.signal_to_noise, self.full_width_at_half_max))
@@ -79,6 +84,12 @@ class PeakSet(Base):
 
     def __len__(self):
         return len(self.peaks)
+
+    def _index(self):
+        self.peaks = sorted(self.peaks, key=operator.attrgetter('mz'))
+        for i, peak in enumerate(self.peaks):
+            peak.peak_count = i
+        return i
 
     def has_peak(self, mz, tolerance=1e-5):
         return binary_search(self.peaks, mz, tolerance)

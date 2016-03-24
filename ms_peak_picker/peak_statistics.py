@@ -261,25 +261,102 @@ def gaussian_shape(peak):
     return x, y
 
 
+def gaussian_predict(peak, mz):
+    x = mz
+    center = peak.mz
+    amplitude = peak.intensity
+    fwhm = peak.full_width_at_half_max
+    spread = fwhm / 2.35482
+    y = amplitude * np.exp(-((x - center) ** 2) / (2 * spread ** 2))
+    return y
+
+
+def gaussian_error(peak, mz, intensity):
+    y = gaussian_predict(peak, mz)
+    return intensity - y
+
+
 def gaussian_volume(peak):
     x, y = gaussian_shape(peak)
     return np.trapz(y, x, dx=0.0001)
+
+
+def lorentzian_predict(peak, mz):
+    center = peak.mz
+    fwhm = peak.full_width_at_half_max
+    x = mz
+    spread = fwhm / 2.
+    a = peak.intensity
+    b = (spread ** 2)
+    c = (x - center) ** 2 + spread ** 2
+    return a * (b / c)
 
 
 def lorenztian_shape(peak):
     center = peak.mz
     fwhm = peak.full_width_at_half_max
     x = np.arange(center - fwhm - 0.02, center + fwhm + 0.02, 0.0001)
-    spread = fwhm / 2.
-    a = peak.intensity
-    b = (spread ** 2)
-    c = (x - center) ** 2 + spread ** 2
-    return x, a * (b / c)
+    return x, lorentzian_predict(peak, x)
+
+
+def lorenztian_error(peak, mz, intensity):
+    y = lorentzian_predict(peak, mz)
+    return intensity - y
 
 
 def lorenztian_volume(peak):
     x, y = lorenztian_shape(peak)
     return np.trapz(y, x, dx=0.0001)
+
+
+class PeakShapeModel(object):
+    def __init__(self, peak):
+        self.peak = peak
+
+
+class GaussianModel(PeakShapeModel):
+    def shape(self):
+        return gaussian_shape(self.peak)
+
+    def predict(self, mz):
+        return gaussian_predict(self.peak, mz)
+
+    def volume(self):
+        return gaussian_volume(self.peak)
+
+    def error(self, mz, intensity):
+        return gaussian_error(self.peak, mz, intensity)
+
+
+class LorenztianModel(PeakShapeModel):
+    def shape(self):
+        return lorenztian_shape(self.peak)
+
+    def predict(self, mz):
+        return lorentzian_predict(self.peak, mz)
+
+    def volume(self):
+        return lorenztian_volume(self.peak)
+
+    def error(self, mz, intensity):
+        return lorenztian_error(self.peak, mz, intensity)
+
+
+class ShapeModelIndex(object):
+    def __init__(self, peak_index, shape_model):
+        self.index = peak_index
+        self.shape_model = shape_model
+
+    def wrap(self, peak):
+        return self.shape_model(peak)
+
+    def error(self, peak):
+        model = self.wrap(peak)
+        x, y = self.index.points_along(peak)
+        return model.error(x, y)
+
+    def points_along(self, peak):
+        return self.index.points_along(peak)
 
 
 def peak_area(mz_array, intensity_array, start, stop):
@@ -302,6 +379,8 @@ try:
     # _curve_reg = curve_reg
 
     find_signal_to_noise = peak_statistics.find_signal_to_noise
+    peak_area = peak_statistics.peak_area
+
     # find_full_width_at_half_max = _peak_statistics.find_full_width_at_half_max
     # curve_reg = _peak_statistics.curve_reg
 except ImportError:
