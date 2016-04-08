@@ -115,6 +115,7 @@ def run_setup(include_cext=True):
         cmdclass=cmdclass,
         maintainer='Joshua Klein',
         maintainer_email="jaklein@bu.edu",
+        include_package_data=True,
         classifiers=[
             'Intended Audience :: Science/Research',
             'Programming Language :: Python :: 2.7',

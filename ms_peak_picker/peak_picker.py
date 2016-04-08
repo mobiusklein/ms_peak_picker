@@ -11,18 +11,26 @@ from .peak_set import FittedPeak, PeakSet
 from .peak_index import PeakIndex
 
 
+import logging
+
+logger = logging.getLogger("peak_picker")
+info = logger.info
+debug = logger.debug
+
+
 class PeakProcessor(object):
     _signal_to_noise_threshold = 0
     _intensity_threshold = 0
 
     def __init__(self, fit_type='quadratic', peak_mode='profile', signal_to_noise_threshold=1, intensity_threshold=1,
-                 threshold_data=False):
+                 threshold_data=False, verbose=False):
         self.fit_type = fit_type
         self.background_intensity = 1
         self.threshold_data = threshold_data
         self.signal_to_noise_threshold = signal_to_noise_threshold
         self.intensity_threshold = intensity_threshold
         self.peak_mode = peak_mode
+        self.verbose = verbose
 
         self.peak_data = []
 
@@ -66,6 +74,8 @@ class PeakProcessor(object):
         peak_data = []
         size = len(intensity_array) - 1
 
+        verbose = self.verbose
+
         intensity_threshold = self.intensity_threshold
         signal_to_noise_threshold = self.signal_to_noise_threshold
 
@@ -88,7 +98,7 @@ class PeakProcessor(object):
             if self.peak_mode == "centroid":
                 mz = mz_array[index]
                 signal_to_noise = current_intensity / intensity_threshold
-                full_width_at_half_max = 0.6
+                full_width_at_half_max = 0.3
                 peak_data.append(FittedPeak(mz, current_intensity, signal_to_noise, len(
                     peak_data), index, full_width_at_half_max, current_intensity))
             else:
@@ -100,6 +110,7 @@ class PeakProcessor(object):
                         signal_to_noise = find_signal_to_noise(current_intensity, mz_array, index)
                     else:
                         signal_to_noise = current_intensity / float(self.background_intensity)
+
 
                     # Run Full-Width Half-Max algorithm to try to improve SNR
                     if signal_to_noise < signal_to_noise_threshold:
@@ -123,6 +134,8 @@ class PeakProcessor(object):
                     # Found a putative peak, fit it
                     if signal_to_noise >= signal_to_noise_threshold:
                         fitted_mz = self.fit_peak(index, mz_array, intensity_array)
+                        if verbose:
+                            debug("Considering peak at %d with fitted m/z %r", index, fitted_mz)
                         if full_width_at_half_max == -1:
                             full_width_at_half_max = find_full_width_at_half_max(
                                 mz_array, intensity_array, index, signal_to_noise)
@@ -169,10 +182,12 @@ class PeakProcessor(object):
 
 def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode='profile',
                signal_to_noise_threshold=1, intensity_threshold=1, threshold_data=False,
-               target_envelopes=None):
+               target_envelopes=None, verbose=False):
     mz_array = mz_array.astype(float)
     intensity_array = intensity_array.astype(float)
-    processor = PeakProcessor(fit_type, peak_mode, signal_to_noise_threshold, intensity_threshold, threshold_data)
+    processor = PeakProcessor(
+        fit_type, peak_mode, signal_to_noise_threshold, intensity_threshold, threshold_data,
+        verbose=verbose)
     if target_envelopes is None:
         processor.discover_peaks(mz_array, intensity_array)
     else:

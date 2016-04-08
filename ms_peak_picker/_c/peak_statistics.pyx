@@ -64,7 +64,8 @@ cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1
 @cython.nonecheck(False)
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1] x, np.ndarray[DTYPE_t, ndim=1] y, size_t n, np.ndarray[DTYPE_t, ndim=1] terms, size_t nterms):
+cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1] x, np.ndarray[DTYPE_t, ndim=1] y, size_t n,
+                        np.ndarray[DTYPE_t, ndim=1] terms, size_t nterms):
     cdef:
         np.ndarray[DTYPE_t, ndim=1] weights
         np.ndarray[DTYPE_t, ndim=2] At, Z, At_T, At_At_T, I_At_At_T, At_Ai_At
@@ -110,8 +111,8 @@ cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1] x, np.ndarray[DTYPE_t, ndim=
 @cython.nonecheck(False)
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array, size_t data_index,
-                                          double signal_to_noise=0.):
+cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array,
+                                          size_t data_index, double signal_to_noise=0.):
     cdef:
         int points
         DTYPE_t peak, peak_half, mass, X1, X2, Y1, Y2, mse
@@ -234,15 +235,16 @@ cdef double lorenztian_least_squares(np.ndarray[DTYPE_t, ndim=1] mz_array, np.nd
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array, size_t index, double full_width_at_half_max):
+cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array,
+                            size_t index, double full_width_at_half_max):
     cdef:
         double amplitude
-        DTYPE_t vo, E, CE, le
+        DTYPE_t vo, step, current_error, last_error
         size_t lstart, lstop, i
 
     amplitude = intensity_array[index]
     vo = mz_array[index]
-    E = math.fabs((vo - mz_array[index + 1]) / 100.0)
+    step = math.fabs((vo - mz_array[index + 1]) / 100.0)
 
     if index < 1:
         return mz_array[index]
@@ -252,31 +254,36 @@ cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTY
     lstart = get_nearest(mz_array, vo + full_width_at_half_max, index) + 1
     lstop = get_nearest(mz_array, vo - full_width_at_half_max, index) - 1
 
-    CE = lorenztian_least_squares(mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+    current_error = lorenztian_least_squares(
+        mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
     for i in range(50):
-        le = CE
-        vo = vo + E
-        CE = lorenztian_least_squares(mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
-        if (CE > le):
+        last_error = current_error
+        vo = vo + step
+        current_error = lorenztian_least_squares(
+            mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+        if (current_error > last_error):
             break
 
-    vo = vo - E
-    CE = lorenztian_least_squares(mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+    vo = vo - step
+    current_error = lorenztian_least_squares(
+        mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
     for i in range(50):
-        le = CE
-        vo = vo - E
-        CE = lorenztian_least_squares(mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
-        if (CE > le):
+        last_error = current_error
+        vo = vo - step
+        current_error = lorenztian_least_squares(
+            mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+        if (current_error > last_error):
             break
 
-    vo += E
+    vo += step
     return vo
 
 
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cpdef double peak_area(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1]  intensity_array, size_t start, size_t stop):
+cpdef double peak_area(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1]  intensity_array,
+                       size_t start, size_t stop):
     cdef:
         double area
         size_t i

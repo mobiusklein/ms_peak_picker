@@ -75,6 +75,40 @@ cdef class PeakIndex(object):
         return PeakIndex, (self.mz_array, self.intensity_array, self.peaks)
 
 
+cdef int _has_peak_within_tolerance(PeakSet peaklist, double mz, double tol, size_t *out):
+    cdef:
+        size_t lo, hi, mid, i
+        FittedPeak peak
+        doubl v
+
+    lo = 0
+    hi = len(peaklist)
+
+    while hi != lo:
+        mid = (hi + lo) / 2
+        peak = peaklist.getitem(mid)
+        v = peak.mz
+        if abs(v - mz) < tol:
+            out[0] = mid
+            return True
+        elif (hi - lo) == 1:
+            return False
+        elif v > mz:
+            hi = mid
+        else:
+            lo = mid
+    return False
+
+
+def chas_peak_within_tolerance(PeakSet peaklist, double mz, double tol):
+    cdef:
+        size_t out
+
+    if _has_peak_within_tolerance(peaklist, mz, tol, &out):
+        return out
+    return False
+
+
 def has_peak_within_tolerance(peaklist, mz, tol):
     lo = 0
     hi = len(peaklist)

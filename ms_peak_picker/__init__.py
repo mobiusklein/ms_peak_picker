@@ -6,6 +6,11 @@ import search
 import fticr_denoising
 import fft_patterson_charge_state
 import scan_filter
+import os
 
 __all__ = ["PeakProcessor", "pick_peaks", "PeakIndex", "PeakSet", "FittedPeak", "peak_statistics",
-           "search", "fticr_denoising", "scan_filter", "fft_patterson_charge_state"]
+           "search", "fticr_denoising", "scan_filter", "fft_patterson_charge_state", "get_include"]
+
+
+def get_include():
+    return os.path.join(__path__[0], "_c")

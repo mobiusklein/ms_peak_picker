@@ -4556,7 +4556,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_8peak_set_7PeakSet_16between(stru
  *         p1 = self._get_nearest_peak(m1, &err)
  *         p2 = self._get_nearest_peak(m2, &err)             # <<<<<<<<<<<<<<
  * 
- *         return self[p1.peak_count:p2.peak_count+1]
+ *         return self[p1.peak_count-1:p2.peak_count+1]
  */
   __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet *)__pyx_v_self->__pyx_vtab)->_get_nearest_peak(__pyx_v_self, __pyx_v_m2, (&__pyx_v_err))); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -4566,12 +4566,12 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_8peak_set_7PeakSet_16between(stru
   /* "ms_peak_picker\_c\peak_set.pyx":127
  *         p2 = self._get_nearest_peak(m2, &err)
  * 
- *         return self[p1.peak_count:p2.peak_count+1]             # <<<<<<<<<<<<<<
+ *         return self[p1.peak_count-1:p2.peak_count+1]             # <<<<<<<<<<<<<<
  * 
  *     cdef PeakSet _between(self, double m1, double m2):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_self), __pyx_v_p1->peak_count, (__pyx_v_p2->peak_count + 1), NULL, NULL, NULL, 1, 1, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_self), (__pyx_v_p1->peak_count - 1), (__pyx_v_p2->peak_count + 1), NULL, NULL, NULL, 1, 1, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4599,7 +4599,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_8peak_set_7PeakSet_16between(stru
 }
 
 /* "ms_peak_picker\_c\peak_set.pyx":129
- *         return self[p1.peak_count:p2.peak_count+1]
+ *         return self[p1.peak_count-1:p2.peak_count+1]
  * 
  *     cdef PeakSet _between(self, double m1, double m2):             # <<<<<<<<<<<<<<
  *         cdef:
@@ -4670,7 +4670,7 @@ static struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *__pyx_f_14ms_pea
   goto __pyx_L0;
 
   /* "ms_peak_picker\_c\peak_set.pyx":129
- *         return self[p1.peak_count:p2.peak_count+1]
+ *         return self[p1.peak_count-1:p2.peak_count+1]
  * 
  *     cdef PeakSet _between(self, double m1, double m2):             # <<<<<<<<<<<<<<
  *         cdef:

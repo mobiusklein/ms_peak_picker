@@ -124,7 +124,7 @@ cdef class PeakSet(object):
         p1 = self._get_nearest_peak(m1, &err)
         p2 = self._get_nearest_peak(m2, &err)
 
-        return self[p1.peak_count:p2.peak_count+1]
+        return self[p1.peak_count-1:p2.peak_count+1]
 
     cdef PeakSet _between(self, double m1, double m2):
         cdef:
@@ -172,6 +172,7 @@ cdef FittedPeak _binary_search_ppm_error(tuple array, double value, size_t lo, s
         elif target_value < value:
             return _binary_search_ppm_error(array, value, mid, hi, tolerance)
     return _null_peak
+
 
 cdef FittedPeak _sweep_solution_ppm_error(tuple array, double value, size_t lo, size_t hi, double tolerance):
     cdef:

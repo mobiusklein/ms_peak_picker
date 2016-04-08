@@ -111,7 +111,7 @@ class PeakSet(Base):
         p1, _ = self.get_nearest_peak(m1)
         p2, _ = self.get_nearest_peak(m2)
 
-        return self[p1.peak_count:p2.peak_count+1]
+        return self[p1.peak_count-1:p2.peak_count+1]
 
 
 def _sweep_solution(array, value, lo, hi, tolerance, verbose=False):
