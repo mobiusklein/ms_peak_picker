@@ -9,3 +9,5 @@ cdef class PeakIndex(object):
         public PeakSet peaks
 
     cdef FittedPeak _has_peak(self, double mz, double tolerance=*)
+    cdef PeakSet _between(self, double start, double stop)
+    cdef size_t _get_size(self)

@@ -31,6 +31,12 @@ cdef class PeakIndex(object):
     def between(self, double start, double stop):
         return self.peaks._between(start, stop)
 
+    cdef PeakSet _between(self, double start, double stop):
+        return self.peaks._between(start, stop)
+
+    cdef size_t _get_size(self):
+        return self.peaks._get_size()      
+
     def has_peak_within_tolerance(self, double mz, double tol):
         return has_peak_within_tolerance(self.peaks, mz, tol)
 
@@ -59,16 +65,16 @@ cdef class PeakIndex(object):
         return len(self.peaks)
 
     def area(self, peak):
-        lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
-        hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+        lo = self.get_nearest(peak.mz - peak.left_width, peak.index)
+        hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
         return peak_area(self.mz_array, self.intensity_array, lo, hi)
 
     def set_peaks(self, peaks):
         self.peaks = self.peaks.__class__(tuple(peaks))
 
     def points_along(self, peak):
-        lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
-        hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+        lo = self.get_nearest(peak.mz - peak.right_width, peak.index)
+        hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
         return self.mz_array[lo:hi], self.intensity_array[lo:hi]
 
     def __reduce__(self):
@@ -79,7 +85,7 @@ cdef int _has_peak_within_tolerance(PeakSet peaklist, double mz, double tol, siz
     cdef:
         size_t lo, hi, mid, i
         FittedPeak peak
-        doubl v
+        double v
 
     lo = 0
     hi = len(peaklist)

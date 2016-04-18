@@ -17,7 +17,8 @@ try:
         Extension(name="ms_peak_picker._c.search", sources=["ms_peak_picker/_c/search.pyx"],
                   include_dirs=[numpy.get_include()]),
         Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.pyx"],
-                  include_dirs=[numpy.get_include()])
+                  include_dirs=[numpy.get_include()]),
+        Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
         ])
 except ImportError:
     extensions = ([
@@ -30,7 +31,8 @@ except ImportError:
         Extension(name="ms_peak_picker._c.search", sources=["ms_peak_picker/_c/search.c"],
                   include_dirs=[numpy.get_include()]),
         Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.c"],
-                  include_dirs=[numpy.get_include()])
+                  include_dirs=[numpy.get_include()]),
+        Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
         ])
 
 

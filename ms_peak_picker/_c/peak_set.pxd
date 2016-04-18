@@ -4,6 +4,8 @@ cdef class FittedPeak(object):
         public double intensity
         public double signal_to_noise
         public double full_width_at_half_max
+        public double left_width
+        public double right_width
         public long peak_count
         public long index
         public double area
@@ -21,6 +23,8 @@ cdef class PeakSet(object):
     cdef PeakSet _between(self, double m1, double m2)
 
     cdef FittedPeak getitem(self, size_t i)
+
+    cdef size_t _get_size(self)
 
 
 cpdef FittedPeak binary_search_ppm_error(tuple array, double value, double tolerance)

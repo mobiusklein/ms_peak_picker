@@ -32,6 +32,17 @@ class MedianIntensityFilter(FilterBase):
         return mz_array, intensity_array
 
 
+@register("mean_below_mean")
+class MeanBelowMeanFilter(FilterBase):
+
+    def filter(self, mz_array, intensity_array):
+        mean = intensity_array.mean()
+        mean_below_mean = (intensity_array < mean).mean()
+        mask = intensity_array < mean_below_mean
+        intensity_array[mask] = 0.
+        return mz_array, intensity_array
+
+
 @register("savitsky_golay")
 class SavitskyGolayFilter(FilterBase):
     def __init__(self, window_length=5, polyorder=3, deriv=0):
@@ -66,6 +77,8 @@ def transform(mz_array, intensity_array, filters=None):
         filters = []
 
     for filt in filters:
+        if isinstance(filt, basestring):
+            filt = filter_register[filt]
         mz_array, intensity_array = filt(mz_array, intensity_array)
 
     return mz_array, intensity_array

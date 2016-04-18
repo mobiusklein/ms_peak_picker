@@ -8,10 +8,12 @@ class FittedPeak(Base):
 
     __slots__ = [
         "mz", "intensity", "signal_to_noise", "peak_count",
-        "index", "full_width_at_half_max", "area"
+        "index", "full_width_at_half_max", "area",
+        "left_width", "right_width"
     ]
 
-    def __init__(self, mz, intensity, signal_to_noise, peak_count, index, full_width_at_half_max, area):
+    def __init__(self, mz, intensity, signal_to_noise, peak_count, index, full_width_at_half_max, area,
+                 left_width=0, right_width=0):
         self.mz = mz
         self.intensity = intensity
         self.signal_to_noise = signal_to_noise
@@ -19,16 +21,18 @@ class FittedPeak(Base):
         self.index = index
         self.full_width_at_half_max = full_width_at_half_max
         self.area = area
+        self.left_width = left_width
+        self.right_width = right_width
 
     def clone(self):
         return FittedPeak(self.mz, self.intensity, self.signal_to_noise,
                           self.peak_count, self.index, self.full_width_at_half_max,
-                          self.area)
+                          self.area, self.left_width, self.right_width)
 
     def __reduce__(self):
         return self.__class__, (self.mz, self.intensity, self.signal_to_noise,
                                 self.peak_count, self.index, self.full_width_at_half_max,
-                                self.area)
+                                self.area, self.left_width, self.right_width)
 
     def __hash__(self):
         return hash((self.mz, self.intensity, self.signal_to_noise, self.full_width_at_half_max))

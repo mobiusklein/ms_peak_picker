@@ -4,6 +4,9 @@ from .utils import range, Base
 from .search import get_nearest
 
 
+minimum_signal_to_noise = 4.
+
+
 def find_signal_to_noise(target_val, intensity_array, index):
     min_intensity_left = 0
     min_intensity_right = 0
@@ -110,6 +113,122 @@ def curve_reg(x, y, n, terms, nterms):
     return mse
 
 
+def find_right_width(mz_array, intensity_array, data_index, signal_to_noise=0.):
+    points = 0
+    peak = intensity_array[data_index]
+    peak_half = peak / 2.
+    mass = mz_array[data_index]
+
+    coef = np.zeros(2)
+
+    if peak == 0.0:
+        return 0.
+
+    size = len(mz_array) - 1
+    if data_index <= 0 or data_index >= size:
+        return 0.
+
+    decreasing = True
+    last_Y1 = peak
+
+    lower = mz_array[size]
+    for index in range(data_index, size):
+        current_mass = mz_array[index]
+        Y1 = intensity_array[index]
+        if((Y1 < peak_half) or (np.fabs(mass - current_mass) > 1.5) or (Y1 > last_Y1) or (
+                (index > size - 1 or intensity_array[index + 1] > Y1) and (
+                index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < minimum_signal_to_noise)):
+            Y2 = intensity_array[index - 1]
+            X1 = mz_array[index]
+            X2 = mz_array[index - 1]
+
+            if((Y2 - Y1 != 0) and (Y1 < peak_half)):
+                lower = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
+            else:
+                lower = X1
+                points = index - data_index + 1
+
+                if points >= 3:
+                    vect_mzs = []
+                    vect_intensity = []
+
+                    for k in range(points - 1, -1, -1):
+                        vect_mzs.append(mz_array[index - k])
+                        vect_intensity.append(intensity_array[index - k])
+                    j = 0
+                    while (j < points) and (vect_intensity[0] == vect_intensity[j]):
+                        j += 1
+
+                    if j == points:
+                        return 0.0
+
+                    # coef will contain the result
+                    curve_reg(vect_intensity, vect_mzs, points, coef, 1)
+                    lower = coef[1] * peak_half + coef[0]
+            break
+        last_Y1 = Y1
+    return abs(lower - mass)
+
+
+def find_left_width(mz_array, intensity_array, data_index, signal_to_noise=0.):
+    points = 0
+    peak = intensity_array[data_index]
+    peak_half = peak / 2.
+    mass = mz_array[data_index]
+
+    coef = np.zeros(2)
+
+    if peak == 0.0:
+        return 0.
+
+    size = len(mz_array) - 1
+    if data_index <= 0 or data_index >= size:
+        return 0.
+
+
+    decreasing = True
+    last_Y1 = peak
+    upper = mz_array[0]
+    for index in range(data_index, -1, -1):
+        current_mass = mz_array[index]
+        Y1 = intensity_array[index]
+
+
+        if ((Y1 < peak_half) or (np.fabs(mass - current_mass) > 1.5) or (Y1 > last_Y1) or (
+                (index < 1 or intensity_array[index - 1] > Y1) and (
+                    index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
+            Y2 = intensity_array[index + 1]
+            X1 = mz_array[index]
+            X2 = mz_array[index + 1]
+
+            if ((Y2 - Y1 != 0) and (Y1 < peak_half)):
+                upper = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
+            else:
+                upper = X1
+                points = data_index - index + 1
+                if points >= 3:
+                    vect_mzs = []
+                    vect_intensity = []
+
+                    for j in range(points - 1, -1, -1):
+                        vect_mzs.append(mz_array[data_index - j])
+                        vect_intensity.append(intensity_array[data_index - j])
+
+                    j = 0
+                    while j < points and (vect_intensity[0] == vect_intensity[j]):
+                        j += 1
+
+                    if j == points:
+                        return 0.
+
+                    # coef will contain the results
+                    curve_reg(vect_intensity, vect_mzs, points, coef, 1)
+                    upper = coef[1] * peak_half + coef[0]
+            break
+        last_Y1 = Y1
+    return abs(mass - upper)
+
+
 def find_full_width_at_half_max(mz_array, intensity_array, data_index, signal_to_noise=0.):
     points = 0
     peak = intensity_array[data_index]
@@ -131,7 +250,7 @@ def find_full_width_at_half_max(mz_array, intensity_array, data_index, signal_to
         Y1 = intensity_array[index]
         if ((Y1 < peak_half) or (np.fabs(mass - current_mass) > 1.5) or (
                 (index < 1 or intensity_array[index - 1] > Y1) and (
-                    index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < 4.0))):
+                    index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
             Y2 = intensity_array[index + 1]
             X1 = mz_array[index]
             X2 = mz_array[index + 1]
@@ -196,107 +315,6 @@ def find_full_width_at_half_max(mz_array, intensity_array, data_index, signal_to
                     curve_reg(vect_intensity, vect_mzs, points, coef, 1)
                     lower = coef[1] * peak_half + coef[0]
             break
-
-    if upper == 0.0:
-        return 2 * np.fabs(mass - lower)
-    if lower == 0.0:
-        return 2 * np.fabs(mass - upper)
-    return np.fabs(upper - lower)
-
-
-def debug_find_full_width_at_half_max(mz_array, intensity_array, data_index, signal_to_noise=0.):
-    points = 0
-    peak = intensity_array[data_index]
-    peak_half = peak / 2.
-    print "peak_half: ", peak_half
-    mass = mz_array[data_index]
-
-    coef = np.zeros(2)
-
-    if peak == 0.0:
-        return 0.
-
-    size = len(mz_array) - 1
-    if data_index <= 0 or data_index >= size:
-        return 0.
-
-    upper = mz_array[0]
-    for index in range(data_index, -1, -1):
-        current_mass = mz_array[index]
-        Y1 = intensity_array[index]
-        print index, Y1, current_mass
-        if ((Y1 < peak_half) or (np.fabs(mass - current_mass) > 1.5) or (
-                (index < 1 or intensity_array[index - 1] > Y1) and (
-                    index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < 4.0))):
-            Y2 = intensity_array[index + 1]
-            X1 = mz_array[index]
-            X2 = mz_array[index + 1]
-            print (Y1 < peak_half), (np.fabs(mass - current_mass) > 1.5), (index > 1 and intensity_array[index - 1] > Y1), (
-                    index > 2 and intensity_array[index - 2] > Y1)
-            if ((Y2 - Y1 != 0) and (Y1 < peak_half)):
-                print "((Y2 - Y1 != 0) and (Y1 < peak_half))", X1, X2, Y1, Y2, index
-                upper = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
-            else:
-                print "curve_reg"
-                upper = X1
-                points = data_index - index + 1
-                if points >= 3:
-                    vect_mzs = []
-                    vect_intensity = []
-
-                    for j in range(points - 1, -1, -1):
-                        vect_mzs.append(mz_array[data_index - j])
-                        vect_intensity.append(intensity_array[data_index - j])
-
-                    j = 0
-                    while j < points and (vect_intensity[0] == vect_intensity[j]):
-                        j += 1
-
-                    if j == points:
-                        return 0.
-
-                    # coef will contain the results
-                    curve_reg(vect_intensity, vect_mzs, points, coef, 1)
-                    upper = coef[1] * peak_half + coef[0]
-            break
-    print "upper: ", upper
-
-    lower = mz_array[size]
-    for index in range(data_index, size):
-        current_mass = mz_array[index]
-        Y1 = intensity_array[index]
-        if((Y1 < peak_half) or (np.fabs(mass - current_mass) > 1.5) or (
-                (index > size - 1 or intensity_array[index + 1] > Y1) and (
-                index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < 4.0)):
-            Y2 = intensity_array[index - 1]
-            X1 = mz_array[index]
-            X2 = mz_array[index - 1]
-
-            if((Y2 - Y1 != 0) and (Y1 < peak_half)):
-                lower = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
-            else:
-                lower = X1
-                points = index - data_index + 1
-
-                if points >= 3:
-                    vect_mzs = []
-                    vect_intensity = []
-
-                    for k in range(points - 1, -1, -1):
-                        vect_mzs.append(mz_array[index - k])
-                        vect_intensity.append(intensity_array[index - k])
-                    j = 0
-                    while (j < points) and (vect_intensity[0] == vect_intensity[j]):
-                        j += 1
-
-                    if j == points:
-                        return 0.0
-
-                    # coef will contain the result
-                    curve_reg(vect_intensity, vect_mzs, points, coef, 1)
-                    lower = coef[1] * peak_half + coef[0]
-            break
-    print "lower: ", lower
 
     if upper == 0.0:
         return 2 * np.fabs(mass - lower)
@@ -487,13 +505,15 @@ def peak_area(mz_array, intensity_array, start, stop):
 try:
     from ._c import peak_statistics
     _find_signal_to_noise = find_signal_to_noise
-    # _find_full_width_at_half_max = find_full_width_at_half_max
-    # _curve_reg = curve_reg
+    _find_full_width_at_half_max = find_full_width_at_half_max
+    _find_left_width = find_left_width
+    _find_right_width = find_right_width
+    _peak_area = peak_area
 
     find_signal_to_noise = peak_statistics.find_signal_to_noise
     peak_area = peak_statistics.peak_area
-
-    # find_full_width_at_half_max = _peak_statistics.find_full_width_at_half_max
-    # curve_reg = _peak_statistics.curve_reg
+    find_full_width_at_half_max = peak_statistics.find_full_width_at_half_max
+    # find_left_width = peak_statistics.find_left_width
+    # find_right_width = peak_statistics.find_right_width
 except ImportError:
     pass

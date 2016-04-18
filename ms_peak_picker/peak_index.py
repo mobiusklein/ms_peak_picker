@@ -41,13 +41,13 @@ class PeakIndex(object):
         return len(self.peaks)
 
     def area(self, peak):
-        lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
-        hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+        lo = self.get_nearest(peak.mz - peak.left_width, peak.index)
+        hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
         return peak_area(self.mz_array, self.intensity_array, lo, hi)
 
     def points_along(self, peak):
-        lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
-        hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+        lo = self.get_nearest(peak.mz - peak.left_width, peak.index)
+        hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
         return self.mz_array[lo:hi], self.intensity_array[lo:hi]
 
     def set_peaks(self, peaks):

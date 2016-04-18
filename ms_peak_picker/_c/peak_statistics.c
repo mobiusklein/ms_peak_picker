@@ -714,12 +714,21 @@ typedef npy_double __pyx_t_5numpy_double_t;
  */
 typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
 
+/* "ms_peak_picker\_c\search.pxd":3
+ * cimport numpy as np
+ * 
+ * ctypedef np.float64_t DTYPE_t             # <<<<<<<<<<<<<<
+ * 
+ * cpdef size_t nearest_left(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=*)
+ */
+typedef __pyx_t_5numpy_float64_t __pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t;
+
 /* "ms_peak_picker\_c\peak_statistics.pxd":5
  * 
  * 
  * ctypedef np.float64_t DTYPE_t             # <<<<<<<<<<<<<<
  * 
- * cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1] intensity_array, size_t index)
+ * cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array, size_t index)
  */
 typedef __pyx_t_5numpy_float64_t __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t;
 #if CYTHON_CCOMPLEX
@@ -780,13 +789,66 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  * cdef inline object PyArray_MultiIterNew1(a):
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
+struct __pyx_opt_args_14ms_peak_picker_2_c_6search_nearest_left;
+struct __pyx_opt_args_14ms_peak_picker_2_c_6search_nearest_right;
+struct __pyx_opt_args_14ms_peak_picker_2_c_6search_get_nearest_binary;
+
+/* "ms_peak_picker\_c\search.pxd":5
+ * ctypedef np.float64_t DTYPE_t
+ * 
+ * cpdef size_t nearest_left(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=*)             # <<<<<<<<<<<<<<
+ * cpdef size_t nearest_right(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=*)
+ * cpdef size_t get_nearest_binary(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=*, object stop_index=*)
+ */
+struct __pyx_opt_args_14ms_peak_picker_2_c_6search_nearest_left {
+  int __pyx_n;
+  size_t start_index;
+};
+
+/* "ms_peak_picker\_c\search.pxd":6
+ * 
+ * cpdef size_t nearest_left(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=*)
+ * cpdef size_t nearest_right(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=*)             # <<<<<<<<<<<<<<
+ * cpdef size_t get_nearest_binary(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=*, object stop_index=*)
+ * cpdef size_t get_nearest(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index)
+ */
+struct __pyx_opt_args_14ms_peak_picker_2_c_6search_nearest_right {
+  int __pyx_n;
+  size_t start_index;
+};
+
+/* "ms_peak_picker\_c\search.pxd":7
+ * cpdef size_t nearest_left(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=*)
+ * cpdef size_t nearest_right(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=*)
+ * cpdef size_t get_nearest_binary(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=*, object stop_index=*)             # <<<<<<<<<<<<<<
+ * cpdef size_t get_nearest(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index)
+ */
+struct __pyx_opt_args_14ms_peak_picker_2_c_6search_get_nearest_binary {
+  int __pyx_n;
+  size_t start_index;
+  PyObject *stop_index;
+};
+struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector;
+
+/* "ms_peak_picker\_c\double_vector.pxd":1
+ * cdef struct DoubleVector:             # <<<<<<<<<<<<<<
+ *     double* v
+ *     size_t used
+ */
+struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector {
+  double *v;
+  size_t used;
+  size_t size;
+};
 struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_half_max;
+struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_right_width;
+struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_left_width;
 struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_isclose;
 
-/* "ms_peak_picker\_c\peak_statistics.pxd":11
- * cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1] x, np.ndarray[DTYPE_t, ndim=1] y, size_t n, np.ndarray[DTYPE_t, ndim=1] terms, size_t nterms)
+/* "ms_peak_picker\_c\peak_statistics.pxd":9
+ * cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array, size_t index)
  * 
- * cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array, size_t data_index,             # <<<<<<<<<<<<<<
+ * cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array, size_t data_index,             # <<<<<<<<<<<<<<
  *                                           double signal_to_noise=*)
  * 
  */
@@ -795,7 +857,31 @@ struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_
   double signal_to_noise;
 };
 
-/* "ms_peak_picker\_c\peak_statistics.pyx":13
+/* "ms_peak_picker\_c\peak_statistics.pxd":12
+ *                                           double signal_to_noise=*)
+ * 
+ * cpdef DTYPE_t find_right_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,             # <<<<<<<<<<<<<<
+ *                                           size_t data_index, DTYPE_t signal_to_noise=*)
+ * 
+ */
+struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_right_width {
+  int __pyx_n;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t signal_to_noise;
+};
+
+/* "ms_peak_picker\_c\peak_statistics.pxd":15
+ *                                           size_t data_index, DTYPE_t signal_to_noise=*)
+ * 
+ * cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,             # <<<<<<<<<<<<<<
+ *                                           size_t data_index, DTYPE_t signal_to_noise=*)
+ * 
+ */
+struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_left_width {
+  int __pyx_n;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t signal_to_noise;
+};
+
+/* "ms_peak_picker\_c\peak_statistics.pyx":22
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cdef bint isclose(DTYPE_t x, DTYPE_t y, DTYPE_t rtol=1.e-5, DTYPE_t atol=1.e-8):             # <<<<<<<<<<<<<<
@@ -888,11 +974,203 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
-static CYTHON_INLINE int  __Pyx_GetBufferAndValidate(Py_buffer* buf, PyObject* obj,
-    __Pyx_TypeInfo* dtype, int flags, int nd, int cast, __Pyx_BufFmt_StackElem* stack);
-static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info);
+#ifndef CYTHON_PROFILE
+  #define CYTHON_PROFILE 1
+#endif
+#ifndef CYTHON_TRACE_NOGIL
+  #define CYTHON_TRACE_NOGIL 0
+#else
+  #if CYTHON_TRACE_NOGIL && !defined(CYTHON_TRACE)
+    #define CYTHON_TRACE 1
+  #endif
+#endif
+#ifndef CYTHON_TRACE
+  #define CYTHON_TRACE 0
+#endif
+#if CYTHON_TRACE
+  #undef CYTHON_PROFILE_REUSE_FRAME
+#endif
+#ifndef CYTHON_PROFILE_REUSE_FRAME
+  #define CYTHON_PROFILE_REUSE_FRAME 0
+#endif
+#if CYTHON_PROFILE || CYTHON_TRACE
+  #include "compile.h"
+  #include "frameobject.h"
+  #include "traceback.h"
+  #if CYTHON_PROFILE_REUSE_FRAME
+    #define CYTHON_FRAME_MODIFIER static
+    #define CYTHON_FRAME_DEL(frame)
+  #else
+    #define CYTHON_FRAME_MODIFIER
+    #define CYTHON_FRAME_DEL(frame) Py_CLEAR(frame)
+  #endif
+  #define __Pyx_TraceDeclarations\
+  static PyCodeObject *__pyx_frame_code = NULL;\
+  CYTHON_FRAME_MODIFIER PyFrameObject *__pyx_frame = NULL;\
+  int __Pyx_use_tracing = 0;
+  #define __Pyx_TraceFrameInit(codeobj)\
+  if (codeobj) __pyx_frame_code = (PyCodeObject*) codeobj;
+  #ifdef WITH_THREAD
+  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)\
+  if (nogil) {\
+      if (CYTHON_TRACE_NOGIL) {\
+          PyThreadState *tstate;\
+          PyGILState_STATE state = PyGILState_Ensure();\
+          tstate = PyThreadState_GET();\
+          if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
+                  (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
+              __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, funcname, srcfile, firstlineno);\
+          }\
+          PyGILState_Release(state);\
+          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
+      }\
+  } else {\
+      PyThreadState* tstate = PyThreadState_GET();\
+      if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
+              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
+          __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, funcname, srcfile, firstlineno);\
+          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
+      }\
+  }
+  #else
+  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)\
+  {   PyThreadState* tstate = PyThreadState_GET();\
+      if (unlikely(tstate->use_tracing) && !tstate->tracing &&\
+              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
+          __Pyx_use_tracing = __Pyx_TraceSetupAndCall(&__pyx_frame_code, &__pyx_frame, funcname, srcfile, firstlineno);\
+          if (unlikely(__Pyx_use_tracing < 0)) goto_error;\
+      }\
+  }
+  #endif
+  #define __Pyx_TraceException()\
+  if (likely(!__Pyx_use_tracing)); else {\
+      PyThreadState* tstate = PyThreadState_GET();\
+      if (tstate->use_tracing &&\
+              (tstate->c_profilefunc || (CYTHON_TRACE && tstate->c_tracefunc))) {\
+          tstate->tracing++;\
+          tstate->use_tracing = 0;\
+          PyObject *exc_info = __Pyx_GetExceptionTuple();\
+          if (exc_info) {\
+              if (CYTHON_TRACE && tstate->c_tracefunc)\
+                  tstate->c_tracefunc(\
+                      tstate->c_traceobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);\
+              tstate->c_profilefunc(\
+                  tstate->c_profileobj, __pyx_frame, PyTrace_EXCEPTION, exc_info);\
+              Py_DECREF(exc_info);\
+          }\
+          tstate->use_tracing = 1;\
+          tstate->tracing--;\
+      }\
+  }
+  static void __Pyx_call_return_trace_func(PyThreadState *tstate, PyFrameObject *frame, PyObject *result) {
+      PyObject *type, *value, *traceback;
+      PyErr_Fetch(&type, &value, &traceback);
+      tstate->tracing++;
+      tstate->use_tracing = 0;
+      if (CYTHON_TRACE && tstate->c_tracefunc)
+          tstate->c_tracefunc(tstate->c_traceobj, frame, PyTrace_RETURN, result);
+      if (tstate->c_profilefunc)
+          tstate->c_profilefunc(tstate->c_profileobj, frame, PyTrace_RETURN, result);
+      CYTHON_FRAME_DEL(frame);
+      tstate->use_tracing = 1;
+      tstate->tracing--;
+      PyErr_Restore(type, value, traceback);
+  }
+  #ifdef WITH_THREAD
+  #define __Pyx_TraceReturn(result, nogil)\
+  if (likely(!__Pyx_use_tracing)); else {\
+      if (nogil) {\
+          if (CYTHON_TRACE_NOGIL) {\
+              PyThreadState *tstate;\
+              PyGILState_STATE state = PyGILState_Ensure();\
+              tstate = PyThreadState_GET();\
+              if (tstate->use_tracing) {\
+                  __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
+              }\
+              PyGILState_Release(state);\
+          }\
+      } else {\
+          PyThreadState* tstate = PyThreadState_GET();\
+          if (tstate->use_tracing) {\
+              __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
+          }\
+      }\
+  }
+  #else
+  #define __Pyx_TraceReturn(result, nogil)\
+  if (likely(!__Pyx_use_tracing)); else {\
+      PyThreadState* tstate = PyThreadState_GET();\
+      if (tstate->use_tracing) {\
+          __Pyx_call_return_trace_func(tstate, __pyx_frame, (PyObject*)result);\
+      }\
+  }
+  #endif
+  static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno);
+  static int __Pyx_TraceSetupAndCall(PyCodeObject** code, PyFrameObject** frame, const char *funcname, const char *srcfile, int firstlineno);
+#else
+  #define __Pyx_TraceDeclarations
+  #define __Pyx_TraceFrameInit(codeobj)
+  #define __Pyx_TraceCall(funcname, srcfile, firstlineno, nogil, goto_error)   if (1); else goto_error;
+  #define __Pyx_TraceException()
+  #define __Pyx_TraceReturn(result, nogil)
+#endif
+#if CYTHON_TRACE
+  static int __Pyx_call_line_trace_func(PyThreadState *tstate, PyFrameObject *frame, int lineno) {
+      int ret;
+      PyObject *type, *value, *traceback;
+      PyErr_Fetch(&type, &value, &traceback);
+      frame->f_lineno = lineno;
+      tstate->tracing++;
+      tstate->use_tracing = 0;
+      ret = tstate->c_tracefunc(tstate->c_traceobj, frame, PyTrace_LINE, NULL);
+      tstate->use_tracing = 1;
+      tstate->tracing--;
+      if (likely(!ret)) {
+          PyErr_Restore(type, value, traceback);
+      } else {
+          Py_XDECREF(type);
+          Py_XDECREF(value);
+          Py_XDECREF(traceback);
+      }
+      return ret;
+  }
+  #ifdef WITH_THREAD
+  #define __Pyx_TraceLine(lineno, nogil, goto_error)\
+  if (likely(!__Pyx_use_tracing)); else {\
+      if (nogil) {\
+          if (CYTHON_TRACE_NOGIL) {\
+              int ret = 0;\
+              PyThreadState *tstate;\
+              PyGILState_STATE state = PyGILState_Ensure();\
+              tstate = PyThreadState_GET();\
+              if (unlikely(tstate->use_tracing && tstate->c_tracefunc)) {\
+                  ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
+              }\
+              PyGILState_Release(state);\
+              if (unlikely(ret)) goto_error;\
+          }\
+      } else {\
+          PyThreadState* tstate = PyThreadState_GET();\
+          if (unlikely(tstate->use_tracing && tstate->c_tracefunc)) {\
+              int ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
+              if (unlikely(ret)) goto_error;\
+          }\
+      }\
+  }
+  #else
+  #define __Pyx_TraceLine(lineno, nogil, goto_error)\
+  if (likely(!__Pyx_use_tracing)); else {\
+      PyThreadState* tstate = PyThreadState_GET();\
+      if (unlikely(tstate->use_tracing && tstate->c_tracefunc)) {\
+          int ret = __Pyx_call_line_trace_func(tstate, __pyx_frame, lineno);\
+          if (unlikely(ret)) goto_error;\
+      }\
+  }
+  #endif
+#else
+  #define __Pyx_TraceLine(lineno, nogil, goto_error)   if (1); else goto_error;
+#endif
 
-#define __Pyx_BufPtrStrided1d(type, buf, i0, s0) (type)((char*)buf + i0 * s0)
 static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb);
 static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb);
 
@@ -900,6 +1178,11 @@ static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
                                   int full_traceback, int nogil);
 
+static CYTHON_INLINE int  __Pyx_GetBufferAndValidate(Py_buffer* buf, PyObject* obj,
+    __Pyx_TypeInfo* dtype, int flags, int nd, int cast, __Pyx_BufFmt_StackElem* stack);
+static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info);
+
+#define __Pyx_BufPtrCContig1d(type, buf, i0, s0) ((type)buf + i0)
 static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
     Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
 
@@ -930,37 +1213,8 @@ static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
 static void __Pyx_RaiseBufferFallbackError(void);
 
+#define __Pyx_BufPtrStrided1d(type, buf, i0, s0) (type)((char*)buf + i0 * s0)
 #define __Pyx_BufPtrStrided2d(type, buf, i0, s0, i1, s1) (type)((char*)buf + i0 * s0 + i1 * s1)
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
-    PyListObject* L = (PyListObject*) list;
-    Py_ssize_t len = Py_SIZE(list);
-    if (likely(L->allocated > len) & likely(len > (L->allocated >> 1))) {
-        Py_INCREF(x);
-        PyList_SET_ITEM(list, len, x);
-        Py_SIZE(list) = len+1;
-        return 0;
-    }
-    return PyList_Append(list, x);
-}
-#else
-#define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace);
-#else
-#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace)\
-    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, long intval, int inplace);
-#else
-#define __Pyx_PyInt_SubtractObjC(op1, op2, intval, inplace)\
-    (inplace ? PyNumber_InPlaceSubtract(op1, op2) : PyNumber_Subtract(op1, op2))
-#endif
-
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
@@ -990,8 +1244,6 @@ static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
 static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void);
 
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
-
-static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
 
 typedef struct {
     int code_line;
@@ -1161,6 +1413,8 @@ static PyObject *__Pyx_ImportModule(const char *name);
 
 static PyTypeObject *__Pyx_ImportType(const char *module_name, const char *class_name, size_t size, int strict);
 
+static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**f)(void), const char *sig);
+
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
@@ -1199,15 +1453,32 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, cha
 
 /* Module declarations from 'libc.math' */
 
+/* Module declarations from 'ms_peak_picker._c.search' */
+static size_t (*__pyx_f_14ms_peak_picker_2_c_6search_get_nearest)(PyArrayObject *, __pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, size_t, int __pyx_skip_dispatch); /*proto*/
+
+/* Module declarations from 'ms_peak_picker._c.double_vector' */
+static struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *(*__pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector_with_size)(size_t); /*proto*/
+static struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *(*__pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector)(void); /*proto*/
+static int (*__pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_resize)(struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *); /*proto*/
+static int (*__pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_append)(struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *, double); /*proto*/
+static void (*__pyx_f_14ms_peak_picker_2_c_13double_vector_free_double_vector)(struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *); /*proto*/
+static void (*__pyx_f_14ms_peak_picker_2_c_13double_vector_print_double_vector)(struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *); /*proto*/
+static PyObject *(*__pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_to_list)(struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *); /*proto*/
+static struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *(*__pyx_f_14ms_peak_picker_2_c_13double_vector_list_to_double_vector)(PyObject *); /*proto*/
+
 /* Module declarations from 'ms_peak_picker._c.peak_statistics' */
+static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_14ms_peak_picker_2_c_15peak_statistics_minimum_signal_to_noise;
 static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_signal_to_noise(double, PyArrayObject *, size_t, int __pyx_skip_dispatch); /*proto*/
-static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg(PyArrayObject *, PyArrayObject *, size_t, PyArrayObject *, size_t, int __pyx_skip_dispatch); /*proto*/
 static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_half_max(PyArrayObject *, PyArrayObject *, size_t, int __pyx_skip_dispatch, struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_half_max *__pyx_optional_args); /*proto*/
+static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_right_width(PyArrayObject *, PyArrayObject *, size_t, int __pyx_skip_dispatch, struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_right_width *__pyx_optional_args); /*proto*/
+static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_left_width(PyArrayObject *, PyArrayObject *, size_t, int __pyx_skip_dispatch, struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_left_width *__pyx_optional_args); /*proto*/
 static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_squares(PyArrayObject *, PyArrayObject *, double, double, double, size_t, size_t); /*proto*/
 static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyArrayObject *, PyArrayObject *, size_t, double, int __pyx_skip_dispatch); /*proto*/
 static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayObject *, PyArrayObject *, size_t, size_t, int __pyx_skip_dispatch); /*proto*/
 static int __pyx_f_14ms_peak_picker_2_c_15peak_statistics_isclose(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_isclose *__pyx_optional_args); /*proto*/
 static int __pyx_f_14ms_peak_picker_2_c_15peak_statistics_aboutzero(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t); /*proto*/
+static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg(PyArrayObject *, PyArrayObject *, size_t, PyArrayObject *, size_t, int __pyx_skip_dispatch); /*proto*/
+static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg_dv(struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *, struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *, size_t, PyArrayObject *, size_t); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t = { "DTYPE_t", NULL, sizeof(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t), { 0 }, 0, 'R', 0, 0 };
 #define __Pyx_MODULE_NAME "ms_peak_picker._c.peak_statistics"
 int __pyx_module_is_main_ms_peak_picker___c__peak_statistics = 0;
@@ -1253,12 +1524,10 @@ static char __pyx_k_zeros[] = "zeros";
 static char __pyx_k_import[] = "__import__";
 static char __pyx_k_linalg[] = "linalg";
 static char __pyx_k_nterms[] = "nterms";
-static char __pyx_k_search[] = "search";
 static char __pyx_k_mz_array[] = "mz_array";
 static char __pyx_k_ValueError[] = "ValueError";
 static char __pyx_k_data_index[] = "data_index";
 static char __pyx_k_target_val[] = "target_val";
-static char __pyx_k_get_nearest[] = "get_nearest";
 static char __pyx_k_RuntimeError[] = "RuntimeError";
 static char __pyx_k_intensity_array[] = "intensity_array";
 static char __pyx_k_signal_to_noise[] = "signal_to_noise";
@@ -1278,7 +1547,6 @@ static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_data_index;
 static PyObject *__pyx_n_s_dot;
 static PyObject *__pyx_n_s_full_width_at_half_max;
-static PyObject *__pyx_n_s_get_nearest;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_index;
 static PyObject *__pyx_n_s_intensity_array;
@@ -1294,7 +1562,6 @@ static PyObject *__pyx_n_s_nterms;
 static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_n_s_ones;
 static PyObject *__pyx_n_s_range;
-static PyObject *__pyx_n_s_search;
 static PyObject *__pyx_n_s_signal_to_noise;
 static PyObject *__pyx_n_s_start;
 static PyObject *__pyx_n_s_stop;
@@ -1307,9 +1574,11 @@ static PyObject *__pyx_n_s_y;
 static PyObject *__pyx_n_s_zeros;
 static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_find_signal_to_noise(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_target_val, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_index); /* proto */
 static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_2curve_reg(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_x, PyArrayObject *__pyx_v_y, size_t __pyx_v_n, PyArrayObject *__pyx_v_terms, size_t __pyx_v_nterms); /* proto */
-static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_4find_full_width_at_half_max(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, double __pyx_v_signal_to_noise); /* proto */
-static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_6lorenztian_fit(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_index, double __pyx_v_full_width_at_half_max); /* proto */
-static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_8peak_area(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_start, size_t __pyx_v_stop); /* proto */
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_4find_right_width(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_signal_to_noise); /* proto */
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_6find_left_width(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_signal_to_noise); /* proto */
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_8find_full_width_at_half_max(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, double __pyx_v_signal_to_noise); /* proto */
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_10lorenztian_fit(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_index, double __pyx_v_full_width_at_half_max); /* proto */
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_12peak_area(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_start, size_t __pyx_v_stop); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_int_1;
@@ -1321,8 +1590,10 @@ static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
+static PyObject *__pyx_tuple__8;
+static PyObject *__pyx_tuple__9;
 
-/* "ms_peak_picker\_c\peak_statistics.pyx":13
+/* "ms_peak_picker\_c\peak_statistics.pyx":22
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cdef bint isclose(DTYPE_t x, DTYPE_t y, DTYPE_t rtol=1.e-5, DTYPE_t atol=1.e-8):             # <<<<<<<<<<<<<<
@@ -1334,8 +1605,13 @@ static int __pyx_f_14ms_peak_picker_2_c_15peak_statistics_isclose(__pyx_t_14ms_p
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_rtol = ((__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t)1.e-5);
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_atol = ((__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t)1.e-8);
   int __pyx_r;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("isclose", 0);
+  __Pyx_TraceCall("isclose", __pyx_f[0], 22, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
       __pyx_v_rtol = __pyx_optional_args->rtol;
@@ -1345,7 +1621,7 @@ static int __pyx_f_14ms_peak_picker_2_c_15peak_statistics_isclose(__pyx_t_14ms_p
     }
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":14
+  /* "ms_peak_picker\_c\peak_statistics.pyx":23
  * @cython.cdivision(True)
  * cdef bint isclose(DTYPE_t x, DTYPE_t y, DTYPE_t rtol=1.e-5, DTYPE_t atol=1.e-8):
  *     return abs(x-y) <= (atol + rtol * abs(y))             # <<<<<<<<<<<<<<
@@ -1355,7 +1631,7 @@ static int __pyx_f_14ms_peak_picker_2_c_15peak_statistics_isclose(__pyx_t_14ms_p
   __pyx_r = (fabs((__pyx_v_x - __pyx_v_y)) <= (__pyx_v_atol + (__pyx_v_rtol * fabs(__pyx_v_y))));
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":13
+  /* "ms_peak_picker\_c\peak_statistics.pyx":22
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cdef bint isclose(DTYPE_t x, DTYPE_t y, DTYPE_t rtol=1.e-5, DTYPE_t atol=1.e-8):             # <<<<<<<<<<<<<<
@@ -1364,12 +1640,16 @@ static int __pyx_f_14ms_peak_picker_2_c_15peak_statistics_isclose(__pyx_t_14ms_p
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("ms_peak_picker._c.peak_statistics.isclose", __pyx_clineno, __pyx_lineno, __pyx_filename, 0, 0);
+  __pyx_r = 0;
   __pyx_L0:;
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_statistics.pyx":19
+/* "ms_peak_picker\_c\peak_statistics.pyx":28
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cdef bint aboutzero(DTYPE_t x):             # <<<<<<<<<<<<<<
@@ -1379,10 +1659,15 @@ static int __pyx_f_14ms_peak_picker_2_c_15peak_statistics_isclose(__pyx_t_14ms_p
 
 static int __pyx_f_14ms_peak_picker_2_c_15peak_statistics_aboutzero(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_x) {
   int __pyx_r;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("aboutzero", 0);
+  __Pyx_TraceCall("aboutzero", __pyx_f[0], 28, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":20
+  /* "ms_peak_picker\_c\peak_statistics.pyx":29
  * @cython.cdivision(True)
  * cdef bint aboutzero(DTYPE_t x):
  *     return isclose(x, 0)             # <<<<<<<<<<<<<<
@@ -1392,7 +1677,7 @@ static int __pyx_f_14ms_peak_picker_2_c_15peak_statistics_aboutzero(__pyx_t_14ms
   __pyx_r = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_isclose(__pyx_v_x, 0.0, NULL);
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":19
+  /* "ms_peak_picker\_c\peak_statistics.pyx":28
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cdef bint aboutzero(DTYPE_t x):             # <<<<<<<<<<<<<<
@@ -1401,15 +1686,19 @@ static int __pyx_f_14ms_peak_picker_2_c_15peak_statistics_aboutzero(__pyx_t_14ms
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("ms_peak_picker._c.peak_statistics.aboutzero", __pyx_clineno, __pyx_lineno, __pyx_filename, 0, 0);
+  __pyx_r = 0;
   __pyx_L0:;
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_statistics.pyx":26
+/* "ms_peak_picker\_c\peak_statistics.pyx":35
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
- * cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1] intensity_array, size_t index):             # <<<<<<<<<<<<<<
+ * cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array, size_t index):             # <<<<<<<<<<<<<<
  *     cdef:
  *         DTYPE_t min_intensity_left, min_intensity_right
  */
@@ -1423,6 +1712,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __Pyx_LocalBuf_ND __pyx_pybuffernd_intensity_array;
   __Pyx_Buffer __pyx_pybuffer_intensity_array;
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_r;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -1443,17 +1733,18 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("find_signal_to_noise", 0);
+  __Pyx_TraceCall("find_signal_to_noise", __pyx_f[0], 35, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   __pyx_pybuffer_intensity_array.pybuffer.buf = NULL;
   __pyx_pybuffer_intensity_array.refcount = 0;
   __pyx_pybuffernd_intensity_array.data = NULL;
   __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":31
+  /* "ms_peak_picker\_c\peak_statistics.pyx":40
  *         size_t size, i
  * 
  *     min_intensity_left = 0             # <<<<<<<<<<<<<<
@@ -1462,7 +1753,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   __pyx_v_min_intensity_left = 0.0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":32
+  /* "ms_peak_picker\_c\peak_statistics.pyx":41
  * 
  *     min_intensity_left = 0
  *     min_intensity_right = 0             # <<<<<<<<<<<<<<
@@ -1471,7 +1762,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   __pyx_v_min_intensity_right = 0.0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":33
+  /* "ms_peak_picker\_c\peak_statistics.pyx":42
  *     min_intensity_left = 0
  *     min_intensity_right = 0
  *     size = intensity_array.shape[0] - 1             # <<<<<<<<<<<<<<
@@ -1480,7 +1771,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   __pyx_v_size = ((__pyx_v_intensity_array->dimensions[0]) - 1);
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":34
+  /* "ms_peak_picker\_c\peak_statistics.pyx":43
  *     min_intensity_right = 0
  *     size = intensity_array.shape[0] - 1
  *     if aboutzero(target_val):             # <<<<<<<<<<<<<<
@@ -1490,7 +1781,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_t_1 = (__pyx_f_14ms_peak_picker_2_c_15peak_statistics_aboutzero(__pyx_v_target_val) != 0);
   if (__pyx_t_1) {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":35
+    /* "ms_peak_picker\_c\peak_statistics.pyx":44
  *     size = intensity_array.shape[0] - 1
  *     if aboutzero(target_val):
  *         return 0             # <<<<<<<<<<<<<<
@@ -1500,7 +1791,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     __pyx_r = 0.0;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":34
+    /* "ms_peak_picker\_c\peak_statistics.pyx":43
  *     min_intensity_right = 0
  *     size = intensity_array.shape[0] - 1
  *     if aboutzero(target_val):             # <<<<<<<<<<<<<<
@@ -1509,7 +1800,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":36
+  /* "ms_peak_picker\_c\peak_statistics.pyx":45
  *     if aboutzero(target_val):
  *         return 0
  *     if index <= 0 or index >= size:             # <<<<<<<<<<<<<<
@@ -1527,7 +1818,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_L5_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":37
+    /* "ms_peak_picker\_c\peak_statistics.pyx":46
  *         return 0
  *     if index <= 0 or index >= size:
  *         return 0             # <<<<<<<<<<<<<<
@@ -1537,7 +1828,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     __pyx_r = 0.0;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":36
+    /* "ms_peak_picker\_c\peak_statistics.pyx":45
  *     if aboutzero(target_val):
  *         return 0
  *     if index <= 0 or index >= size:             # <<<<<<<<<<<<<<
@@ -1546,7 +1837,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":39
+  /* "ms_peak_picker\_c\peak_statistics.pyx":48
  *         return 0
  * 
  *     for i in range(index, 0, -1):             # <<<<<<<<<<<<<<
@@ -1556,7 +1847,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   for (__pyx_t_3 = __pyx_v_index + 1; __pyx_t_3 > 0 + 1; ) { __pyx_t_3-=1;
     __pyx_v_i = __pyx_t_3;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":40
+    /* "ms_peak_picker\_c\peak_statistics.pyx":49
  * 
  *     for i in range(index, 0, -1):
  *         if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:             # <<<<<<<<<<<<<<
@@ -1565,7 +1856,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
     __pyx_t_4 = (__pyx_v_i + 1);
     __pyx_t_5 = __pyx_v_i;
-    __pyx_t_2 = (((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_4, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) >= (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_5, __pyx_pybuffernd_intensity_array.diminfo[0].strides))) != 0);
+    __pyx_t_2 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_4, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) >= (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_5, __pyx_pybuffernd_intensity_array.diminfo[0].strides))) != 0);
     if (__pyx_t_2) {
     } else {
       __pyx_t_1 = __pyx_t_2;
@@ -1573,12 +1864,12 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
     __pyx_t_6 = (__pyx_v_i - 1);
     __pyx_t_7 = __pyx_v_i;
-    __pyx_t_2 = (((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_6, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_7, __pyx_pybuffernd_intensity_array.diminfo[0].strides))) != 0);
+    __pyx_t_2 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_6, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_7, __pyx_pybuffernd_intensity_array.diminfo[0].strides))) != 0);
     __pyx_t_1 = __pyx_t_2;
     __pyx_L10_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":41
+      /* "ms_peak_picker\_c\peak_statistics.pyx":50
  *     for i in range(index, 0, -1):
  *         if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:
  *             min_intensity_left = intensity_array[i]             # <<<<<<<<<<<<<<
@@ -1586,9 +1877,9 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  *     else:
  */
       __pyx_t_8 = __pyx_v_i;
-      __pyx_v_min_intensity_left = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_8, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+      __pyx_v_min_intensity_left = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_8, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":42
+      /* "ms_peak_picker\_c\peak_statistics.pyx":51
  *         if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:
  *             min_intensity_left = intensity_array[i]
  *             break             # <<<<<<<<<<<<<<
@@ -1597,7 +1888,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
       goto __pyx_L8_break;
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":40
+      /* "ms_peak_picker\_c\peak_statistics.pyx":49
  * 
  *     for i in range(index, 0, -1):
  *         if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:             # <<<<<<<<<<<<<<
@@ -1608,7 +1899,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   }
   /*else*/ {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":44
+    /* "ms_peak_picker\_c\peak_statistics.pyx":53
  *             break
  *     else:
  *         min_intensity_left = intensity_array[0]             # <<<<<<<<<<<<<<
@@ -1617,11 +1908,11 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
     __pyx_t_9 = 0;
     if (__pyx_t_9 < 0) __pyx_t_9 += __pyx_pybuffernd_intensity_array.diminfo[0].shape;
-    __pyx_v_min_intensity_left = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_9, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+    __pyx_v_min_intensity_left = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_9, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
   }
   __pyx_L8_break:;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":46
+  /* "ms_peak_picker\_c\peak_statistics.pyx":55
  *         min_intensity_left = intensity_array[0]
  * 
  *     for i in range(index, size):             # <<<<<<<<<<<<<<
@@ -1632,7 +1923,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   for (__pyx_t_10 = __pyx_v_index; __pyx_t_10 < __pyx_t_3; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":47
+    /* "ms_peak_picker\_c\peak_statistics.pyx":56
  * 
  *     for i in range(index, size):
  *         if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:             # <<<<<<<<<<<<<<
@@ -1641,7 +1932,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
     __pyx_t_11 = (__pyx_v_i + 1);
     __pyx_t_12 = __pyx_v_i;
-    __pyx_t_2 = (((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_11, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) >= (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_intensity_array.diminfo[0].strides))) != 0);
+    __pyx_t_2 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_11, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) >= (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_intensity_array.diminfo[0].strides))) != 0);
     if (__pyx_t_2) {
     } else {
       __pyx_t_1 = __pyx_t_2;
@@ -1649,12 +1940,12 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
     __pyx_t_13 = (__pyx_v_i - 1);
     __pyx_t_14 = __pyx_v_i;
-    __pyx_t_2 = (((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_14, __pyx_pybuffernd_intensity_array.diminfo[0].strides))) != 0);
+    __pyx_t_2 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_14, __pyx_pybuffernd_intensity_array.diminfo[0].strides))) != 0);
     __pyx_t_1 = __pyx_t_2;
     __pyx_L15_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":48
+      /* "ms_peak_picker\_c\peak_statistics.pyx":57
  *     for i in range(index, size):
  *         if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:
  *             min_intensity_right = intensity_array[i]             # <<<<<<<<<<<<<<
@@ -1662,9 +1953,9 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  *     else:
  */
       __pyx_t_15 = __pyx_v_i;
-      __pyx_v_min_intensity_right = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+      __pyx_v_min_intensity_right = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":49
+      /* "ms_peak_picker\_c\peak_statistics.pyx":58
  *         if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:
  *             min_intensity_right = intensity_array[i]
  *             break             # <<<<<<<<<<<<<<
@@ -1673,7 +1964,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
       goto __pyx_L13_break;
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":47
+      /* "ms_peak_picker\_c\peak_statistics.pyx":56
  * 
  *     for i in range(index, size):
  *         if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:             # <<<<<<<<<<<<<<
@@ -1684,7 +1975,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   }
   /*else*/ {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":51
+    /* "ms_peak_picker\_c\peak_statistics.pyx":60
  *             break
  *     else:
  *         min_intensity_right = intensity_array[size]             # <<<<<<<<<<<<<<
@@ -1692,11 +1983,11 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  *     if aboutzero(min_intensity_left):
  */
     __pyx_t_10 = __pyx_v_size;
-    __pyx_v_min_intensity_right = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_10, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+    __pyx_v_min_intensity_right = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_10, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
   }
   __pyx_L13_break:;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":53
+  /* "ms_peak_picker\_c\peak_statistics.pyx":62
  *         min_intensity_right = intensity_array[size]
  * 
  *     if aboutzero(min_intensity_left):             # <<<<<<<<<<<<<<
@@ -1706,7 +1997,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_t_1 = (__pyx_f_14ms_peak_picker_2_c_15peak_statistics_aboutzero(__pyx_v_min_intensity_left) != 0);
   if (__pyx_t_1) {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":54
+    /* "ms_peak_picker\_c\peak_statistics.pyx":63
  * 
  *     if aboutzero(min_intensity_left):
  *         if aboutzero(min_intensity_right):             # <<<<<<<<<<<<<<
@@ -1716,7 +2007,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     __pyx_t_1 = (__pyx_f_14ms_peak_picker_2_c_15peak_statistics_aboutzero(__pyx_v_min_intensity_right) != 0);
     if (__pyx_t_1) {
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":55
+      /* "ms_peak_picker\_c\peak_statistics.pyx":64
  *     if aboutzero(min_intensity_left):
  *         if aboutzero(min_intensity_right):
  *             return 100             # <<<<<<<<<<<<<<
@@ -1726,7 +2017,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       __pyx_r = 100.0;
       goto __pyx_L0;
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":54
+      /* "ms_peak_picker\_c\peak_statistics.pyx":63
  * 
  *     if aboutzero(min_intensity_left):
  *         if aboutzero(min_intensity_right):             # <<<<<<<<<<<<<<
@@ -1735,7 +2026,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
     }
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":57
+    /* "ms_peak_picker\_c\peak_statistics.pyx":66
  *             return 100
  *         else:
  *             return target_val / min_intensity_right             # <<<<<<<<<<<<<<
@@ -1747,7 +2038,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       goto __pyx_L0;
     }
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":53
+    /* "ms_peak_picker\_c\peak_statistics.pyx":62
  *         min_intensity_right = intensity_array[size]
  * 
  *     if aboutzero(min_intensity_left):             # <<<<<<<<<<<<<<
@@ -1756,7 +2047,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":59
+  /* "ms_peak_picker\_c\peak_statistics.pyx":68
  *             return target_val / min_intensity_right
  * 
  *     if min_intensity_right < min_intensity_left and not aboutzero(min_intensity_right):             # <<<<<<<<<<<<<<
@@ -1774,7 +2065,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_L20_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":60
+    /* "ms_peak_picker\_c\peak_statistics.pyx":69
  * 
  *     if min_intensity_right < min_intensity_left and not aboutzero(min_intensity_right):
  *         return target_val / min_intensity_right             # <<<<<<<<<<<<<<
@@ -1784,7 +2075,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     __pyx_r = (__pyx_v_target_val / __pyx_v_min_intensity_right);
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":59
+    /* "ms_peak_picker\_c\peak_statistics.pyx":68
  *             return target_val / min_intensity_right
  * 
  *     if min_intensity_right < min_intensity_left and not aboutzero(min_intensity_right):             # <<<<<<<<<<<<<<
@@ -1793,7 +2084,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":61
+  /* "ms_peak_picker\_c\peak_statistics.pyx":70
  *     if min_intensity_right < min_intensity_left and not aboutzero(min_intensity_right):
  *         return target_val / min_intensity_right
  *     return target_val / min_intensity_left             # <<<<<<<<<<<<<<
@@ -1803,10 +2094,10 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_r = (__pyx_v_target_val / __pyx_v_min_intensity_left);
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":26
+  /* "ms_peak_picker\_c\peak_statistics.pyx":35
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
- * cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1] intensity_array, size_t index):             # <<<<<<<<<<<<<<
+ * cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array, size_t index):             # <<<<<<<<<<<<<<
  *     cdef:
  *         DTYPE_t min_intensity_left, min_intensity_right
  */
@@ -1823,6 +2114,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_L0:;
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
   __pyx_L2:;
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -1860,16 +2152,16 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_1find_signal_to
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_intensity_array)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_signal_to_noise", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("find_signal_to_noise", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_signal_to_noise", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("find_signal_to_noise", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_signal_to_noise") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_signal_to_noise") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -1878,19 +2170,19 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_1find_signal_to
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_target_val = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_target_val == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_target_val = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_target_val == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_intensity_array = ((PyArrayObject *)values[1]);
-    __pyx_v_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("find_signal_to_noise", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("find_signal_to_noise", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.peak_statistics.find_signal_to_noise", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_intensity_array), __pyx_ptype_5numpy_ndarray, 1, "intensity_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_intensity_array), __pyx_ptype_5numpy_ndarray, 1, "intensity_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_14ms_peak_picker_2_c_15peak_statistics_find_signal_to_noise(__pyx_self, __pyx_v_target_val, __pyx_v_intensity_array, __pyx_v_index);
 
   /* function exit code */
@@ -1906,23 +2198,25 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_find_signal_to_
   __Pyx_LocalBuf_ND __pyx_pybuffernd_intensity_array;
   __Pyx_Buffer __pyx_pybuffer_intensity_array;
   PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("find_signal_to_noise", 0);
+  __Pyx_TraceCall("find_signal_to_noise", __pyx_f[0], 35, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   __pyx_pybuffer_intensity_array.pybuffer.buf = NULL;
   __pyx_pybuffer_intensity_array.refcount = 0;
   __pyx_pybuffernd_intensity_array.data = NULL;
   __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_signal_to_noise(__pyx_v_target_val, ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_index, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_signal_to_noise(__pyx_v_target_val, ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_index, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1942,15 +2236,16 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_find_signal_to_
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_statistics.pyx":67
+/* "ms_peak_picker\_c\peak_statistics.pyx":76
  * @cython.cdivision(True)
  * @cython.boundscheck(False)
- * cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1] x, np.ndarray[DTYPE_t, ndim=1] y, size_t n,             # <<<<<<<<<<<<<<
- *                         np.ndarray[DTYPE_t, ndim=1] terms, size_t nterms):
+ * cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1, mode='c'] x, np.ndarray[DTYPE_t, ndim=1, mode='c'] y, size_t n,             # <<<<<<<<<<<<<<
+ *                         np.ndarray[DTYPE_t, ndim=1, mode='c'] terms, size_t nterms):
  *     cdef:
  */
 
@@ -1995,6 +2290,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __Pyx_LocalBuf_ND __pyx_pybuffernd_y;
   __Pyx_Buffer __pyx_pybuffer_y;
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_r;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -2044,6 +2340,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("curve_reg", 0);
+  __Pyx_TraceCall("curve_reg", __pyx_f[0], 76, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   __pyx_pybuffer_weights.pybuffer.buf = NULL;
   __pyx_pybuffer_weights.refcount = 0;
   __pyx_pybuffernd_weights.data = NULL;
@@ -2094,33 +2391,33 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_pybuffernd_terms.rcbuffer = &__pyx_pybuffer_terms;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_x.rcbuffer->pybuffer, (PyObject*)__pyx_v_x, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_x.rcbuffer->pybuffer, (PyObject*)__pyx_v_x, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_x.diminfo[0].strides = __pyx_pybuffernd_x.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_x.diminfo[0].shape = __pyx_pybuffernd_x.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_y.rcbuffer->pybuffer, (PyObject*)__pyx_v_y, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_y.rcbuffer->pybuffer, (PyObject*)__pyx_v_y, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_y.diminfo[0].strides = __pyx_pybuffernd_y.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_y.diminfo[0].shape = __pyx_pybuffernd_y.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_terms.rcbuffer->pybuffer, (PyObject*)__pyx_v_terms, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_terms.rcbuffer->pybuffer, (PyObject*)__pyx_v_terms, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_terms.diminfo[0].strides = __pyx_pybuffernd_terms.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_terms.diminfo[0].shape = __pyx_pybuffernd_terms.rcbuffer->pybuffer.shape[0];
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":76
+  /* "ms_peak_picker\_c\peak_statistics.pyx":85
  *         size_t i, j
  * 
  *     weights = np.ones(n)             # <<<<<<<<<<<<<<
  * 
  *     # Weighted powers of x transposed
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ones); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ones); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -2133,22 +2430,22 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_6 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2164,29 +2461,29 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       }
     }
     __pyx_pybuffernd_weights.diminfo[0].strides = __pyx_pybuffernd_weights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_weights.diminfo[0].shape = __pyx_pybuffernd_weights.rcbuffer->pybuffer.shape[0];
-    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_6 = 0;
   __pyx_v_weights = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":80
+  /* "ms_peak_picker\_c\peak_statistics.pyx":89
  *     # Weighted powers of x transposed
  *     # Like Vandermonte Matrix?
  *     At = np.zeros((nterms + 1, n))             # <<<<<<<<<<<<<<
  *     for i in range(n):
  *         At[0, i] = weights[i]
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_FromSize_t((__pyx_v_nterms + 1)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t((__pyx_v_nterms + 1)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
@@ -2205,22 +2502,22 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2); __pyx_t_2 = NULL;
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_11 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2236,13 +2533,13 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       }
     }
     __pyx_pybuffernd_At.diminfo[0].strides = __pyx_pybuffernd_At.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_At.diminfo[0].shape = __pyx_pybuffernd_At.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_At.diminfo[1].strides = __pyx_pybuffernd_At.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_At.diminfo[1].shape = __pyx_pybuffernd_At.rcbuffer->pybuffer.shape[1];
-    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_11 = 0;
   __pyx_v_At = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":81
+  /* "ms_peak_picker\_c\peak_statistics.pyx":90
  *     # Like Vandermonte Matrix?
  *     At = np.zeros((nterms + 1, n))
  *     for i in range(n):             # <<<<<<<<<<<<<<
@@ -2253,7 +2550,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
     __pyx_v_i = __pyx_t_13;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":82
+    /* "ms_peak_picker\_c\peak_statistics.pyx":91
  *     At = np.zeros((nterms + 1, n))
  *     for i in range(n):
  *         At[0, i] = weights[i]             # <<<<<<<<<<<<<<
@@ -2266,7 +2563,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     if (__pyx_t_15 < 0) __pyx_t_15 += __pyx_pybuffernd_At.diminfo[0].shape;
     *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_At.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_At.diminfo[0].strides, __pyx_t_16, __pyx_pybuffernd_At.diminfo[1].strides) = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_weights.rcbuffer->pybuffer.buf, __pyx_t_14, __pyx_pybuffernd_weights.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":83
+    /* "ms_peak_picker\_c\peak_statistics.pyx":92
  *     for i in range(n):
  *         At[0, i] = weights[i]
  *         for j in range(1, nterms + 1):             # <<<<<<<<<<<<<<
@@ -2277,7 +2574,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     for (__pyx_t_18 = 1; __pyx_t_18 < __pyx_t_17; __pyx_t_18+=1) {
       __pyx_v_j = __pyx_t_18;
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":84
+      /* "ms_peak_picker\_c\peak_statistics.pyx":93
  *         At[0, i] = weights[i]
  *         for j in range(1, nterms + 1):
  *             At[j, i] = At[j - 1, i] * x[i]             # <<<<<<<<<<<<<<
@@ -2289,25 +2586,25 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       __pyx_t_21 = __pyx_v_i;
       __pyx_t_22 = __pyx_v_j;
       __pyx_t_23 = __pyx_v_i;
-      *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_At.rcbuffer->pybuffer.buf, __pyx_t_22, __pyx_pybuffernd_At.diminfo[0].strides, __pyx_t_23, __pyx_pybuffernd_At.diminfo[1].strides) = ((*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_At.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_At.diminfo[0].strides, __pyx_t_20, __pyx_pybuffernd_At.diminfo[1].strides)) * (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_x.rcbuffer->pybuffer.buf, __pyx_t_21, __pyx_pybuffernd_x.diminfo[0].strides)));
+      *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_At.rcbuffer->pybuffer.buf, __pyx_t_22, __pyx_pybuffernd_At.diminfo[0].strides, __pyx_t_23, __pyx_pybuffernd_At.diminfo[1].strides) = ((*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_At.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_At.diminfo[0].strides, __pyx_t_20, __pyx_pybuffernd_At.diminfo[1].strides)) * (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_x.rcbuffer->pybuffer.buf, __pyx_t_21, __pyx_pybuffernd_x.diminfo[0].strides)));
     }
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":86
+  /* "ms_peak_picker\_c\peak_statistics.pyx":95
  *             At[j, i] = At[j - 1, i] * x[i]
  * 
  *     Z = np.zeros((n, 1))             # <<<<<<<<<<<<<<
  *     for i in range(n):
  *         Z[i, 0] = weights[i] * y[i]
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
@@ -2326,22 +2623,22 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_5); __pyx_t_5 = NULL;
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_11 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2357,13 +2654,13 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       }
     }
     __pyx_pybuffernd_Z.diminfo[0].strides = __pyx_pybuffernd_Z.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Z.diminfo[0].shape = __pyx_pybuffernd_Z.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_Z.diminfo[1].strides = __pyx_pybuffernd_Z.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_Z.diminfo[1].shape = __pyx_pybuffernd_Z.rcbuffer->pybuffer.shape[1];
-    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_11 = 0;
   __pyx_v_Z = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":87
+  /* "ms_peak_picker\_c\peak_statistics.pyx":96
  * 
  *     Z = np.zeros((n, 1))
  *     for i in range(n):             # <<<<<<<<<<<<<<
@@ -2374,7 +2671,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
     __pyx_v_i = __pyx_t_13;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":88
+    /* "ms_peak_picker\_c\peak_statistics.pyx":97
  *     Z = np.zeros((n, 1))
  *     for i in range(n):
  *         Z[i, 0] = weights[i] * y[i]             # <<<<<<<<<<<<<<
@@ -2386,19 +2683,19 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     __pyx_t_24 = __pyx_v_i;
     __pyx_t_25 = 0;
     if (__pyx_t_25 < 0) __pyx_t_25 += __pyx_pybuffernd_Z.diminfo[1].shape;
-    *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_Z.rcbuffer->pybuffer.buf, __pyx_t_24, __pyx_pybuffernd_Z.diminfo[0].strides, __pyx_t_25, __pyx_pybuffernd_Z.diminfo[1].strides) = ((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_weights.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_weights.diminfo[0].strides)) * (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_y.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_y.diminfo[0].strides)));
+    *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_Z.rcbuffer->pybuffer.buf, __pyx_t_24, __pyx_pybuffernd_Z.diminfo[0].strides, __pyx_t_25, __pyx_pybuffernd_Z.diminfo[1].strides) = ((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_weights.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_weights.diminfo[0].strides)) * (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_y.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_y.diminfo[0].strides)));
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":90
+  /* "ms_peak_picker\_c\peak_statistics.pyx":99
  *         Z[i, 0] = weights[i] * y[i]
  * 
  *     At_T = At.T             # <<<<<<<<<<<<<<
  *     At_At_T = At.dot(At_T)
  *     I_At_At_T = np.linalg.inv(At_At_T)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_At), __pyx_n_s_T); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_At), __pyx_n_s_T); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_11 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2414,20 +2711,20 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       }
     }
     __pyx_pybuffernd_At_T.diminfo[0].strides = __pyx_pybuffernd_At_T.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_At_T.diminfo[0].shape = __pyx_pybuffernd_At_T.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_At_T.diminfo[1].strides = __pyx_pybuffernd_At_T.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_At_T.diminfo[1].shape = __pyx_pybuffernd_At_T.rcbuffer->pybuffer.shape[1];
-    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_11 = 0;
   __pyx_v_At_T = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":91
+  /* "ms_peak_picker\_c\peak_statistics.pyx":100
  * 
  *     At_T = At.T
  *     At_At_T = At.dot(At_T)             # <<<<<<<<<<<<<<
  *     I_At_At_T = np.linalg.inv(At_At_T)
  *     At_Ai_At = I_At_At_T.dot(At)
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_At), __pyx_n_s_dot); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_At), __pyx_n_s_dot); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -2440,21 +2737,21 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_At_T)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_At_T)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
     __Pyx_INCREF(((PyObject *)__pyx_v_At_T));
     __Pyx_GIVEREF(((PyObject *)__pyx_v_At_T));
     PyTuple_SET_ITEM(__pyx_t_4, 0+1, ((PyObject *)__pyx_v_At_T));
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_11 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2470,25 +2767,25 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       }
     }
     __pyx_pybuffernd_At_At_T.diminfo[0].strides = __pyx_pybuffernd_At_At_T.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_At_At_T.diminfo[0].shape = __pyx_pybuffernd_At_At_T.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_At_At_T.diminfo[1].strides = __pyx_pybuffernd_At_At_T.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_At_At_T.diminfo[1].shape = __pyx_pybuffernd_At_At_T.rcbuffer->pybuffer.shape[1];
-    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_11 = 0;
   __pyx_v_At_At_T = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":92
+  /* "ms_peak_picker\_c\peak_statistics.pyx":101
  *     At_T = At.T
  *     At_At_T = At.dot(At_T)
  *     I_At_At_T = np.linalg.inv(At_At_T)             # <<<<<<<<<<<<<<
  *     At_Ai_At = I_At_At_T.dot(At)
  *     B = At_Ai_At.dot(Z)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_linalg); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_linalg); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_inv); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_inv); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -2502,21 +2799,21 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_At_At_T)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_At_At_T)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4); __pyx_t_4 = NULL;
     __Pyx_INCREF(((PyObject *)__pyx_v_At_At_T));
     __Pyx_GIVEREF(((PyObject *)__pyx_v_At_At_T));
     PyTuple_SET_ITEM(__pyx_t_2, 0+1, ((PyObject *)__pyx_v_At_At_T));
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_11 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2532,20 +2829,20 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       }
     }
     __pyx_pybuffernd_I_At_At_T.diminfo[0].strides = __pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_I_At_At_T.diminfo[0].shape = __pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_I_At_At_T.diminfo[1].strides = __pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_I_At_At_T.diminfo[1].shape = __pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer.shape[1];
-    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_11 = 0;
   __pyx_v_I_At_At_T = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":93
+  /* "ms_peak_picker\_c\peak_statistics.pyx":102
  *     At_At_T = At.dot(At_T)
  *     I_At_At_T = np.linalg.inv(At_At_T)
  *     At_Ai_At = I_At_At_T.dot(At)             # <<<<<<<<<<<<<<
  *     B = At_Ai_At.dot(Z)
  *     mse = 0
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_I_At_At_T), __pyx_n_s_dot); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_I_At_At_T), __pyx_n_s_dot); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -2558,21 +2855,21 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_At)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_At)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
     __Pyx_INCREF(((PyObject *)__pyx_v_At));
     __Pyx_GIVEREF(((PyObject *)__pyx_v_At));
     PyTuple_SET_ITEM(__pyx_t_4, 0+1, ((PyObject *)__pyx_v_At));
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_11 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2588,20 +2885,20 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       }
     }
     __pyx_pybuffernd_At_Ai_At.diminfo[0].strides = __pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_At_Ai_At.diminfo[0].shape = __pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_At_Ai_At.diminfo[1].strides = __pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_At_Ai_At.diminfo[1].shape = __pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer.shape[1];
-    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_11 = 0;
   __pyx_v_At_Ai_At = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":94
+  /* "ms_peak_picker\_c\peak_statistics.pyx":103
  *     I_At_At_T = np.linalg.inv(At_At_T)
  *     At_Ai_At = I_At_At_T.dot(At)
  *     B = At_Ai_At.dot(Z)             # <<<<<<<<<<<<<<
  *     mse = 0
  *     out = np.zeros((2, n))
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_At_Ai_At), __pyx_n_s_dot); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_At_Ai_At), __pyx_n_s_dot); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -2614,21 +2911,21 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Z)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Z)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4); __pyx_t_4 = NULL;
     __Pyx_INCREF(((PyObject *)__pyx_v_Z));
     __Pyx_GIVEREF(((PyObject *)__pyx_v_Z));
     PyTuple_SET_ITEM(__pyx_t_2, 0+1, ((PyObject *)__pyx_v_Z));
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_26 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2644,13 +2941,13 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       }
     }
     __pyx_pybuffernd_B.diminfo[0].strides = __pyx_pybuffernd_B.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_B.diminfo[0].shape = __pyx_pybuffernd_B.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_B.diminfo[1].strides = __pyx_pybuffernd_B.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_B.diminfo[1].shape = __pyx_pybuffernd_B.rcbuffer->pybuffer.shape[1];
-    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_26 = 0;
   __pyx_v_B = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":95
+  /* "ms_peak_picker\_c\peak_statistics.pyx":104
  *     At_Ai_At = I_At_At_T.dot(At)
  *     B = At_Ai_At.dot(Z)
  *     mse = 0             # <<<<<<<<<<<<<<
@@ -2659,21 +2956,21 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   __pyx_v_mse = 0.0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":96
+  /* "ms_peak_picker\_c\peak_statistics.pyx":105
  *     B = At_Ai_At.dot(Z)
  *     mse = 0
  *     out = np.zeros((2, n))             # <<<<<<<<<<<<<<
  *     for i in range(n):
  *         terms[0] = B[0, 0]
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(__pyx_int_2);
   __Pyx_GIVEREF(__pyx_int_2);
@@ -2692,22 +2989,22 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_26 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2723,13 +3020,13 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       }
     }
     __pyx_pybuffernd_out.diminfo[0].strides = __pyx_pybuffernd_out.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out.diminfo[0].shape = __pyx_pybuffernd_out.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_out.diminfo[1].strides = __pyx_pybuffernd_out.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_out.diminfo[1].shape = __pyx_pybuffernd_out.rcbuffer->pybuffer.shape[1];
-    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_26 = 0;
   __pyx_v_out = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":97
+  /* "ms_peak_picker\_c\peak_statistics.pyx":106
  *     mse = 0
  *     out = np.zeros((2, n))
  *     for i in range(n):             # <<<<<<<<<<<<<<
@@ -2740,7 +3037,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
     __pyx_v_i = __pyx_t_13;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":98
+    /* "ms_peak_picker\_c\peak_statistics.pyx":107
  *     out = np.zeros((2, n))
  *     for i in range(n):
  *         terms[0] = B[0, 0]             # <<<<<<<<<<<<<<
@@ -2753,9 +3050,9 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     if (__pyx_t_28 < 0) __pyx_t_28 += __pyx_pybuffernd_B.diminfo[1].shape;
     __pyx_t_29 = 0;
     if (__pyx_t_29 < 0) __pyx_t_29 += __pyx_pybuffernd_terms.diminfo[0].shape;
-    *__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_terms.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_terms.diminfo[0].strides) = (*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_B.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_B.diminfo[0].strides, __pyx_t_28, __pyx_pybuffernd_B.diminfo[1].strides));
+    *__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_terms.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_terms.diminfo[0].strides) = (*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_B.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_B.diminfo[0].strides, __pyx_t_28, __pyx_pybuffernd_B.diminfo[1].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":99
+    /* "ms_peak_picker\_c\peak_statistics.pyx":108
  *     for i in range(n):
  *         terms[0] = B[0, 0]
  *         yfit = B[0, 0]             # <<<<<<<<<<<<<<
@@ -2768,7 +3065,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     if (__pyx_t_31 < 0) __pyx_t_31 += __pyx_pybuffernd_B.diminfo[1].shape;
     __pyx_v_yfit = (*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_B.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_B.diminfo[0].strides, __pyx_t_31, __pyx_pybuffernd_B.diminfo[1].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":100
+    /* "ms_peak_picker\_c\peak_statistics.pyx":109
  *         terms[0] = B[0, 0]
  *         yfit = B[0, 0]
  *         xpow = x[i]             # <<<<<<<<<<<<<<
@@ -2776,9 +3073,9 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  *             terms[j] = B[j, 0]
  */
     __pyx_t_32 = __pyx_v_i;
-    __pyx_v_xpow = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_x.rcbuffer->pybuffer.buf, __pyx_t_32, __pyx_pybuffernd_x.diminfo[0].strides));
+    __pyx_v_xpow = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_x.rcbuffer->pybuffer.buf, __pyx_t_32, __pyx_pybuffernd_x.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":101
+    /* "ms_peak_picker\_c\peak_statistics.pyx":110
  *         yfit = B[0, 0]
  *         xpow = x[i]
  *         for j in range(1, nterms):             # <<<<<<<<<<<<<<
@@ -2789,7 +3086,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     for (__pyx_t_34 = 1; __pyx_t_34 < __pyx_t_33; __pyx_t_34+=1) {
       __pyx_v_j = __pyx_t_34;
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":102
+      /* "ms_peak_picker\_c\peak_statistics.pyx":111
  *         xpow = x[i]
  *         for j in range(1, nterms):
  *             terms[j] = B[j, 0]             # <<<<<<<<<<<<<<
@@ -2800,9 +3097,9 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       __pyx_t_36 = 0;
       if (__pyx_t_36 < 0) __pyx_t_36 += __pyx_pybuffernd_B.diminfo[1].shape;
       __pyx_t_37 = __pyx_v_j;
-      *__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_terms.rcbuffer->pybuffer.buf, __pyx_t_37, __pyx_pybuffernd_terms.diminfo[0].strides) = (*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_B.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_B.diminfo[0].strides, __pyx_t_36, __pyx_pybuffernd_B.diminfo[1].strides));
+      *__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_terms.rcbuffer->pybuffer.buf, __pyx_t_37, __pyx_pybuffernd_terms.diminfo[0].strides) = (*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_B.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_B.diminfo[0].strides, __pyx_t_36, __pyx_pybuffernd_B.diminfo[1].strides));
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":103
+      /* "ms_peak_picker\_c\peak_statistics.pyx":112
  *         for j in range(1, nterms):
  *             terms[j] = B[j, 0]
  *             yfit += B[j, 0] * xpow             # <<<<<<<<<<<<<<
@@ -2814,7 +3111,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       if (__pyx_t_39 < 0) __pyx_t_39 += __pyx_pybuffernd_B.diminfo[1].shape;
       __pyx_v_yfit = (__pyx_v_yfit + ((*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_B.rcbuffer->pybuffer.buf, __pyx_t_38, __pyx_pybuffernd_B.diminfo[0].strides, __pyx_t_39, __pyx_pybuffernd_B.diminfo[1].strides)) * __pyx_v_xpow));
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":104
+      /* "ms_peak_picker\_c\peak_statistics.pyx":113
  *             terms[j] = B[j, 0]
  *             yfit += B[j, 0] * xpow
  *             xpow = xpow * x[i]             # <<<<<<<<<<<<<<
@@ -2822,10 +3119,10 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  *         out[1, i] = y[i] - yfit
  */
       __pyx_t_40 = __pyx_v_i;
-      __pyx_v_xpow = (__pyx_v_xpow * (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_x.rcbuffer->pybuffer.buf, __pyx_t_40, __pyx_pybuffernd_x.diminfo[0].strides)));
+      __pyx_v_xpow = (__pyx_v_xpow * (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_x.rcbuffer->pybuffer.buf, __pyx_t_40, __pyx_pybuffernd_x.diminfo[0].strides)));
     }
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":105
+    /* "ms_peak_picker\_c\peak_statistics.pyx":114
  *             yfit += B[j, 0] * xpow
  *             xpow = xpow * x[i]
  *         out[0, i] = yfit             # <<<<<<<<<<<<<<
@@ -2837,7 +3134,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     if (__pyx_t_41 < 0) __pyx_t_41 += __pyx_pybuffernd_out.diminfo[0].shape;
     *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_out.rcbuffer->pybuffer.buf, __pyx_t_41, __pyx_pybuffernd_out.diminfo[0].strides, __pyx_t_33, __pyx_pybuffernd_out.diminfo[1].strides) = __pyx_v_yfit;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":106
+    /* "ms_peak_picker\_c\peak_statistics.pyx":115
  *             xpow = xpow * x[i]
  *         out[0, i] = yfit
  *         out[1, i] = y[i] - yfit             # <<<<<<<<<<<<<<
@@ -2848,9 +3145,9 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     __pyx_t_42 = 1;
     __pyx_t_43 = __pyx_v_i;
     if (__pyx_t_42 < 0) __pyx_t_42 += __pyx_pybuffernd_out.diminfo[0].shape;
-    *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_out.rcbuffer->pybuffer.buf, __pyx_t_42, __pyx_pybuffernd_out.diminfo[0].strides, __pyx_t_43, __pyx_pybuffernd_out.diminfo[1].strides) = ((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_y.rcbuffer->pybuffer.buf, __pyx_t_34, __pyx_pybuffernd_y.diminfo[0].strides)) - __pyx_v_yfit);
+    *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_out.rcbuffer->pybuffer.buf, __pyx_t_42, __pyx_pybuffernd_out.diminfo[0].strides, __pyx_t_43, __pyx_pybuffernd_out.diminfo[1].strides) = ((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_y.rcbuffer->pybuffer.buf, __pyx_t_34, __pyx_pybuffernd_y.diminfo[0].strides)) - __pyx_v_yfit);
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":107
+    /* "ms_peak_picker\_c\peak_statistics.pyx":116
  *         out[0, i] = yfit
  *         out[1, i] = y[i] - yfit
  *         mse += y[i]-yfit             # <<<<<<<<<<<<<<
@@ -2858,10 +3155,10 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  * 
  */
     __pyx_t_44 = __pyx_v_i;
-    __pyx_v_mse = (__pyx_v_mse + ((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_y.rcbuffer->pybuffer.buf, __pyx_t_44, __pyx_pybuffernd_y.diminfo[0].strides)) - __pyx_v_yfit));
+    __pyx_v_mse = (__pyx_v_mse + ((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_y.rcbuffer->pybuffer.buf, __pyx_t_44, __pyx_pybuffernd_y.diminfo[0].strides)) - __pyx_v_yfit));
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":108
+  /* "ms_peak_picker\_c\peak_statistics.pyx":117
  *         out[1, i] = y[i] - yfit
  *         mse += y[i]-yfit
  *     return mse             # <<<<<<<<<<<<<<
@@ -2871,11 +3168,11 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_r = __pyx_v_mse;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":67
+  /* "ms_peak_picker\_c\peak_statistics.pyx":76
  * @cython.cdivision(True)
  * @cython.boundscheck(False)
- * cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1] x, np.ndarray[DTYPE_t, ndim=1] y, size_t n,             # <<<<<<<<<<<<<<
- *                         np.ndarray[DTYPE_t, ndim=1] terms, size_t nterms):
+ * cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1, mode='c'] x, np.ndarray[DTYPE_t, ndim=1, mode='c'] y, size_t n,             # <<<<<<<<<<<<<<
+ *                         np.ndarray[DTYPE_t, ndim=1, mode='c'] terms, size_t nterms):
  *     cdef:
  */
 
@@ -2927,6 +3224,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __Pyx_XDECREF((PyObject *)__pyx_v_At_Ai_At);
   __Pyx_XDECREF((PyObject *)__pyx_v_B);
   __Pyx_XDECREF((PyObject *)__pyx_v_out);
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -2968,26 +3266,26 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_3curve_reg(PyOb
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("curve_reg", 1, 5, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("curve_reg", 1, 5, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_n)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("curve_reg", 1, 5, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("curve_reg", 1, 5, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_terms)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("curve_reg", 1, 5, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("curve_reg", 1, 5, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nterms)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("curve_reg", 1, 5, 5, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("curve_reg", 1, 5, 5, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "curve_reg") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "curve_reg") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
       goto __pyx_L5_argtuple_error;
@@ -3000,21 +3298,21 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_3curve_reg(PyOb
     }
     __pyx_v_x = ((PyArrayObject *)values[0]);
     __pyx_v_y = ((PyArrayObject *)values[1]);
-    __pyx_v_n = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_n == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_n = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_n == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_terms = ((PyArrayObject *)values[3]);
-    __pyx_v_nterms = __Pyx_PyInt_As_size_t(values[4]); if (unlikely((__pyx_v_nterms == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_nterms = __Pyx_PyInt_As_size_t(values[4]); if (unlikely((__pyx_v_nterms == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("curve_reg", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("curve_reg", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.peak_statistics.curve_reg", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), __pyx_ptype_5numpy_ndarray, 1, "x", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_5numpy_ndarray, 1, "y", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_terms), __pyx_ptype_5numpy_ndarray, 1, "terms", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), __pyx_ptype_5numpy_ndarray, 1, "x", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_5numpy_ndarray, 1, "y", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_terms), __pyx_ptype_5numpy_ndarray, 1, "terms", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_14ms_peak_picker_2_c_15peak_statistics_2curve_reg(__pyx_self, __pyx_v_x, __pyx_v_y, __pyx_v_n, __pyx_v_terms, __pyx_v_nterms);
 
   /* function exit code */
@@ -3034,12 +3332,14 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_2curve_reg(CYTH
   __Pyx_LocalBuf_ND __pyx_pybuffernd_y;
   __Pyx_Buffer __pyx_pybuffer_y;
   PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("curve_reg", 0);
+  __Pyx_TraceCall("curve_reg", __pyx_f[0], 76, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   __pyx_pybuffer_x.pybuffer.buf = NULL;
   __pyx_pybuffer_x.refcount = 0;
   __pyx_pybuffernd_x.data = NULL;
@@ -3054,21 +3354,21 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_2curve_reg(CYTH
   __pyx_pybuffernd_terms.rcbuffer = &__pyx_pybuffer_terms;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_x.rcbuffer->pybuffer, (PyObject*)__pyx_v_x, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_x.rcbuffer->pybuffer, (PyObject*)__pyx_v_x, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_x.diminfo[0].strides = __pyx_pybuffernd_x.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_x.diminfo[0].shape = __pyx_pybuffernd_x.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_y.rcbuffer->pybuffer, (PyObject*)__pyx_v_y, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_y.rcbuffer->pybuffer, (PyObject*)__pyx_v_y, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_y.diminfo[0].strides = __pyx_pybuffernd_y.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_y.diminfo[0].shape = __pyx_pybuffernd_y.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_terms.rcbuffer->pybuffer, (PyObject*)__pyx_v_terms, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_terms.rcbuffer->pybuffer, (PyObject*)__pyx_v_terms, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_terms.diminfo[0].strides = __pyx_pybuffernd_terms.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_terms.diminfo[0].shape = __pyx_pybuffernd_terms.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg(((PyArrayObject *)__pyx_v_x), ((PyArrayObject *)__pyx_v_y), __pyx_v_n, ((PyArrayObject *)__pyx_v_terms), __pyx_v_nterms, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg(__pyx_v_x, __pyx_v_y, __pyx_v_n, __pyx_v_terms, __pyx_v_nterms, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3092,21 +3392,972 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_2curve_reg(CYTH
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_y.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_statistics.pyx":114
+/* "ms_peak_picker\_c\peak_statistics.pyx":124
  * @cython.cdivision(True)
  * @cython.boundscheck(False)
- * cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array,             # <<<<<<<<<<<<<<
- *                                           size_t data_index, double signal_to_noise=0.):
+ * cdef DTYPE_t curve_reg_dv(DoubleVector* x, DoubleVector* y, size_t n,             # <<<<<<<<<<<<<<
+ *                         np.ndarray[DTYPE_t, ndim=1, mode='c'] terms, size_t nterms):
  *     cdef:
  */
 
-static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_full_width_at_half_max(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_half_max(PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_half_max *__pyx_optional_args) {
-  double __pyx_v_signal_to_noise = ((double)0.);
+static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg_dv(struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *__pyx_v_x, struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *__pyx_v_y, size_t __pyx_v_n, PyArrayObject *__pyx_v_terms, size_t __pyx_v_nterms) {
+  PyArrayObject *__pyx_v_weights = 0;
+  PyArrayObject *__pyx_v_At = 0;
+  PyArrayObject *__pyx_v_Z = 0;
+  PyArrayObject *__pyx_v_At_Ai_At = 0;
+  PyArrayObject *__pyx_v_At_T = 0;
+  PyArrayObject *__pyx_v_At_At_T = 0;
+  PyArrayObject *__pyx_v_I_At_At_T = 0;
+  PyArrayObject *__pyx_v_B = 0;
+  PyArrayObject *__pyx_v_out = 0;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_mse;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_yfit;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_xpow;
+  size_t __pyx_v_i;
+  size_t __pyx_v_j;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_At;
+  __Pyx_Buffer __pyx_pybuffer_At;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_At_Ai_At;
+  __Pyx_Buffer __pyx_pybuffer_At_Ai_At;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_At_At_T;
+  __Pyx_Buffer __pyx_pybuffer_At_At_T;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_At_T;
+  __Pyx_Buffer __pyx_pybuffer_At_T;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_B;
+  __Pyx_Buffer __pyx_pybuffer_B;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_I_At_At_T;
+  __Pyx_Buffer __pyx_pybuffer_I_At_At_T;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_Z;
+  __Pyx_Buffer __pyx_pybuffer_Z;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_out;
+  __Pyx_Buffer __pyx_pybuffer_out;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_terms;
+  __Pyx_Buffer __pyx_pybuffer_terms;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_weights;
+  __Pyx_Buffer __pyx_pybuffer_weights;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_r;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyArrayObject *__pyx_t_6 = NULL;
+  int __pyx_t_7;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
+  PyArrayObject *__pyx_t_11 = NULL;
+  size_t __pyx_t_12;
+  size_t __pyx_t_13;
+  size_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  size_t __pyx_t_16;
+  size_t __pyx_t_17;
+  size_t __pyx_t_18;
+  size_t __pyx_t_19;
+  size_t __pyx_t_20;
+  size_t __pyx_t_21;
+  size_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  PyArrayObject *__pyx_t_24 = NULL;
+  PyArrayObject *__pyx_t_25 = NULL;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+  Py_ssize_t __pyx_t_28;
+  Py_ssize_t __pyx_t_29;
+  Py_ssize_t __pyx_t_30;
+  size_t __pyx_t_31;
+  size_t __pyx_t_32;
+  size_t __pyx_t_33;
+  Py_ssize_t __pyx_t_34;
+  size_t __pyx_t_35;
+  size_t __pyx_t_36;
+  Py_ssize_t __pyx_t_37;
+  Py_ssize_t __pyx_t_38;
+  Py_ssize_t __pyx_t_39;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("curve_reg_dv", 0);
+  __Pyx_TraceCall("curve_reg_dv", __pyx_f[0], 124, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
+  __pyx_pybuffer_weights.pybuffer.buf = NULL;
+  __pyx_pybuffer_weights.refcount = 0;
+  __pyx_pybuffernd_weights.data = NULL;
+  __pyx_pybuffernd_weights.rcbuffer = &__pyx_pybuffer_weights;
+  __pyx_pybuffer_At.pybuffer.buf = NULL;
+  __pyx_pybuffer_At.refcount = 0;
+  __pyx_pybuffernd_At.data = NULL;
+  __pyx_pybuffernd_At.rcbuffer = &__pyx_pybuffer_At;
+  __pyx_pybuffer_Z.pybuffer.buf = NULL;
+  __pyx_pybuffer_Z.refcount = 0;
+  __pyx_pybuffernd_Z.data = NULL;
+  __pyx_pybuffernd_Z.rcbuffer = &__pyx_pybuffer_Z;
+  __pyx_pybuffer_At_Ai_At.pybuffer.buf = NULL;
+  __pyx_pybuffer_At_Ai_At.refcount = 0;
+  __pyx_pybuffernd_At_Ai_At.data = NULL;
+  __pyx_pybuffernd_At_Ai_At.rcbuffer = &__pyx_pybuffer_At_Ai_At;
+  __pyx_pybuffer_At_T.pybuffer.buf = NULL;
+  __pyx_pybuffer_At_T.refcount = 0;
+  __pyx_pybuffernd_At_T.data = NULL;
+  __pyx_pybuffernd_At_T.rcbuffer = &__pyx_pybuffer_At_T;
+  __pyx_pybuffer_At_At_T.pybuffer.buf = NULL;
+  __pyx_pybuffer_At_At_T.refcount = 0;
+  __pyx_pybuffernd_At_At_T.data = NULL;
+  __pyx_pybuffernd_At_At_T.rcbuffer = &__pyx_pybuffer_At_At_T;
+  __pyx_pybuffer_I_At_At_T.pybuffer.buf = NULL;
+  __pyx_pybuffer_I_At_At_T.refcount = 0;
+  __pyx_pybuffernd_I_At_At_T.data = NULL;
+  __pyx_pybuffernd_I_At_At_T.rcbuffer = &__pyx_pybuffer_I_At_At_T;
+  __pyx_pybuffer_B.pybuffer.buf = NULL;
+  __pyx_pybuffer_B.refcount = 0;
+  __pyx_pybuffernd_B.data = NULL;
+  __pyx_pybuffernd_B.rcbuffer = &__pyx_pybuffer_B;
+  __pyx_pybuffer_out.pybuffer.buf = NULL;
+  __pyx_pybuffer_out.refcount = 0;
+  __pyx_pybuffernd_out.data = NULL;
+  __pyx_pybuffernd_out.rcbuffer = &__pyx_pybuffer_out;
+  __pyx_pybuffer_terms.pybuffer.buf = NULL;
+  __pyx_pybuffer_terms.refcount = 0;
+  __pyx_pybuffernd_terms.data = NULL;
+  __pyx_pybuffernd_terms.rcbuffer = &__pyx_pybuffer_terms;
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_terms.rcbuffer->pybuffer, (PyObject*)__pyx_v_terms, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_pybuffernd_terms.diminfo[0].strides = __pyx_pybuffernd_terms.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_terms.diminfo[0].shape = __pyx_pybuffernd_terms.rcbuffer->pybuffer.shape[0];
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":134
+ *         size_t i, j
+ * 
+ *     weights = np.ones(n)             # <<<<<<<<<<<<<<
+ * 
+ *     # Weighted powers of x transposed
+ */
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_ones); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (!__pyx_t_4) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __Pyx_GIVEREF(__pyx_t_2);
+    PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = ((PyArrayObject *)__pyx_t_1);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_weights.rcbuffer->pybuffer);
+    __pyx_t_7 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_weights.rcbuffer->pybuffer, (PyObject*)__pyx_t_6, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack);
+    if (unlikely(__pyx_t_7 < 0)) {
+      PyErr_Fetch(&__pyx_t_8, &__pyx_t_9, &__pyx_t_10);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_weights.rcbuffer->pybuffer, (PyObject*)__pyx_v_weights, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_8); Py_XDECREF(__pyx_t_9); Py_XDECREF(__pyx_t_10);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_8, __pyx_t_9, __pyx_t_10);
+      }
+    }
+    __pyx_pybuffernd_weights.diminfo[0].strides = __pyx_pybuffernd_weights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_weights.diminfo[0].shape = __pyx_pybuffernd_weights.rcbuffer->pybuffer.shape[0];
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_6 = 0;
+  __pyx_v_weights = ((PyArrayObject *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":138
+ *     # Weighted powers of x transposed
+ *     # Like Vandermonte Matrix?
+ *     At = np.zeros((nterms + 1, n))             # <<<<<<<<<<<<<<
+ *     for i in range(n):
+ *         At[0, i] = weights[i]
+ */
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t((__pyx_v_nterms + 1)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_2);
+  __pyx_t_3 = 0;
+  __pyx_t_2 = 0;
+  __pyx_t_2 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  if (!__pyx_t_2) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2); __pyx_t_2 = NULL;
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_4);
+    __pyx_t_4 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = ((PyArrayObject *)__pyx_t_1);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At.rcbuffer->pybuffer);
+    __pyx_t_7 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_At.rcbuffer->pybuffer, (PyObject*)__pyx_t_11, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 2, 0, __pyx_stack);
+    if (unlikely(__pyx_t_7 < 0)) {
+      PyErr_Fetch(&__pyx_t_10, &__pyx_t_9, &__pyx_t_8);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_At.rcbuffer->pybuffer, (PyObject*)__pyx_v_At, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 2, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_10); Py_XDECREF(__pyx_t_9); Py_XDECREF(__pyx_t_8);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_10, __pyx_t_9, __pyx_t_8);
+      }
+    }
+    __pyx_pybuffernd_At.diminfo[0].strides = __pyx_pybuffernd_At.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_At.diminfo[0].shape = __pyx_pybuffernd_At.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_At.diminfo[1].strides = __pyx_pybuffernd_At.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_At.diminfo[1].shape = __pyx_pybuffernd_At.rcbuffer->pybuffer.shape[1];
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_11 = 0;
+  __pyx_v_At = ((PyArrayObject *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":139
+ *     # Like Vandermonte Matrix?
+ *     At = np.zeros((nterms + 1, n))
+ *     for i in range(n):             # <<<<<<<<<<<<<<
+ *         At[0, i] = weights[i]
+ *         for j in range(1, nterms + 1):
+ */
+  __pyx_t_12 = __pyx_v_n;
+  for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
+    __pyx_v_i = __pyx_t_13;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":140
+ *     At = np.zeros((nterms + 1, n))
+ *     for i in range(n):
+ *         At[0, i] = weights[i]             # <<<<<<<<<<<<<<
+ *         for j in range(1, nterms + 1):
+ *             At[j, i] = At[j - 1, i] * x.v[i]
+ */
+    __pyx_t_14 = __pyx_v_i;
+    __pyx_t_15 = 0;
+    __pyx_t_16 = __pyx_v_i;
+    if (__pyx_t_15 < 0) __pyx_t_15 += __pyx_pybuffernd_At.diminfo[0].shape;
+    *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_At.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_At.diminfo[0].strides, __pyx_t_16, __pyx_pybuffernd_At.diminfo[1].strides) = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_weights.rcbuffer->pybuffer.buf, __pyx_t_14, __pyx_pybuffernd_weights.diminfo[0].strides));
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":141
+ *     for i in range(n):
+ *         At[0, i] = weights[i]
+ *         for j in range(1, nterms + 1):             # <<<<<<<<<<<<<<
+ *             At[j, i] = At[j - 1, i] * x.v[i]
+ * 
+ */
+    __pyx_t_17 = (__pyx_v_nterms + 1);
+    for (__pyx_t_18 = 1; __pyx_t_18 < __pyx_t_17; __pyx_t_18+=1) {
+      __pyx_v_j = __pyx_t_18;
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":142
+ *         At[0, i] = weights[i]
+ *         for j in range(1, nterms + 1):
+ *             At[j, i] = At[j - 1, i] * x.v[i]             # <<<<<<<<<<<<<<
+ * 
+ *     Z = np.zeros((n, 1))
+ */
+      __pyx_t_19 = (__pyx_v_j - 1);
+      __pyx_t_20 = __pyx_v_i;
+      __pyx_t_21 = __pyx_v_j;
+      __pyx_t_22 = __pyx_v_i;
+      *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_At.rcbuffer->pybuffer.buf, __pyx_t_21, __pyx_pybuffernd_At.diminfo[0].strides, __pyx_t_22, __pyx_pybuffernd_At.diminfo[1].strides) = ((*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_At.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_At.diminfo[0].strides, __pyx_t_20, __pyx_pybuffernd_At.diminfo[1].strides)) * (__pyx_v_x->v[__pyx_v_i]));
+    }
+  }
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":144
+ *             At[j, i] = At[j - 1, i] * x.v[i]
+ * 
+ *     Z = np.zeros((n, 1))             # <<<<<<<<<<<<<<
+ *     for i in range(n):
+ *         Z[i, 0] = weights[i] * y.v[i]
+ */
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
+  __Pyx_INCREF(__pyx_int_1);
+  __Pyx_GIVEREF(__pyx_int_1);
+  PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_int_1);
+  __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (!__pyx_t_5) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_5); __pyx_t_5 = NULL;
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_4);
+    __pyx_t_4 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = ((PyArrayObject *)__pyx_t_1);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_Z.rcbuffer->pybuffer);
+    __pyx_t_7 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Z.rcbuffer->pybuffer, (PyObject*)__pyx_t_11, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 2, 0, __pyx_stack);
+    if (unlikely(__pyx_t_7 < 0)) {
+      PyErr_Fetch(&__pyx_t_8, &__pyx_t_9, &__pyx_t_10);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Z.rcbuffer->pybuffer, (PyObject*)__pyx_v_Z, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 2, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_8); Py_XDECREF(__pyx_t_9); Py_XDECREF(__pyx_t_10);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_8, __pyx_t_9, __pyx_t_10);
+      }
+    }
+    __pyx_pybuffernd_Z.diminfo[0].strides = __pyx_pybuffernd_Z.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Z.diminfo[0].shape = __pyx_pybuffernd_Z.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_Z.diminfo[1].strides = __pyx_pybuffernd_Z.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_Z.diminfo[1].shape = __pyx_pybuffernd_Z.rcbuffer->pybuffer.shape[1];
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_11 = 0;
+  __pyx_v_Z = ((PyArrayObject *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":145
+ * 
+ *     Z = np.zeros((n, 1))
+ *     for i in range(n):             # <<<<<<<<<<<<<<
+ *         Z[i, 0] = weights[i] * y.v[i]
+ * 
+ */
+  __pyx_t_12 = __pyx_v_n;
+  for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
+    __pyx_v_i = __pyx_t_13;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":146
+ *     Z = np.zeros((n, 1))
+ *     for i in range(n):
+ *         Z[i, 0] = weights[i] * y.v[i]             # <<<<<<<<<<<<<<
+ * 
+ *     At_T = At.T
+ */
+    __pyx_t_17 = __pyx_v_i;
+    __pyx_t_18 = __pyx_v_i;
+    __pyx_t_23 = 0;
+    if (__pyx_t_23 < 0) __pyx_t_23 += __pyx_pybuffernd_Z.diminfo[1].shape;
+    *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_Z.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_Z.diminfo[0].strides, __pyx_t_23, __pyx_pybuffernd_Z.diminfo[1].strides) = ((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_weights.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_weights.diminfo[0].strides)) * (__pyx_v_y->v[__pyx_v_i]));
+  }
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":148
+ *         Z[i, 0] = weights[i] * y.v[i]
+ * 
+ *     At_T = At.T             # <<<<<<<<<<<<<<
+ *     At_At_T = At.dot(At_T)
+ *     I_At_At_T = np.linalg.inv(At_At_T)
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_At), __pyx_n_s_T); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_24 = ((PyArrayObject *)__pyx_t_1);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At_T.rcbuffer->pybuffer);
+    __pyx_t_7 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_At_T.rcbuffer->pybuffer, (PyObject*)__pyx_t_24, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack);
+    if (unlikely(__pyx_t_7 < 0)) {
+      PyErr_Fetch(&__pyx_t_10, &__pyx_t_9, &__pyx_t_8);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_At_T.rcbuffer->pybuffer, (PyObject*)__pyx_v_At_T, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_10); Py_XDECREF(__pyx_t_9); Py_XDECREF(__pyx_t_8);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_10, __pyx_t_9, __pyx_t_8);
+      }
+    }
+    __pyx_pybuffernd_At_T.diminfo[0].strides = __pyx_pybuffernd_At_T.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_At_T.diminfo[0].shape = __pyx_pybuffernd_At_T.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_At_T.diminfo[1].strides = __pyx_pybuffernd_At_T.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_At_T.diminfo[1].shape = __pyx_pybuffernd_At_T.rcbuffer->pybuffer.shape[1];
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_24 = 0;
+  __pyx_v_At_T = ((PyArrayObject *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":149
+ * 
+ *     At_T = At.T
+ *     At_At_T = At.dot(At_T)             # <<<<<<<<<<<<<<
+ *     I_At_At_T = np.linalg.inv(At_At_T)
+ *     At_Ai_At = I_At_At_T.dot(At)
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_At), __pyx_n_s_dot); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (!__pyx_t_2) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_At_T)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
+    __Pyx_INCREF(((PyObject *)__pyx_v_At_T));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_At_T));
+    PyTuple_SET_ITEM(__pyx_t_4, 0+1, ((PyObject *)__pyx_v_At_T));
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_24 = ((PyArrayObject *)__pyx_t_1);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At_At_T.rcbuffer->pybuffer);
+    __pyx_t_7 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_At_At_T.rcbuffer->pybuffer, (PyObject*)__pyx_t_24, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack);
+    if (unlikely(__pyx_t_7 < 0)) {
+      PyErr_Fetch(&__pyx_t_8, &__pyx_t_9, &__pyx_t_10);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_At_At_T.rcbuffer->pybuffer, (PyObject*)__pyx_v_At_At_T, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_8); Py_XDECREF(__pyx_t_9); Py_XDECREF(__pyx_t_10);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_8, __pyx_t_9, __pyx_t_10);
+      }
+    }
+    __pyx_pybuffernd_At_At_T.diminfo[0].strides = __pyx_pybuffernd_At_At_T.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_At_At_T.diminfo[0].shape = __pyx_pybuffernd_At_At_T.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_At_At_T.diminfo[1].strides = __pyx_pybuffernd_At_At_T.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_At_At_T.diminfo[1].shape = __pyx_pybuffernd_At_At_T.rcbuffer->pybuffer.shape[1];
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_24 = 0;
+  __pyx_v_At_At_T = ((PyArrayObject *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":150
+ *     At_T = At.T
+ *     At_At_T = At.dot(At_T)
+ *     I_At_At_T = np.linalg.inv(At_At_T)             # <<<<<<<<<<<<<<
+ *     At_Ai_At = I_At_At_T.dot(At)
+ *     B = At_Ai_At.dot(Z)
+ */
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_linalg); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_inv); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (!__pyx_t_4) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_At_At_T)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __Pyx_INCREF(((PyObject *)__pyx_v_At_At_T));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_At_At_T));
+    PyTuple_SET_ITEM(__pyx_t_2, 0+1, ((PyObject *)__pyx_v_At_At_T));
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_24 = ((PyArrayObject *)__pyx_t_1);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer);
+    __pyx_t_7 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer, (PyObject*)__pyx_t_24, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack);
+    if (unlikely(__pyx_t_7 < 0)) {
+      PyErr_Fetch(&__pyx_t_10, &__pyx_t_9, &__pyx_t_8);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer, (PyObject*)__pyx_v_I_At_At_T, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_10); Py_XDECREF(__pyx_t_9); Py_XDECREF(__pyx_t_8);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_10, __pyx_t_9, __pyx_t_8);
+      }
+    }
+    __pyx_pybuffernd_I_At_At_T.diminfo[0].strides = __pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_I_At_At_T.diminfo[0].shape = __pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_I_At_At_T.diminfo[1].strides = __pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_I_At_At_T.diminfo[1].shape = __pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer.shape[1];
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_24 = 0;
+  __pyx_v_I_At_At_T = ((PyArrayObject *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":151
+ *     At_At_T = At.dot(At_T)
+ *     I_At_At_T = np.linalg.inv(At_At_T)
+ *     At_Ai_At = I_At_At_T.dot(At)             # <<<<<<<<<<<<<<
+ *     B = At_Ai_At.dot(Z)
+ *     mse = 0
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_I_At_At_T), __pyx_n_s_dot); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (!__pyx_t_2) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_At)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
+    __Pyx_INCREF(((PyObject *)__pyx_v_At));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_At));
+    PyTuple_SET_ITEM(__pyx_t_4, 0+1, ((PyObject *)__pyx_v_At));
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = ((PyArrayObject *)__pyx_t_1);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer);
+    __pyx_t_7 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer, (PyObject*)__pyx_t_11, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack);
+    if (unlikely(__pyx_t_7 < 0)) {
+      PyErr_Fetch(&__pyx_t_8, &__pyx_t_9, &__pyx_t_10);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer, (PyObject*)__pyx_v_At_Ai_At, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_8); Py_XDECREF(__pyx_t_9); Py_XDECREF(__pyx_t_10);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_8, __pyx_t_9, __pyx_t_10);
+      }
+    }
+    __pyx_pybuffernd_At_Ai_At.diminfo[0].strides = __pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_At_Ai_At.diminfo[0].shape = __pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_At_Ai_At.diminfo[1].strides = __pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_At_Ai_At.diminfo[1].shape = __pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer.shape[1];
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_11 = 0;
+  __pyx_v_At_Ai_At = ((PyArrayObject *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":152
+ *     I_At_At_T = np.linalg.inv(At_At_T)
+ *     At_Ai_At = I_At_At_T.dot(At)
+ *     B = At_Ai_At.dot(Z)             # <<<<<<<<<<<<<<
+ *     mse = 0
+ *     out = np.zeros((2, n))
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_At_Ai_At), __pyx_n_s_dot); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (!__pyx_t_4) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Z)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __Pyx_INCREF(((PyObject *)__pyx_v_Z));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_Z));
+    PyTuple_SET_ITEM(__pyx_t_2, 0+1, ((PyObject *)__pyx_v_Z));
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_25 = ((PyArrayObject *)__pyx_t_1);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_B.rcbuffer->pybuffer);
+    __pyx_t_7 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_B.rcbuffer->pybuffer, (PyObject*)__pyx_t_25, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack);
+    if (unlikely(__pyx_t_7 < 0)) {
+      PyErr_Fetch(&__pyx_t_10, &__pyx_t_9, &__pyx_t_8);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_B.rcbuffer->pybuffer, (PyObject*)__pyx_v_B, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_10); Py_XDECREF(__pyx_t_9); Py_XDECREF(__pyx_t_8);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_10, __pyx_t_9, __pyx_t_8);
+      }
+    }
+    __pyx_pybuffernd_B.diminfo[0].strides = __pyx_pybuffernd_B.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_B.diminfo[0].shape = __pyx_pybuffernd_B.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_B.diminfo[1].strides = __pyx_pybuffernd_B.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_B.diminfo[1].shape = __pyx_pybuffernd_B.rcbuffer->pybuffer.shape[1];
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_25 = 0;
+  __pyx_v_B = ((PyArrayObject *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":153
+ *     At_Ai_At = I_At_At_T.dot(At)
+ *     B = At_Ai_At.dot(Z)
+ *     mse = 0             # <<<<<<<<<<<<<<
+ *     out = np.zeros((2, n))
+ *     for i in range(n):
+ */
+  __pyx_v_mse = 0.0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":154
+ *     B = At_Ai_At.dot(Z)
+ *     mse = 0
+ *     out = np.zeros((2, n))             # <<<<<<<<<<<<<<
+ *     for i in range(n):
+ *         terms[0] = B[0, 0]
+ */
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_n); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_INCREF(__pyx_int_2);
+  __Pyx_GIVEREF(__pyx_int_2);
+  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_int_2);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
+  __pyx_t_3 = 0;
+  __pyx_t_3 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (!__pyx_t_3) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_4);
+    __pyx_t_4 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_25 = ((PyArrayObject *)__pyx_t_1);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out.rcbuffer->pybuffer);
+    __pyx_t_7 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out.rcbuffer->pybuffer, (PyObject*)__pyx_t_25, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 2, 0, __pyx_stack);
+    if (unlikely(__pyx_t_7 < 0)) {
+      PyErr_Fetch(&__pyx_t_8, &__pyx_t_9, &__pyx_t_10);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out.rcbuffer->pybuffer, (PyObject*)__pyx_v_out, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 2, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_8); Py_XDECREF(__pyx_t_9); Py_XDECREF(__pyx_t_10);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_8, __pyx_t_9, __pyx_t_10);
+      }
+    }
+    __pyx_pybuffernd_out.diminfo[0].strides = __pyx_pybuffernd_out.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out.diminfo[0].shape = __pyx_pybuffernd_out.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_out.diminfo[1].strides = __pyx_pybuffernd_out.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_out.diminfo[1].shape = __pyx_pybuffernd_out.rcbuffer->pybuffer.shape[1];
+    if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_25 = 0;
+  __pyx_v_out = ((PyArrayObject *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":155
+ *     mse = 0
+ *     out = np.zeros((2, n))
+ *     for i in range(n):             # <<<<<<<<<<<<<<
+ *         terms[0] = B[0, 0]
+ *         yfit = B[0, 0]
+ */
+  __pyx_t_12 = __pyx_v_n;
+  for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
+    __pyx_v_i = __pyx_t_13;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":156
+ *     out = np.zeros((2, n))
+ *     for i in range(n):
+ *         terms[0] = B[0, 0]             # <<<<<<<<<<<<<<
+ *         yfit = B[0, 0]
+ *         xpow = x.v[i]
+ */
+    __pyx_t_26 = 0;
+    __pyx_t_27 = 0;
+    if (__pyx_t_26 < 0) __pyx_t_26 += __pyx_pybuffernd_B.diminfo[0].shape;
+    if (__pyx_t_27 < 0) __pyx_t_27 += __pyx_pybuffernd_B.diminfo[1].shape;
+    __pyx_t_28 = 0;
+    if (__pyx_t_28 < 0) __pyx_t_28 += __pyx_pybuffernd_terms.diminfo[0].shape;
+    *__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_terms.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_terms.diminfo[0].strides) = (*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_B.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_B.diminfo[0].strides, __pyx_t_27, __pyx_pybuffernd_B.diminfo[1].strides));
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":157
+ *     for i in range(n):
+ *         terms[0] = B[0, 0]
+ *         yfit = B[0, 0]             # <<<<<<<<<<<<<<
+ *         xpow = x.v[i]
+ *         for j in range(1, nterms):
+ */
+    __pyx_t_29 = 0;
+    __pyx_t_30 = 0;
+    if (__pyx_t_29 < 0) __pyx_t_29 += __pyx_pybuffernd_B.diminfo[0].shape;
+    if (__pyx_t_30 < 0) __pyx_t_30 += __pyx_pybuffernd_B.diminfo[1].shape;
+    __pyx_v_yfit = (*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_B.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_B.diminfo[0].strides, __pyx_t_30, __pyx_pybuffernd_B.diminfo[1].strides));
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":158
+ *         terms[0] = B[0, 0]
+ *         yfit = B[0, 0]
+ *         xpow = x.v[i]             # <<<<<<<<<<<<<<
+ *         for j in range(1, nterms):
+ *             terms[j] = B[j, 0]
+ */
+    __pyx_v_xpow = (__pyx_v_x->v[__pyx_v_i]);
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":159
+ *         yfit = B[0, 0]
+ *         xpow = x.v[i]
+ *         for j in range(1, nterms):             # <<<<<<<<<<<<<<
+ *             terms[j] = B[j, 0]
+ *             yfit += B[j, 0] * xpow
+ */
+    __pyx_t_31 = __pyx_v_nterms;
+    for (__pyx_t_32 = 1; __pyx_t_32 < __pyx_t_31; __pyx_t_32+=1) {
+      __pyx_v_j = __pyx_t_32;
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":160
+ *         xpow = x.v[i]
+ *         for j in range(1, nterms):
+ *             terms[j] = B[j, 0]             # <<<<<<<<<<<<<<
+ *             yfit += B[j, 0] * xpow
+ *             xpow = xpow * x.v[i]
+ */
+      __pyx_t_33 = __pyx_v_j;
+      __pyx_t_34 = 0;
+      if (__pyx_t_34 < 0) __pyx_t_34 += __pyx_pybuffernd_B.diminfo[1].shape;
+      __pyx_t_35 = __pyx_v_j;
+      *__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_terms.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_terms.diminfo[0].strides) = (*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_B.rcbuffer->pybuffer.buf, __pyx_t_33, __pyx_pybuffernd_B.diminfo[0].strides, __pyx_t_34, __pyx_pybuffernd_B.diminfo[1].strides));
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":161
+ *         for j in range(1, nterms):
+ *             terms[j] = B[j, 0]
+ *             yfit += B[j, 0] * xpow             # <<<<<<<<<<<<<<
+ *             xpow = xpow * x.v[i]
+ *         out[0, i] = yfit
+ */
+      __pyx_t_36 = __pyx_v_j;
+      __pyx_t_37 = 0;
+      if (__pyx_t_37 < 0) __pyx_t_37 += __pyx_pybuffernd_B.diminfo[1].shape;
+      __pyx_v_yfit = (__pyx_v_yfit + ((*__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_B.rcbuffer->pybuffer.buf, __pyx_t_36, __pyx_pybuffernd_B.diminfo[0].strides, __pyx_t_37, __pyx_pybuffernd_B.diminfo[1].strides)) * __pyx_v_xpow));
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":162
+ *             terms[j] = B[j, 0]
+ *             yfit += B[j, 0] * xpow
+ *             xpow = xpow * x.v[i]             # <<<<<<<<<<<<<<
+ *         out[0, i] = yfit
+ *         out[1, i] = y.v[i] - yfit
+ */
+      __pyx_v_xpow = (__pyx_v_xpow * (__pyx_v_x->v[__pyx_v_i]));
+    }
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":163
+ *             yfit += B[j, 0] * xpow
+ *             xpow = xpow * x.v[i]
+ *         out[0, i] = yfit             # <<<<<<<<<<<<<<
+ *         out[1, i] = y.v[i] - yfit
+ *         mse += y.v[i]-yfit
+ */
+    __pyx_t_38 = 0;
+    __pyx_t_31 = __pyx_v_i;
+    if (__pyx_t_38 < 0) __pyx_t_38 += __pyx_pybuffernd_out.diminfo[0].shape;
+    *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_out.rcbuffer->pybuffer.buf, __pyx_t_38, __pyx_pybuffernd_out.diminfo[0].strides, __pyx_t_31, __pyx_pybuffernd_out.diminfo[1].strides) = __pyx_v_yfit;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":164
+ *             xpow = xpow * x.v[i]
+ *         out[0, i] = yfit
+ *         out[1, i] = y.v[i] - yfit             # <<<<<<<<<<<<<<
+ *         mse += y.v[i]-yfit
+ *     return mse
+ */
+    __pyx_t_39 = 1;
+    __pyx_t_32 = __pyx_v_i;
+    if (__pyx_t_39 < 0) __pyx_t_39 += __pyx_pybuffernd_out.diminfo[0].shape;
+    *__Pyx_BufPtrStrided2d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_out.rcbuffer->pybuffer.buf, __pyx_t_39, __pyx_pybuffernd_out.diminfo[0].strides, __pyx_t_32, __pyx_pybuffernd_out.diminfo[1].strides) = ((__pyx_v_y->v[__pyx_v_i]) - __pyx_v_yfit);
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":165
+ *         out[0, i] = yfit
+ *         out[1, i] = y.v[i] - yfit
+ *         mse += y.v[i]-yfit             # <<<<<<<<<<<<<<
+ *     return mse
+ * 
+ */
+    __pyx_v_mse = (__pyx_v_mse + ((__pyx_v_y->v[__pyx_v_i]) - __pyx_v_yfit));
+  }
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":166
+ *         out[1, i] = y.v[i] - yfit
+ *         mse += y.v[i]-yfit
+ *     return mse             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_r = __pyx_v_mse;
+  goto __pyx_L0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":124
+ * @cython.cdivision(True)
+ * @cython.boundscheck(False)
+ * cdef DTYPE_t curve_reg_dv(DoubleVector* x, DoubleVector* y, size_t n,             # <<<<<<<<<<<<<<
+ *                         np.ndarray[DTYPE_t, ndim=1, mode='c'] terms, size_t nterms):
+ *     cdef:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
+    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At_At_T.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At_T.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_B.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_Z.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_terms.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_weights.rcbuffer->pybuffer);
+  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
+  __Pyx_WriteUnraisable("ms_peak_picker._c.peak_statistics.curve_reg_dv", __pyx_clineno, __pyx_lineno, __pyx_filename, 0, 0);
+  __pyx_r = 0;
+  goto __pyx_L2;
+  __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At_Ai_At.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At_At_T.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_At_T.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_B.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_I_At_At_T.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_Z.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_terms.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_weights.rcbuffer->pybuffer);
+  __pyx_L2:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_weights);
+  __Pyx_XDECREF((PyObject *)__pyx_v_At);
+  __Pyx_XDECREF((PyObject *)__pyx_v_Z);
+  __Pyx_XDECREF((PyObject *)__pyx_v_At_Ai_At);
+  __Pyx_XDECREF((PyObject *)__pyx_v_At_T);
+  __Pyx_XDECREF((PyObject *)__pyx_v_At_At_T);
+  __Pyx_XDECREF((PyObject *)__pyx_v_I_At_At_T);
+  __Pyx_XDECREF((PyObject *)__pyx_v_B);
+  __Pyx_XDECREF((PyObject *)__pyx_v_out);
+  __Pyx_TraceReturn(Py_None, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "ms_peak_picker\_c\peak_statistics.pyx":172
+ * @cython.cdivision(True)
+ * @cython.boundscheck(False)
+ * cpdef DTYPE_t find_right_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,             # <<<<<<<<<<<<<<
+ *                                size_t data_index, DTYPE_t signal_to_noise=0.):
+ *     cdef:
+ */
+
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_right_width(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_right_width(PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_right_width *__pyx_optional_args) {
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_signal_to_noise = ((__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t)0.);
   int __pyx_v_points;
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_peak;
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_peak_half;
@@ -3115,8 +4366,6 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_X2;
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_Y1;
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_Y2;
-  CYTHON_UNUSED __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_mse;
-  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_upper;
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_lower;
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_current_mass;
   size_t __pyx_v_size;
@@ -3124,8 +4373,8 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   size_t __pyx_v_j;
   size_t __pyx_v_k;
   PyArrayObject *__pyx_v_coef = 0;
-  PyObject *__pyx_v_vect_mzs = 0;
-  PyObject *__pyx_v_vect_intensity = 0;
+  struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *__pyx_v_vect_mzs;
+  struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *__pyx_v_vect_intensity;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_coef;
   __Pyx_Buffer __pyx_pybuffer_coef;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_intensity_array;
@@ -3133,6 +4382,850 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __Pyx_LocalBuf_ND __pyx_pybuffernd_mz_array;
   __Pyx_Buffer __pyx_pybuffer_mz_array;
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_r;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  size_t __pyx_t_1;
+  size_t __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyArrayObject *__pyx_t_5 = NULL;
+  int __pyx_t_6;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  int __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  int __pyx_t_12;
+  size_t __pyx_t_13;
+  size_t __pyx_t_14;
+  size_t __pyx_t_15;
+  size_t __pyx_t_16;
+  size_t __pyx_t_17;
+  size_t __pyx_t_18;
+  size_t __pyx_t_19;
+  size_t __pyx_t_20;
+  size_t __pyx_t_21;
+  size_t __pyx_t_22;
+  size_t __pyx_t_23;
+  size_t __pyx_t_24;
+  size_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("find_right_width", 0);
+  __Pyx_TraceCall("find_right_width", __pyx_f[0], 172, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_signal_to_noise = __pyx_optional_args->signal_to_noise;
+    }
+  }
+  __pyx_pybuffer_coef.pybuffer.buf = NULL;
+  __pyx_pybuffer_coef.refcount = 0;
+  __pyx_pybuffernd_coef.data = NULL;
+  __pyx_pybuffernd_coef.rcbuffer = &__pyx_pybuffer_coef;
+  __pyx_pybuffer_mz_array.pybuffer.buf = NULL;
+  __pyx_pybuffer_mz_array.refcount = 0;
+  __pyx_pybuffernd_mz_array.data = NULL;
+  __pyx_pybuffernd_mz_array.rcbuffer = &__pyx_pybuffer_mz_array;
+  __pyx_pybuffer_intensity_array.pybuffer.buf = NULL;
+  __pyx_pybuffer_intensity_array.refcount = 0;
+  __pyx_pybuffernd_intensity_array.data = NULL;
+  __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_pybuffernd_mz_array.diminfo[0].strides = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_mz_array.diminfo[0].shape = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.shape[0];
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":182
+ *         DoubleVector *vect_mzs
+ *         DoubleVector *vect_intensity
+ *     points = 0             # <<<<<<<<<<<<<<
+ *     peak = intensity_array[data_index]
+ *     peak_half = peak / 2.
+ */
+  __pyx_v_points = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":183
+ *         DoubleVector *vect_intensity
+ *     points = 0
+ *     peak = intensity_array[data_index]             # <<<<<<<<<<<<<<
+ *     peak_half = peak / 2.
+ *     mass = mz_array[data_index]
+ */
+  __pyx_t_1 = __pyx_v_data_index;
+  __pyx_v_peak = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":184
+ *     points = 0
+ *     peak = intensity_array[data_index]
+ *     peak_half = peak / 2.             # <<<<<<<<<<<<<<
+ *     mass = mz_array[data_index]
+ * 
+ */
+  __pyx_v_peak_half = (__pyx_v_peak / 2.);
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":185
+ *     peak = intensity_array[data_index]
+ *     peak_half = peak / 2.
+ *     mass = mz_array[data_index]             # <<<<<<<<<<<<<<
+ * 
+ *     coef = np.zeros(2)
+ */
+  __pyx_t_2 = __pyx_v_data_index;
+  __pyx_v_mass = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":187
+ *     mass = mz_array[data_index]
+ * 
+ *     coef = np.zeros(2)             # <<<<<<<<<<<<<<
+ * 
+ *     if peak == 0.0:
+ */
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = ((PyArrayObject *)__pyx_t_3);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_coef.rcbuffer->pybuffer);
+    __pyx_t_6 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_coef.rcbuffer->pybuffer, (PyObject*)__pyx_t_5, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack);
+    if (unlikely(__pyx_t_6 < 0)) {
+      PyErr_Fetch(&__pyx_t_7, &__pyx_t_8, &__pyx_t_9);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_coef.rcbuffer->pybuffer, (PyObject*)__pyx_v_coef, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_7); Py_XDECREF(__pyx_t_8); Py_XDECREF(__pyx_t_9);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_7, __pyx_t_8, __pyx_t_9);
+      }
+    }
+    __pyx_pybuffernd_coef.diminfo[0].strides = __pyx_pybuffernd_coef.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_coef.diminfo[0].shape = __pyx_pybuffernd_coef.rcbuffer->pybuffer.shape[0];
+    if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_5 = 0;
+  __pyx_v_coef = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":189
+ *     coef = np.zeros(2)
+ * 
+ *     if peak == 0.0:             # <<<<<<<<<<<<<<
+ *         return 0.
+ * 
+ */
+  __pyx_t_10 = ((__pyx_v_peak == 0.0) != 0);
+  if (__pyx_t_10) {
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":190
+ * 
+ *     if peak == 0.0:
+ *         return 0.             # <<<<<<<<<<<<<<
+ * 
+ *     size = len(mz_array) - 1
+ */
+    __pyx_r = 0.;
+    goto __pyx_L0;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":189
+ *     coef = np.zeros(2)
+ * 
+ *     if peak == 0.0:             # <<<<<<<<<<<<<<
+ *         return 0.
+ * 
+ */
+  }
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":192
+ *         return 0.
+ * 
+ *     size = len(mz_array) - 1             # <<<<<<<<<<<<<<
+ *     if data_index <= 0 or data_index >= size:
+ *         return 0.
+ */
+  __pyx_t_11 = PyObject_Length(((PyObject *)__pyx_v_mz_array)); if (unlikely(__pyx_t_11 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 192; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_size = (__pyx_t_11 - 1);
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":193
+ * 
+ *     size = len(mz_array) - 1
+ *     if data_index <= 0 or data_index >= size:             # <<<<<<<<<<<<<<
+ *         return 0.
+ * 
+ */
+  __pyx_t_12 = ((__pyx_v_data_index <= 0) != 0);
+  if (!__pyx_t_12) {
+  } else {
+    __pyx_t_10 = __pyx_t_12;
+    goto __pyx_L5_bool_binop_done;
+  }
+  __pyx_t_12 = ((__pyx_v_data_index >= __pyx_v_size) != 0);
+  __pyx_t_10 = __pyx_t_12;
+  __pyx_L5_bool_binop_done:;
+  if (__pyx_t_10) {
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":194
+ *     size = len(mz_array) - 1
+ *     if data_index <= 0 or data_index >= size:
+ *         return 0.             # <<<<<<<<<<<<<<
+ * 
+ *     lower = mz_array[size]
+ */
+    __pyx_r = 0.;
+    goto __pyx_L0;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":193
+ * 
+ *     size = len(mz_array) - 1
+ *     if data_index <= 0 or data_index >= size:             # <<<<<<<<<<<<<<
+ *         return 0.
+ * 
+ */
+  }
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":196
+ *         return 0.
+ * 
+ *     lower = mz_array[size]             # <<<<<<<<<<<<<<
+ *     for index in range(data_index, size):
+ *         current_mass = mz_array[index]
+ */
+  __pyx_t_13 = __pyx_v_size;
+  __pyx_v_lower = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":197
+ * 
+ *     lower = mz_array[size]
+ *     for index in range(data_index, size):             # <<<<<<<<<<<<<<
+ *         current_mass = mz_array[index]
+ *         Y1 = intensity_array[index]
+ */
+  __pyx_t_14 = __pyx_v_size;
+  for (__pyx_t_15 = __pyx_v_data_index; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
+    __pyx_v_index = __pyx_t_15;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":198
+ *     lower = mz_array[size]
+ *     for index in range(data_index, size):
+ *         current_mass = mz_array[index]             # <<<<<<<<<<<<<<
+ *         Y1 = intensity_array[index]
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
+ */
+    __pyx_t_16 = __pyx_v_index;
+    __pyx_v_current_mass = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":199
+ *     for index in range(data_index, size):
+ *         current_mass = mz_array[index]
+ *         Y1 = intensity_array[index]             # <<<<<<<<<<<<<<
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
+ *                 (index > size - 1 or intensity_array[index + 1] > Y1) and (
+ */
+    __pyx_t_17 = __pyx_v_index;
+    __pyx_v_Y1 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":200
+ *         current_mass = mz_array[index]
+ *         Y1 = intensity_array[index]
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (             # <<<<<<<<<<<<<<
+ *                 (index > size - 1 or intensity_array[index + 1] > Y1) and (
+ *                 index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < minimum_signal_to_noise)):
+ */
+    __pyx_t_12 = ((__pyx_v_Y1 < __pyx_v_peak_half) != 0);
+    if (!__pyx_t_12) {
+    } else {
+      __pyx_t_10 = __pyx_t_12;
+      goto __pyx_L10_bool_binop_done;
+    }
+    __pyx_t_12 = ((fabs((__pyx_v_mass - __pyx_v_current_mass)) > 1.5) != 0);
+    if (!__pyx_t_12) {
+    } else {
+      __pyx_t_10 = __pyx_t_12;
+      goto __pyx_L10_bool_binop_done;
+    }
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":201
+ *         Y1 = intensity_array[index]
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
+ *                 (index > size - 1 or intensity_array[index + 1] > Y1) and (             # <<<<<<<<<<<<<<
+ *                 index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < minimum_signal_to_noise)):
+ *             Y2 = intensity_array[index - 1]
+ */
+    __pyx_t_12 = ((__pyx_v_index > (__pyx_v_size - 1)) != 0);
+    if (!__pyx_t_12) {
+    } else {
+      goto __pyx_L13_next_and;
+    }
+    __pyx_t_18 = (__pyx_v_index + 1);
+    __pyx_t_12 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
+    if (__pyx_t_12) {
+    } else {
+      __pyx_t_10 = __pyx_t_12;
+      goto __pyx_L10_bool_binop_done;
+    }
+    __pyx_L13_next_and:;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":202
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
+ *                 (index > size - 1 or intensity_array[index + 1] > Y1) and (
+ *                 index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < minimum_signal_to_noise)):             # <<<<<<<<<<<<<<
+ *             Y2 = intensity_array[index - 1]
+ *             X1 = mz_array[index]
+ */
+    __pyx_t_12 = ((__pyx_v_index > (__pyx_v_size - 2)) != 0);
+    if (!__pyx_t_12) {
+    } else {
+      goto __pyx_L15_next_and;
+    }
+    __pyx_t_19 = (__pyx_v_index + 2);
+    __pyx_t_12 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
+    if (__pyx_t_12) {
+    } else {
+      __pyx_t_10 = __pyx_t_12;
+      goto __pyx_L10_bool_binop_done;
+    }
+    __pyx_L15_next_and:;
+    __pyx_t_12 = ((__pyx_v_signal_to_noise < __pyx_v_14ms_peak_picker_2_c_15peak_statistics_minimum_signal_to_noise) != 0);
+    __pyx_t_10 = __pyx_t_12;
+    __pyx_L10_bool_binop_done:;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":200
+ *         current_mass = mz_array[index]
+ *         Y1 = intensity_array[index]
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (             # <<<<<<<<<<<<<<
+ *                 (index > size - 1 or intensity_array[index + 1] > Y1) and (
+ *                 index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < minimum_signal_to_noise)):
+ */
+    if (__pyx_t_10) {
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":203
+ *                 (index > size - 1 or intensity_array[index + 1] > Y1) and (
+ *                 index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < minimum_signal_to_noise)):
+ *             Y2 = intensity_array[index - 1]             # <<<<<<<<<<<<<<
+ *             X1 = mz_array[index]
+ *             X2 = mz_array[index - 1]
+ */
+      __pyx_t_20 = (__pyx_v_index - 1);
+      __pyx_v_Y2 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_20, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":204
+ *                 index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < minimum_signal_to_noise)):
+ *             Y2 = intensity_array[index - 1]
+ *             X1 = mz_array[index]             # <<<<<<<<<<<<<<
+ *             X2 = mz_array[index - 1]
+ * 
+ */
+      __pyx_t_21 = __pyx_v_index;
+      __pyx_v_X1 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_21, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":205
+ *             Y2 = intensity_array[index - 1]
+ *             X1 = mz_array[index]
+ *             X2 = mz_array[index - 1]             # <<<<<<<<<<<<<<
+ * 
+ *             if((Y2 - Y1 != 0) and (Y1 < peak_half)):
+ */
+      __pyx_t_22 = (__pyx_v_index - 1);
+      __pyx_v_X2 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_22, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":207
+ *             X2 = mz_array[index - 1]
+ * 
+ *             if((Y2 - Y1 != 0) and (Y1 < peak_half)):             # <<<<<<<<<<<<<<
+ *                 lower = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
+ *             else:
+ */
+      __pyx_t_12 = (((__pyx_v_Y2 - __pyx_v_Y1) != 0.0) != 0);
+      if (__pyx_t_12) {
+      } else {
+        __pyx_t_10 = __pyx_t_12;
+        goto __pyx_L18_bool_binop_done;
+      }
+      __pyx_t_12 = ((__pyx_v_Y1 < __pyx_v_peak_half) != 0);
+      __pyx_t_10 = __pyx_t_12;
+      __pyx_L18_bool_binop_done:;
+      if (__pyx_t_10) {
+
+        /* "ms_peak_picker\_c\peak_statistics.pyx":208
+ * 
+ *             if((Y2 - Y1 != 0) and (Y1 < peak_half)):
+ *                 lower = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)             # <<<<<<<<<<<<<<
+ *             else:
+ *                 lower = X1
+ */
+        __pyx_v_lower = (__pyx_v_X1 - (((__pyx_v_X1 - __pyx_v_X2) * (__pyx_v_peak_half - __pyx_v_Y1)) / (__pyx_v_Y2 - __pyx_v_Y1)));
+
+        /* "ms_peak_picker\_c\peak_statistics.pyx":207
+ *             X2 = mz_array[index - 1]
+ * 
+ *             if((Y2 - Y1 != 0) and (Y1 < peak_half)):             # <<<<<<<<<<<<<<
+ *                 lower = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
+ *             else:
+ */
+        goto __pyx_L17;
+      }
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":210
+ *                 lower = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
+ *             else:
+ *                 lower = X1             # <<<<<<<<<<<<<<
+ *                 points = index - data_index + 1
+ * 
+ */
+      /*else*/ {
+        __pyx_v_lower = __pyx_v_X1;
+
+        /* "ms_peak_picker\_c\peak_statistics.pyx":211
+ *             else:
+ *                 lower = X1
+ *                 points = index - data_index + 1             # <<<<<<<<<<<<<<
+ * 
+ *                 if points >= 3:
+ */
+        __pyx_v_points = ((__pyx_v_index - __pyx_v_data_index) + 1);
+
+        /* "ms_peak_picker\_c\peak_statistics.pyx":213
+ *                 points = index - data_index + 1
+ * 
+ *                 if points >= 3:             # <<<<<<<<<<<<<<
+ *                     vect_mzs = make_double_vector()
+ *                     vect_intensity = make_double_vector()
+ */
+        __pyx_t_10 = ((__pyx_v_points >= 3) != 0);
+        if (__pyx_t_10) {
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":214
+ * 
+ *                 if points >= 3:
+ *                     vect_mzs = make_double_vector()             # <<<<<<<<<<<<<<
+ *                     vect_intensity = make_double_vector()
+ * 
+ */
+          __pyx_v_vect_mzs = __pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector();
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":215
+ *                 if points >= 3:
+ *                     vect_mzs = make_double_vector()
+ *                     vect_intensity = make_double_vector()             # <<<<<<<<<<<<<<
+ * 
+ *                     for k in range(points - 1, -1, -1):
+ */
+          __pyx_v_vect_intensity = __pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector();
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":217
+ *                     vect_intensity = make_double_vector()
+ * 
+ *                     for k in range(points - 1, -1, -1):             # <<<<<<<<<<<<<<
+ *                         double_vector_append(vect_mzs, mz_array[index - k])
+ *                         double_vector_append(vect_intensity, intensity_array[index - k])
+ */
+          for (__pyx_t_23 = (__pyx_v_points - 1) + 1; __pyx_t_23 > -1L + 1; ) { __pyx_t_23-=1;
+            __pyx_v_k = __pyx_t_23;
+
+            /* "ms_peak_picker\_c\peak_statistics.pyx":218
+ * 
+ *                     for k in range(points - 1, -1, -1):
+ *                         double_vector_append(vect_mzs, mz_array[index - k])             # <<<<<<<<<<<<<<
+ *                         double_vector_append(vect_intensity, intensity_array[index - k])
+ *                     j = 0
+ */
+            __pyx_t_24 = (__pyx_v_index - __pyx_v_k);
+            __pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_append(__pyx_v_vect_mzs, (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_24, __pyx_pybuffernd_mz_array.diminfo[0].strides)));
+
+            /* "ms_peak_picker\_c\peak_statistics.pyx":219
+ *                     for k in range(points - 1, -1, -1):
+ *                         double_vector_append(vect_mzs, mz_array[index - k])
+ *                         double_vector_append(vect_intensity, intensity_array[index - k])             # <<<<<<<<<<<<<<
+ *                     j = 0
+ *                     while (j < points) and (vect_intensity.v[0] == vect_intensity.v[j]):
+ */
+            __pyx_t_25 = (__pyx_v_index - __pyx_v_k);
+            __pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_append(__pyx_v_vect_intensity, (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_intensity_array.diminfo[0].strides)));
+          }
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":220
+ *                         double_vector_append(vect_mzs, mz_array[index - k])
+ *                         double_vector_append(vect_intensity, intensity_array[index - k])
+ *                     j = 0             # <<<<<<<<<<<<<<
+ *                     while (j < points) and (vect_intensity.v[0] == vect_intensity.v[j]):
+ *                         j += 1
+ */
+          __pyx_v_j = 0;
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":221
+ *                         double_vector_append(vect_intensity, intensity_array[index - k])
+ *                     j = 0
+ *                     while (j < points) and (vect_intensity.v[0] == vect_intensity.v[j]):             # <<<<<<<<<<<<<<
+ *                         j += 1
+ * 
+ */
+          while (1) {
+            __pyx_t_12 = ((__pyx_v_j < __pyx_v_points) != 0);
+            if (__pyx_t_12) {
+            } else {
+              __pyx_t_10 = __pyx_t_12;
+              goto __pyx_L25_bool_binop_done;
+            }
+            __pyx_t_12 = (((__pyx_v_vect_intensity->v[0]) == (__pyx_v_vect_intensity->v[__pyx_v_j])) != 0);
+            __pyx_t_10 = __pyx_t_12;
+            __pyx_L25_bool_binop_done:;
+            if (!__pyx_t_10) break;
+
+            /* "ms_peak_picker\_c\peak_statistics.pyx":222
+ *                     j = 0
+ *                     while (j < points) and (vect_intensity.v[0] == vect_intensity.v[j]):
+ *                         j += 1             # <<<<<<<<<<<<<<
+ * 
+ *                     if j == points:
+ */
+            __pyx_v_j = (__pyx_v_j + 1);
+          }
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":224
+ *                         j += 1
+ * 
+ *                     if j == points:             # <<<<<<<<<<<<<<
+ *                         return 0.0
+ * 
+ */
+          __pyx_t_10 = ((__pyx_v_j == __pyx_v_points) != 0);
+          if (__pyx_t_10) {
+
+            /* "ms_peak_picker\_c\peak_statistics.pyx":225
+ * 
+ *                     if j == points:
+ *                         return 0.0             # <<<<<<<<<<<<<<
+ * 
+ *                     # coef will contain the result
+ */
+            __pyx_r = 0.0;
+            goto __pyx_L0;
+
+            /* "ms_peak_picker\_c\peak_statistics.pyx":224
+ *                         j += 1
+ * 
+ *                     if j == points:             # <<<<<<<<<<<<<<
+ *                         return 0.0
+ * 
+ */
+          }
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":228
+ * 
+ *                     # coef will contain the result
+ *                     curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)             # <<<<<<<<<<<<<<
+ *                     free_double_vector(vect_intensity)
+ *                     free_double_vector(vect_mzs)
+ */
+          __pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg_dv(__pyx_v_vect_intensity, __pyx_v_vect_mzs, __pyx_v_points, ((PyArrayObject *)__pyx_v_coef), 1);
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":229
+ *                     # coef will contain the result
+ *                     curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
+ *                     free_double_vector(vect_intensity)             # <<<<<<<<<<<<<<
+ *                     free_double_vector(vect_mzs)
+ *                     lower = coef[1] * peak_half + coef[0]
+ */
+          __pyx_f_14ms_peak_picker_2_c_13double_vector_free_double_vector(__pyx_v_vect_intensity);
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":230
+ *                     curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
+ *                     free_double_vector(vect_intensity)
+ *                     free_double_vector(vect_mzs)             # <<<<<<<<<<<<<<
+ *                     lower = coef[1] * peak_half + coef[0]
+ *             break
+ */
+          __pyx_f_14ms_peak_picker_2_c_13double_vector_free_double_vector(__pyx_v_vect_mzs);
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":231
+ *                     free_double_vector(vect_intensity)
+ *                     free_double_vector(vect_mzs)
+ *                     lower = coef[1] * peak_half + coef[0]             # <<<<<<<<<<<<<<
+ *             break
+ *     return abs(lower - mass)
+ */
+          __pyx_t_26 = 1;
+          if (__pyx_t_26 < 0) __pyx_t_26 += __pyx_pybuffernd_coef.diminfo[0].shape;
+          __pyx_t_27 = 0;
+          if (__pyx_t_27 < 0) __pyx_t_27 += __pyx_pybuffernd_coef.diminfo[0].shape;
+          __pyx_v_lower = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_coef.diminfo[0].strides)) * __pyx_v_peak_half) + (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_coef.diminfo[0].strides)));
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":213
+ *                 points = index - data_index + 1
+ * 
+ *                 if points >= 3:             # <<<<<<<<<<<<<<
+ *                     vect_mzs = make_double_vector()
+ *                     vect_intensity = make_double_vector()
+ */
+        }
+      }
+      __pyx_L17:;
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":232
+ *                     free_double_vector(vect_mzs)
+ *                     lower = coef[1] * peak_half + coef[0]
+ *             break             # <<<<<<<<<<<<<<
+ *     return abs(lower - mass)
+ * 
+ */
+      goto __pyx_L8_break;
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":200
+ *         current_mass = mz_array[index]
+ *         Y1 = intensity_array[index]
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (             # <<<<<<<<<<<<<<
+ *                 (index > size - 1 or intensity_array[index + 1] > Y1) and (
+ *                 index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < minimum_signal_to_noise)):
+ */
+    }
+  }
+  __pyx_L8_break:;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":233
+ *                     lower = coef[1] * peak_half + coef[0]
+ *             break
+ *     return abs(lower - mass)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_r = fabs((__pyx_v_lower - __pyx_v_mass));
+  goto __pyx_L0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":172
+ * @cython.cdivision(True)
+ * @cython.boundscheck(False)
+ * cpdef DTYPE_t find_right_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,             # <<<<<<<<<<<<<<
+ *                                size_t data_index, DTYPE_t signal_to_noise=0.):
+ *     cdef:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
+    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_coef.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
+  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
+  __Pyx_WriteUnraisable("ms_peak_picker._c.peak_statistics.find_right_width", __pyx_clineno, __pyx_lineno, __pyx_filename, 0, 0);
+  __pyx_r = 0;
+  goto __pyx_L2;
+  __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_coef.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
+  __pyx_L2:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_coef);
+  __Pyx_TraceReturn(Py_None, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_right_width(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_right_width(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyArrayObject *__pyx_v_mz_array = 0;
+  PyArrayObject *__pyx_v_intensity_array = 0;
+  size_t __pyx_v_data_index;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_signal_to_noise;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("find_right_width (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_mz_array,&__pyx_n_s_intensity_array,&__pyx_n_s_data_index,&__pyx_n_s_signal_to_noise,0};
+    PyObject* values[4] = {0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mz_array)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_intensity_array)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("find_right_width", 0, 3, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_data_index)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("find_right_width", 0, 3, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  3:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_signal_to_noise);
+          if (value) { values[3] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_right_width") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_mz_array = ((PyArrayObject *)values[0]);
+    __pyx_v_intensity_array = ((PyArrayObject *)values[1]);
+    __pyx_v_data_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_data_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    if (values[3]) {
+      __pyx_v_signal_to_noise = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_signal_to_noise == (npy_float64)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    } else {
+      __pyx_v_signal_to_noise = ((__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t)0.);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("find_right_width", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("ms_peak_picker._c.peak_statistics.find_right_width", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mz_array), __pyx_ptype_5numpy_ndarray, 1, "mz_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_intensity_array), __pyx_ptype_5numpy_ndarray, 1, "intensity_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_14ms_peak_picker_2_c_15peak_statistics_4find_right_width(__pyx_self, __pyx_v_mz_array, __pyx_v_intensity_array, __pyx_v_data_index, __pyx_v_signal_to_noise);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_4find_right_width(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_signal_to_noise) {
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_intensity_array;
+  __Pyx_Buffer __pyx_pybuffer_intensity_array;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_mz_array;
+  __Pyx_Buffer __pyx_pybuffer_mz_array;
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_t_1;
+  struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_right_width __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("find_right_width", 0);
+  __Pyx_TraceCall("find_right_width", __pyx_f[0], 172, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
+  __pyx_pybuffer_mz_array.pybuffer.buf = NULL;
+  __pyx_pybuffer_mz_array.refcount = 0;
+  __pyx_pybuffernd_mz_array.data = NULL;
+  __pyx_pybuffernd_mz_array.rcbuffer = &__pyx_pybuffer_mz_array;
+  __pyx_pybuffer_intensity_array.pybuffer.buf = NULL;
+  __pyx_pybuffer_intensity_array.refcount = 0;
+  __pyx_pybuffernd_intensity_array.data = NULL;
+  __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_pybuffernd_mz_array.diminfo[0].strides = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_mz_array.diminfo[0].shape = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.shape[0];
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2.__pyx_n = 1;
+  __pyx_t_2.signal_to_noise = __pyx_v_signal_to_noise;
+  __pyx_t_1 = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_right_width(((PyArrayObject *)__pyx_v_mz_array), ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_data_index, 0, &__pyx_t_2); 
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
+    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
+  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
+  __Pyx_AddTraceback("ms_peak_picker._c.peak_statistics.find_right_width", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  goto __pyx_L2;
+  __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
+  __pyx_L2:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "ms_peak_picker\_c\peak_statistics.pyx":240
+ * @cython.cdivision(True)
+ * @cython.boundscheck(False)
+ * cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,             # <<<<<<<<<<<<<<
+ *                               size_t data_index, DTYPE_t signal_to_noise=0.):
+ *     cdef:
+ */
+
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_7find_left_width(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_left_width(PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_left_width *__pyx_optional_args) {
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_signal_to_noise = ((__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t)0.);
+  int __pyx_v_points;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_peak;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_peak_half;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_mass;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_X1;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_X2;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_Y1;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_Y2;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_upper;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_current_mass;
+  size_t __pyx_v_size;
+  size_t __pyx_v_index;
+  size_t __pyx_v_j;
+  PyArrayObject *__pyx_v_coef = 0;
+  struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *__pyx_v_vect_mzs;
+  struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *__pyx_v_vect_intensity;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_coef;
+  __Pyx_Buffer __pyx_pybuffer_coef;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_intensity_array;
+  __Pyx_Buffer __pyx_pybuffer_intensity_array;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_mz_array;
+  __Pyx_Buffer __pyx_pybuffer_mz_array;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_r;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   size_t __pyx_t_1;
   size_t __pyx_t_2;
@@ -3157,27 +5250,14 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   size_t __pyx_t_21;
   size_t __pyx_t_22;
   size_t __pyx_t_23;
-  int __pyx_t_24;
-  size_t __pyx_t_25;
+  size_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
   Py_ssize_t __pyx_t_26;
-  Py_ssize_t __pyx_t_27;
-  size_t __pyx_t_28;
-  size_t __pyx_t_29;
-  size_t __pyx_t_30;
-  size_t __pyx_t_31;
-  size_t __pyx_t_32;
-  size_t __pyx_t_33;
-  size_t __pyx_t_34;
-  size_t __pyx_t_35;
-  size_t __pyx_t_36;
-  size_t __pyx_t_37;
-  size_t __pyx_t_38;
-  Py_ssize_t __pyx_t_39;
-  Py_ssize_t __pyx_t_40;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("find_full_width_at_half_max", 0);
+  __Pyx_RefNannySetupContext("find_left_width", 0);
+  __Pyx_TraceCall("find_left_width", __pyx_f[0], 240, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
       __pyx_v_signal_to_noise = __pyx_optional_args->signal_to_noise;
@@ -3197,17 +5277,17 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_mz_array.diminfo[0].strides = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_mz_array.diminfo[0].shape = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":124
- *         list vect_mzs, vect_intensity
+  /* "ms_peak_picker\_c\peak_statistics.pyx":251
+ *         DoubleVector *vect_intensity
  * 
  *     points = 0             # <<<<<<<<<<<<<<
  *     peak = intensity_array[data_index]
@@ -3215,7 +5295,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   __pyx_v_points = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":125
+  /* "ms_peak_picker\_c\peak_statistics.pyx":252
  * 
  *     points = 0
  *     peak = intensity_array[data_index]             # <<<<<<<<<<<<<<
@@ -3223,9 +5303,9 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  *     mass = mz_array[data_index]
  */
   __pyx_t_1 = __pyx_v_data_index;
-  __pyx_v_peak = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+  __pyx_v_peak = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":126
+  /* "ms_peak_picker\_c\peak_statistics.pyx":253
  *     points = 0
  *     peak = intensity_array[data_index]
  *     peak_half = peak / 2.             # <<<<<<<<<<<<<<
@@ -3234,7 +5314,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   __pyx_v_peak_half = (__pyx_v_peak / 2.);
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":127
+  /* "ms_peak_picker\_c\peak_statistics.pyx":254
  *     peak = intensity_array[data_index]
  *     peak_half = peak / 2.
  *     mass = mz_array[data_index]             # <<<<<<<<<<<<<<
@@ -3242,32 +5322,32 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  *     coef = np.zeros(2)
  */
   __pyx_t_2 = __pyx_v_data_index;
-  __pyx_v_mass = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+  __pyx_v_mass = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":129
+  /* "ms_peak_picker\_c\peak_statistics.pyx":256
  *     mass = mz_array[data_index]
  * 
  *     coef = np.zeros(2)             # <<<<<<<<<<<<<<
  * 
- *     if aboutzero(peak):
+ *     if peak == 0.0:
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_5 = ((PyArrayObject *)__pyx_t_3);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_coef.rcbuffer->pybuffer);
-    __pyx_t_6 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_coef.rcbuffer->pybuffer, (PyObject*)__pyx_t_5, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack);
+    __pyx_t_6 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_coef.rcbuffer->pybuffer, (PyObject*)__pyx_t_5, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack);
     if (unlikely(__pyx_t_6 < 0)) {
       PyErr_Fetch(&__pyx_t_7, &__pyx_t_8, &__pyx_t_9);
-      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_coef.rcbuffer->pybuffer, (PyObject*)__pyx_v_coef, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_coef.rcbuffer->pybuffer, (PyObject*)__pyx_v_coef, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {
         Py_XDECREF(__pyx_t_7); Py_XDECREF(__pyx_t_8); Py_XDECREF(__pyx_t_9);
         __Pyx_RaiseBufferFallbackError();
       } else {
@@ -3275,25 +5355,25 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       }
     }
     __pyx_pybuffernd_coef.diminfo[0].strides = __pyx_pybuffernd_coef.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_coef.diminfo[0].shape = __pyx_pybuffernd_coef.rcbuffer->pybuffer.shape[0];
-    if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_5 = 0;
   __pyx_v_coef = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":131
+  /* "ms_peak_picker\_c\peak_statistics.pyx":258
  *     coef = np.zeros(2)
  * 
- *     if aboutzero(peak):             # <<<<<<<<<<<<<<
+ *     if peak == 0.0:             # <<<<<<<<<<<<<<
  *         return 0.
  * 
  */
-  __pyx_t_10 = (__pyx_f_14ms_peak_picker_2_c_15peak_statistics_aboutzero(__pyx_v_peak) != 0);
+  __pyx_t_10 = ((__pyx_v_peak == 0.0) != 0);
   if (__pyx_t_10) {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":132
+    /* "ms_peak_picker\_c\peak_statistics.pyx":259
  * 
- *     if aboutzero(peak):
+ *     if peak == 0.0:
  *         return 0.             # <<<<<<<<<<<<<<
  * 
  *     size = len(mz_array) - 1
@@ -3301,26 +5381,26 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     __pyx_r = 0.;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":131
+    /* "ms_peak_picker\_c\peak_statistics.pyx":258
  *     coef = np.zeros(2)
  * 
- *     if aboutzero(peak):             # <<<<<<<<<<<<<<
+ *     if peak == 0.0:             # <<<<<<<<<<<<<<
  *         return 0.
  * 
  */
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":134
+  /* "ms_peak_picker\_c\peak_statistics.pyx":261
  *         return 0.
  * 
  *     size = len(mz_array) - 1             # <<<<<<<<<<<<<<
  *     if data_index <= 0 or data_index >= size:
  *         return 0.
  */
-  __pyx_t_11 = PyObject_Length(((PyObject *)__pyx_v_mz_array)); if (unlikely(__pyx_t_11 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = PyObject_Length(((PyObject *)__pyx_v_mz_array)); if (unlikely(__pyx_t_11 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_size = (__pyx_t_11 - 1);
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":135
+  /* "ms_peak_picker\_c\peak_statistics.pyx":262
  * 
  *     size = len(mz_array) - 1
  *     if data_index <= 0 or data_index >= size:             # <<<<<<<<<<<<<<
@@ -3338,7 +5418,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_L5_bool_binop_done:;
   if (__pyx_t_10) {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":136
+    /* "ms_peak_picker\_c\peak_statistics.pyx":263
  *     size = len(mz_array) - 1
  *     if data_index <= 0 or data_index >= size:
  *         return 0.             # <<<<<<<<<<<<<<
@@ -3348,7 +5428,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     __pyx_r = 0.;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":135
+    /* "ms_peak_picker\_c\peak_statistics.pyx":262
  * 
  *     size = len(mz_array) - 1
  *     if data_index <= 0 or data_index >= size:             # <<<<<<<<<<<<<<
@@ -3357,7 +5437,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":138
+  /* "ms_peak_picker\_c\peak_statistics.pyx":265
  *         return 0.
  * 
  *     upper = mz_array[0]             # <<<<<<<<<<<<<<
@@ -3366,9 +5446,9 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   __pyx_t_13 = 0;
   if (__pyx_t_13 < 0) __pyx_t_13 += __pyx_pybuffernd_mz_array.diminfo[0].shape;
-  __pyx_v_upper = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+  __pyx_v_upper = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":139
+  /* "ms_peak_picker\_c\peak_statistics.pyx":266
  * 
  *     upper = mz_array[0]
  *     for index in range(data_index, -1, -1):             # <<<<<<<<<<<<<<
@@ -3378,32 +5458,32 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   for (__pyx_t_14 = __pyx_v_data_index + 1; __pyx_t_14 > -1L + 1; ) { __pyx_t_14-=1;
     __pyx_v_index = __pyx_t_14;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":140
+    /* "ms_peak_picker\_c\peak_statistics.pyx":267
  *     upper = mz_array[0]
  *     for index in range(data_index, -1, -1):
  *         current_mass = mz_array[index]             # <<<<<<<<<<<<<<
  *         Y1 = intensity_array[index]
- *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or (
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
  */
     __pyx_t_15 = __pyx_v_index;
-    __pyx_v_current_mass = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+    __pyx_v_current_mass = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":141
+    /* "ms_peak_picker\_c\peak_statistics.pyx":268
  *     for index in range(data_index, -1, -1):
  *         current_mass = mz_array[index]
  *         Y1 = intensity_array[index]             # <<<<<<<<<<<<<<
- *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or (
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
  *                 (index < 1 or intensity_array[index - 1] > Y1) and (
  */
     __pyx_t_16 = __pyx_v_index;
-    __pyx_v_Y1 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+    __pyx_v_Y1 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":142
+    /* "ms_peak_picker\_c\peak_statistics.pyx":269
  *         current_mass = mz_array[index]
  *         Y1 = intensity_array[index]
- *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or (             # <<<<<<<<<<<<<<
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (             # <<<<<<<<<<<<<<
  *                 (index < 1 or intensity_array[index - 1] > Y1) and (
- *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < 4.0))):
+ *                     index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
  */
     __pyx_t_12 = ((__pyx_v_Y1 < __pyx_v_peak_half) != 0);
     if (!__pyx_t_12) {
@@ -3411,18 +5491,18 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       __pyx_t_10 = __pyx_t_12;
       goto __pyx_L10_bool_binop_done;
     }
-    __pyx_t_12 = ((fabs((__pyx_v_mass - __pyx_v_current_mass)) > 5.0) != 0);
+    __pyx_t_12 = ((fabs((__pyx_v_mass - __pyx_v_current_mass)) > 1.5) != 0);
     if (!__pyx_t_12) {
     } else {
       __pyx_t_10 = __pyx_t_12;
       goto __pyx_L10_bool_binop_done;
     }
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":143
+    /* "ms_peak_picker\_c\peak_statistics.pyx":270
  *         Y1 = intensity_array[index]
- *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or (
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
  *                 (index < 1 or intensity_array[index - 1] > Y1) and (             # <<<<<<<<<<<<<<
- *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < 4.0))):
+ *                     index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
  *             Y2 = intensity_array[index + 1]
  */
     __pyx_t_12 = ((__pyx_v_index < 1) != 0);
@@ -3431,7 +5511,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       goto __pyx_L13_next_and;
     }
     __pyx_t_17 = (__pyx_v_index - 1);
-    __pyx_t_12 = (((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
+    __pyx_t_12 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
     if (__pyx_t_12) {
     } else {
       __pyx_t_10 = __pyx_t_12;
@@ -3439,10 +5519,10 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
     __pyx_L13_next_and:;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":144
- *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or (
+    /* "ms_peak_picker\_c\peak_statistics.pyx":271
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
  *                 (index < 1 or intensity_array[index - 1] > Y1) and (
- *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < 4.0))):             # <<<<<<<<<<<<<<
+ *                     index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):             # <<<<<<<<<<<<<<
  *             Y2 = intensity_array[index + 1]
  *             X1 = mz_array[index]
  */
@@ -3452,47 +5532,905 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       goto __pyx_L15_next_and;
     }
     __pyx_t_18 = (__pyx_v_index - 2);
-    __pyx_t_12 = (((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
+    __pyx_t_12 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
     if (__pyx_t_12) {
     } else {
       __pyx_t_10 = __pyx_t_12;
       goto __pyx_L10_bool_binop_done;
     }
     __pyx_L15_next_and:;
-    __pyx_t_12 = ((__pyx_v_signal_to_noise < 4.0) != 0);
+    __pyx_t_12 = ((__pyx_v_signal_to_noise < __pyx_v_14ms_peak_picker_2_c_15peak_statistics_minimum_signal_to_noise) != 0);
     __pyx_t_10 = __pyx_t_12;
     __pyx_L10_bool_binop_done:;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":142
+    /* "ms_peak_picker\_c\peak_statistics.pyx":269
  *         current_mass = mz_array[index]
  *         Y1 = intensity_array[index]
- *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or (             # <<<<<<<<<<<<<<
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (             # <<<<<<<<<<<<<<
  *                 (index < 1 or intensity_array[index - 1] > Y1) and (
- *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < 4.0))):
+ *                     index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
  */
     if (__pyx_t_10) {
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":145
+      /* "ms_peak_picker\_c\peak_statistics.pyx":272
  *                 (index < 1 or intensity_array[index - 1] > Y1) and (
- *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < 4.0))):
+ *                     index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
  *             Y2 = intensity_array[index + 1]             # <<<<<<<<<<<<<<
  *             X1 = mz_array[index]
  *             X2 = mz_array[index + 1]
  */
       __pyx_t_19 = (__pyx_v_index + 1);
-      __pyx_v_Y2 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+      __pyx_v_Y2 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":146
- *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < 4.0))):
+      /* "ms_peak_picker\_c\peak_statistics.pyx":273
+ *                     index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
  *             Y2 = intensity_array[index + 1]
  *             X1 = mz_array[index]             # <<<<<<<<<<<<<<
  *             X2 = mz_array[index + 1]
  * 
  */
       __pyx_t_20 = __pyx_v_index;
-      __pyx_v_X1 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_20, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+      __pyx_v_X1 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_20, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":147
+      /* "ms_peak_picker\_c\peak_statistics.pyx":274
+ *             Y2 = intensity_array[index + 1]
+ *             X1 = mz_array[index]
+ *             X2 = mz_array[index + 1]             # <<<<<<<<<<<<<<
+ * 
+ *             if ((Y2 - Y1 != 0) and (Y1 < peak_half)):
+ */
+      __pyx_t_21 = (__pyx_v_index + 1);
+      __pyx_v_X2 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_21, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":276
+ *             X2 = mz_array[index + 1]
+ * 
+ *             if ((Y2 - Y1 != 0) and (Y1 < peak_half)):             # <<<<<<<<<<<<<<
+ *                 upper = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
+ *             else:
+ */
+      __pyx_t_12 = (((__pyx_v_Y2 - __pyx_v_Y1) != 0.0) != 0);
+      if (__pyx_t_12) {
+      } else {
+        __pyx_t_10 = __pyx_t_12;
+        goto __pyx_L18_bool_binop_done;
+      }
+      __pyx_t_12 = ((__pyx_v_Y1 < __pyx_v_peak_half) != 0);
+      __pyx_t_10 = __pyx_t_12;
+      __pyx_L18_bool_binop_done:;
+      if (__pyx_t_10) {
+
+        /* "ms_peak_picker\_c\peak_statistics.pyx":277
+ * 
+ *             if ((Y2 - Y1 != 0) and (Y1 < peak_half)):
+ *                 upper = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)             # <<<<<<<<<<<<<<
+ *             else:
+ *                 upper = X1
+ */
+        __pyx_v_upper = (__pyx_v_X1 - (((__pyx_v_X1 - __pyx_v_X2) * (__pyx_v_peak_half - __pyx_v_Y1)) / (__pyx_v_Y2 - __pyx_v_Y1)));
+
+        /* "ms_peak_picker\_c\peak_statistics.pyx":276
+ *             X2 = mz_array[index + 1]
+ * 
+ *             if ((Y2 - Y1 != 0) and (Y1 < peak_half)):             # <<<<<<<<<<<<<<
+ *                 upper = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
+ *             else:
+ */
+        goto __pyx_L17;
+      }
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":279
+ *                 upper = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
+ *             else:
+ *                 upper = X1             # <<<<<<<<<<<<<<
+ *                 points = data_index - index + 1
+ *                 if points >= 3:
+ */
+      /*else*/ {
+        __pyx_v_upper = __pyx_v_X1;
+
+        /* "ms_peak_picker\_c\peak_statistics.pyx":280
+ *             else:
+ *                 upper = X1
+ *                 points = data_index - index + 1             # <<<<<<<<<<<<<<
+ *                 if points >= 3:
+ *                     vect_mzs = make_double_vector()
+ */
+        __pyx_v_points = ((__pyx_v_data_index - __pyx_v_index) + 1);
+
+        /* "ms_peak_picker\_c\peak_statistics.pyx":281
+ *                 upper = X1
+ *                 points = data_index - index + 1
+ *                 if points >= 3:             # <<<<<<<<<<<<<<
+ *                     vect_mzs = make_double_vector()
+ *                     vect_intensity = make_double_vector()
+ */
+        __pyx_t_10 = ((__pyx_v_points >= 3) != 0);
+        if (__pyx_t_10) {
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":282
+ *                 points = data_index - index + 1
+ *                 if points >= 3:
+ *                     vect_mzs = make_double_vector()             # <<<<<<<<<<<<<<
+ *                     vect_intensity = make_double_vector()
+ * 
+ */
+          __pyx_v_vect_mzs = __pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector();
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":283
+ *                 if points >= 3:
+ *                     vect_mzs = make_double_vector()
+ *                     vect_intensity = make_double_vector()             # <<<<<<<<<<<<<<
+ * 
+ *                     for j in range(points - 1, -1, -1):
+ */
+          __pyx_v_vect_intensity = __pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector();
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":285
+ *                     vect_intensity = make_double_vector()
+ * 
+ *                     for j in range(points - 1, -1, -1):             # <<<<<<<<<<<<<<
+ *                         double_vector_append(vect_mzs, mz_array[index - j])
+ *                         double_vector_append(vect_intensity, intensity_array[index - j])
+ */
+          for (__pyx_t_22 = (__pyx_v_points - 1) + 1; __pyx_t_22 > -1L + 1; ) { __pyx_t_22-=1;
+            __pyx_v_j = __pyx_t_22;
+
+            /* "ms_peak_picker\_c\peak_statistics.pyx":286
+ * 
+ *                     for j in range(points - 1, -1, -1):
+ *                         double_vector_append(vect_mzs, mz_array[index - j])             # <<<<<<<<<<<<<<
+ *                         double_vector_append(vect_intensity, intensity_array[index - j])
+ * 
+ */
+            __pyx_t_23 = (__pyx_v_index - __pyx_v_j);
+            __pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_append(__pyx_v_vect_mzs, (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_mz_array.diminfo[0].strides)));
+
+            /* "ms_peak_picker\_c\peak_statistics.pyx":287
+ *                     for j in range(points - 1, -1, -1):
+ *                         double_vector_append(vect_mzs, mz_array[index - j])
+ *                         double_vector_append(vect_intensity, intensity_array[index - j])             # <<<<<<<<<<<<<<
+ * 
+ *                     j = 0
+ */
+            __pyx_t_24 = (__pyx_v_index - __pyx_v_j);
+            __pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_append(__pyx_v_vect_intensity, (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_24, __pyx_pybuffernd_intensity_array.diminfo[0].strides)));
+          }
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":289
+ *                         double_vector_append(vect_intensity, intensity_array[index - j])
+ * 
+ *                     j = 0             # <<<<<<<<<<<<<<
+ *                     while j < points and (vect_intensity.v[0] == vect_intensity.v[j]):
+ *                         j += 1
+ */
+          __pyx_v_j = 0;
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":290
+ * 
+ *                     j = 0
+ *                     while j < points and (vect_intensity.v[0] == vect_intensity.v[j]):             # <<<<<<<<<<<<<<
+ *                         j += 1
+ * 
+ */
+          while (1) {
+            __pyx_t_12 = ((__pyx_v_j < __pyx_v_points) != 0);
+            if (__pyx_t_12) {
+            } else {
+              __pyx_t_10 = __pyx_t_12;
+              goto __pyx_L25_bool_binop_done;
+            }
+            __pyx_t_12 = (((__pyx_v_vect_intensity->v[0]) == (__pyx_v_vect_intensity->v[__pyx_v_j])) != 0);
+            __pyx_t_10 = __pyx_t_12;
+            __pyx_L25_bool_binop_done:;
+            if (!__pyx_t_10) break;
+
+            /* "ms_peak_picker\_c\peak_statistics.pyx":291
+ *                     j = 0
+ *                     while j < points and (vect_intensity.v[0] == vect_intensity.v[j]):
+ *                         j += 1             # <<<<<<<<<<<<<<
+ * 
+ *                     if j == points:
+ */
+            __pyx_v_j = (__pyx_v_j + 1);
+          }
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":293
+ *                         j += 1
+ * 
+ *                     if j == points:             # <<<<<<<<<<<<<<
+ *                         return 0.
+ * 
+ */
+          __pyx_t_10 = ((__pyx_v_j == __pyx_v_points) != 0);
+          if (__pyx_t_10) {
+
+            /* "ms_peak_picker\_c\peak_statistics.pyx":294
+ * 
+ *                     if j == points:
+ *                         return 0.             # <<<<<<<<<<<<<<
+ * 
+ *                     # coef will contain the results
+ */
+            __pyx_r = 0.;
+            goto __pyx_L0;
+
+            /* "ms_peak_picker\_c\peak_statistics.pyx":293
+ *                         j += 1
+ * 
+ *                     if j == points:             # <<<<<<<<<<<<<<
+ *                         return 0.
+ * 
+ */
+          }
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":297
+ * 
+ *                     # coef will contain the results
+ *                     curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)             # <<<<<<<<<<<<<<
+ *                     free_double_vector(vect_intensity)
+ *                     free_double_vector(vect_mzs)
+ */
+          __pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg_dv(__pyx_v_vect_intensity, __pyx_v_vect_mzs, __pyx_v_points, ((PyArrayObject *)__pyx_v_coef), 1);
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":298
+ *                     # coef will contain the results
+ *                     curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
+ *                     free_double_vector(vect_intensity)             # <<<<<<<<<<<<<<
+ *                     free_double_vector(vect_mzs)
+ *                     upper = coef[1] * peak_half + coef[0]
+ */
+          __pyx_f_14ms_peak_picker_2_c_13double_vector_free_double_vector(__pyx_v_vect_intensity);
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":299
+ *                     curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
+ *                     free_double_vector(vect_intensity)
+ *                     free_double_vector(vect_mzs)             # <<<<<<<<<<<<<<
+ *                     upper = coef[1] * peak_half + coef[0]
+ *             break
+ */
+          __pyx_f_14ms_peak_picker_2_c_13double_vector_free_double_vector(__pyx_v_vect_mzs);
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":300
+ *                     free_double_vector(vect_intensity)
+ *                     free_double_vector(vect_mzs)
+ *                     upper = coef[1] * peak_half + coef[0]             # <<<<<<<<<<<<<<
+ *             break
+ *     return abs(mass - upper)
+ */
+          __pyx_t_25 = 1;
+          if (__pyx_t_25 < 0) __pyx_t_25 += __pyx_pybuffernd_coef.diminfo[0].shape;
+          __pyx_t_26 = 0;
+          if (__pyx_t_26 < 0) __pyx_t_26 += __pyx_pybuffernd_coef.diminfo[0].shape;
+          __pyx_v_upper = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_coef.diminfo[0].strides)) * __pyx_v_peak_half) + (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_coef.diminfo[0].strides)));
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":281
+ *                 upper = X1
+ *                 points = data_index - index + 1
+ *                 if points >= 3:             # <<<<<<<<<<<<<<
+ *                     vect_mzs = make_double_vector()
+ *                     vect_intensity = make_double_vector()
+ */
+        }
+      }
+      __pyx_L17:;
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":301
+ *                     free_double_vector(vect_mzs)
+ *                     upper = coef[1] * peak_half + coef[0]
+ *             break             # <<<<<<<<<<<<<<
+ *     return abs(mass - upper)
+ * 
+ */
+      goto __pyx_L8_break;
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":269
+ *         current_mass = mz_array[index]
+ *         Y1 = intensity_array[index]
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (             # <<<<<<<<<<<<<<
+ *                 (index < 1 or intensity_array[index - 1] > Y1) and (
+ *                     index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
+ */
+    }
+  }
+  __pyx_L8_break:;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":302
+ *                     upper = coef[1] * peak_half + coef[0]
+ *             break
+ *     return abs(mass - upper)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_r = fabs((__pyx_v_mass - __pyx_v_upper));
+  goto __pyx_L0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":240
+ * @cython.cdivision(True)
+ * @cython.boundscheck(False)
+ * cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,             # <<<<<<<<<<<<<<
+ *                               size_t data_index, DTYPE_t signal_to_noise=0.):
+ *     cdef:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
+    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_coef.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
+  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
+  __Pyx_WriteUnraisable("ms_peak_picker._c.peak_statistics.find_left_width", __pyx_clineno, __pyx_lineno, __pyx_filename, 0, 0);
+  __pyx_r = 0;
+  goto __pyx_L2;
+  __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_coef.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
+  __pyx_L2:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_coef);
+  __Pyx_TraceReturn(Py_None, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_7find_left_width(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_7find_left_width(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyArrayObject *__pyx_v_mz_array = 0;
+  PyArrayObject *__pyx_v_intensity_array = 0;
+  size_t __pyx_v_data_index;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_signal_to_noise;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("find_left_width (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_mz_array,&__pyx_n_s_intensity_array,&__pyx_n_s_data_index,&__pyx_n_s_signal_to_noise,0};
+    PyObject* values[4] = {0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mz_array)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_intensity_array)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("find_left_width", 0, 3, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_data_index)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("find_left_width", 0, 3, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  3:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_signal_to_noise);
+          if (value) { values[3] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_left_width") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_mz_array = ((PyArrayObject *)values[0]);
+    __pyx_v_intensity_array = ((PyArrayObject *)values[1]);
+    __pyx_v_data_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_data_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 241; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    if (values[3]) {
+      __pyx_v_signal_to_noise = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_signal_to_noise == (npy_float64)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 241; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    } else {
+      __pyx_v_signal_to_noise = ((__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t)0.);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("find_left_width", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("ms_peak_picker._c.peak_statistics.find_left_width", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mz_array), __pyx_ptype_5numpy_ndarray, 1, "mz_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_intensity_array), __pyx_ptype_5numpy_ndarray, 1, "intensity_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_14ms_peak_picker_2_c_15peak_statistics_6find_left_width(__pyx_self, __pyx_v_mz_array, __pyx_v_intensity_array, __pyx_v_data_index, __pyx_v_signal_to_noise);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_6find_left_width(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_signal_to_noise) {
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_intensity_array;
+  __Pyx_Buffer __pyx_pybuffer_intensity_array;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_mz_array;
+  __Pyx_Buffer __pyx_pybuffer_mz_array;
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_t_1;
+  struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_left_width __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("find_left_width", 0);
+  __Pyx_TraceCall("find_left_width", __pyx_f[0], 240, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
+  __pyx_pybuffer_mz_array.pybuffer.buf = NULL;
+  __pyx_pybuffer_mz_array.refcount = 0;
+  __pyx_pybuffernd_mz_array.data = NULL;
+  __pyx_pybuffernd_mz_array.rcbuffer = &__pyx_pybuffer_mz_array;
+  __pyx_pybuffer_intensity_array.pybuffer.buf = NULL;
+  __pyx_pybuffer_intensity_array.refcount = 0;
+  __pyx_pybuffernd_intensity_array.data = NULL;
+  __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_pybuffernd_mz_array.diminfo[0].strides = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_mz_array.diminfo[0].shape = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.shape[0];
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2.__pyx_n = 1;
+  __pyx_t_2.signal_to_noise = __pyx_v_signal_to_noise;
+  __pyx_t_1 = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_left_width(((PyArrayObject *)__pyx_v_mz_array), ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_data_index, 0, &__pyx_t_2); 
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 240; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
+    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
+  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
+  __Pyx_AddTraceback("ms_peak_picker._c.peak_statistics.find_left_width", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  goto __pyx_L2;
+  __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
+  __pyx_L2:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "ms_peak_picker\_c\peak_statistics.pyx":309
+ * @cython.cdivision(True)
+ * @cython.boundscheck(False)
+ * cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,             # <<<<<<<<<<<<<<
+ *                                           size_t data_index, double signal_to_noise=0.):
+ *     cdef:
+ */
+
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_9find_full_width_at_half_max(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_half_max(PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_half_max *__pyx_optional_args) {
+  double __pyx_v_signal_to_noise = ((double)0.);
+  int __pyx_v_points;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_peak;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_peak_half;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_mass;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_X1;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_X2;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_Y1;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_Y2;
+  CYTHON_UNUSED __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_mse;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_upper;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_lower;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_current_mass;
+  size_t __pyx_v_size;
+  size_t __pyx_v_index;
+  size_t __pyx_v_j;
+  size_t __pyx_v_k;
+  PyArrayObject *__pyx_v_coef = 0;
+  struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *__pyx_v_vect_mzs;
+  struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *__pyx_v_vect_intensity;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_coef;
+  __Pyx_Buffer __pyx_pybuffer_coef;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_intensity_array;
+  __Pyx_Buffer __pyx_pybuffer_intensity_array;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_mz_array;
+  __Pyx_Buffer __pyx_pybuffer_mz_array;
+  __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_r;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  size_t __pyx_t_1;
+  size_t __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyArrayObject *__pyx_t_5 = NULL;
+  int __pyx_t_6;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  int __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  int __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  size_t __pyx_t_14;
+  size_t __pyx_t_15;
+  size_t __pyx_t_16;
+  size_t __pyx_t_17;
+  size_t __pyx_t_18;
+  size_t __pyx_t_19;
+  size_t __pyx_t_20;
+  size_t __pyx_t_21;
+  size_t __pyx_t_22;
+  size_t __pyx_t_23;
+  size_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  size_t __pyx_t_27;
+  size_t __pyx_t_28;
+  size_t __pyx_t_29;
+  size_t __pyx_t_30;
+  size_t __pyx_t_31;
+  size_t __pyx_t_32;
+  size_t __pyx_t_33;
+  size_t __pyx_t_34;
+  size_t __pyx_t_35;
+  size_t __pyx_t_36;
+  size_t __pyx_t_37;
+  Py_ssize_t __pyx_t_38;
+  Py_ssize_t __pyx_t_39;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("find_full_width_at_half_max", 0);
+  __Pyx_TraceCall("find_full_width_at_half_max", __pyx_f[0], 309, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_signal_to_noise = __pyx_optional_args->signal_to_noise;
+    }
+  }
+  __pyx_pybuffer_coef.pybuffer.buf = NULL;
+  __pyx_pybuffer_coef.refcount = 0;
+  __pyx_pybuffernd_coef.data = NULL;
+  __pyx_pybuffernd_coef.rcbuffer = &__pyx_pybuffer_coef;
+  __pyx_pybuffer_mz_array.pybuffer.buf = NULL;
+  __pyx_pybuffer_mz_array.refcount = 0;
+  __pyx_pybuffernd_mz_array.data = NULL;
+  __pyx_pybuffernd_mz_array.rcbuffer = &__pyx_pybuffer_mz_array;
+  __pyx_pybuffer_intensity_array.pybuffer.buf = NULL;
+  __pyx_pybuffer_intensity_array.refcount = 0;
+  __pyx_pybuffernd_intensity_array.data = NULL;
+  __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_pybuffernd_mz_array.diminfo[0].strides = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_mz_array.diminfo[0].shape = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.shape[0];
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":320
+ *         DoubleVector* vect_intensity
+ * 
+ *     points = 0             # <<<<<<<<<<<<<<
+ *     peak = intensity_array[data_index]
+ *     peak_half = peak / 2.
+ */
+  __pyx_v_points = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":321
+ * 
+ *     points = 0
+ *     peak = intensity_array[data_index]             # <<<<<<<<<<<<<<
+ *     peak_half = peak / 2.
+ *     mass = mz_array[data_index]
+ */
+  __pyx_t_1 = __pyx_v_data_index;
+  __pyx_v_peak = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":322
+ *     points = 0
+ *     peak = intensity_array[data_index]
+ *     peak_half = peak / 2.             # <<<<<<<<<<<<<<
+ *     mass = mz_array[data_index]
+ * 
+ */
+  __pyx_v_peak_half = (__pyx_v_peak / 2.);
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":323
+ *     peak = intensity_array[data_index]
+ *     peak_half = peak / 2.
+ *     mass = mz_array[data_index]             # <<<<<<<<<<<<<<
+ * 
+ *     coef = np.zeros(2)
+ */
+  __pyx_t_2 = __pyx_v_data_index;
+  __pyx_v_mass = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":325
+ *     mass = mz_array[data_index]
+ * 
+ *     coef = np.zeros(2)             # <<<<<<<<<<<<<<
+ * 
+ *     if aboutzero(peak):
+ */
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 325; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 325; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 325; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 325; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = ((PyArrayObject *)__pyx_t_3);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_coef.rcbuffer->pybuffer);
+    __pyx_t_6 = __Pyx_GetBufferAndValidate(&__pyx_pybuffernd_coef.rcbuffer->pybuffer, (PyObject*)__pyx_t_5, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack);
+    if (unlikely(__pyx_t_6 < 0)) {
+      PyErr_Fetch(&__pyx_t_7, &__pyx_t_8, &__pyx_t_9);
+      if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_coef.rcbuffer->pybuffer, (PyObject*)__pyx_v_coef, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {
+        Py_XDECREF(__pyx_t_7); Py_XDECREF(__pyx_t_8); Py_XDECREF(__pyx_t_9);
+        __Pyx_RaiseBufferFallbackError();
+      } else {
+        PyErr_Restore(__pyx_t_7, __pyx_t_8, __pyx_t_9);
+      }
+    }
+    __pyx_pybuffernd_coef.diminfo[0].strides = __pyx_pybuffernd_coef.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_coef.diminfo[0].shape = __pyx_pybuffernd_coef.rcbuffer->pybuffer.shape[0];
+    if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 325; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_5 = 0;
+  __pyx_v_coef = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":327
+ *     coef = np.zeros(2)
+ * 
+ *     if aboutzero(peak):             # <<<<<<<<<<<<<<
+ *         return 0.
+ * 
+ */
+  __pyx_t_10 = (__pyx_f_14ms_peak_picker_2_c_15peak_statistics_aboutzero(__pyx_v_peak) != 0);
+  if (__pyx_t_10) {
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":328
+ * 
+ *     if aboutzero(peak):
+ *         return 0.             # <<<<<<<<<<<<<<
+ * 
+ *     size = len(mz_array) - 1
+ */
+    __pyx_r = 0.;
+    goto __pyx_L0;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":327
+ *     coef = np.zeros(2)
+ * 
+ *     if aboutzero(peak):             # <<<<<<<<<<<<<<
+ *         return 0.
+ * 
+ */
+  }
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":330
+ *         return 0.
+ * 
+ *     size = len(mz_array) - 1             # <<<<<<<<<<<<<<
+ *     if data_index <= 0 or data_index >= size:
+ *         return 0.
+ */
+  __pyx_t_11 = PyObject_Length(((PyObject *)__pyx_v_mz_array)); if (unlikely(__pyx_t_11 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 330; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_size = (__pyx_t_11 - 1);
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":331
+ * 
+ *     size = len(mz_array) - 1
+ *     if data_index <= 0 or data_index >= size:             # <<<<<<<<<<<<<<
+ *         return 0.
+ * 
+ */
+  __pyx_t_12 = ((__pyx_v_data_index <= 0) != 0);
+  if (!__pyx_t_12) {
+  } else {
+    __pyx_t_10 = __pyx_t_12;
+    goto __pyx_L5_bool_binop_done;
+  }
+  __pyx_t_12 = ((__pyx_v_data_index >= __pyx_v_size) != 0);
+  __pyx_t_10 = __pyx_t_12;
+  __pyx_L5_bool_binop_done:;
+  if (__pyx_t_10) {
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":332
+ *     size = len(mz_array) - 1
+ *     if data_index <= 0 or data_index >= size:
+ *         return 0.             # <<<<<<<<<<<<<<
+ * 
+ *     upper = mz_array[0]
+ */
+    __pyx_r = 0.;
+    goto __pyx_L0;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":331
+ * 
+ *     size = len(mz_array) - 1
+ *     if data_index <= 0 or data_index >= size:             # <<<<<<<<<<<<<<
+ *         return 0.
+ * 
+ */
+  }
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":334
+ *         return 0.
+ * 
+ *     upper = mz_array[0]             # <<<<<<<<<<<<<<
+ *     for index in range(data_index, -1, -1):
+ *         current_mass = mz_array[index]
+ */
+  __pyx_t_13 = 0;
+  if (__pyx_t_13 < 0) __pyx_t_13 += __pyx_pybuffernd_mz_array.diminfo[0].shape;
+  __pyx_v_upper = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":335
+ * 
+ *     upper = mz_array[0]
+ *     for index in range(data_index, -1, -1):             # <<<<<<<<<<<<<<
+ *         current_mass = mz_array[index]
+ *         Y1 = intensity_array[index]
+ */
+  for (__pyx_t_14 = __pyx_v_data_index + 1; __pyx_t_14 > -1L + 1; ) { __pyx_t_14-=1;
+    __pyx_v_index = __pyx_t_14;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":336
+ *     upper = mz_array[0]
+ *     for index in range(data_index, -1, -1):
+ *         current_mass = mz_array[index]             # <<<<<<<<<<<<<<
+ *         Y1 = intensity_array[index]
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
+ */
+    __pyx_t_15 = __pyx_v_index;
+    __pyx_v_current_mass = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":337
+ *     for index in range(data_index, -1, -1):
+ *         current_mass = mz_array[index]
+ *         Y1 = intensity_array[index]             # <<<<<<<<<<<<<<
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
+ *                 (index < 1 or intensity_array[index - 1] > Y1) and (
+ */
+    __pyx_t_16 = __pyx_v_index;
+    __pyx_v_Y1 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":338
+ *         current_mass = mz_array[index]
+ *         Y1 = intensity_array[index]
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (             # <<<<<<<<<<<<<<
+ *                 (index < 1 or intensity_array[index - 1] > Y1) and (
+ *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
+ */
+    __pyx_t_12 = ((__pyx_v_Y1 < __pyx_v_peak_half) != 0);
+    if (!__pyx_t_12) {
+    } else {
+      __pyx_t_10 = __pyx_t_12;
+      goto __pyx_L10_bool_binop_done;
+    }
+    __pyx_t_12 = ((fabs((__pyx_v_mass - __pyx_v_current_mass)) > 1.5) != 0);
+    if (!__pyx_t_12) {
+    } else {
+      __pyx_t_10 = __pyx_t_12;
+      goto __pyx_L10_bool_binop_done;
+    }
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":339
+ *         Y1 = intensity_array[index]
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
+ *                 (index < 1 or intensity_array[index - 1] > Y1) and (             # <<<<<<<<<<<<<<
+ *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
+ *             Y2 = intensity_array[index + 1]
+ */
+    __pyx_t_12 = ((__pyx_v_index < 1) != 0);
+    if (!__pyx_t_12) {
+    } else {
+      goto __pyx_L13_next_and;
+    }
+    __pyx_t_17 = (__pyx_v_index - 1);
+    __pyx_t_12 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
+    if (__pyx_t_12) {
+    } else {
+      __pyx_t_10 = __pyx_t_12;
+      goto __pyx_L10_bool_binop_done;
+    }
+    __pyx_L13_next_and:;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":340
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
+ *                 (index < 1 or intensity_array[index - 1] > Y1) and (
+ *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):             # <<<<<<<<<<<<<<
+ *             Y2 = intensity_array[index + 1]
+ *             X1 = mz_array[index]
+ */
+    __pyx_t_12 = ((__pyx_v_index < 2) != 0);
+    if (!__pyx_t_12) {
+    } else {
+      goto __pyx_L15_next_and;
+    }
+    __pyx_t_18 = (__pyx_v_index - 2);
+    __pyx_t_12 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
+    if (__pyx_t_12) {
+    } else {
+      __pyx_t_10 = __pyx_t_12;
+      goto __pyx_L10_bool_binop_done;
+    }
+    __pyx_L15_next_and:;
+    __pyx_t_12 = ((__pyx_v_signal_to_noise < __pyx_v_14ms_peak_picker_2_c_15peak_statistics_minimum_signal_to_noise) != 0);
+    __pyx_t_10 = __pyx_t_12;
+    __pyx_L10_bool_binop_done:;
+
+    /* "ms_peak_picker\_c\peak_statistics.pyx":338
+ *         current_mass = mz_array[index]
+ *         Y1 = intensity_array[index]
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (             # <<<<<<<<<<<<<<
+ *                 (index < 1 or intensity_array[index - 1] > Y1) and (
+ *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
+ */
+    if (__pyx_t_10) {
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":341
+ *                 (index < 1 or intensity_array[index - 1] > Y1) and (
+ *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
+ *             Y2 = intensity_array[index + 1]             # <<<<<<<<<<<<<<
+ *             X1 = mz_array[index]
+ *             X2 = mz_array[index + 1]
+ */
+      __pyx_t_19 = (__pyx_v_index + 1);
+      __pyx_v_Y2 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":342
+ *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
+ *             Y2 = intensity_array[index + 1]
+ *             X1 = mz_array[index]             # <<<<<<<<<<<<<<
+ *             X2 = mz_array[index + 1]
+ * 
+ */
+      __pyx_t_20 = __pyx_v_index;
+      __pyx_v_X1 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_20, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+
+      /* "ms_peak_picker\_c\peak_statistics.pyx":343
  *             Y2 = intensity_array[index + 1]
  *             X1 = mz_array[index]
  *             X2 = mz_array[index + 1]             # <<<<<<<<<<<<<<
@@ -3500,9 +6438,9 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  *             if (not aboutzero(Y2 - Y1) and (Y1 < peak_half)):
  */
       __pyx_t_21 = (__pyx_v_index + 1);
-      __pyx_v_X2 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_21, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+      __pyx_v_X2 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_21, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":149
+      /* "ms_peak_picker\_c\peak_statistics.pyx":345
  *             X2 = mz_array[index + 1]
  * 
  *             if (not aboutzero(Y2 - Y1) and (Y1 < peak_half)):             # <<<<<<<<<<<<<<
@@ -3520,7 +6458,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       __pyx_L18_bool_binop_done:;
       if (__pyx_t_10) {
 
-        /* "ms_peak_picker\_c\peak_statistics.pyx":150
+        /* "ms_peak_picker\_c\peak_statistics.pyx":346
  * 
  *             if (not aboutzero(Y2 - Y1) and (Y1 < peak_half)):
  *                 upper = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)             # <<<<<<<<<<<<<<
@@ -3529,7 +6467,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
         __pyx_v_upper = (__pyx_v_X1 - (((__pyx_v_X1 - __pyx_v_X2) * (__pyx_v_peak_half - __pyx_v_Y1)) / (__pyx_v_Y2 - __pyx_v_Y1)));
 
-        /* "ms_peak_picker\_c\peak_statistics.pyx":149
+        /* "ms_peak_picker\_c\peak_statistics.pyx":345
  *             X2 = mz_array[index + 1]
  * 
  *             if (not aboutzero(Y2 - Y1) and (Y1 < peak_half)):             # <<<<<<<<<<<<<<
@@ -3539,7 +6477,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
         goto __pyx_L17;
       }
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":152
+      /* "ms_peak_picker\_c\peak_statistics.pyx":348
  *                 upper = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
  *             else:
  *                 upper = X1             # <<<<<<<<<<<<<<
@@ -3549,7 +6487,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       /*else*/ {
         __pyx_v_upper = __pyx_v_X1;
 
-        /* "ms_peak_picker\_c\peak_statistics.pyx":153
+        /* "ms_peak_picker\_c\peak_statistics.pyx":349
  *             else:
  *                 upper = X1
  *                 points = data_index - index + 1             # <<<<<<<<<<<<<<
@@ -3558,90 +6496,78 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
         __pyx_v_points = ((__pyx_v_data_index - __pyx_v_index) + 1);
 
-        /* "ms_peak_picker\_c\peak_statistics.pyx":154
+        /* "ms_peak_picker\_c\peak_statistics.pyx":350
  *                 upper = X1
  *                 points = data_index - index + 1
  *                 if points >= 3:             # <<<<<<<<<<<<<<
  * 
- *                     vect_mzs = []
+ *                     vect_mzs = make_double_vector()
  */
         __pyx_t_10 = ((__pyx_v_points >= 3) != 0);
         if (__pyx_t_10) {
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":156
+          /* "ms_peak_picker\_c\peak_statistics.pyx":352
  *                 if points >= 3:
  * 
- *                     vect_mzs = []             # <<<<<<<<<<<<<<
- *                     vect_intensity = []
+ *                     vect_mzs = make_double_vector()             # <<<<<<<<<<<<<<
+ *                     vect_intensity = make_double_vector()
  * 
  */
-          __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 156; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_3);
-          __pyx_v_vect_mzs = ((PyObject*)__pyx_t_3);
-          __pyx_t_3 = 0;
+          __pyx_v_vect_mzs = __pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector();
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":157
+          /* "ms_peak_picker\_c\peak_statistics.pyx":353
  * 
- *                     vect_mzs = []
- *                     vect_intensity = []             # <<<<<<<<<<<<<<
+ *                     vect_mzs = make_double_vector()
+ *                     vect_intensity = make_double_vector()             # <<<<<<<<<<<<<<
  * 
  *                     for j in range(points - 1, -1, -1):
  */
-          __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_3);
-          __pyx_v_vect_intensity = ((PyObject*)__pyx_t_3);
-          __pyx_t_3 = 0;
+          __pyx_v_vect_intensity = __pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector();
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":159
- *                     vect_intensity = []
+          /* "ms_peak_picker\_c\peak_statistics.pyx":355
+ *                     vect_intensity = make_double_vector()
  * 
  *                     for j in range(points - 1, -1, -1):             # <<<<<<<<<<<<<<
- *                         vect_mzs.append(mz_array[data_index - j])
- *                         vect_intensity.append(intensity_array[data_index - j])
+ *                         double_vector_append(vect_mzs, mz_array[data_index - j])
+ *                         double_vector_append(vect_intensity, intensity_array[data_index - j])
  */
           for (__pyx_t_22 = (__pyx_v_points - 1) + 1; __pyx_t_22 > -1L + 1; ) { __pyx_t_22-=1;
             __pyx_v_j = __pyx_t_22;
 
-            /* "ms_peak_picker\_c\peak_statistics.pyx":160
+            /* "ms_peak_picker\_c\peak_statistics.pyx":356
  * 
  *                     for j in range(points - 1, -1, -1):
- *                         vect_mzs.append(mz_array[data_index - j])             # <<<<<<<<<<<<<<
- *                         vect_intensity.append(intensity_array[data_index - j])
+ *                         double_vector_append(vect_mzs, mz_array[data_index - j])             # <<<<<<<<<<<<<<
+ *                         double_vector_append(vect_intensity, intensity_array[data_index - j])
  * 
  */
             __pyx_t_23 = (__pyx_v_data_index - __pyx_v_j);
-            __pyx_t_3 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_mz_array.diminfo[0].strides))); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __Pyx_GOTREF(__pyx_t_3);
-            __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_vect_mzs, __pyx_t_3); if (unlikely(__pyx_t_24 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+            __pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_append(__pyx_v_vect_mzs, (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_mz_array.diminfo[0].strides)));
 
-            /* "ms_peak_picker\_c\peak_statistics.pyx":161
+            /* "ms_peak_picker\_c\peak_statistics.pyx":357
  *                     for j in range(points - 1, -1, -1):
- *                         vect_mzs.append(mz_array[data_index - j])
- *                         vect_intensity.append(intensity_array[data_index - j])             # <<<<<<<<<<<<<<
+ *                         double_vector_append(vect_mzs, mz_array[data_index - j])
+ *                         double_vector_append(vect_intensity, intensity_array[data_index - j])             # <<<<<<<<<<<<<<
  * 
  *                     j = 0
  */
-            __pyx_t_25 = (__pyx_v_data_index - __pyx_v_j);
-            __pyx_t_3 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_intensity_array.diminfo[0].strides))); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __Pyx_GOTREF(__pyx_t_3);
-            __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_vect_intensity, __pyx_t_3); if (unlikely(__pyx_t_24 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+            __pyx_t_24 = (__pyx_v_data_index - __pyx_v_j);
+            __pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_append(__pyx_v_vect_intensity, (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_24, __pyx_pybuffernd_intensity_array.diminfo[0].strides)));
           }
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":163
- *                         vect_intensity.append(intensity_array[data_index - j])
+          /* "ms_peak_picker\_c\peak_statistics.pyx":359
+ *                         double_vector_append(vect_intensity, intensity_array[data_index - j])
  * 
  *                     j = 0             # <<<<<<<<<<<<<<
- *                     while j < points and (vect_intensity[0] == vect_intensity[j]):
+ *                     while j < points and (vect_intensity.v[0] == vect_intensity.v[j]):
  *                         j += 1
  */
           __pyx_v_j = 0;
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":164
+          /* "ms_peak_picker\_c\peak_statistics.pyx":360
  * 
  *                     j = 0
- *                     while j < points and (vect_intensity[0] == vect_intensity[j]):             # <<<<<<<<<<<<<<
+ *                     while j < points and (vect_intensity.v[0] == vect_intensity.v[j]):             # <<<<<<<<<<<<<<
  *                         j += 1
  * 
  */
@@ -3652,16 +6578,14 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
               __pyx_t_10 = __pyx_t_12;
               goto __pyx_L25_bool_binop_done;
             }
-            __pyx_t_3 = PyObject_RichCompare(PyList_GET_ITEM(__pyx_v_vect_intensity, 0), PyList_GET_ITEM(__pyx_v_vect_intensity, __pyx_v_j), Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+            __pyx_t_12 = (((__pyx_v_vect_intensity->v[0]) == (__pyx_v_vect_intensity->v[__pyx_v_j])) != 0);
             __pyx_t_10 = __pyx_t_12;
             __pyx_L25_bool_binop_done:;
             if (!__pyx_t_10) break;
 
-            /* "ms_peak_picker\_c\peak_statistics.pyx":165
+            /* "ms_peak_picker\_c\peak_statistics.pyx":361
  *                     j = 0
- *                     while j < points and (vect_intensity[0] == vect_intensity[j]):
+ *                     while j < points and (vect_intensity.v[0] == vect_intensity.v[j]):
  *                         j += 1             # <<<<<<<<<<<<<<
  * 
  *                     if j == points:
@@ -3669,101 +6593,117 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
             __pyx_v_j = (__pyx_v_j + 1);
           }
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":167
+          /* "ms_peak_picker\_c\peak_statistics.pyx":363
  *                         j += 1
  * 
  *                     if j == points:             # <<<<<<<<<<<<<<
  *                         return 0.
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
  */
           __pyx_t_10 = ((__pyx_v_j == __pyx_v_points) != 0);
           if (__pyx_t_10) {
 
-            /* "ms_peak_picker\_c\peak_statistics.pyx":168
+            /* "ms_peak_picker\_c\peak_statistics.pyx":364
  * 
  *                     if j == points:
  *                         return 0.             # <<<<<<<<<<<<<<
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
  *                     upper = coef[1] * peak_half + coef[0]
  */
             __pyx_r = 0.;
             goto __pyx_L0;
 
-            /* "ms_peak_picker\_c\peak_statistics.pyx":167
+            /* "ms_peak_picker\_c\peak_statistics.pyx":363
  *                         j += 1
  * 
  *                     if j == points:             # <<<<<<<<<<<<<<
  *                         return 0.
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
  */
           }
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":169
+          /* "ms_peak_picker\_c\peak_statistics.pyx":365
  *                     if j == points:
  *                         return 0.
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)             # <<<<<<<<<<<<<<
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)             # <<<<<<<<<<<<<<
  *                     upper = coef[1] * peak_half + coef[0]
+ *                     free_double_vector(vect_mzs)
+ */
+          __pyx_v_mse = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg_dv(__pyx_v_vect_intensity, __pyx_v_vect_mzs, __pyx_v_points, ((PyArrayObject *)__pyx_v_coef), 1);
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":366
+ *                         return 0.
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
+ *                     upper = coef[1] * peak_half + coef[0]             # <<<<<<<<<<<<<<
+ *                     free_double_vector(vect_mzs)
+ *                     free_double_vector(vect_intensity)
+ */
+          __pyx_t_25 = 1;
+          if (__pyx_t_25 < 0) __pyx_t_25 += __pyx_pybuffernd_coef.diminfo[0].shape;
+          __pyx_t_26 = 0;
+          if (__pyx_t_26 < 0) __pyx_t_26 += __pyx_pybuffernd_coef.diminfo[0].shape;
+          __pyx_v_upper = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_coef.diminfo[0].strides)) * __pyx_v_peak_half) + (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_coef.diminfo[0].strides)));
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":367
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
+ *                     upper = coef[1] * peak_half + coef[0]
+ *                     free_double_vector(vect_mzs)             # <<<<<<<<<<<<<<
+ *                     free_double_vector(vect_intensity)
  *             break
  */
-          if (!(likely(__Pyx_TypeTest(__pyx_v_vect_intensity, __pyx_ptype_5numpy_ndarray)))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          if (!(likely(__Pyx_TypeTest(__pyx_v_vect_mzs, __pyx_ptype_5numpy_ndarray)))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __pyx_v_mse = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg(((PyArrayObject *)__pyx_v_vect_intensity), ((PyArrayObject *)__pyx_v_vect_mzs), __pyx_v_points, ((PyArrayObject *)__pyx_v_coef), 1, 0);
+          __pyx_f_14ms_peak_picker_2_c_13double_vector_free_double_vector(__pyx_v_vect_mzs);
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":170
- *                         return 0.
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)
- *                     upper = coef[1] * peak_half + coef[0]             # <<<<<<<<<<<<<<
+          /* "ms_peak_picker\_c\peak_statistics.pyx":368
+ *                     upper = coef[1] * peak_half + coef[0]
+ *                     free_double_vector(vect_mzs)
+ *                     free_double_vector(vect_intensity)             # <<<<<<<<<<<<<<
  *             break
  *     lower = mz_array[size]
  */
-          __pyx_t_26 = 1;
-          if (__pyx_t_26 < 0) __pyx_t_26 += __pyx_pybuffernd_coef.diminfo[0].shape;
-          __pyx_t_27 = 0;
-          if (__pyx_t_27 < 0) __pyx_t_27 += __pyx_pybuffernd_coef.diminfo[0].shape;
-          __pyx_v_upper = (((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_coef.diminfo[0].strides)) * __pyx_v_peak_half) + (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_coef.diminfo[0].strides)));
+          __pyx_f_14ms_peak_picker_2_c_13double_vector_free_double_vector(__pyx_v_vect_intensity);
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":154
+          /* "ms_peak_picker\_c\peak_statistics.pyx":350
  *                 upper = X1
  *                 points = data_index - index + 1
  *                 if points >= 3:             # <<<<<<<<<<<<<<
  * 
- *                     vect_mzs = []
+ *                     vect_mzs = make_double_vector()
  */
         }
       }
       __pyx_L17:;
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":171
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)
- *                     upper = coef[1] * peak_half + coef[0]
+      /* "ms_peak_picker\_c\peak_statistics.pyx":369
+ *                     free_double_vector(vect_mzs)
+ *                     free_double_vector(vect_intensity)
  *             break             # <<<<<<<<<<<<<<
  *     lower = mz_array[size]
  *     for index in range(data_index, size):
  */
       goto __pyx_L8_break;
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":142
+      /* "ms_peak_picker\_c\peak_statistics.pyx":338
  *         current_mass = mz_array[index]
  *         Y1 = intensity_array[index]
- *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or (             # <<<<<<<<<<<<<<
+ *         if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (             # <<<<<<<<<<<<<<
  *                 (index < 1 or intensity_array[index - 1] > Y1) and (
- *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < 4.0))):
+ *                  index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
  */
     }
   }
   __pyx_L8_break:;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":172
- *                     upper = coef[1] * peak_half + coef[0]
+  /* "ms_peak_picker\_c\peak_statistics.pyx":370
+ *                     free_double_vector(vect_intensity)
  *             break
  *     lower = mz_array[size]             # <<<<<<<<<<<<<<
  *     for index in range(data_index, size):
  *         current_mass = mz_array[index]
  */
   __pyx_t_14 = __pyx_v_size;
-  __pyx_v_lower = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_14, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+  __pyx_v_lower = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_14, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":173
+  /* "ms_peak_picker\_c\peak_statistics.pyx":371
  *             break
  *     lower = mz_array[size]
  *     for index in range(data_index, size):             # <<<<<<<<<<<<<<
@@ -3771,33 +6711,33 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  *         Y1 = intensity_array[index]
  */
   __pyx_t_22 = __pyx_v_size;
-  for (__pyx_t_28 = __pyx_v_data_index; __pyx_t_28 < __pyx_t_22; __pyx_t_28+=1) {
-    __pyx_v_index = __pyx_t_28;
+  for (__pyx_t_27 = __pyx_v_data_index; __pyx_t_27 < __pyx_t_22; __pyx_t_27+=1) {
+    __pyx_v_index = __pyx_t_27;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":174
+    /* "ms_peak_picker\_c\peak_statistics.pyx":372
  *     lower = mz_array[size]
  *     for index in range(data_index, size):
  *         current_mass = mz_array[index]             # <<<<<<<<<<<<<<
  *         Y1 = intensity_array[index]
- *         if((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (
  */
-    __pyx_t_29 = __pyx_v_index;
-    __pyx_v_current_mass = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+    __pyx_t_28 = __pyx_v_index;
+    __pyx_v_current_mass = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":175
+    /* "ms_peak_picker\_c\peak_statistics.pyx":373
  *     for index in range(data_index, size):
  *         current_mass = mz_array[index]
  *         Y1 = intensity_array[index]             # <<<<<<<<<<<<<<
- *         if((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (
  *                     index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < 4.0)):
  */
-    __pyx_t_30 = __pyx_v_index;
-    __pyx_v_Y1 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+    __pyx_t_29 = __pyx_v_index;
+    __pyx_v_Y1 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":176
+    /* "ms_peak_picker\_c\peak_statistics.pyx":374
  *         current_mass = mz_array[index]
  *         Y1 = intensity_array[index]
- *         if((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (             # <<<<<<<<<<<<<<
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (             # <<<<<<<<<<<<<<
  *                     index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < 4.0)):
  *             Y2 = intensity_array[index - 1]
  */
@@ -3807,7 +6747,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       __pyx_t_10 = __pyx_t_12;
       goto __pyx_L31_bool_binop_done;
     }
-    __pyx_t_12 = ((fabs((__pyx_v_mass - __pyx_v_current_mass)) > 5.0) != 0);
+    __pyx_t_12 = ((fabs((__pyx_v_mass - __pyx_v_current_mass)) > 1.5) != 0);
     if (!__pyx_t_12) {
     } else {
       __pyx_t_10 = __pyx_t_12;
@@ -3818,8 +6758,8 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     } else {
       goto __pyx_L34_next_and;
     }
-    __pyx_t_31 = (__pyx_v_index + 1);
-    __pyx_t_12 = (((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_31, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
+    __pyx_t_30 = (__pyx_v_index + 1);
+    __pyx_t_12 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
     if (__pyx_t_12) {
     } else {
       __pyx_t_10 = __pyx_t_12;
@@ -3827,9 +6767,9 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     }
     __pyx_L34_next_and:;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":177
+    /* "ms_peak_picker\_c\peak_statistics.pyx":375
  *         Y1 = intensity_array[index]
- *         if((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (
  *                     index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < 4.0)):             # <<<<<<<<<<<<<<
  *             Y2 = intensity_array[index - 1]
  *             X1 = mz_array[index]
@@ -3839,8 +6779,8 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     } else {
       goto __pyx_L36_next_and;
     }
-    __pyx_t_32 = (__pyx_v_index + 2);
-    __pyx_t_12 = (((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_32, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
+    __pyx_t_31 = (__pyx_v_index + 2);
+    __pyx_t_12 = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_31, __pyx_pybuffernd_intensity_array.diminfo[0].strides)) > __pyx_v_Y1) != 0);
     if (__pyx_t_12) {
     } else {
       __pyx_t_10 = __pyx_t_12;
@@ -3851,46 +6791,46 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     __pyx_t_10 = __pyx_t_12;
     __pyx_L31_bool_binop_done:;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":176
+    /* "ms_peak_picker\_c\peak_statistics.pyx":374
  *         current_mass = mz_array[index]
  *         Y1 = intensity_array[index]
- *         if((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (             # <<<<<<<<<<<<<<
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (             # <<<<<<<<<<<<<<
  *                     index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < 4.0)):
  *             Y2 = intensity_array[index - 1]
  */
     if (__pyx_t_10) {
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":178
- *         if((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (
+      /* "ms_peak_picker\_c\peak_statistics.pyx":376
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (
  *                     index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < 4.0)):
  *             Y2 = intensity_array[index - 1]             # <<<<<<<<<<<<<<
  *             X1 = mz_array[index]
  *             X2 = mz_array[index - 1]
  */
-      __pyx_t_33 = (__pyx_v_index - 1);
-      __pyx_v_Y2 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_33, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+      __pyx_t_32 = (__pyx_v_index - 1);
+      __pyx_v_Y2 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_32, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":179
+      /* "ms_peak_picker\_c\peak_statistics.pyx":377
  *                     index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < 4.0)):
  *             Y2 = intensity_array[index - 1]
  *             X1 = mz_array[index]             # <<<<<<<<<<<<<<
  *             X2 = mz_array[index - 1]
  * 
  */
-      __pyx_t_34 = __pyx_v_index;
-      __pyx_v_X1 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_34, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+      __pyx_t_33 = __pyx_v_index;
+      __pyx_v_X1 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_33, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":180
+      /* "ms_peak_picker\_c\peak_statistics.pyx":378
  *             Y2 = intensity_array[index - 1]
  *             X1 = mz_array[index]
  *             X2 = mz_array[index - 1]             # <<<<<<<<<<<<<<
  * 
  *             if(not aboutzero(Y2 - Y1) and (Y1 < peak_half)):
  */
-      __pyx_t_35 = (__pyx_v_index - 1);
-      __pyx_v_X2 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_35, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+      __pyx_t_34 = (__pyx_v_index - 1);
+      __pyx_v_X2 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_34, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":182
+      /* "ms_peak_picker\_c\peak_statistics.pyx":380
  *             X2 = mz_array[index - 1]
  * 
  *             if(not aboutzero(Y2 - Y1) and (Y1 < peak_half)):             # <<<<<<<<<<<<<<
@@ -3908,7 +6848,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       __pyx_L39_bool_binop_done:;
       if (__pyx_t_10) {
 
-        /* "ms_peak_picker\_c\peak_statistics.pyx":183
+        /* "ms_peak_picker\_c\peak_statistics.pyx":381
  * 
  *             if(not aboutzero(Y2 - Y1) and (Y1 < peak_half)):
  *                 lower = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)             # <<<<<<<<<<<<<<
@@ -3917,7 +6857,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
         __pyx_v_lower = (__pyx_v_X1 - (((__pyx_v_X1 - __pyx_v_X2) * (__pyx_v_peak_half - __pyx_v_Y1)) / (__pyx_v_Y2 - __pyx_v_Y1)));
 
-        /* "ms_peak_picker\_c\peak_statistics.pyx":182
+        /* "ms_peak_picker\_c\peak_statistics.pyx":380
  *             X2 = mz_array[index - 1]
  * 
  *             if(not aboutzero(Y2 - Y1) and (Y1 < peak_half)):             # <<<<<<<<<<<<<<
@@ -3927,7 +6867,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
         goto __pyx_L38;
       }
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":185
+      /* "ms_peak_picker\_c\peak_statistics.pyx":383
  *                 lower = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
  *             else:
  *                 lower = X1             # <<<<<<<<<<<<<<
@@ -3937,99 +6877,87 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
       /*else*/ {
         __pyx_v_lower = __pyx_v_X1;
 
-        /* "ms_peak_picker\_c\peak_statistics.pyx":186
+        /* "ms_peak_picker\_c\peak_statistics.pyx":384
  *             else:
  *                 lower = X1
  *                 points = index - data_index + 1             # <<<<<<<<<<<<<<
  *                 if points >= 3:
- *                     vect_mzs = []
+ *                     vect_mzs = make_double_vector()
  */
         __pyx_v_points = ((__pyx_v_index - __pyx_v_data_index) + 1);
 
-        /* "ms_peak_picker\_c\peak_statistics.pyx":187
+        /* "ms_peak_picker\_c\peak_statistics.pyx":385
  *                 lower = X1
  *                 points = index - data_index + 1
  *                 if points >= 3:             # <<<<<<<<<<<<<<
- *                     vect_mzs = []
- *                     vect_intensity = []
+ *                     vect_mzs = make_double_vector()
+ *                     vect_intensity = make_double_vector()
  */
         __pyx_t_10 = ((__pyx_v_points >= 3) != 0);
         if (__pyx_t_10) {
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":188
+          /* "ms_peak_picker\_c\peak_statistics.pyx":386
  *                 points = index - data_index + 1
  *                 if points >= 3:
- *                     vect_mzs = []             # <<<<<<<<<<<<<<
- *                     vect_intensity = []
+ *                     vect_mzs = make_double_vector()             # <<<<<<<<<<<<<<
+ *                     vect_intensity = make_double_vector()
  * 
  */
-          __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_XDECREF_SET(__pyx_v_vect_mzs, ((PyObject*)__pyx_t_3));
-          __pyx_t_3 = 0;
+          __pyx_v_vect_mzs = __pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector();
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":189
+          /* "ms_peak_picker\_c\peak_statistics.pyx":387
  *                 if points >= 3:
- *                     vect_mzs = []
- *                     vect_intensity = []             # <<<<<<<<<<<<<<
+ *                     vect_mzs = make_double_vector()
+ *                     vect_intensity = make_double_vector()             # <<<<<<<<<<<<<<
  * 
  *                     for k in range(points - 1, -1, -1):
  */
-          __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 189; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_XDECREF_SET(__pyx_v_vect_intensity, ((PyObject*)__pyx_t_3));
-          __pyx_t_3 = 0;
+          __pyx_v_vect_intensity = __pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector();
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":191
- *                     vect_intensity = []
+          /* "ms_peak_picker\_c\peak_statistics.pyx":389
+ *                     vect_intensity = make_double_vector()
  * 
  *                     for k in range(points - 1, -1, -1):             # <<<<<<<<<<<<<<
- *                         vect_mzs.append(mz_array[index - k])
- *                         vect_intensity.append(intensity_array[index - k])
+ *                         double_vector_append(vect_mzs, mz_array[index - k])
+ *                         double_vector_append(vect_intensity, intensity_array[index - k])
  */
-          for (__pyx_t_36 = (__pyx_v_points - 1) + 1; __pyx_t_36 > -1L + 1; ) { __pyx_t_36-=1;
-            __pyx_v_k = __pyx_t_36;
+          for (__pyx_t_35 = (__pyx_v_points - 1) + 1; __pyx_t_35 > -1L + 1; ) { __pyx_t_35-=1;
+            __pyx_v_k = __pyx_t_35;
 
-            /* "ms_peak_picker\_c\peak_statistics.pyx":192
+            /* "ms_peak_picker\_c\peak_statistics.pyx":390
  * 
  *                     for k in range(points - 1, -1, -1):
- *                         vect_mzs.append(mz_array[index - k])             # <<<<<<<<<<<<<<
- *                         vect_intensity.append(intensity_array[index - k])
+ *                         double_vector_append(vect_mzs, mz_array[index - k])             # <<<<<<<<<<<<<<
+ *                         double_vector_append(vect_intensity, intensity_array[index - k])
  *                     j = 0
+ */
+            __pyx_t_36 = (__pyx_v_index - __pyx_v_k);
+            __pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_append(__pyx_v_vect_mzs, (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_36, __pyx_pybuffernd_mz_array.diminfo[0].strides)));
+
+            /* "ms_peak_picker\_c\peak_statistics.pyx":391
+ *                     for k in range(points - 1, -1, -1):
+ *                         double_vector_append(vect_mzs, mz_array[index - k])
+ *                         double_vector_append(vect_intensity, intensity_array[index - k])             # <<<<<<<<<<<<<<
+ *                     j = 0
+ *                     while (j < points) and (vect_intensity.v[0] == vect_intensity.v[j]):
  */
             __pyx_t_37 = (__pyx_v_index - __pyx_v_k);
-            __pyx_t_3 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_37, __pyx_pybuffernd_mz_array.diminfo[0].strides))); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 192; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __Pyx_GOTREF(__pyx_t_3);
-            __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_vect_mzs, __pyx_t_3); if (unlikely(__pyx_t_24 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 192; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-            /* "ms_peak_picker\_c\peak_statistics.pyx":193
- *                     for k in range(points - 1, -1, -1):
- *                         vect_mzs.append(mz_array[index - k])
- *                         vect_intensity.append(intensity_array[index - k])             # <<<<<<<<<<<<<<
- *                     j = 0
- *                     while (j < points) and (vect_intensity[0] == vect_intensity[j]):
- */
-            __pyx_t_38 = (__pyx_v_index - __pyx_v_k);
-            __pyx_t_3 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_38, __pyx_pybuffernd_intensity_array.diminfo[0].strides))); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __Pyx_GOTREF(__pyx_t_3);
-            __pyx_t_24 = __Pyx_PyList_Append(__pyx_v_vect_intensity, __pyx_t_3); if (unlikely(__pyx_t_24 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+            __pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_append(__pyx_v_vect_intensity, (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_37, __pyx_pybuffernd_intensity_array.diminfo[0].strides)));
           }
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":194
- *                         vect_mzs.append(mz_array[index - k])
- *                         vect_intensity.append(intensity_array[index - k])
+          /* "ms_peak_picker\_c\peak_statistics.pyx":392
+ *                         double_vector_append(vect_mzs, mz_array[index - k])
+ *                         double_vector_append(vect_intensity, intensity_array[index - k])
  *                     j = 0             # <<<<<<<<<<<<<<
- *                     while (j < points) and (vect_intensity[0] == vect_intensity[j]):
+ *                     while (j < points) and (vect_intensity.v[0] == vect_intensity.v[j]):
  *                         j += 1
  */
           __pyx_v_j = 0;
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":195
- *                         vect_intensity.append(intensity_array[index - k])
+          /* "ms_peak_picker\_c\peak_statistics.pyx":393
+ *                         double_vector_append(vect_intensity, intensity_array[index - k])
  *                     j = 0
- *                     while (j < points) and (vect_intensity[0] == vect_intensity[j]):             # <<<<<<<<<<<<<<
+ *                     while (j < points) and (vect_intensity.v[0] == vect_intensity.v[j]):             # <<<<<<<<<<<<<<
  *                         j += 1
  * 
  */
@@ -4040,16 +6968,14 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
               __pyx_t_10 = __pyx_t_12;
               goto __pyx_L46_bool_binop_done;
             }
-            __pyx_t_3 = PyObject_RichCompare(PyList_GET_ITEM(__pyx_v_vect_intensity, 0), PyList_GET_ITEM(__pyx_v_vect_intensity, __pyx_v_j), Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+            __pyx_t_12 = (((__pyx_v_vect_intensity->v[0]) == (__pyx_v_vect_intensity->v[__pyx_v_j])) != 0);
             __pyx_t_10 = __pyx_t_12;
             __pyx_L46_bool_binop_done:;
             if (!__pyx_t_10) break;
 
-            /* "ms_peak_picker\_c\peak_statistics.pyx":196
+            /* "ms_peak_picker\_c\peak_statistics.pyx":394
  *                     j = 0
- *                     while (j < points) and (vect_intensity[0] == vect_intensity[j]):
+ *                     while (j < points) and (vect_intensity.v[0] == vect_intensity.v[j]):
  *                         j += 1             # <<<<<<<<<<<<<<
  * 
  *                     if j == points:
@@ -4057,72 +6983,88 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
             __pyx_v_j = (__pyx_v_j + 1);
           }
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":198
+          /* "ms_peak_picker\_c\peak_statistics.pyx":396
  *                         j += 1
  * 
  *                     if j == points:             # <<<<<<<<<<<<<<
  *                         return 0.0
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
  */
           __pyx_t_10 = ((__pyx_v_j == __pyx_v_points) != 0);
           if (__pyx_t_10) {
 
-            /* "ms_peak_picker\_c\peak_statistics.pyx":199
+            /* "ms_peak_picker\_c\peak_statistics.pyx":397
  * 
  *                     if j == points:
  *                         return 0.0             # <<<<<<<<<<<<<<
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)
- *                     lower = coef[1] * peak_half + coef[0]
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
+ *                     free_double_vector(vect_intensity)
  */
             __pyx_r = 0.0;
             goto __pyx_L0;
 
-            /* "ms_peak_picker\_c\peak_statistics.pyx":198
+            /* "ms_peak_picker\_c\peak_statistics.pyx":396
  *                         j += 1
  * 
  *                     if j == points:             # <<<<<<<<<<<<<<
  *                         return 0.0
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
  */
           }
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":200
+          /* "ms_peak_picker\_c\peak_statistics.pyx":398
  *                     if j == points:
  *                         return 0.0
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)             # <<<<<<<<<<<<<<
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)             # <<<<<<<<<<<<<<
+ *                     free_double_vector(vect_intensity)
+ *                     free_double_vector(vect_mzs)
+ */
+          __pyx_v_mse = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg_dv(__pyx_v_vect_intensity, __pyx_v_vect_mzs, __pyx_v_points, ((PyArrayObject *)__pyx_v_coef), 1);
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":399
+ *                         return 0.0
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
+ *                     free_double_vector(vect_intensity)             # <<<<<<<<<<<<<<
+ *                     free_double_vector(vect_mzs)
+ *                     lower = coef[1] * peak_half + coef[0]
+ */
+          __pyx_f_14ms_peak_picker_2_c_13double_vector_free_double_vector(__pyx_v_vect_intensity);
+
+          /* "ms_peak_picker\_c\peak_statistics.pyx":400
+ *                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
+ *                     free_double_vector(vect_intensity)
+ *                     free_double_vector(vect_mzs)             # <<<<<<<<<<<<<<
  *                     lower = coef[1] * peak_half + coef[0]
  *             break
  */
-          if (!(likely(__Pyx_TypeTest(__pyx_v_vect_intensity, __pyx_ptype_5numpy_ndarray)))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          if (!(likely(__Pyx_TypeTest(__pyx_v_vect_mzs, __pyx_ptype_5numpy_ndarray)))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __pyx_v_mse = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg(((PyArrayObject *)__pyx_v_vect_intensity), ((PyArrayObject *)__pyx_v_vect_mzs), __pyx_v_points, ((PyArrayObject *)__pyx_v_coef), 1, 0);
+          __pyx_f_14ms_peak_picker_2_c_13double_vector_free_double_vector(__pyx_v_vect_mzs);
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":201
- *                         return 0.0
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)
+          /* "ms_peak_picker\_c\peak_statistics.pyx":401
+ *                     free_double_vector(vect_intensity)
+ *                     free_double_vector(vect_mzs)
  *                     lower = coef[1] * peak_half + coef[0]             # <<<<<<<<<<<<<<
  *             break
  * 
  */
-          __pyx_t_39 = 1;
+          __pyx_t_38 = 1;
+          if (__pyx_t_38 < 0) __pyx_t_38 += __pyx_pybuffernd_coef.diminfo[0].shape;
+          __pyx_t_39 = 0;
           if (__pyx_t_39 < 0) __pyx_t_39 += __pyx_pybuffernd_coef.diminfo[0].shape;
-          __pyx_t_40 = 0;
-          if (__pyx_t_40 < 0) __pyx_t_40 += __pyx_pybuffernd_coef.diminfo[0].shape;
-          __pyx_v_lower = (((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_39, __pyx_pybuffernd_coef.diminfo[0].strides)) * __pyx_v_peak_half) + (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_40, __pyx_pybuffernd_coef.diminfo[0].strides)));
+          __pyx_v_lower = (((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_38, __pyx_pybuffernd_coef.diminfo[0].strides)) * __pyx_v_peak_half) + (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_coef.rcbuffer->pybuffer.buf, __pyx_t_39, __pyx_pybuffernd_coef.diminfo[0].strides)));
 
-          /* "ms_peak_picker\_c\peak_statistics.pyx":187
+          /* "ms_peak_picker\_c\peak_statistics.pyx":385
  *                 lower = X1
  *                 points = index - data_index + 1
  *                 if points >= 3:             # <<<<<<<<<<<<<<
- *                     vect_mzs = []
- *                     vect_intensity = []
+ *                     vect_mzs = make_double_vector()
+ *                     vect_intensity = make_double_vector()
  */
         }
       }
       __pyx_L38:;
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":202
- *                     mse = curve_reg(vect_intensity, vect_mzs, points, coef, 1)
+      /* "ms_peak_picker\_c\peak_statistics.pyx":402
+ *                     free_double_vector(vect_mzs)
  *                     lower = coef[1] * peak_half + coef[0]
  *             break             # <<<<<<<<<<<<<<
  * 
@@ -4130,10 +7072,10 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
       goto __pyx_L29_break;
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":176
+      /* "ms_peak_picker\_c\peak_statistics.pyx":374
  *         current_mass = mz_array[index]
  *         Y1 = intensity_array[index]
- *         if((Y1 < peak_half) or (abs(mass - current_mass) > 5.0) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (             # <<<<<<<<<<<<<<
+ *         if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or ((index > size - 1 or intensity_array[index + 1] > Y1) and (             # <<<<<<<<<<<<<<
  *                     index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < 4.0)):
  *             Y2 = intensity_array[index - 1]
  */
@@ -4141,7 +7083,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   }
   __pyx_L29_break:;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":204
+  /* "ms_peak_picker\_c\peak_statistics.pyx":404
  *             break
  * 
  *     if aboutzero(upper):             # <<<<<<<<<<<<<<
@@ -4151,7 +7093,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_t_10 = (__pyx_f_14ms_peak_picker_2_c_15peak_statistics_aboutzero(__pyx_v_upper) != 0);
   if (__pyx_t_10) {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":205
+    /* "ms_peak_picker\_c\peak_statistics.pyx":405
  * 
  *     if aboutzero(upper):
  *         return 2 * abs(mass - lower)             # <<<<<<<<<<<<<<
@@ -4161,7 +7103,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     __pyx_r = (2.0 * fabs((__pyx_v_mass - __pyx_v_lower)));
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":204
+    /* "ms_peak_picker\_c\peak_statistics.pyx":404
  *             break
  * 
  *     if aboutzero(upper):             # <<<<<<<<<<<<<<
@@ -4170,7 +7112,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":206
+  /* "ms_peak_picker\_c\peak_statistics.pyx":406
  *     if aboutzero(upper):
  *         return 2 * abs(mass - lower)
  *     if aboutzero(lower):             # <<<<<<<<<<<<<<
@@ -4180,7 +7122,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_t_10 = (__pyx_f_14ms_peak_picker_2_c_15peak_statistics_aboutzero(__pyx_v_lower) != 0);
   if (__pyx_t_10) {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":207
+    /* "ms_peak_picker\_c\peak_statistics.pyx":407
  *         return 2 * abs(mass - lower)
  *     if aboutzero(lower):
  *         return 2 * abs(mass - upper)             # <<<<<<<<<<<<<<
@@ -4190,7 +7132,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
     __pyx_r = (2.0 * fabs((__pyx_v_mass - __pyx_v_upper)));
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":206
+    /* "ms_peak_picker\_c\peak_statistics.pyx":406
  *     if aboutzero(upper):
  *         return 2 * abs(mass - lower)
  *     if aboutzero(lower):             # <<<<<<<<<<<<<<
@@ -4199,7 +7141,7 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
  */
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":208
+  /* "ms_peak_picker\_c\peak_statistics.pyx":408
  *     if aboutzero(lower):
  *         return 2 * abs(mass - upper)
  *     return abs(upper - lower)             # <<<<<<<<<<<<<<
@@ -4209,10 +7151,10 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __pyx_r = fabs((__pyx_v_upper - __pyx_v_lower));
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":114
+  /* "ms_peak_picker\_c\peak_statistics.pyx":309
  * @cython.cdivision(True)
  * @cython.boundscheck(False)
- * cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array,             # <<<<<<<<<<<<<<
+ * cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,             # <<<<<<<<<<<<<<
  *                                           size_t data_index, double signal_to_noise=0.):
  *     cdef:
  */
@@ -4236,15 +7178,14 @@ static __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_f_14ms_peak_
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XDECREF((PyObject *)__pyx_v_coef);
-  __Pyx_XDECREF(__pyx_v_vect_mzs);
-  __Pyx_XDECREF(__pyx_v_vect_intensity);
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_full_width_at_half_max(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_full_width_at_half_max(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_9find_full_width_at_half_max(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_9find_full_width_at_half_max(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_mz_array = 0;
   PyArrayObject *__pyx_v_intensity_array = 0;
   size_t __pyx_v_data_index;
@@ -4277,12 +7218,12 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_full_widt
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_intensity_array)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_full_width_at_half_max", 0, 3, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("find_full_width_at_half_max", 0, 3, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_data_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("find_full_width_at_half_max", 0, 3, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("find_full_width_at_half_max", 0, 3, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (kw_args > 0) {
@@ -4291,7 +7232,7 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_full_widt
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_full_width_at_half_max") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "find_full_width_at_half_max") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4305,24 +7246,24 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_full_widt
     }
     __pyx_v_mz_array = ((PyArrayObject *)values[0]);
     __pyx_v_intensity_array = ((PyArrayObject *)values[1]);
-    __pyx_v_data_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_data_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_data_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_data_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     if (values[3]) {
-      __pyx_v_signal_to_noise = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_signal_to_noise == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_signal_to_noise = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_signal_to_noise == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
       __pyx_v_signal_to_noise = ((double)0.);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("find_full_width_at_half_max", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("find_full_width_at_half_max", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.peak_statistics.find_full_width_at_half_max", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mz_array), __pyx_ptype_5numpy_ndarray, 1, "mz_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_intensity_array), __pyx_ptype_5numpy_ndarray, 1, "intensity_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_14ms_peak_picker_2_c_15peak_statistics_4find_full_width_at_half_max(__pyx_self, __pyx_v_mz_array, __pyx_v_intensity_array, __pyx_v_data_index, __pyx_v_signal_to_noise);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mz_array), __pyx_ptype_5numpy_ndarray, 1, "mz_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_intensity_array), __pyx_ptype_5numpy_ndarray, 1, "intensity_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_14ms_peak_picker_2_c_15peak_statistics_8find_full_width_at_half_max(__pyx_self, __pyx_v_mz_array, __pyx_v_intensity_array, __pyx_v_data_index, __pyx_v_signal_to_noise);
 
   /* function exit code */
   goto __pyx_L0;
@@ -4333,12 +7274,13 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_full_widt
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_4find_full_width_at_half_max(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, double __pyx_v_signal_to_noise) {
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_8find_full_width_at_half_max(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_data_index, double __pyx_v_signal_to_noise) {
   __Pyx_LocalBuf_ND __pyx_pybuffernd_intensity_array;
   __Pyx_Buffer __pyx_pybuffer_intensity_array;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_mz_array;
   __Pyx_Buffer __pyx_pybuffer_mz_array;
   PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_t_1;
   struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_half_max __pyx_t_2;
@@ -4347,6 +7289,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_4find_full_widt
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("find_full_width_at_half_max", 0);
+  __Pyx_TraceCall("find_full_width_at_half_max", __pyx_f[0], 309, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   __pyx_pybuffer_mz_array.pybuffer.buf = NULL;
   __pyx_pybuffer_mz_array.refcount = 0;
   __pyx_pybuffernd_mz_array.data = NULL;
@@ -4357,19 +7300,19 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_4find_full_widt
   __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_mz_array.diminfo[0].strides = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_mz_array.diminfo[0].shape = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.signal_to_noise = __pyx_v_signal_to_noise;
   __pyx_t_1 = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_half_max(((PyArrayObject *)__pyx_v_mz_array), ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_data_index, 0, &__pyx_t_2); 
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -4391,14 +7334,15 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_4find_full_widt
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_statistics.pyx":214
+/* "ms_peak_picker\_c\peak_statistics.pyx":414
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
- * cdef double lorenztian_least_squares(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array, double amplitude, double full_width_at_half_max,             # <<<<<<<<<<<<<<
+ * cdef double lorenztian_least_squares(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array, double amplitude, double full_width_at_half_max,             # <<<<<<<<<<<<<<
  *                                      double vo, size_t lstart, size_t lstop):
  * 
  */
@@ -4414,6 +7358,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_sq
   __Pyx_LocalBuf_ND __pyx_pybuffernd_mz_array;
   __Pyx_Buffer __pyx_pybuffer_mz_array;
   double __pyx_r;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   size_t __pyx_t_1;
   size_t __pyx_t_2;
@@ -4423,6 +7368,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_sq
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lorenztian_least_squares", 0);
+  __Pyx_TraceCall("lorenztian_least_squares", __pyx_f[0], 414, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 414; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   __pyx_pybuffer_mz_array.pybuffer.buf = NULL;
   __pyx_pybuffer_mz_array.refcount = 0;
   __pyx_pybuffernd_mz_array.data = NULL;
@@ -4433,16 +7379,16 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_sq
   __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 414; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_mz_array.diminfo[0].strides = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_mz_array.diminfo[0].shape = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 414; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":223
+  /* "ms_peak_picker\_c\peak_statistics.pyx":423
  * 
  * 
  *     root_mean_squared_error = 0             # <<<<<<<<<<<<<<
@@ -4451,7 +7397,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_sq
  */
   __pyx_v_root_mean_squared_error = 0.0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":225
+  /* "ms_peak_picker\_c\peak_statistics.pyx":425
  *     root_mean_squared_error = 0
  * 
  *     for index in range(lstart, lstop + 1):             # <<<<<<<<<<<<<<
@@ -4462,7 +7408,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_sq
   for (__pyx_t_2 = __pyx_v_lstart; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
     __pyx_v_index = __pyx_t_2;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":226
+    /* "ms_peak_picker\_c\peak_statistics.pyx":426
  * 
  *     for index in range(lstart, lstop + 1):
  *         u = 2 / float(full_width_at_half_max) * (mz_array[index] - vo)             # <<<<<<<<<<<<<<
@@ -4470,9 +7416,9 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_sq
  *         Y2 = intensity_array[index]
  */
     __pyx_t_3 = __pyx_v_index;
-    __pyx_v_u = ((2.0 / __pyx_v_full_width_at_half_max) * ((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_mz_array.diminfo[0].strides)) - __pyx_v_vo));
+    __pyx_v_u = ((2.0 / __pyx_v_full_width_at_half_max) * ((*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_mz_array.diminfo[0].strides)) - __pyx_v_vo));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":227
+    /* "ms_peak_picker\_c\peak_statistics.pyx":427
  *     for index in range(lstart, lstop + 1):
  *         u = 2 / float(full_width_at_half_max) * (mz_array[index] - vo)
  *         Y1 = int(amplitude / float(1 + u * u))             # <<<<<<<<<<<<<<
@@ -4481,7 +7427,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_sq
  */
     __pyx_v_Y1 = ((long)(__pyx_v_amplitude / (1.0 + (__pyx_v_u * __pyx_v_u))));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":228
+    /* "ms_peak_picker\_c\peak_statistics.pyx":428
  *         u = 2 / float(full_width_at_half_max) * (mz_array[index] - vo)
  *         Y1 = int(amplitude / float(1 + u * u))
  *         Y2 = intensity_array[index]             # <<<<<<<<<<<<<<
@@ -4489,9 +7435,9 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_sq
  *         root_mean_squared_error += (Y1 - Y2) * (Y1 - Y2)
  */
     __pyx_t_4 = __pyx_v_index;
-    __pyx_v_Y2 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_4, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+    __pyx_v_Y2 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_4, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":230
+    /* "ms_peak_picker\_c\peak_statistics.pyx":430
  *         Y2 = intensity_array[index]
  * 
  *         root_mean_squared_error += (Y1 - Y2) * (Y1 - Y2)             # <<<<<<<<<<<<<<
@@ -4501,7 +7447,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_sq
     __pyx_v_root_mean_squared_error = (__pyx_v_root_mean_squared_error + ((__pyx_v_Y1 - __pyx_v_Y2) * (__pyx_v_Y1 - __pyx_v_Y2)));
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":232
+  /* "ms_peak_picker\_c\peak_statistics.pyx":432
  *         root_mean_squared_error += (Y1 - Y2) * (Y1 - Y2)
  * 
  *     return root_mean_squared_error             # <<<<<<<<<<<<<<
@@ -4511,10 +7457,10 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_sq
   __pyx_r = __pyx_v_root_mean_squared_error;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":214
+  /* "ms_peak_picker\_c\peak_statistics.pyx":414
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
- * cdef double lorenztian_least_squares(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array, double amplitude, double full_width_at_half_max,             # <<<<<<<<<<<<<<
+ * cdef double lorenztian_least_squares(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array, double amplitude, double full_width_at_half_max,             # <<<<<<<<<<<<<<
  *                                      double vo, size_t lstart, size_t lstop):
  * 
  */
@@ -4533,19 +7479,20 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_sq
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
   __pyx_L2:;
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_statistics.pyx":238
+/* "ms_peak_picker\_c\peak_statistics.pyx":438
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
- * cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array,             # <<<<<<<<<<<<<<
+ * cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,             # <<<<<<<<<<<<<<
  *                             size_t index, double full_width_at_half_max):
  *     cdef:
  */
 
-static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_7lorenztian_fit(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_11lorenztian_fit(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_index, double __pyx_v_full_width_at_half_max, CYTHON_UNUSED int __pyx_skip_dispatch) {
   double __pyx_v_amplitude;
   __pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t __pyx_v_vo;
@@ -4560,6 +7507,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
   __Pyx_LocalBuf_ND __pyx_pybuffernd_mz_array;
   __Pyx_Buffer __pyx_pybuffer_mz_array;
   double __pyx_r;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   size_t __pyx_t_1;
   size_t __pyx_t_2;
@@ -4567,18 +7515,12 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
   int __pyx_t_4;
   size_t __pyx_t_5;
   Py_ssize_t __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  PyObject *__pyx_t_9 = NULL;
-  PyObject *__pyx_t_10 = NULL;
-  PyObject *__pyx_t_11 = NULL;
-  Py_ssize_t __pyx_t_12;
-  PyObject *__pyx_t_13 = NULL;
-  size_t __pyx_t_14;
+  size_t __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lorenztian_fit", 0);
+  __Pyx_TraceCall("lorenztian_fit", __pyx_f[0], 438, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   __pyx_pybuffer_mz_array.pybuffer.buf = NULL;
   __pyx_pybuffer_mz_array.refcount = 0;
   __pyx_pybuffernd_mz_array.data = NULL;
@@ -4589,16 +7531,16 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
   __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_mz_array.diminfo[0].strides = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_mz_array.diminfo[0].shape = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":245
+  /* "ms_peak_picker\_c\peak_statistics.pyx":445
  *         size_t lstart, lstop, i
  * 
  *     amplitude = intensity_array[index]             # <<<<<<<<<<<<<<
@@ -4606,9 +7548,9 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  *     step = math.fabs((vo - mz_array[index + 1]) / 100.0)
  */
   __pyx_t_1 = __pyx_v_index;
-  __pyx_v_amplitude = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+  __pyx_v_amplitude = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_1, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":246
+  /* "ms_peak_picker\_c\peak_statistics.pyx":446
  * 
  *     amplitude = intensity_array[index]
  *     vo = mz_array[index]             # <<<<<<<<<<<<<<
@@ -4616,9 +7558,9 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  * 
  */
   __pyx_t_2 = __pyx_v_index;
-  __pyx_v_vo = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+  __pyx_v_vo = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":247
+  /* "ms_peak_picker\_c\peak_statistics.pyx":447
  *     amplitude = intensity_array[index]
  *     vo = mz_array[index]
  *     step = math.fabs((vo - mz_array[index + 1]) / 100.0)             # <<<<<<<<<<<<<<
@@ -4626,9 +7568,9 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  *     if index < 1:
  */
   __pyx_t_3 = (__pyx_v_index + 1);
-  __pyx_v_step = fabs(((__pyx_v_vo - (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_mz_array.diminfo[0].strides))) / 100.0));
+  __pyx_v_step = fabs(((__pyx_v_vo - (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_mz_array.diminfo[0].strides))) / 100.0));
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":249
+  /* "ms_peak_picker\_c\peak_statistics.pyx":449
  *     step = math.fabs((vo - mz_array[index + 1]) / 100.0)
  * 
  *     if index < 1:             # <<<<<<<<<<<<<<
@@ -4638,7 +7580,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
   __pyx_t_4 = ((__pyx_v_index < 1) != 0);
   if (__pyx_t_4) {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":250
+    /* "ms_peak_picker\_c\peak_statistics.pyx":450
  * 
  *     if index < 1:
  *         return mz_array[index]             # <<<<<<<<<<<<<<
@@ -4646,10 +7588,10 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  *         return mz_array[-1]
  */
     __pyx_t_5 = __pyx_v_index;
-    __pyx_r = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_5, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+    __pyx_r = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_5, __pyx_pybuffernd_mz_array.diminfo[0].strides));
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":249
+    /* "ms_peak_picker\_c\peak_statistics.pyx":449
  *     step = math.fabs((vo - mz_array[index + 1]) / 100.0)
  * 
  *     if index < 1:             # <<<<<<<<<<<<<<
@@ -4658,7 +7600,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":251
+  /* "ms_peak_picker\_c\peak_statistics.pyx":451
  *     if index < 1:
  *         return mz_array[index]
  *     elif index >= mz_array.shape[0] - 1:             # <<<<<<<<<<<<<<
@@ -4668,7 +7610,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
   __pyx_t_4 = ((__pyx_v_index >= ((__pyx_v_mz_array->dimensions[0]) - 1)) != 0);
   if (__pyx_t_4) {
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":252
+    /* "ms_peak_picker\_c\peak_statistics.pyx":452
  *         return mz_array[index]
  *     elif index >= mz_array.shape[0] - 1:
  *         return mz_array[-1]             # <<<<<<<<<<<<<<
@@ -4677,10 +7619,10 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
     __pyx_t_6 = -1L;
     if (__pyx_t_6 < 0) __pyx_t_6 += __pyx_pybuffernd_mz_array.diminfo[0].shape;
-    __pyx_r = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_6, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+    __pyx_r = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_6, __pyx_pybuffernd_mz_array.diminfo[0].strides));
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":251
+    /* "ms_peak_picker\_c\peak_statistics.pyx":451
  *     if index < 1:
  *         return mz_array[index]
  *     elif index >= mz_array.shape[0] - 1:             # <<<<<<<<<<<<<<
@@ -4689,107 +7631,25 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":254
+  /* "ms_peak_picker\_c\peak_statistics.pyx":454
  *         return mz_array[-1]
  * 
  *     lstart = get_nearest(mz_array, vo + full_width_at_half_max, index) + 1             # <<<<<<<<<<<<<<
  *     lstop = get_nearest(mz_array, vo - full_width_at_half_max, index) - 1
  * 
  */
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_nearest); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = PyFloat_FromDouble((__pyx_v_vo + __pyx_v_full_width_at_half_max)); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_10 = __Pyx_PyInt_FromSize_t(__pyx_v_index); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_11 = NULL;
-  __pyx_t_12 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
-    __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_8);
-    if (likely(__pyx_t_11)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
-      __Pyx_INCREF(__pyx_t_11);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_8, function);
-      __pyx_t_12 = 1;
-    }
-  }
-  __pyx_t_13 = PyTuple_New(3+__pyx_t_12); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_13);
-  if (__pyx_t_11) {
-    __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_11); __pyx_t_11 = NULL;
-  }
-  __Pyx_INCREF(((PyObject *)__pyx_v_mz_array));
-  __Pyx_GIVEREF(((PyObject *)__pyx_v_mz_array));
-  PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_12, ((PyObject *)__pyx_v_mz_array));
-  __Pyx_GIVEREF(__pyx_t_9);
-  PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_12, __pyx_t_9);
-  __Pyx_GIVEREF(__pyx_t_10);
-  PyTuple_SET_ITEM(__pyx_t_13, 2+__pyx_t_12, __pyx_t_10);
-  __pyx_t_9 = 0;
-  __pyx_t_10 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_13, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyInt_AddObjC(__pyx_t_7, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_14 = __Pyx_PyInt_As_size_t(__pyx_t_8); if (unlikely((__pyx_t_14 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_v_lstart = __pyx_t_14;
+  __pyx_v_lstart = (__pyx_f_14ms_peak_picker_2_c_6search_get_nearest(((PyArrayObject *)__pyx_v_mz_array), (__pyx_v_vo + __pyx_v_full_width_at_half_max), __pyx_v_index, 0) + 1);
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":255
+  /* "ms_peak_picker\_c\peak_statistics.pyx":455
  * 
  *     lstart = get_nearest(mz_array, vo + full_width_at_half_max, index) + 1
  *     lstop = get_nearest(mz_array, vo - full_width_at_half_max, index) - 1             # <<<<<<<<<<<<<<
  * 
  *     current_error = lorenztian_least_squares(
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_nearest); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_13 = PyFloat_FromDouble((__pyx_v_vo - __pyx_v_full_width_at_half_max)); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_13);
-  __pyx_t_10 = __Pyx_PyInt_FromSize_t(__pyx_v_index); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_9 = NULL;
-  __pyx_t_12 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_7);
-    if (likely(__pyx_t_9)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-      __Pyx_INCREF(__pyx_t_9);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
-      __pyx_t_12 = 1;
-    }
-  }
-  __pyx_t_11 = PyTuple_New(3+__pyx_t_12); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_11);
-  if (__pyx_t_9) {
-    __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9); __pyx_t_9 = NULL;
-  }
-  __Pyx_INCREF(((PyObject *)__pyx_v_mz_array));
-  __Pyx_GIVEREF(((PyObject *)__pyx_v_mz_array));
-  PyTuple_SET_ITEM(__pyx_t_11, 0+__pyx_t_12, ((PyObject *)__pyx_v_mz_array));
-  __Pyx_GIVEREF(__pyx_t_13);
-  PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_12, __pyx_t_13);
-  __Pyx_GIVEREF(__pyx_t_10);
-  PyTuple_SET_ITEM(__pyx_t_11, 2+__pyx_t_12, __pyx_t_10);
-  __pyx_t_13 = 0;
-  __pyx_t_10 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_11, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyInt_SubtractObjC(__pyx_t_8, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_14 = __Pyx_PyInt_As_size_t(__pyx_t_7); if (unlikely((__pyx_t_14 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_v_lstop = __pyx_t_14;
+  __pyx_v_lstop = (__pyx_f_14ms_peak_picker_2_c_6search_get_nearest(((PyArrayObject *)__pyx_v_mz_array), (__pyx_v_vo - __pyx_v_full_width_at_half_max), __pyx_v_index, 0) - 1);
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":257
+  /* "ms_peak_picker\_c\peak_statistics.pyx":457
  *     lstop = get_nearest(mz_array, vo - full_width_at_half_max, index) - 1
  * 
  *     current_error = lorenztian_least_squares(             # <<<<<<<<<<<<<<
@@ -4798,17 +7658,17 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
   __pyx_v_current_error = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_squares(((PyArrayObject *)__pyx_v_mz_array), ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_amplitude, __pyx_v_full_width_at_half_max, __pyx_v_vo, __pyx_v_lstart, __pyx_v_lstop);
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":259
+  /* "ms_peak_picker\_c\peak_statistics.pyx":459
  *     current_error = lorenztian_least_squares(
  *         mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
  *     for i in range(50):             # <<<<<<<<<<<<<<
  *         last_error = current_error
  *         vo = vo + step
  */
-  for (__pyx_t_14 = 0; __pyx_t_14 < 50; __pyx_t_14+=1) {
-    __pyx_v_i = __pyx_t_14;
+  for (__pyx_t_7 = 0; __pyx_t_7 < 50; __pyx_t_7+=1) {
+    __pyx_v_i = __pyx_t_7;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":260
+    /* "ms_peak_picker\_c\peak_statistics.pyx":460
  *         mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
  *     for i in range(50):
  *         last_error = current_error             # <<<<<<<<<<<<<<
@@ -4817,7 +7677,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
     __pyx_v_last_error = __pyx_v_current_error;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":261
+    /* "ms_peak_picker\_c\peak_statistics.pyx":461
  *     for i in range(50):
  *         last_error = current_error
  *         vo = vo + step             # <<<<<<<<<<<<<<
@@ -4826,7 +7686,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
     __pyx_v_vo = (__pyx_v_vo + __pyx_v_step);
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":262
+    /* "ms_peak_picker\_c\peak_statistics.pyx":462
  *         last_error = current_error
  *         vo = vo + step
  *         current_error = lorenztian_least_squares(             # <<<<<<<<<<<<<<
@@ -4835,7 +7695,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
     __pyx_v_current_error = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_squares(((PyArrayObject *)__pyx_v_mz_array), ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_amplitude, __pyx_v_full_width_at_half_max, __pyx_v_vo, __pyx_v_lstart, __pyx_v_lstop);
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":264
+    /* "ms_peak_picker\_c\peak_statistics.pyx":464
  *         current_error = lorenztian_least_squares(
  *             mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
  *         if (current_error > last_error):             # <<<<<<<<<<<<<<
@@ -4845,7 +7705,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
     __pyx_t_4 = ((__pyx_v_current_error > __pyx_v_last_error) != 0);
     if (__pyx_t_4) {
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":265
+      /* "ms_peak_picker\_c\peak_statistics.pyx":465
  *             mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
  *         if (current_error > last_error):
  *             break             # <<<<<<<<<<<<<<
@@ -4854,7 +7714,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
       goto __pyx_L5_break;
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":264
+      /* "ms_peak_picker\_c\peak_statistics.pyx":464
  *         current_error = lorenztian_least_squares(
  *             mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
  *         if (current_error > last_error):             # <<<<<<<<<<<<<<
@@ -4865,7 +7725,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
   }
   __pyx_L5_break:;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":267
+  /* "ms_peak_picker\_c\peak_statistics.pyx":467
  *             break
  * 
  *     vo = vo - step             # <<<<<<<<<<<<<<
@@ -4874,7 +7734,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
   __pyx_v_vo = (__pyx_v_vo - __pyx_v_step);
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":268
+  /* "ms_peak_picker\_c\peak_statistics.pyx":468
  * 
  *     vo = vo - step
  *     current_error = lorenztian_least_squares(             # <<<<<<<<<<<<<<
@@ -4883,17 +7743,17 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
   __pyx_v_current_error = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_squares(((PyArrayObject *)__pyx_v_mz_array), ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_amplitude, __pyx_v_full_width_at_half_max, __pyx_v_vo, __pyx_v_lstart, __pyx_v_lstop);
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":270
+  /* "ms_peak_picker\_c\peak_statistics.pyx":470
  *     current_error = lorenztian_least_squares(
  *         mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
  *     for i in range(50):             # <<<<<<<<<<<<<<
  *         last_error = current_error
  *         vo = vo - step
  */
-  for (__pyx_t_14 = 0; __pyx_t_14 < 50; __pyx_t_14+=1) {
-    __pyx_v_i = __pyx_t_14;
+  for (__pyx_t_7 = 0; __pyx_t_7 < 50; __pyx_t_7+=1) {
+    __pyx_v_i = __pyx_t_7;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":271
+    /* "ms_peak_picker\_c\peak_statistics.pyx":471
  *         mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
  *     for i in range(50):
  *         last_error = current_error             # <<<<<<<<<<<<<<
@@ -4902,7 +7762,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
     __pyx_v_last_error = __pyx_v_current_error;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":272
+    /* "ms_peak_picker\_c\peak_statistics.pyx":472
  *     for i in range(50):
  *         last_error = current_error
  *         vo = vo - step             # <<<<<<<<<<<<<<
@@ -4911,7 +7771,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
     __pyx_v_vo = (__pyx_v_vo - __pyx_v_step);
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":273
+    /* "ms_peak_picker\_c\peak_statistics.pyx":473
  *         last_error = current_error
  *         vo = vo - step
  *         current_error = lorenztian_least_squares(             # <<<<<<<<<<<<<<
@@ -4920,7 +7780,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
     __pyx_v_current_error = __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_squares(((PyArrayObject *)__pyx_v_mz_array), ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_amplitude, __pyx_v_full_width_at_half_max, __pyx_v_vo, __pyx_v_lstart, __pyx_v_lstop);
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":275
+    /* "ms_peak_picker\_c\peak_statistics.pyx":475
  *         current_error = lorenztian_least_squares(
  *             mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
  *         if (current_error > last_error):             # <<<<<<<<<<<<<<
@@ -4930,7 +7790,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
     __pyx_t_4 = ((__pyx_v_current_error > __pyx_v_last_error) != 0);
     if (__pyx_t_4) {
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":276
+      /* "ms_peak_picker\_c\peak_statistics.pyx":476
  *             mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
  *         if (current_error > last_error):
  *             break             # <<<<<<<<<<<<<<
@@ -4939,7 +7799,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
       goto __pyx_L8_break;
 
-      /* "ms_peak_picker\_c\peak_statistics.pyx":275
+      /* "ms_peak_picker\_c\peak_statistics.pyx":475
  *         current_error = lorenztian_least_squares(
  *             mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
  *         if (current_error > last_error):             # <<<<<<<<<<<<<<
@@ -4950,7 +7810,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
   }
   __pyx_L8_break:;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":278
+  /* "ms_peak_picker\_c\peak_statistics.pyx":478
  *             break
  * 
  *     vo += step             # <<<<<<<<<<<<<<
@@ -4959,7 +7819,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
  */
   __pyx_v_vo = (__pyx_v_vo + __pyx_v_step);
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":279
+  /* "ms_peak_picker\_c\peak_statistics.pyx":479
  * 
  *     vo += step
  *     return vo             # <<<<<<<<<<<<<<
@@ -4969,22 +7829,16 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
   __pyx_r = __pyx_v_vo;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":238
+  /* "ms_peak_picker\_c\peak_statistics.pyx":438
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
- * cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1] intensity_array,             # <<<<<<<<<<<<<<
+ * cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,             # <<<<<<<<<<<<<<
  *                             size_t index, double full_width_at_half_max):
  *     cdef:
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_XDECREF(__pyx_t_13);
   { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
@@ -4997,13 +7851,14 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(PyAr
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
   __pyx_L2:;
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_7lorenztian_fit(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_7lorenztian_fit(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_11lorenztian_fit(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_11lorenztian_fit(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_mz_array = 0;
   PyArrayObject *__pyx_v_intensity_array = 0;
   size_t __pyx_v_index;
@@ -5036,21 +7891,21 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_7lorenztian_fit
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_intensity_array)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("lorenztian_fit", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("lorenztian_fit", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("lorenztian_fit", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("lorenztian_fit", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_full_width_at_half_max)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("lorenztian_fit", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("lorenztian_fit", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "lorenztian_fit") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "lorenztian_fit") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -5062,20 +7917,20 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_7lorenztian_fit
     }
     __pyx_v_mz_array = ((PyArrayObject *)values[0]);
     __pyx_v_intensity_array = ((PyArrayObject *)values[1]);
-    __pyx_v_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 239; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_full_width_at_half_max = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_full_width_at_half_max == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 239; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 439; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_full_width_at_half_max = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_full_width_at_half_max == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 439; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("lorenztian_fit", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("lorenztian_fit", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.peak_statistics.lorenztian_fit", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mz_array), __pyx_ptype_5numpy_ndarray, 1, "mz_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_intensity_array), __pyx_ptype_5numpy_ndarray, 1, "intensity_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_14ms_peak_picker_2_c_15peak_statistics_6lorenztian_fit(__pyx_self, __pyx_v_mz_array, __pyx_v_intensity_array, __pyx_v_index, __pyx_v_full_width_at_half_max);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mz_array), __pyx_ptype_5numpy_ndarray, 1, "mz_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_intensity_array), __pyx_ptype_5numpy_ndarray, 1, "intensity_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_14ms_peak_picker_2_c_15peak_statistics_10lorenztian_fit(__pyx_self, __pyx_v_mz_array, __pyx_v_intensity_array, __pyx_v_index, __pyx_v_full_width_at_half_max);
 
   /* function exit code */
   goto __pyx_L0;
@@ -5086,18 +7941,20 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_7lorenztian_fit
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_6lorenztian_fit(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_index, double __pyx_v_full_width_at_half_max) {
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_10lorenztian_fit(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_index, double __pyx_v_full_width_at_half_max) {
   __Pyx_LocalBuf_ND __pyx_pybuffernd_intensity_array;
   __Pyx_Buffer __pyx_pybuffer_intensity_array;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_mz_array;
   __Pyx_Buffer __pyx_pybuffer_mz_array;
   PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lorenztian_fit", 0);
+  __Pyx_TraceCall("lorenztian_fit", __pyx_f[0], 438, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   __pyx_pybuffer_mz_array.pybuffer.buf = NULL;
   __pyx_pybuffer_mz_array.refcount = 0;
   __pyx_pybuffernd_mz_array.data = NULL;
@@ -5108,16 +7965,16 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_6lorenztian_fit
   __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_mz_array.diminfo[0].strides = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_mz_array.diminfo[0].shape = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(((PyArrayObject *)__pyx_v_mz_array), ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_index, __pyx_v_full_width_at_half_max, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit(((PyArrayObject *)__pyx_v_mz_array), ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_index, __pyx_v_full_width_at_half_max, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5139,19 +7996,20 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_6lorenztian_fit
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_statistics.pyx":285
+/* "ms_peak_picker\_c\peak_statistics.pyx":485
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
- * cpdef double peak_area(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1]  intensity_array,             # <<<<<<<<<<<<<<
+ * cpdef double peak_area(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c']  intensity_array,             # <<<<<<<<<<<<<<
  *                        size_t start, size_t stop):
  *     cdef:
  */
 
-static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_9peak_area(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_13peak_area(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_start, size_t __pyx_v_stop, CYTHON_UNUSED int __pyx_skip_dispatch) {
   double __pyx_v_area;
   size_t __pyx_v_i;
@@ -5164,6 +8022,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
   __Pyx_LocalBuf_ND __pyx_pybuffernd_mz_array;
   __Pyx_Buffer __pyx_pybuffer_mz_array;
   double __pyx_r;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   size_t __pyx_t_1;
   size_t __pyx_t_2;
@@ -5175,6 +8034,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("peak_area", 0);
+  __Pyx_TraceCall("peak_area", __pyx_f[0], 485, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   __pyx_pybuffer_mz_array.pybuffer.buf = NULL;
   __pyx_pybuffer_mz_array.refcount = 0;
   __pyx_pybuffernd_mz_array.data = NULL;
@@ -5185,16 +8045,16 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
   __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_mz_array.diminfo[0].strides = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_mz_array.diminfo[0].shape = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":292
+  /* "ms_peak_picker\_c\peak_statistics.pyx":492
  *         DTYPE_t x1, y1, x2, y2
  * 
  *     area = 0.             # <<<<<<<<<<<<<<
@@ -5203,7 +8063,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
  */
   __pyx_v_area = 0.;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":293
+  /* "ms_peak_picker\_c\peak_statistics.pyx":493
  * 
  *     area = 0.
  *     for i in range(start + 1, stop):             # <<<<<<<<<<<<<<
@@ -5214,7 +8074,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
   for (__pyx_t_2 = (__pyx_v_start + 1); __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
     __pyx_v_i = __pyx_t_2;
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":294
+    /* "ms_peak_picker\_c\peak_statistics.pyx":494
  *     area = 0.
  *     for i in range(start + 1, stop):
  *         x1 = mz_array[i - 1]             # <<<<<<<<<<<<<<
@@ -5222,9 +8082,9 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
  *         x2 = mz_array[i]
  */
     __pyx_t_3 = (__pyx_v_i - 1);
-    __pyx_v_x1 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+    __pyx_v_x1 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":295
+    /* "ms_peak_picker\_c\peak_statistics.pyx":495
  *     for i in range(start + 1, stop):
  *         x1 = mz_array[i - 1]
  *         y1 = intensity_array[i - 1]             # <<<<<<<<<<<<<<
@@ -5232,9 +8092,9 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
  *         y2 = intensity_array[i]
  */
     __pyx_t_4 = (__pyx_v_i - 1);
-    __pyx_v_y1 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_4, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+    __pyx_v_y1 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_4, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":296
+    /* "ms_peak_picker\_c\peak_statistics.pyx":496
  *         x1 = mz_array[i - 1]
  *         y1 = intensity_array[i - 1]
  *         x2 = mz_array[i]             # <<<<<<<<<<<<<<
@@ -5242,9 +8102,9 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
  *         area += (y1 * (x2 - x1)) + ((y2 - y1) * (x2 - x1) / 2.)
  */
     __pyx_t_5 = __pyx_v_i;
-    __pyx_v_x2 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_5, __pyx_pybuffernd_mz_array.diminfo[0].strides));
+    __pyx_v_x2 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.buf, __pyx_t_5, __pyx_pybuffernd_mz_array.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":297
+    /* "ms_peak_picker\_c\peak_statistics.pyx":497
  *         y1 = intensity_array[i - 1]
  *         x2 = mz_array[i]
  *         y2 = intensity_array[i]             # <<<<<<<<<<<<<<
@@ -5252,9 +8112,9 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
  * 
  */
     __pyx_t_6 = __pyx_v_i;
-    __pyx_v_y2 = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_6, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
+    __pyx_v_y2 = (*__Pyx_BufPtrCContig1d(__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t *, __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.buf, __pyx_t_6, __pyx_pybuffernd_intensity_array.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\peak_statistics.pyx":298
+    /* "ms_peak_picker\_c\peak_statistics.pyx":498
  *         x2 = mz_array[i]
  *         y2 = intensity_array[i]
  *         area += (y1 * (x2 - x1)) + ((y2 - y1) * (x2 - x1) / 2.)             # <<<<<<<<<<<<<<
@@ -5264,7 +8124,7 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
     __pyx_v_area = (__pyx_v_area + ((__pyx_v_y1 * (__pyx_v_x2 - __pyx_v_x1)) + (((__pyx_v_y2 - __pyx_v_y1) * (__pyx_v_x2 - __pyx_v_x1)) / 2.)));
   }
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":300
+  /* "ms_peak_picker\_c\peak_statistics.pyx":500
  *         area += (y1 * (x2 - x1)) + ((y2 - y1) * (x2 - x1) / 2.)
  * 
  *     return area             # <<<<<<<<<<<<<<
@@ -5272,10 +8132,10 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
   __pyx_r = __pyx_v_area;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":285
+  /* "ms_peak_picker\_c\peak_statistics.pyx":485
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
- * cpdef double peak_area(np.ndarray[DTYPE_t, ndim=1] mz_array, np.ndarray[DTYPE_t, ndim=1]  intensity_array,             # <<<<<<<<<<<<<<
+ * cpdef double peak_area(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c']  intensity_array,             # <<<<<<<<<<<<<<
  *                        size_t start, size_t stop):
  *     cdef:
  */
@@ -5294,13 +8154,14 @@ static double __pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(PyArrayOb
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer);
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
   __pyx_L2:;
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_9peak_area(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_9peak_area(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_13peak_area(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_13peak_area(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_mz_array = 0;
   PyArrayObject *__pyx_v_intensity_array = 0;
   size_t __pyx_v_start;
@@ -5333,21 +8194,21 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_9peak_area(PyOb
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_intensity_array)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("peak_area", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("peak_area", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("peak_area", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("peak_area", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_stop)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("peak_area", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("peak_area", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "peak_area") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "peak_area") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -5359,20 +8220,20 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_9peak_area(PyOb
     }
     __pyx_v_mz_array = ((PyArrayObject *)values[0]);
     __pyx_v_intensity_array = ((PyArrayObject *)values[1]);
-    __pyx_v_start = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_start == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 286; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_stop = __Pyx_PyInt_As_size_t(values[3]); if (unlikely((__pyx_v_stop == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 286; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_start = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_start == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 486; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_stop = __Pyx_PyInt_As_size_t(values[3]); if (unlikely((__pyx_v_stop == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 486; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("peak_area", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("peak_area", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.peak_statistics.peak_area", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mz_array), __pyx_ptype_5numpy_ndarray, 1, "mz_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_intensity_array), __pyx_ptype_5numpy_ndarray, 1, "intensity_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_14ms_peak_picker_2_c_15peak_statistics_8peak_area(__pyx_self, __pyx_v_mz_array, __pyx_v_intensity_array, __pyx_v_start, __pyx_v_stop);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mz_array), __pyx_ptype_5numpy_ndarray, 1, "mz_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_intensity_array), __pyx_ptype_5numpy_ndarray, 1, "intensity_array", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_14ms_peak_picker_2_c_15peak_statistics_12peak_area(__pyx_self, __pyx_v_mz_array, __pyx_v_intensity_array, __pyx_v_start, __pyx_v_stop);
 
   /* function exit code */
   goto __pyx_L0;
@@ -5383,18 +8244,20 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_9peak_area(PyOb
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_8peak_area(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_start, size_t __pyx_v_stop) {
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_12peak_area(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_mz_array, PyArrayObject *__pyx_v_intensity_array, size_t __pyx_v_start, size_t __pyx_v_stop) {
   __Pyx_LocalBuf_ND __pyx_pybuffernd_intensity_array;
   __Pyx_Buffer __pyx_pybuffer_intensity_array;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_mz_array;
   __Pyx_Buffer __pyx_pybuffer_mz_array;
   PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("peak_area", 0);
+  __Pyx_TraceCall("peak_area", __pyx_f[0], 485, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
   __pyx_pybuffer_mz_array.pybuffer.buf = NULL;
   __pyx_pybuffer_mz_array.refcount = 0;
   __pyx_pybuffernd_mz_array.data = NULL;
@@ -5405,16 +8268,16 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_8peak_area(CYTH
   __pyx_pybuffernd_intensity_array.rcbuffer = &__pyx_pybuffer_intensity_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_mz_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_mz_array.diminfo[0].strides = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_mz_array.diminfo[0].shape = __pyx_pybuffernd_mz_array.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_intensity_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_intensity_array, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_intensity_array.diminfo[0].strides = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_intensity_array.diminfo[0].shape = __pyx_pybuffernd_intensity_array.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(((PyArrayObject *)__pyx_v_mz_array), ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_start, __pyx_v_stop, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area(((PyArrayObject *)__pyx_v_mz_array), ((PyArrayObject *)__pyx_v_intensity_array), __pyx_v_start, __pyx_v_stop, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5436,6 +8299,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_15peak_statistics_8peak_area(CYTH
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_mz_array.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5473,6 +8337,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   int __pyx_v_offset;
   int __pyx_v_hasfields;
   int __pyx_r;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
@@ -5489,6 +8354,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
     __pyx_v_info->obj = Py_None; __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(__pyx_v_info->obj);
   }
+  __Pyx_TraceCall("__getbuffer__", __pyx_f[1], 197, 0, {__pyx_filename = __pyx_f[1]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":203
  *             # of flags
@@ -5612,7 +8478,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5668,7 +8534,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             info.buf = PyArray_DATA(self)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5977,7 +8843,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 259; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 259; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6311,6 +9177,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
   }
   __pyx_L2:;
   __Pyx_XDECREF((PyObject *)__pyx_v_descr);
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6335,9 +9202,14 @@ static CYTHON_UNUSED void __pyx_pw_5numpy_7ndarray_3__releasebuffer__(PyObject *
 }
 
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info) {
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__releasebuffer__", 0);
+  __Pyx_TraceCall("__releasebuffer__", __pyx_f[1], 290, 0, {__pyx_filename = __pyx_f[1]; __pyx_lineno = 290; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":291
  * 
@@ -6404,6 +9276,11 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
  */
 
   /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("numpy.ndarray.__releasebuffer__", __pyx_clineno, __pyx_lineno, __pyx_filename, 0, 0);
+  __pyx_L0:;
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -6417,12 +9294,14 @@ static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_s
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__pyx_v_a) {
   PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew1", 0);
+  __Pyx_TraceCall("PyArray_MultiIterNew1", __pyx_f[1], 770, 0, {__pyx_filename = __pyx_f[1]; __pyx_lineno = 770; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":771
  * 
@@ -6453,6 +9332,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6467,12 +9347,14 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__pyx_v_a, PyObject *__pyx_v_b) {
   PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew2", 0);
+  __Pyx_TraceCall("PyArray_MultiIterNew2", __pyx_f[1], 773, 0, {__pyx_filename = __pyx_f[1]; __pyx_lineno = 773; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":774
  * 
@@ -6503,6 +9385,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6517,12 +9400,14 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c) {
   PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew3", 0);
+  __Pyx_TraceCall("PyArray_MultiIterNew3", __pyx_f[1], 776, 0, {__pyx_filename = __pyx_f[1]; __pyx_lineno = 776; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":777
  * 
@@ -6553,6 +9438,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6567,12 +9453,14 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c, PyObject *__pyx_v_d) {
   PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew4", 0);
+  __Pyx_TraceCall("PyArray_MultiIterNew4", __pyx_f[1], 779, 0, {__pyx_filename = __pyx_f[1]; __pyx_lineno = 779; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":780
  * 
@@ -6603,6 +9491,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6617,12 +9506,14 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__pyx_v_a, PyObject *__pyx_v_b, PyObject *__pyx_v_c, PyObject *__pyx_v_d, PyObject *__pyx_v_e) {
   PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("PyArray_MultiIterNew5", 0);
+  __Pyx_TraceCall("PyArray_MultiIterNew5", __pyx_f[1], 782, 0, {__pyx_filename = __pyx_f[1]; __pyx_lineno = 782; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":783
  * 
@@ -6653,6 +9544,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6674,6 +9566,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
   PyObject *__pyx_v_new_offset = NULL;
   PyObject *__pyx_v_t = NULL;
   char *__pyx_r;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
@@ -6688,6 +9581,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_util_dtypestring", 0);
+  __Pyx_TraceCall("_util_dtypestring", __pyx_f[1], 785, 0, {__pyx_filename = __pyx_f[1]; __pyx_lineno = 785; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":790
  * 
@@ -6810,7 +9704,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6878,7 +9772,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6987,7 +9881,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -7411,6 +10305,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
   __Pyx_XDECREF(__pyx_v_childname);
   __Pyx_XDECREF(__pyx_v_new_offset);
   __Pyx_XDECREF(__pyx_v_t);
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7425,10 +10320,15 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
 
 static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_arr, PyObject *__pyx_v_base) {
   PyObject *__pyx_v_baseptr;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_array_base", 0);
+  __Pyx_TraceCall("set_array_base", __pyx_f[1], 966, 0, {__pyx_filename = __pyx_f[1]; __pyx_lineno = 966; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":968
  * cdef inline void set_array_base(ndarray arr, object base):
@@ -7508,6 +10408,11 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
  */
 
   /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("numpy.set_array_base", __pyx_clineno, __pyx_lineno, __pyx_filename, 0, 0);
+  __pyx_L0:;
+  __Pyx_TraceReturn(Py_None, 0);
   __Pyx_RefNannyFinishContext();
 }
 
@@ -7521,9 +10426,14 @@ static CYTHON_INLINE void __pyx_f_5numpy_set_array_base(PyArrayObject *__pyx_v_a
 
 static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__pyx_v_arr) {
   PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_array_base", 0);
+  __Pyx_TraceCall("get_array_base", __pyx_f[1], 976, 0, {__pyx_filename = __pyx_f[1]; __pyx_lineno = 976; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":977
  * 
@@ -7577,8 +10487,12 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("numpy.get_array_base", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -7586,9 +10500,11 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
 static PyMethodDef __pyx_methods[] = {
   {"find_signal_to_noise", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_1find_signal_to_noise, METH_VARARGS|METH_KEYWORDS, 0},
   {"curve_reg", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_3curve_reg, METH_VARARGS|METH_KEYWORDS, 0},
-  {"find_full_width_at_half_max", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_full_width_at_half_max, METH_VARARGS|METH_KEYWORDS, 0},
-  {"lorenztian_fit", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_7lorenztian_fit, METH_VARARGS|METH_KEYWORDS, 0},
-  {"peak_area", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_9peak_area, METH_VARARGS|METH_KEYWORDS, 0},
+  {"find_right_width", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_5find_right_width, METH_VARARGS|METH_KEYWORDS, 0},
+  {"find_left_width", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_7find_left_width, METH_VARARGS|METH_KEYWORDS, 0},
+  {"find_full_width_at_half_max", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_9find_full_width_at_half_max, METH_VARARGS|METH_KEYWORDS, 0},
+  {"lorenztian_fit", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_11lorenztian_fit, METH_VARARGS|METH_KEYWORDS, 0},
+  {"peak_area", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_15peak_statistics_13peak_area, METH_VARARGS|METH_KEYWORDS, 0},
   {0, 0, 0, 0}
 };
 
@@ -7620,7 +10536,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_data_index, __pyx_k_data_index, sizeof(__pyx_k_data_index), 0, 0, 1, 1},
   {&__pyx_n_s_dot, __pyx_k_dot, sizeof(__pyx_k_dot), 0, 0, 1, 1},
   {&__pyx_n_s_full_width_at_half_max, __pyx_k_full_width_at_half_max, sizeof(__pyx_k_full_width_at_half_max), 0, 0, 1, 1},
-  {&__pyx_n_s_get_nearest, __pyx_k_get_nearest, sizeof(__pyx_k_get_nearest), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
   {&__pyx_n_s_intensity_array, __pyx_k_intensity_array, sizeof(__pyx_k_intensity_array), 0, 0, 1, 1},
@@ -7636,7 +10551,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
   {&__pyx_n_s_ones, __pyx_k_ones, sizeof(__pyx_k_ones), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
-  {&__pyx_n_s_search, __pyx_k_search, sizeof(__pyx_k_search), 0, 0, 1, 1},
   {&__pyx_n_s_signal_to_noise, __pyx_k_signal_to_noise, sizeof(__pyx_k_signal_to_noise), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
@@ -7650,7 +10564,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
@@ -7662,16 +10576,38 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":129
+  /* "ms_peak_picker\_c\peak_statistics.pyx":187
+ *     mass = mz_array[data_index]
+ * 
+ *     coef = np.zeros(2)             # <<<<<<<<<<<<<<
+ * 
+ *     if peak == 0.0:
+ */
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple_);
+  __Pyx_GIVEREF(__pyx_tuple_);
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":256
+ *     mass = mz_array[data_index]
+ * 
+ *     coef = np.zeros(2)             # <<<<<<<<<<<<<<
+ * 
+ *     if peak == 0.0:
+ */
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
+
+  /* "ms_peak_picker\_c\peak_statistics.pyx":325
  *     mass = mz_array[data_index]
  * 
  *     coef = np.zeros(2)             # <<<<<<<<<<<<<<
  * 
  *     if aboutzero(peak):
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple_);
-  __Pyx_GIVEREF(__pyx_tuple_);
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 325; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":218
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
@@ -7680,9 +10616,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":222
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
@@ -7691,9 +10627,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             info.buf = PyArray_DATA(self)
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__3);
-  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":259
  *                 if ((descr.byteorder == c'>' and little_endian) or
@@ -7702,9 +10638,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 259; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 259; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":799
  * 
@@ -7713,9 +10649,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":803
  *         if ((child.byteorder == c'>' and little_endian) or
@@ -7724,9 +10660,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":823
  *             t = child.type_num
@@ -7735,9 +10671,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -7762,8 +10698,10 @@ PyMODINIT_FUNC PyInit_peak_statistics(void); /*proto*/
 PyMODINIT_FUNC PyInit_peak_statistics(void)
 #endif
 {
+  __Pyx_TraceDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -7841,8 +10779,9 @@ PyMODINIT_FUNC PyInit_peak_statistics(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   if (__Pyx_ExportFunction("find_signal_to_noise", (void (*)(void))__pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_signal_to_noise, "__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t (double, PyArrayObject *, size_t, int __pyx_skip_dispatch)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (__Pyx_ExportFunction("curve_reg", (void (*)(void))__pyx_f_14ms_peak_picker_2_c_15peak_statistics_curve_reg, "__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t (PyArrayObject *, PyArrayObject *, size_t, PyArrayObject *, size_t, int __pyx_skip_dispatch)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__Pyx_ExportFunction("find_full_width_at_half_max", (void (*)(void))__pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_half_max, "__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t (PyArrayObject *, PyArrayObject *, size_t, int __pyx_skip_dispatch, struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_full_width_at_half_max *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ExportFunction("find_right_width", (void (*)(void))__pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_right_width, "__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t (PyArrayObject *, PyArrayObject *, size_t, int __pyx_skip_dispatch, struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_right_width *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ExportFunction("find_left_width", (void (*)(void))__pyx_f_14ms_peak_picker_2_c_15peak_statistics_find_left_width, "__pyx_t_14ms_peak_picker_2_c_15peak_statistics_DTYPE_t (PyArrayObject *, PyArrayObject *, size_t, int __pyx_skip_dispatch, struct __pyx_opt_args_14ms_peak_picker_2_c_15peak_statistics_find_left_width *__pyx_optional_args)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__Pyx_ExportFunction("lorenztian_least_squares", (void (*)(void))__pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_least_squares, "double (PyArrayObject *, PyArrayObject *, double, double, double, size_t, size_t)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__Pyx_ExportFunction("lorenztian_fit", (void (*)(void))__pyx_f_14ms_peak_picker_2_c_15peak_statistics_lorenztian_fit, "double (PyArrayObject *, PyArrayObject *, size_t, double, int __pyx_skip_dispatch)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__Pyx_ExportFunction("peak_area", (void (*)(void))__pyx_f_14ms_peak_picker_2_c_15peak_statistics_peak_area, "double (PyArrayObject *, PyArrayObject *, size_t, size_t, int __pyx_skip_dispatch)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -7862,53 +10801,55 @@ PyMODINIT_FUNC PyInit_peak_statistics(void)
   __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 861; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
+  __pyx_t_1 = __Pyx_ImportModule("ms_peak_picker._c.search"); if (!__pyx_t_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ImportFunction(__pyx_t_1, "get_nearest", (void (**)(void))&__pyx_f_14ms_peak_picker_2_c_6search_get_nearest, "size_t (PyArrayObject *, __pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, size_t, int __pyx_skip_dispatch)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  Py_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_ImportModule("ms_peak_picker._c.double_vector"); if (!__pyx_t_2) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ImportFunction(__pyx_t_2, "make_double_vector_with_size", (void (**)(void))&__pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector_with_size, "struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *(size_t)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ImportFunction(__pyx_t_2, "make_double_vector", (void (**)(void))&__pyx_f_14ms_peak_picker_2_c_13double_vector_make_double_vector, "struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *(void)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ImportFunction(__pyx_t_2, "double_vector_resize", (void (**)(void))&__pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_resize, "int (struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ImportFunction(__pyx_t_2, "double_vector_append", (void (**)(void))&__pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_append, "int (struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *, double)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ImportFunction(__pyx_t_2, "free_double_vector", (void (**)(void))&__pyx_f_14ms_peak_picker_2_c_13double_vector_free_double_vector, "void (struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ImportFunction(__pyx_t_2, "print_double_vector", (void (**)(void))&__pyx_f_14ms_peak_picker_2_c_13double_vector_print_double_vector, "void (struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ImportFunction(__pyx_t_2, "double_vector_to_list", (void (**)(void))&__pyx_f_14ms_peak_picker_2_c_13double_vector_double_vector_to_list, "PyObject *(struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ImportFunction(__pyx_t_2, "list_to_double_vector", (void (**)(void))&__pyx_f_14ms_peak_picker_2_c_13double_vector_list_to_double_vector, "struct __pyx_t_14ms_peak_picker_2_c_13double_vector_DoubleVector *(PyObject *)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  Py_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   /*--- Execution code ---*/
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
   if (__Pyx_patch_abc() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
+  __Pyx_TraceCall("PyMODINIT_FUNC PyInit_peak_statistics(void)", __pyx_f[0], 1, 0, {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;});
 
   /* "ms_peak_picker\_c\peak_statistics.pyx":6
  * cimport numpy as np
  * from libc cimport math
  * import numpy as np             # <<<<<<<<<<<<<<
  * 
- * from .search import get_nearest
+ * from ms_peak_picker._c.search cimport get_nearest
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "ms_peak_picker\_c\peak_statistics.pyx":8
- * import numpy as np
+  /* "ms_peak_picker\_c\peak_statistics.pyx":17
  * 
- * from .search import get_nearest             # <<<<<<<<<<<<<<
+ * 
+ * cdef DTYPE_t minimum_signal_to_noise = 4.0             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_get_nearest);
-  __Pyx_GIVEREF(__pyx_n_s_get_nearest);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_get_nearest);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_search, __pyx_t_1, 1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_get_nearest); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_nearest, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_14ms_peak_picker_2_c_15peak_statistics_minimum_signal_to_noise = 4.0;
 
   /* "ms_peak_picker\_c\peak_statistics.pyx":1
- * #cython profile=True             # <<<<<<<<<<<<<<
+ * #cython: profile=True             # <<<<<<<<<<<<<<
  * 
  * cimport cython
  */
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":976
  *      arr.base = baseptr
@@ -7917,6 +10858,7 @@ PyMODINIT_FUNC PyInit_peak_statistics(void)
  *     if arr.base is NULL:
  *         return None
  */
+  __Pyx_TraceReturn(Py_None, 0);
 
   /*--- Wrapped vars code ---*/
 
@@ -7924,6 +10866,7 @@ PyMODINIT_FUNC PyInit_peak_statistics(void)
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   if (__pyx_m) {
     if (__pyx_d) {
       __Pyx_AddTraceback("init ms_peak_picker._c.peak_statistics", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -7969,6 +10912,165 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
 #endif
     }
     return result;
+}
+
+#if CYTHON_PROFILE
+static int __Pyx_TraceSetupAndCall(PyCodeObject** code,
+                                   PyFrameObject** frame,
+                                   const char *funcname,
+                                   const char *srcfile,
+                                   int firstlineno) {
+    PyObject *type, *value, *traceback;
+    int retval;
+    PyThreadState* tstate = PyThreadState_GET();
+    if (*frame == NULL || !CYTHON_PROFILE_REUSE_FRAME) {
+        if (*code == NULL) {
+            *code = __Pyx_createFrameCodeObject(funcname, srcfile, firstlineno);
+            if (*code == NULL) return 0;
+        }
+        *frame = PyFrame_New(
+            tstate,                          /*PyThreadState *tstate*/
+            *code,                           /*PyCodeObject *code*/
+            __pyx_d,                  /*PyObject *globals*/
+            0                                /*PyObject *locals*/
+        );
+        if (*frame == NULL) return 0;
+        if (CYTHON_TRACE && (*frame)->f_trace == NULL) {
+            Py_INCREF(Py_None);
+            (*frame)->f_trace = Py_None;
+        }
+#if PY_VERSION_HEX < 0x030400B1
+    } else {
+        (*frame)->f_tstate = tstate;
+#endif
+    }
+    (*frame)->f_lineno = firstlineno;
+    retval = 1;
+    tstate->tracing++;
+    tstate->use_tracing = 0;
+    PyErr_Fetch(&type, &value, &traceback);
+    #if CYTHON_TRACE
+    if (tstate->c_tracefunc)
+        retval = tstate->c_tracefunc(tstate->c_traceobj, *frame, PyTrace_CALL, NULL) == 0;
+    if (retval && tstate->c_profilefunc)
+    #endif
+        retval = tstate->c_profilefunc(tstate->c_profileobj, *frame, PyTrace_CALL, NULL) == 0;
+    tstate->use_tracing = (tstate->c_profilefunc ||
+                           (CYTHON_TRACE && tstate->c_tracefunc));
+    tstate->tracing--;
+    if (retval) {
+        PyErr_Restore(type, value, traceback);
+        return tstate->use_tracing && retval;
+    } else {
+        Py_XDECREF(type);
+        Py_XDECREF(value);
+        Py_XDECREF(traceback);
+        return -1;
+    }
+}
+static PyCodeObject *__Pyx_createFrameCodeObject(const char *funcname, const char *srcfile, int firstlineno) {
+    PyObject *py_srcfile = 0;
+    PyObject *py_funcname = 0;
+    PyCodeObject *py_code = 0;
+    #if PY_MAJOR_VERSION < 3
+    py_funcname = PyString_FromString(funcname);
+    py_srcfile = PyString_FromString(srcfile);
+    #else
+    py_funcname = PyUnicode_FromString(funcname);
+    py_srcfile = PyUnicode_FromString(srcfile);
+    #endif
+    if (!py_funcname | !py_srcfile) goto bad;
+    py_code = PyCode_New(
+        0,
+        #if PY_MAJOR_VERSION >= 3
+        0,
+        #endif
+        0,
+        0,
+        0,
+        __pyx_empty_bytes,     /*PyObject *code,*/
+        __pyx_empty_tuple,     /*PyObject *consts,*/
+        __pyx_empty_tuple,     /*PyObject *names,*/
+        __pyx_empty_tuple,     /*PyObject *varnames,*/
+        __pyx_empty_tuple,     /*PyObject *freevars,*/
+        __pyx_empty_tuple,     /*PyObject *cellvars,*/
+        py_srcfile,       /*PyObject *filename,*/
+        py_funcname,      /*PyObject *name,*/
+        firstlineno,
+        __pyx_empty_bytes      /*PyObject *lnotab*/
+    );
+bad:
+    Py_XDECREF(py_srcfile);
+    Py_XDECREF(py_funcname);
+    return py_code;
+}
+#endif
+
+static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb) {
+#if CYTHON_COMPILING_IN_CPYTHON
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    PyThreadState *tstate = PyThreadState_GET();
+    tmp_type = tstate->curexc_type;
+    tmp_value = tstate->curexc_value;
+    tmp_tb = tstate->curexc_traceback;
+    tstate->curexc_type = type;
+    tstate->curexc_value = value;
+    tstate->curexc_traceback = tb;
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+#else
+    PyErr_Restore(type, value, tb);
+#endif
+}
+static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb) {
+#if CYTHON_COMPILING_IN_CPYTHON
+    PyThreadState *tstate = PyThreadState_GET();
+    *type = tstate->curexc_type;
+    *value = tstate->curexc_value;
+    *tb = tstate->curexc_traceback;
+    tstate->curexc_type = 0;
+    tstate->curexc_value = 0;
+    tstate->curexc_traceback = 0;
+#else
+    PyErr_Fetch(type, value, tb);
+#endif
+}
+
+static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
+                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
+                                  int full_traceback, CYTHON_UNUSED int nogil) {
+    PyObject *old_exc, *old_val, *old_tb;
+    PyObject *ctx;
+#ifdef WITH_THREAD
+    PyGILState_STATE state;
+    if (nogil)
+        state = PyGILState_Ensure();
+#endif
+    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
+    if (full_traceback) {
+        Py_XINCREF(old_exc);
+        Py_XINCREF(old_val);
+        Py_XINCREF(old_tb);
+        __Pyx_ErrRestore(old_exc, old_val, old_tb);
+        PyErr_PrintEx(1);
+    }
+    #if PY_MAJOR_VERSION < 3
+    ctx = PyString_FromString(name);
+    #else
+    ctx = PyUnicode_FromString(name);
+    #endif
+    __Pyx_ErrRestore(old_exc, old_val, old_tb);
+    if (!ctx) {
+        PyErr_WriteUnraisable(Py_None);
+    } else {
+        PyErr_WriteUnraisable(ctx);
+        Py_DECREF(ctx);
+    }
+#ifdef WITH_THREAD
+    if (nogil)
+        PyGILState_Release(state);
+#endif
 }
 
 static CYTHON_INLINE int __Pyx_IsLittleEndian(void) {
@@ -8520,73 +11622,6 @@ static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info) {
   __Pyx_ReleaseBuffer(info);
 }
 
-static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    PyThreadState *tstate = PyThreadState_GET();
-    tmp_type = tstate->curexc_type;
-    tmp_value = tstate->curexc_value;
-    tmp_tb = tstate->curexc_traceback;
-    tstate->curexc_type = type;
-    tstate->curexc_value = value;
-    tstate->curexc_traceback = tb;
-    Py_XDECREF(tmp_type);
-    Py_XDECREF(tmp_value);
-    Py_XDECREF(tmp_tb);
-#else
-    PyErr_Restore(type, value, tb);
-#endif
-}
-static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    PyThreadState *tstate = PyThreadState_GET();
-    *type = tstate->curexc_type;
-    *value = tstate->curexc_value;
-    *tb = tstate->curexc_traceback;
-    tstate->curexc_type = 0;
-    tstate->curexc_value = 0;
-    tstate->curexc_traceback = 0;
-#else
-    PyErr_Fetch(type, value, tb);
-#endif
-}
-
-static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
-                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
-                                  int full_traceback, CYTHON_UNUSED int nogil) {
-    PyObject *old_exc, *old_val, *old_tb;
-    PyObject *ctx;
-#ifdef WITH_THREAD
-    PyGILState_STATE state;
-    if (nogil)
-        state = PyGILState_Ensure();
-#endif
-    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
-    if (full_traceback) {
-        Py_XINCREF(old_exc);
-        Py_XINCREF(old_val);
-        Py_XINCREF(old_tb);
-        __Pyx_ErrRestore(old_exc, old_val, old_tb);
-        PyErr_PrintEx(1);
-    }
-    #if PY_MAJOR_VERSION < 3
-    ctx = PyString_FromString(name);
-    #else
-    ctx = PyUnicode_FromString(name);
-    #endif
-    __Pyx_ErrRestore(old_exc, old_val, old_tb);
-    if (!ctx) {
-        PyErr_WriteUnraisable(Py_None);
-    } else {
-        PyErr_WriteUnraisable(ctx);
-        Py_DECREF(ctx);
-    }
-#ifdef WITH_THREAD
-    if (nogil)
-        PyGILState_Release(state);
-#endif
-}
-
 static void __Pyx_RaiseArgtupleInvalid(
     const char* func_name,
     int exact,
@@ -8858,204 +11893,6 @@ static void __Pyx_RaiseBufferFallbackError(void) {
      "Buffer acquisition failed on assignment; and then reacquiring the old buffer failed too!");
 }
 
-#if CYTHON_USE_PYLONG_INTERNALS
-  #include "longintrepr.h"
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED int inplace) {
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op1))) {
-        const long b = intval;
-        long x;
-        long a = PyInt_AS_LONG(op1);
-            x = (long)((unsigned long)a + b);
-            if (likely((x^a) >= 0 || (x^b) >= 0))
-                return PyInt_FromLong(x);
-            return PyLong_Type.tp_as_number->nb_add(op1, op2);
-    }
-    #endif
-    #if CYTHON_USE_PYLONG_INTERNALS && PY_MAJOR_VERSION >= 3
-    if (likely(PyLong_CheckExact(op1))) {
-        const long b = intval;
-        long a, x;
-        const PY_LONG_LONG llb = intval;
-        PY_LONG_LONG lla, llx;
-        const digit* digits = ((PyLongObject*)op1)->ob_digit;
-        const Py_ssize_t size = Py_SIZE(op1);
-        if (likely(__Pyx_sst_abs(size) <= 1)) {
-            a = likely(size) ? digits[0] : 0;
-            if (size == -1) a = -a;
-        } else {
-            switch (size) {
-                case -2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case 2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case -3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case 3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case -4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case 4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
-            }
-        }
-                x = a + b;
-            return PyLong_FromLong(x);
-        long_long:
-                llx = lla + llb;
-            return PyLong_FromLongLong(llx);
-    }
-    #endif
-    if (PyFloat_CheckExact(op1)) {
-        const long b = intval;
-        double a = PyFloat_AS_DOUBLE(op1);
-            double result;
-            PyFPE_START_PROTECT("add", return NULL)
-            result = ((double)a) + (double)b;
-            PyFPE_END_PROTECT(result)
-            return PyFloat_FromDouble(result);
-    }
-    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
-}
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED int inplace) {
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op1))) {
-        const long b = intval;
-        long x;
-        long a = PyInt_AS_LONG(op1);
-            x = (long)((unsigned long)a - b);
-            if (likely((x^a) >= 0 || (x^~b) >= 0))
-                return PyInt_FromLong(x);
-            return PyLong_Type.tp_as_number->nb_subtract(op1, op2);
-    }
-    #endif
-    #if CYTHON_USE_PYLONG_INTERNALS && PY_MAJOR_VERSION >= 3
-    if (likely(PyLong_CheckExact(op1))) {
-        const long b = intval;
-        long a, x;
-        const PY_LONG_LONG llb = intval;
-        PY_LONG_LONG lla, llx;
-        const digit* digits = ((PyLongObject*)op1)->ob_digit;
-        const Py_ssize_t size = Py_SIZE(op1);
-        if (likely(__Pyx_sst_abs(size) <= 1)) {
-            a = likely(size) ? digits[0] : 0;
-            if (size == -1) a = -a;
-        } else {
-            switch (size) {
-                case -2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case 2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case -3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case 3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case -4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                case 4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-                    }
-                default: return PyLong_Type.tp_as_number->nb_subtract(op1, op2);
-            }
-        }
-                x = a - b;
-            return PyLong_FromLong(x);
-        long_long:
-                llx = lla - llb;
-            return PyLong_FromLongLong(llx);
-    }
-    #endif
-    if (PyFloat_CheckExact(op1)) {
-        const long b = intval;
-        double a = PyFloat_AS_DOUBLE(op1);
-            double result;
-            PyFPE_START_PROTECT("subtract", return NULL)
-            result = ((double)a) - (double)b;
-            PyFPE_END_PROTECT(result)
-            return PyFloat_FromDouble(result);
-    }
-    return (inplace ? PyNumber_InPlaceSubtract : PyNumber_Subtract)(op1, op2);
-}
-#endif
-
 #if PY_MAJOR_VERSION < 3
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb,
                         CYTHON_UNUSED PyObject *cause) {
@@ -9304,19 +12141,6 @@ bad:
     return module;
 }
 
-static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
-    PyObject* value = __Pyx_PyObject_GetAttrStr(module, name);
-    if (unlikely(!value) && PyErr_ExceptionMatches(PyExc_AttributeError)) {
-        PyErr_Format(PyExc_ImportError,
-        #if PY_MAJOR_VERSION < 3
-            "cannot import name %.230s", PyString_AS_STRING(name));
-        #else
-            "cannot import name %S", name);
-        #endif
-    }
-    return value;
-}
-
 static int __pyx_bisect_code_objects(__Pyx_CodeObjectCacheEntry* entries, int count, int code_line) {
     int start = 0, mid = 0, end = count - 1;
     if (end >= 0 && code_line > entries[end].code_line) {
@@ -9517,6 +12341,10 @@ static void __Pyx_ReleaseBuffer(Py_buffer *view) {
         }\
         return (target_type) value;\
     }
+
+#if CYTHON_USE_PYLONG_INTERNALS
+  #include "longintrepr.h"
+#endif
 
 static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *x) {
     const size_t neg_one = (size_t) -1, const_zero = (size_t) 0;
@@ -10517,6 +13345,59 @@ bad:
     Py_XDECREF(py_module);
     Py_XDECREF(result);
     return NULL;
+}
+#endif
+
+#ifndef __PYX_HAVE_RT_ImportFunction
+#define __PYX_HAVE_RT_ImportFunction
+static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**f)(void), const char *sig) {
+    PyObject *d = 0;
+    PyObject *cobj = 0;
+    union {
+        void (*fp)(void);
+        void *p;
+    } tmp;
+    d = PyObject_GetAttrString(module, (char *)"__pyx_capi__");
+    if (!d)
+        goto bad;
+    cobj = PyDict_GetItemString(d, funcname);
+    if (!cobj) {
+        PyErr_Format(PyExc_ImportError,
+            "%.200s does not export expected C function %.200s",
+                PyModule_GetName(module), funcname);
+        goto bad;
+    }
+#if PY_VERSION_HEX >= 0x02070000
+    if (!PyCapsule_IsValid(cobj, sig)) {
+        PyErr_Format(PyExc_TypeError,
+            "C function %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
+             PyModule_GetName(module), funcname, sig, PyCapsule_GetName(cobj));
+        goto bad;
+    }
+    tmp.p = PyCapsule_GetPointer(cobj, sig);
+#else
+    {const char *desc, *s1, *s2;
+    desc = (const char *)PyCObject_GetDesc(cobj);
+    if (!desc)
+        goto bad;
+    s1 = desc; s2 = sig;
+    while (*s1 != '\0' && *s1 == *s2) { s1++; s2++; }
+    if (*s1 != *s2) {
+        PyErr_Format(PyExc_TypeError,
+            "C function %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
+             PyModule_GetName(module), funcname, sig, desc);
+        goto bad;
+    }
+    tmp.p = PyCObject_AsVoidPtr(cobj);}
+#endif
+    *f = tmp.fp;
+    if (!(*f))
+        goto bad;
+    Py_DECREF(d);
+    return 0;
+bad:
+    Py_XDECREF(d);
+    return -1;
 }
 #endif
 

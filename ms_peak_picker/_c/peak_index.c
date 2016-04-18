@@ -752,7 +752,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 struct __pyx_opt_args_14ms_peak_picker_2_c_8peak_set_7PeakSet__has_peak;
 
-/* "ms_peak_picker\_c\peak_set.pxd":19
+/* "ms_peak_picker\_c\peak_set.pxd":21
  *     cdef FittedPeak _get_nearest_peak(self, double mz, double* errout)
  * 
  *     cdef FittedPeak _has_peak(self, double mz, double tolerance=*)             # <<<<<<<<<<<<<<
@@ -808,6 +808,8 @@ struct __pyx_opt_args_14ms_peak_picker_2_c_10peak_index_9PeakIndex__has_peak;
  *         public PeakSet peaks
  * 
  *     cdef FittedPeak _has_peak(self, double mz, double tolerance=*)             # <<<<<<<<<<<<<<
+ *     cdef PeakSet _between(self, double start, double stop)
+ *     cdef size_t _get_size(self)
  */
 struct __pyx_opt_args_14ms_peak_picker_2_c_10peak_index_9PeakIndex__has_peak {
   int __pyx_n;
@@ -826,13 +828,15 @@ struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak {
   double intensity;
   double signal_to_noise;
   double full_width_at_half_max;
+  double left_width;
+  double right_width;
   long peak_count;
   long index;
   double area;
 };
 
 
-/* "ms_peak_picker\_c\peak_set.pxd":13
+/* "ms_peak_picker\_c\peak_set.pxd":15
  *     cpdef bint _eq(self, FittedPeak other)
  * 
  * cdef class PeakSet(object):             # <<<<<<<<<<<<<<
@@ -862,7 +866,7 @@ struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex {
 };
 
 
-/* "ms_peak_picker\_c\peak_index.pyx":78
+/* "ms_peak_picker\_c\peak_index.pyx":118
  * 
  * 
  * def has_peak_within_tolerance(peaklist, mz, tol):             # <<<<<<<<<<<<<<
@@ -892,7 +896,7 @@ struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_FittedPeak {
 static struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_FittedPeak *__pyx_vtabptr_14ms_peak_picker_2_c_8peak_set_FittedPeak;
 
 
-/* "ms_peak_picker\_c\peak_set.pxd":13
+/* "ms_peak_picker\_c\peak_set.pxd":15
  *     cpdef bint _eq(self, FittedPeak other)
  * 
  * cdef class PeakSet(object):             # <<<<<<<<<<<<<<
@@ -905,6 +909,7 @@ struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet {
   struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *(*_has_peak)(struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *, double, struct __pyx_opt_args_14ms_peak_picker_2_c_8peak_set_7PeakSet__has_peak *__pyx_optional_args);
   struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *(*_between)(struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *, double, double);
   struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *(*getitem)(struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *, size_t);
+  size_t (*_get_size)(struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *);
 };
 static struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet *__pyx_vtabptr_14ms_peak_picker_2_c_8peak_set_PeakSet;
 
@@ -919,6 +924,8 @@ static struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet *__pyx_vta
 
 struct __pyx_vtabstruct_14ms_peak_picker_2_c_10peak_index_PeakIndex {
   struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *(*_has_peak)(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *, double, struct __pyx_opt_args_14ms_peak_picker_2_c_10peak_index_9PeakIndex__has_peak *__pyx_optional_args);
+  struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *(*_between)(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *, double, double);
+  size_t (*_get_size)(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *);
 };
 static struct __pyx_vtabstruct_14ms_peak_picker_2_c_10peak_index_PeakIndex *__pyx_vtabptr_14ms_peak_picker_2_c_10peak_index_PeakIndex;
 
@@ -1066,6 +1073,16 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, 
     (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
 #endif
 
+static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb);
+static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb);
+
+static void __Pyx_WriteUnraisable(const char *name, int clineno,
+                                  int lineno, const char *filename,
+                                  int full_traceback, int nogil);
+
+static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, int none_allowed,
+    const char *name, int exact);
+
 static CYTHON_INLINE void __Pyx_RaiseClosureNameError(const char *varname);
 
 static PyTypeObject* __Pyx_FetchCommonType(PyTypeObject* type);
@@ -1122,9 +1139,6 @@ static CYTHON_INLINE void __Pyx_CyFunction_SetDefaultsKwDict(PyObject *m,
 static CYTHON_INLINE void __Pyx_CyFunction_SetAnnotationsDict(PyObject *m,
                                                               PyObject *dict);
 static int __pyx_CyFunction_init(void);
-
-static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb);
-static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb);
 
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
@@ -1309,6 +1323,8 @@ static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**
 
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
+static struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *__pyx_f_14ms_peak_picker_2_c_10peak_index_9PeakIndex__between(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *__pyx_v_self, double __pyx_v_start, double __pyx_v_stop); /* proto*/
+static size_t __pyx_f_14ms_peak_picker_2_c_10peak_index_9PeakIndex__get_size(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *__pyx_v_self); /* proto*/
 static struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *__pyx_f_14ms_peak_picker_2_c_10peak_index_9PeakIndex__has_peak(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *__pyx_v_self, double __pyx_v_mz, struct __pyx_opt_args_14ms_peak_picker_2_c_10peak_index_9PeakIndex__has_peak *__pyx_optional_args); /* proto*/
 
 /* Module declarations from 'cpython.buffer' */
@@ -1350,6 +1366,7 @@ static size_t (*__pyx_f_14ms_peak_picker_2_c_6search_get_nearest)(PyArrayObject 
 /* Module declarations from 'ms_peak_picker._c.peak_index' */
 static PyTypeObject *__pyx_ptype_14ms_peak_picker_2_c_10peak_index_PeakIndex = 0;
 static PyTypeObject *__pyx_ptype_14ms_peak_picker_2_c_10peak_index___pyx_scope_struct__has_peak_within_tolerance = 0;
+static int __pyx_f_14ms_peak_picker_2_c_10peak_index__has_peak_within_tolerance(struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *, double, double, size_t *); /*proto*/
 #define __Pyx_MODULE_NAME "ms_peak_picker._c.peak_index"
 int __pyx_module_is_main_ms_peak_picker___c__peak_index = 0;
 
@@ -1380,6 +1397,7 @@ static char __pyx_k_lo[] = "lo";
 static char __pyx_k_mz[] = "mz";
 static char __pyx_k_np[] = "np";
 static char __pyx_k_mid[] = "mid";
+static char __pyx_k_out[] = "out";
 static char __pyx_k_tol[] = "tol";
 static char __pyx_k_main[] = "__main__";
 static char __pyx_k_stop[] = "stop";
@@ -1401,14 +1419,16 @@ static char __pyx_k_binsearch[] = "binsearch";
 static char __pyx_k_peak_area[] = "peak_area";
 static char __pyx_k_tolerance[] = "tolerance";
 static char __pyx_k_ValueError[] = "ValueError";
+static char __pyx_k_left_width[] = "left_width";
 static char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static char __pyx_k_get_nearest[] = "get_nearest";
+static char __pyx_k_right_width[] = "right_width";
 static char __pyx_k_RuntimeError[] = "RuntimeError";
 static char __pyx_k_intensity_array[] = "intensity_array";
 static char __pyx_k_peak_statistics[] = "peak_statistics";
 static char __pyx_k_predict_charge_state[] = "predict_charge_state";
-static char __pyx_k_full_width_at_half_max[] = "full_width_at_half_max";
 static char __pyx_k_has_peak_within_tolerance[] = "has_peak_within_tolerance";
+static char __pyx_k_chas_peak_within_tolerance[] = "chas_peak_within_tolerance";
 static char __pyx_k_fft_patterson_charge_state[] = "fft_patterson_charge_state";
 static char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
 static char __pyx_k_ms_peak_picker__c_peak_index[] = "ms_peak_picker._c.peak_index";
@@ -1430,10 +1450,10 @@ static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_array;
 static PyObject *__pyx_n_s_between;
 static PyObject *__pyx_n_s_binsearch;
+static PyObject *__pyx_n_s_chas_peak_within_tolerance;
 static PyObject *__pyx_n_s_class;
 static PyObject *__pyx_n_s_clone;
 static PyObject *__pyx_n_s_fft_patterson_charge_state;
-static PyObject *__pyx_n_s_full_width_at_half_max;
 static PyObject *__pyx_n_s_get_nearest;
 static PyObject *__pyx_n_s_has_peak_within_tolerance;
 static PyObject *__pyx_n_s_has_peak_within_tolerance_locals;
@@ -1443,6 +1463,7 @@ static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_index;
 static PyObject *__pyx_n_s_intensity_array;
+static PyObject *__pyx_n_s_left_width;
 static PyObject *__pyx_n_s_lo;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_mid;
@@ -1454,6 +1475,7 @@ static PyObject *__pyx_kp_u_ndarray_is_not_C_contiguous;
 static PyObject *__pyx_kp_u_ndarray_is_not_Fortran_contiguou;
 static PyObject *__pyx_n_s_np;
 static PyObject *__pyx_n_s_numpy;
+static PyObject *__pyx_n_s_out;
 static PyObject *__pyx_n_s_peak_area;
 static PyObject *__pyx_n_s_peak_statistics;
 static PyObject *__pyx_n_s_peaklist;
@@ -1461,6 +1483,7 @@ static PyObject *__pyx_n_s_peaks;
 static PyObject *__pyx_n_s_predict_charge_state;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
+static PyObject *__pyx_n_s_right_width;
 static PyObject *__pyx_n_s_start;
 static PyObject *__pyx_n_s_stop;
 static PyObject *__pyx_n_s_sweep;
@@ -1492,9 +1515,10 @@ static int __pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_15intensity_arr
 static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_5peaks___get__(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *__pyx_v_self); /* proto */
 static int __pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_5peaks_2__set__(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_5peaks_4__del__(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_chas_peak_within_tolerance(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *__pyx_v_peaklist, double __pyx_v_mz, double __pyx_v_tol); /* proto */
 static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_sweep(PyObject *__pyx_self, PyObject *__pyx_v_lo, PyObject *__pyx_v_hi); /* proto */
 static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_2binsearch(PyObject *__pyx_self, PyObject *__pyx_v_lo, PyObject *__pyx_v_hi); /* proto */
-static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_has_peak_within_tolerance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_peaklist, PyObject *__pyx_v_mz, PyObject *__pyx_v_tol); /* proto */
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_2has_peak_within_tolerance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_peaklist, PyObject *__pyx_v_mz, PyObject *__pyx_v_tol); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_tp_new_14ms_peak_picker_2_c_10peak_index_PeakIndex(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -1511,9 +1535,11 @@ static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
+static PyObject *__pyx_tuple__13;
 static PyObject *__pyx_codeobj__2;
 static PyObject *__pyx_codeobj__4;
 static PyObject *__pyx_codeobj__12;
+static PyObject *__pyx_codeobj__14;
 
 /* "ms_peak_picker\_c\peak_index.pyx":11
  * cdef class PeakIndex(object):
@@ -2317,7 +2343,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_10between
  *     def between(self, double start, double stop):
  *         return self.peaks._between(start, stop)             # <<<<<<<<<<<<<<
  * 
- *     def has_peak_within_tolerance(self, double mz, double tol):
+ *     cdef PeakSet _between(self, double start, double stop):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet *)__pyx_v_self->peaks->__pyx_vtab)->_between(__pyx_v_self->peaks, __pyx_v_start, __pyx_v_stop)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -2347,6 +2373,93 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_10between
 
 /* "ms_peak_picker\_c\peak_index.pyx":34
  *         return self.peaks._between(start, stop)
+ * 
+ *     cdef PeakSet _between(self, double start, double stop):             # <<<<<<<<<<<<<<
+ *         return self.peaks._between(start, stop)
+ * 
+ */
+
+static struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *__pyx_f_14ms_peak_picker_2_c_10peak_index_9PeakIndex__between(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *__pyx_v_self, double __pyx_v_start, double __pyx_v_stop) {
+  struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("_between", 0);
+
+  /* "ms_peak_picker\_c\peak_index.pyx":35
+ * 
+ *     cdef PeakSet _between(self, double start, double stop):
+ *         return self.peaks._between(start, stop)             # <<<<<<<<<<<<<<
+ * 
+ *     cdef size_t _get_size(self):
+ */
+  __Pyx_XDECREF(((PyObject *)__pyx_r));
+  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet *)__pyx_v_self->peaks->__pyx_vtab)->_between(__pyx_v_self->peaks, __pyx_v_start, __pyx_v_stop)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = ((struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *)__pyx_t_1);
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "ms_peak_picker\_c\peak_index.pyx":34
+ *         return self.peaks._between(start, stop)
+ * 
+ *     cdef PeakSet _between(self, double start, double stop):             # <<<<<<<<<<<<<<
+ *         return self.peaks._between(start, stop)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("ms_peak_picker._c.peak_index.PeakIndex._between", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF((PyObject *)__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "ms_peak_picker\_c\peak_index.pyx":37
+ *         return self.peaks._between(start, stop)
+ * 
+ *     cdef size_t _get_size(self):             # <<<<<<<<<<<<<<
+ *         return self.peaks._get_size()
+ * 
+ */
+
+static size_t __pyx_f_14ms_peak_picker_2_c_10peak_index_9PeakIndex__get_size(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *__pyx_v_self) {
+  size_t __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("_get_size", 0);
+
+  /* "ms_peak_picker\_c\peak_index.pyx":38
+ * 
+ *     cdef size_t _get_size(self):
+ *         return self.peaks._get_size()             # <<<<<<<<<<<<<<
+ * 
+ *     def has_peak_within_tolerance(self, double mz, double tol):
+ */
+  __pyx_r = ((struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet *)__pyx_v_self->peaks->__pyx_vtab)->_get_size(__pyx_v_self->peaks);
+  goto __pyx_L0;
+
+  /* "ms_peak_picker\_c\peak_index.pyx":37
+ *         return self.peaks._between(start, stop)
+ * 
+ *     cdef size_t _get_size(self):             # <<<<<<<<<<<<<<
+ *         return self.peaks._get_size()
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "ms_peak_picker\_c\peak_index.pyx":40
+ *         return self.peaks._get_size()
  * 
  *     def has_peak_within_tolerance(self, double mz, double tol):             # <<<<<<<<<<<<<<
  *         return has_peak_within_tolerance(self.peaks, mz, tol)
@@ -2384,11 +2497,11 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_9PeakIndex_13has_pea
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_tol)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("has_peak_within_tolerance", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("has_peak_within_tolerance", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "has_peak_within_tolerance") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "has_peak_within_tolerance") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2396,12 +2509,12 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_9PeakIndex_13has_pea
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_mz = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_mz == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_tol = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_tol == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_mz = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_mz == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_tol = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_tol == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("has_peak_within_tolerance", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("has_peak_within_tolerance", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.peak_index.PeakIndex.has_peak_within_tolerance", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2429,7 +2542,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_12has_pea
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("has_peak_within_tolerance", 0);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":35
+  /* "ms_peak_picker\_c\peak_index.pyx":41
  * 
  *     def has_peak_within_tolerance(self, double mz, double tol):
  *         return has_peak_within_tolerance(self.peaks, mz, tol)             # <<<<<<<<<<<<<<
@@ -2437,11 +2550,11 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_12has_pea
  *     def __getitem__(self, index):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_has_peak_within_tolerance); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_has_peak_within_tolerance); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_mz); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_mz); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_tol); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_tol); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   __pyx_t_6 = 0;
@@ -2455,7 +2568,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_12has_pea
       __pyx_t_6 = 1;
     }
   }
-  __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = PyTuple_New(3+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
   if (__pyx_t_5) {
     __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -2469,7 +2582,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_12has_pea
   PyTuple_SET_ITEM(__pyx_t_7, 2+__pyx_t_6, __pyx_t_4);
   __pyx_t_3 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2477,8 +2590,8 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_12has_pea
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":34
- *         return self.peaks._between(start, stop)
+  /* "ms_peak_picker\_c\peak_index.pyx":40
+ *         return self.peaks._get_size()
  * 
  *     def has_peak_within_tolerance(self, double mz, double tol):             # <<<<<<<<<<<<<<
  *         return has_peak_within_tolerance(self.peaks, mz, tol)
@@ -2501,7 +2614,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_12has_pea
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":37
+/* "ms_peak_picker\_c\peak_index.pyx":43
  *         return has_peak_within_tolerance(self.peaks, mz, tol)
  * 
  *     def __getitem__(self, index):             # <<<<<<<<<<<<<<
@@ -2531,7 +2644,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_14__getit
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getitem__", 0);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":38
+  /* "ms_peak_picker\_c\peak_index.pyx":44
  * 
  *     def __getitem__(self, index):
  *         return self.peaks[index]             # <<<<<<<<<<<<<<
@@ -2539,13 +2652,13 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_14__getit
  *     def has_peak(self, double mz, double tolerance=2e-5):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_GetItem(((PyObject *)__pyx_v_self->peaks), __pyx_v_index); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_1 = PyObject_GetItem(((PyObject *)__pyx_v_self->peaks), __pyx_v_index); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":37
+  /* "ms_peak_picker\_c\peak_index.pyx":43
  *         return has_peak_within_tolerance(self.peaks, mz, tol)
  * 
  *     def __getitem__(self, index):             # <<<<<<<<<<<<<<
@@ -2564,7 +2677,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_14__getit
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":40
+/* "ms_peak_picker\_c\peak_index.pyx":46
  *         return self.peaks[index]
  * 
  *     def has_peak(self, double mz, double tolerance=2e-5):             # <<<<<<<<<<<<<<
@@ -2607,7 +2720,7 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_9PeakIndex_17has_pea
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "has_peak") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "has_peak") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2617,16 +2730,16 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_9PeakIndex_17has_pea
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_mz = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_mz == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_mz = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_mz == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     if (values[1]) {
-      __pyx_v_tolerance = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_tolerance == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_tolerance = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_tolerance == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
       __pyx_v_tolerance = ((double)2e-5);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("has_peak", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("has_peak", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.peak_index.PeakIndex.has_peak", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2651,7 +2764,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_16has_pea
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("has_peak", 0);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":43
+  /* "ms_peak_picker\_c\peak_index.pyx":49
  *         cdef:
  *             FittedPeak peak
  *         peak = self.peaks._has_peak(mz, tolerance)             # <<<<<<<<<<<<<<
@@ -2660,12 +2773,12 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_16has_pea
  */
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.tolerance = __pyx_v_tolerance;
-  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet *)__pyx_v_self->peaks->__pyx_vtab)->_has_peak(__pyx_v_self->peaks, __pyx_v_mz, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet *)__pyx_v_self->peaks->__pyx_vtab)->_has_peak(__pyx_v_self->peaks, __pyx_v_mz, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_peak = ((struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":44
+  /* "ms_peak_picker\_c\peak_index.pyx":50
  *             FittedPeak peak
  *         peak = self.peaks._has_peak(mz, tolerance)
  *         if peak.mz == -1:             # <<<<<<<<<<<<<<
@@ -2675,7 +2788,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_16has_pea
   __pyx_t_3 = ((__pyx_v_peak->mz == -1.0) != 0);
   if (__pyx_t_3) {
 
-    /* "ms_peak_picker\_c\peak_index.pyx":45
+    /* "ms_peak_picker\_c\peak_index.pyx":51
  *         peak = self.peaks._has_peak(mz, tolerance)
  *         if peak.mz == -1:
  *             return None             # <<<<<<<<<<<<<<
@@ -2687,7 +2800,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_16has_pea
     __pyx_r = Py_None;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_index.pyx":44
+    /* "ms_peak_picker\_c\peak_index.pyx":50
  *             FittedPeak peak
  *         peak = self.peaks._has_peak(mz, tolerance)
  *         if peak.mz == -1:             # <<<<<<<<<<<<<<
@@ -2696,7 +2809,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_16has_pea
  */
   }
 
-  /* "ms_peak_picker\_c\peak_index.pyx":46
+  /* "ms_peak_picker\_c\peak_index.pyx":52
  *         if peak.mz == -1:
  *             return None
  *         return peak             # <<<<<<<<<<<<<<
@@ -2708,7 +2821,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_16has_pea
   __pyx_r = ((PyObject *)__pyx_v_peak);
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":40
+  /* "ms_peak_picker\_c\peak_index.pyx":46
  *         return self.peaks[index]
  * 
  *     def has_peak(self, double mz, double tolerance=2e-5):             # <<<<<<<<<<<<<<
@@ -2728,7 +2841,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_16has_pea
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":48
+/* "ms_peak_picker\_c\peak_index.pyx":54
  *         return peak
  * 
  *     cdef FittedPeak _has_peak(self, double mz, double tolerance=2e-5):             # <<<<<<<<<<<<<<
@@ -2754,7 +2867,7 @@ static struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *__pyx_f_14ms_
     }
   }
 
-  /* "ms_peak_picker\_c\peak_index.pyx":51
+  /* "ms_peak_picker\_c\peak_index.pyx":57
  *         cdef:
  *             FittedPeak peak
  *         peak = self.peaks._has_peak(mz, tolerance)             # <<<<<<<<<<<<<<
@@ -2763,12 +2876,12 @@ static struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *__pyx_f_14ms_
  */
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.tolerance = __pyx_v_tolerance;
-  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet *)__pyx_v_self->peaks->__pyx_vtab)->_has_peak(__pyx_v_self->peaks, __pyx_v_mz, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet *)__pyx_v_self->peaks->__pyx_vtab)->_has_peak(__pyx_v_self->peaks, __pyx_v_mz, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_peak = ((struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":52
+  /* "ms_peak_picker\_c\peak_index.pyx":58
  *             FittedPeak peak
  *         peak = self.peaks._has_peak(mz, tolerance)
  *         if peak.mz == -1:             # <<<<<<<<<<<<<<
@@ -2778,7 +2891,7 @@ static struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *__pyx_f_14ms_
   __pyx_t_3 = ((__pyx_v_peak->mz == -1.0) != 0);
   if (__pyx_t_3) {
 
-    /* "ms_peak_picker\_c\peak_index.pyx":53
+    /* "ms_peak_picker\_c\peak_index.pyx":59
  *         peak = self.peaks._has_peak(mz, tolerance)
  *         if peak.mz == -1:
  *             return None             # <<<<<<<<<<<<<<
@@ -2790,7 +2903,7 @@ static struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *__pyx_f_14ms_
     __pyx_r = ((struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *)Py_None);
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_index.pyx":52
+    /* "ms_peak_picker\_c\peak_index.pyx":58
  *             FittedPeak peak
  *         peak = self.peaks._has_peak(mz, tolerance)
  *         if peak.mz == -1:             # <<<<<<<<<<<<<<
@@ -2799,7 +2912,7 @@ static struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *__pyx_f_14ms_
  */
   }
 
-  /* "ms_peak_picker\_c\peak_index.pyx":54
+  /* "ms_peak_picker\_c\peak_index.pyx":60
  *         if peak.mz == -1:
  *             return None
  *         return peak             # <<<<<<<<<<<<<<
@@ -2811,7 +2924,7 @@ static struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *__pyx_f_14ms_
   __pyx_r = __pyx_v_peak;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":48
+  /* "ms_peak_picker\_c\peak_index.pyx":54
  *         return peak
  * 
  *     cdef FittedPeak _has_peak(self, double mz, double tolerance=2e-5):             # <<<<<<<<<<<<<<
@@ -2831,7 +2944,7 @@ static struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *__pyx_f_14ms_
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":58
+/* "ms_peak_picker\_c\peak_index.pyx":64
  *     predict_charge_state = fft_patterson_charge_state
  * 
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -2862,7 +2975,7 @@ static Py_ssize_t __pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_18__len_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__len__", 0);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":59
+  /* "ms_peak_picker\_c\peak_index.pyx":65
  * 
  *     def __len__(self):
  *         return len(self.peaks)             # <<<<<<<<<<<<<<
@@ -2871,12 +2984,12 @@ static Py_ssize_t __pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_18__len_
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->peaks);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":58
+  /* "ms_peak_picker\_c\peak_index.pyx":64
  *     predict_charge_state = fft_patterson_charge_state
  * 
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -2894,12 +3007,12 @@ static Py_ssize_t __pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_18__len_
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":61
+/* "ms_peak_picker\_c\peak_index.pyx":67
  *         return len(self.peaks)
  * 
  *     def area(self, peak):             # <<<<<<<<<<<<<<
- *         lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
- *         hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+ *         lo = self.get_nearest(peak.mz - peak.left_width, peak.index)
+ *         hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
  */
 
 /* Python wrapper */
@@ -2932,24 +3045,24 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_20area(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("area", 0);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":62
+  /* "ms_peak_picker\_c\peak_index.pyx":68
  * 
  *     def area(self, peak):
- *         lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)             # <<<<<<<<<<<<<<
- *         hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+ *         lo = self.get_nearest(peak.mz - peak.left_width, peak.index)             # <<<<<<<<<<<<<<
+ *         hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
  *         return peak_area(self.mz_array, self.intensity_array, lo, hi)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_nearest); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_nearest); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_mz); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_mz); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_full_width_at_half_max); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_left_width); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyNumber_Subtract(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyNumber_Subtract(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_3 = NULL;
   __pyx_t_6 = 0;
@@ -2963,7 +3076,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_20area(st
       __pyx_t_6 = 1;
     }
   }
-  __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
   if (__pyx_t_3) {
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -2974,31 +3087,31 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_20area(st
   PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_t_4);
   __pyx_t_5 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_lo = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":63
+  /* "ms_peak_picker\_c\peak_index.pyx":69
  *     def area(self, peak):
- *         lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
- *         hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)             # <<<<<<<<<<<<<<
+ *         lo = self.get_nearest(peak.mz - peak.left_width, peak.index)
+ *         hi = self.get_nearest(peak.mz + peak.right_width, peak.index)             # <<<<<<<<<<<<<<
  *         return peak_area(self.mz_array, self.intensity_array, lo, hi)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_nearest); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_nearest); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_mz); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_mz); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_full_width_at_half_max); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_right_width); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyNumber_Add(__pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyNumber_Add(__pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_7 = NULL;
   __pyx_t_6 = 0;
@@ -3012,7 +3125,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_20area(st
       __pyx_t_6 = 1;
     }
   }
-  __pyx_t_3 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   if (__pyx_t_7) {
     __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -3023,22 +3136,22 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_20area(st
   PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_6, __pyx_t_4);
   __pyx_t_5 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_hi = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":64
- *         lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
- *         hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+  /* "ms_peak_picker\_c\peak_index.pyx":70
+ *         lo = self.get_nearest(peak.mz - peak.left_width, peak.index)
+ *         hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
  *         return peak_area(self.mz_array, self.intensity_array, lo, hi)             # <<<<<<<<<<<<<<
  * 
  *     def set_peaks(self, peaks):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_peak_area); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_peak_area); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_6 = 0;
@@ -3052,7 +3165,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_20area(st
       __pyx_t_6 = 1;
     }
   }
-  __pyx_t_4 = PyTuple_New(4+__pyx_t_6); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyTuple_New(4+__pyx_t_6); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (__pyx_t_3) {
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -3069,7 +3182,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_20area(st
   __Pyx_INCREF(__pyx_v_hi);
   __Pyx_GIVEREF(__pyx_v_hi);
   PyTuple_SET_ITEM(__pyx_t_4, 3+__pyx_t_6, __pyx_v_hi);
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3077,12 +3190,12 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_20area(st
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":61
+  /* "ms_peak_picker\_c\peak_index.pyx":67
  *         return len(self.peaks)
  * 
  *     def area(self, peak):             # <<<<<<<<<<<<<<
- *         lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
- *         hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+ *         lo = self.get_nearest(peak.mz - peak.left_width, peak.index)
+ *         hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
  */
 
   /* function exit code */
@@ -3103,7 +3216,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_20area(st
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":66
+/* "ms_peak_picker\_c\peak_index.pyx":72
  *         return peak_area(self.mz_array, self.intensity_array, lo, hi)
  * 
  *     def set_peaks(self, peaks):             # <<<<<<<<<<<<<<
@@ -3137,16 +3250,16 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_22set_pea
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_peaks", 0);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":67
+  /* "ms_peak_picker\_c\peak_index.pyx":73
  * 
  *     def set_peaks(self, peaks):
  *         self.peaks = self.peaks.__class__(tuple(peaks))             # <<<<<<<<<<<<<<
  * 
  *     def points_along(self, peak):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->peaks), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->peaks), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PySequence_Tuple(__pyx_v_peaks); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PySequence_Tuple(__pyx_v_peaks); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3159,29 +3272,29 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_22set_pea
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_14ms_peak_picker_2_c_8peak_set_PeakSet))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_14ms_peak_picker_2_c_8peak_set_PeakSet))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->peaks);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->peaks));
   __pyx_v_self->peaks = ((struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":66
+  /* "ms_peak_picker\_c\peak_index.pyx":72
  *         return peak_area(self.mz_array, self.intensity_array, lo, hi)
  * 
  *     def set_peaks(self, peaks):             # <<<<<<<<<<<<<<
@@ -3206,12 +3319,12 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_22set_pea
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":69
+/* "ms_peak_picker\_c\peak_index.pyx":75
  *         self.peaks = self.peaks.__class__(tuple(peaks))
  * 
  *     def points_along(self, peak):             # <<<<<<<<<<<<<<
- *         lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
- *         hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+ *         lo = self.get_nearest(peak.mz - peak.right_width, peak.index)
+ *         hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
  */
 
 /* Python wrapper */
@@ -3244,24 +3357,24 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_24points_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("points_along", 0);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":70
+  /* "ms_peak_picker\_c\peak_index.pyx":76
  * 
  *     def points_along(self, peak):
- *         lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)             # <<<<<<<<<<<<<<
- *         hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+ *         lo = self.get_nearest(peak.mz - peak.right_width, peak.index)             # <<<<<<<<<<<<<<
+ *         hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
  *         return self.mz_array[lo:hi], self.intensity_array[lo:hi]
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_nearest); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_nearest); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_mz); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_mz); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_full_width_at_half_max); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_right_width); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyNumber_Subtract(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyNumber_Subtract(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_3 = NULL;
   __pyx_t_6 = 0;
@@ -3275,7 +3388,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_24points_
       __pyx_t_6 = 1;
     }
   }
-  __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
   if (__pyx_t_3) {
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -3286,31 +3399,31 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_24points_
   PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_t_4);
   __pyx_t_5 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_lo = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":71
+  /* "ms_peak_picker\_c\peak_index.pyx":77
  *     def points_along(self, peak):
- *         lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
- *         hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)             # <<<<<<<<<<<<<<
+ *         lo = self.get_nearest(peak.mz - peak.right_width, peak.index)
+ *         hi = self.get_nearest(peak.mz + peak.right_width, peak.index)             # <<<<<<<<<<<<<<
  *         return self.mz_array[lo:hi], self.intensity_array[lo:hi]
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_nearest); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_nearest); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_mz); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_mz); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_full_width_at_half_max); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_right_width); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyNumber_Add(__pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyNumber_Add(__pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_peak, __pyx_n_s_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_7 = NULL;
   __pyx_t_6 = 0;
@@ -3324,7 +3437,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_24points_
       __pyx_t_6 = 1;
     }
   }
-  __pyx_t_3 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   if (__pyx_t_7) {
     __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -3335,26 +3448,26 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_24points_
   PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_6, __pyx_t_4);
   __pyx_t_5 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_hi = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":72
- *         lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
- *         hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+  /* "ms_peak_picker\_c\peak_index.pyx":78
+ *         lo = self.get_nearest(peak.mz - peak.right_width, peak.index)
+ *         hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
  *         return self.mz_array[lo:hi], self.intensity_array[lo:hi]             # <<<<<<<<<<<<<<
  * 
  *     def __reduce__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_self->mz_array), 0, 0, &__pyx_v_lo, &__pyx_v_hi, NULL, 0, 0, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_self->mz_array), 0, 0, &__pyx_v_lo, &__pyx_v_hi, NULL, 0, 0, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_self->intensity_array), 0, 0, &__pyx_v_lo, &__pyx_v_hi, NULL, 0, 0, 1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetSlice(((PyObject *)__pyx_v_self->intensity_array), 0, 0, &__pyx_v_lo, &__pyx_v_hi, NULL, 0, 0, 1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -3366,12 +3479,12 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_24points_
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":69
+  /* "ms_peak_picker\_c\peak_index.pyx":75
  *         self.peaks = self.peaks.__class__(tuple(peaks))
  * 
  *     def points_along(self, peak):             # <<<<<<<<<<<<<<
- *         lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
- *         hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
+ *         lo = self.get_nearest(peak.mz - peak.right_width, peak.index)
+ *         hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
  */
 
   /* function exit code */
@@ -3392,7 +3505,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_24points_
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":74
+/* "ms_peak_picker\_c\peak_index.pyx":80
  *         return self.mz_array[lo:hi], self.intensity_array[lo:hi]
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
@@ -3423,7 +3536,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_26__reduc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__reduce__", 0);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":75
+  /* "ms_peak_picker\_c\peak_index.pyx":81
  * 
  *     def __reduce__(self):
  *         return PeakIndex, (self.mz_array, self.intensity_array, self.peaks)             # <<<<<<<<<<<<<<
@@ -3431,7 +3544,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_26__reduc
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_v_self->mz_array));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->mz_array));
@@ -3442,7 +3555,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_26__reduc
   __Pyx_INCREF(((PyObject *)__pyx_v_self->peaks));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->peaks));
   PyTuple_SET_ITEM(__pyx_t_1, 2, ((PyObject *)__pyx_v_self->peaks));
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_14ms_peak_picker_2_c_10peak_index_PeakIndex));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_14ms_peak_picker_2_c_10peak_index_PeakIndex));
@@ -3454,7 +3567,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_26__reduc
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":74
+  /* "ms_peak_picker\_c\peak_index.pyx":80
  *         return self.mz_array[lo:hi], self.intensity_array[lo:hi]
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
@@ -3798,7 +3911,390 @@ static int __pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_5peaks_4__del__
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":78
+/* "ms_peak_picker\_c\peak_index.pyx":84
+ * 
+ * 
+ * cdef int _has_peak_within_tolerance(PeakSet peaklist, double mz, double tol, size_t *out):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         size_t lo, hi, mid, i
+ */
+
+static int __pyx_f_14ms_peak_picker_2_c_10peak_index__has_peak_within_tolerance(struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *__pyx_v_peaklist, double __pyx_v_mz, double __pyx_v_tol, size_t *__pyx_v_out) {
+  size_t __pyx_v_lo;
+  size_t __pyx_v_hi;
+  size_t __pyx_v_mid;
+  struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *__pyx_v_peak = 0;
+  double __pyx_v_v;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  double __pyx_t_4;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("_has_peak_within_tolerance", 0);
+
+  /* "ms_peak_picker\_c\peak_index.pyx":90
+ *         double v
+ * 
+ *     lo = 0             # <<<<<<<<<<<<<<
+ *     hi = len(peaklist)
+ * 
+ */
+  __pyx_v_lo = 0;
+
+  /* "ms_peak_picker\_c\peak_index.pyx":91
+ * 
+ *     lo = 0
+ *     hi = len(peaklist)             # <<<<<<<<<<<<<<
+ * 
+ *     while hi != lo:
+ */
+  __pyx_t_1 = PyObject_Length(((PyObject *)__pyx_v_peaklist)); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_hi = __pyx_t_1;
+
+  /* "ms_peak_picker\_c\peak_index.pyx":93
+ *     hi = len(peaklist)
+ * 
+ *     while hi != lo:             # <<<<<<<<<<<<<<
+ *         mid = (hi + lo) / 2
+ *         peak = peaklist.getitem(mid)
+ */
+  while (1) {
+    __pyx_t_2 = ((__pyx_v_hi != __pyx_v_lo) != 0);
+    if (!__pyx_t_2) break;
+
+    /* "ms_peak_picker\_c\peak_index.pyx":94
+ * 
+ *     while hi != lo:
+ *         mid = (hi + lo) / 2             # <<<<<<<<<<<<<<
+ *         peak = peaklist.getitem(mid)
+ *         v = peak.mz
+ */
+    __pyx_v_mid = ((__pyx_v_hi + __pyx_v_lo) / 2);
+
+    /* "ms_peak_picker\_c\peak_index.pyx":95
+ *     while hi != lo:
+ *         mid = (hi + lo) / 2
+ *         peak = peaklist.getitem(mid)             # <<<<<<<<<<<<<<
+ *         v = peak.mz
+ *         if abs(v - mz) < tol:
+ */
+    __pyx_t_3 = ((PyObject *)((struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet *)__pyx_v_peaklist->__pyx_vtab)->getitem(__pyx_v_peaklist, __pyx_v_mid)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_XDECREF_SET(__pyx_v_peak, ((struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *)__pyx_t_3));
+    __pyx_t_3 = 0;
+
+    /* "ms_peak_picker\_c\peak_index.pyx":96
+ *         mid = (hi + lo) / 2
+ *         peak = peaklist.getitem(mid)
+ *         v = peak.mz             # <<<<<<<<<<<<<<
+ *         if abs(v - mz) < tol:
+ *             out[0] = mid
+ */
+    __pyx_t_4 = __pyx_v_peak->mz;
+    __pyx_v_v = __pyx_t_4;
+
+    /* "ms_peak_picker\_c\peak_index.pyx":97
+ *         peak = peaklist.getitem(mid)
+ *         v = peak.mz
+ *         if abs(v - mz) < tol:             # <<<<<<<<<<<<<<
+ *             out[0] = mid
+ *             return True
+ */
+    __pyx_t_2 = ((fabs((__pyx_v_v - __pyx_v_mz)) < __pyx_v_tol) != 0);
+    if (__pyx_t_2) {
+
+      /* "ms_peak_picker\_c\peak_index.pyx":98
+ *         v = peak.mz
+ *         if abs(v - mz) < tol:
+ *             out[0] = mid             # <<<<<<<<<<<<<<
+ *             return True
+ *         elif (hi - lo) == 1:
+ */
+      (__pyx_v_out[0]) = __pyx_v_mid;
+
+      /* "ms_peak_picker\_c\peak_index.pyx":99
+ *         if abs(v - mz) < tol:
+ *             out[0] = mid
+ *             return True             # <<<<<<<<<<<<<<
+ *         elif (hi - lo) == 1:
+ *             return False
+ */
+      __pyx_r = 1;
+      goto __pyx_L0;
+
+      /* "ms_peak_picker\_c\peak_index.pyx":97
+ *         peak = peaklist.getitem(mid)
+ *         v = peak.mz
+ *         if abs(v - mz) < tol:             # <<<<<<<<<<<<<<
+ *             out[0] = mid
+ *             return True
+ */
+    }
+
+    /* "ms_peak_picker\_c\peak_index.pyx":100
+ *             out[0] = mid
+ *             return True
+ *         elif (hi - lo) == 1:             # <<<<<<<<<<<<<<
+ *             return False
+ *         elif v > mz:
+ */
+    __pyx_t_2 = (((__pyx_v_hi - __pyx_v_lo) == 1) != 0);
+    if (__pyx_t_2) {
+
+      /* "ms_peak_picker\_c\peak_index.pyx":101
+ *             return True
+ *         elif (hi - lo) == 1:
+ *             return False             # <<<<<<<<<<<<<<
+ *         elif v > mz:
+ *             hi = mid
+ */
+      __pyx_r = 0;
+      goto __pyx_L0;
+
+      /* "ms_peak_picker\_c\peak_index.pyx":100
+ *             out[0] = mid
+ *             return True
+ *         elif (hi - lo) == 1:             # <<<<<<<<<<<<<<
+ *             return False
+ *         elif v > mz:
+ */
+    }
+
+    /* "ms_peak_picker\_c\peak_index.pyx":102
+ *         elif (hi - lo) == 1:
+ *             return False
+ *         elif v > mz:             # <<<<<<<<<<<<<<
+ *             hi = mid
+ *         else:
+ */
+    __pyx_t_2 = ((__pyx_v_v > __pyx_v_mz) != 0);
+    if (__pyx_t_2) {
+
+      /* "ms_peak_picker\_c\peak_index.pyx":103
+ *             return False
+ *         elif v > mz:
+ *             hi = mid             # <<<<<<<<<<<<<<
+ *         else:
+ *             lo = mid
+ */
+      __pyx_v_hi = __pyx_v_mid;
+
+      /* "ms_peak_picker\_c\peak_index.pyx":102
+ *         elif (hi - lo) == 1:
+ *             return False
+ *         elif v > mz:             # <<<<<<<<<<<<<<
+ *             hi = mid
+ *         else:
+ */
+      goto __pyx_L5;
+    }
+
+    /* "ms_peak_picker\_c\peak_index.pyx":105
+ *             hi = mid
+ *         else:
+ *             lo = mid             # <<<<<<<<<<<<<<
+ *     return False
+ * 
+ */
+    /*else*/ {
+      __pyx_v_lo = __pyx_v_mid;
+    }
+    __pyx_L5:;
+  }
+
+  /* "ms_peak_picker\_c\peak_index.pyx":106
+ *         else:
+ *             lo = mid
+ *     return False             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_r = 0;
+  goto __pyx_L0;
+
+  /* "ms_peak_picker\_c\peak_index.pyx":84
+ * 
+ * 
+ * cdef int _has_peak_within_tolerance(PeakSet peaklist, double mz, double tol, size_t *out):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         size_t lo, hi, mid, i
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_WriteUnraisable("ms_peak_picker._c.peak_index._has_peak_within_tolerance", __pyx_clineno, __pyx_lineno, __pyx_filename, 0, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_peak);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "ms_peak_picker\_c\peak_index.pyx":109
+ * 
+ * 
+ * def chas_peak_within_tolerance(PeakSet peaklist, double mz, double tol):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         size_t out
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_1chas_peak_within_tolerance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_14ms_peak_picker_2_c_10peak_index_1chas_peak_within_tolerance = {"chas_peak_within_tolerance", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_10peak_index_1chas_peak_within_tolerance, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_1chas_peak_within_tolerance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *__pyx_v_peaklist = 0;
+  double __pyx_v_mz;
+  double __pyx_v_tol;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("chas_peak_within_tolerance (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_peaklist,&__pyx_n_s_mz,&__pyx_n_s_tol,0};
+    PyObject* values[3] = {0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_peaklist)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mz)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("chas_peak_within_tolerance", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_tol)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("chas_peak_within_tolerance", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "chas_peak_within_tolerance") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+    }
+    __pyx_v_peaklist = ((struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *)values[0]);
+    __pyx_v_mz = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_mz == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_tol = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_tol == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("chas_peak_within_tolerance", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("ms_peak_picker._c.peak_index.chas_peak_within_tolerance", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_peaklist), __pyx_ptype_14ms_peak_picker_2_c_8peak_set_PeakSet, 1, "peaklist", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_14ms_peak_picker_2_c_10peak_index_chas_peak_within_tolerance(__pyx_self, __pyx_v_peaklist, __pyx_v_mz, __pyx_v_tol);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_chas_peak_within_tolerance(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *__pyx_v_peaklist, double __pyx_v_mz, double __pyx_v_tol) {
+  size_t __pyx_v_out;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("chas_peak_within_tolerance", 0);
+
+  /* "ms_peak_picker\_c\peak_index.pyx":113
+ *         size_t out
+ * 
+ *     if _has_peak_within_tolerance(peaklist, mz, tol, &out):             # <<<<<<<<<<<<<<
+ *         return out
+ *     return False
+ */
+  __pyx_t_1 = (__pyx_f_14ms_peak_picker_2_c_10peak_index__has_peak_within_tolerance(__pyx_v_peaklist, __pyx_v_mz, __pyx_v_tol, (&__pyx_v_out)) != 0);
+  if (__pyx_t_1) {
+
+    /* "ms_peak_picker\_c\peak_index.pyx":114
+ * 
+ *     if _has_peak_within_tolerance(peaklist, mz, tol, &out):
+ *         return out             # <<<<<<<<<<<<<<
+ *     return False
+ * 
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_out); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_r = __pyx_t_2;
+    __pyx_t_2 = 0;
+    goto __pyx_L0;
+
+    /* "ms_peak_picker\_c\peak_index.pyx":113
+ *         size_t out
+ * 
+ *     if _has_peak_within_tolerance(peaklist, mz, tol, &out):             # <<<<<<<<<<<<<<
+ *         return out
+ *     return False
+ */
+  }
+
+  /* "ms_peak_picker\_c\peak_index.pyx":115
+ *     if _has_peak_within_tolerance(peaklist, mz, tol, &out):
+ *         return out
+ *     return False             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(Py_False);
+  __pyx_r = Py_False;
+  goto __pyx_L0;
+
+  /* "ms_peak_picker\_c\peak_index.pyx":109
+ * 
+ * 
+ * def chas_peak_within_tolerance(PeakSet peaklist, double mz, double tol):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         size_t out
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("ms_peak_picker._c.peak_index.chas_peak_within_tolerance", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "ms_peak_picker\_c\peak_index.pyx":118
  * 
  * 
  * def has_peak_within_tolerance(peaklist, mz, tol):             # <<<<<<<<<<<<<<
@@ -3807,9 +4303,9 @@ static int __pyx_pf_14ms_peak_picker_2_c_10peak_index_9PeakIndex_5peaks_4__del__
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_1has_peak_within_tolerance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_14ms_peak_picker_2_c_10peak_index_1has_peak_within_tolerance = {"has_peak_within_tolerance", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_10peak_index_1has_peak_within_tolerance, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_1has_peak_within_tolerance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_3has_peak_within_tolerance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_14ms_peak_picker_2_c_10peak_index_3has_peak_within_tolerance = {"has_peak_within_tolerance", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_10peak_index_3has_peak_within_tolerance, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_3has_peak_within_tolerance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_peaklist = 0;
   PyObject *__pyx_v_mz = 0;
   PyObject *__pyx_v_tol = 0;
@@ -3840,16 +4336,16 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_1has_peak_within_tol
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mz)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("has_peak_within_tolerance", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("has_peak_within_tolerance", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_tol)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("has_peak_within_tolerance", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("has_peak_within_tolerance", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "has_peak_within_tolerance") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "has_peak_within_tolerance") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -3864,20 +4360,20 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_1has_peak_within_tol
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("has_peak_within_tolerance", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("has_peak_within_tolerance", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.peak_index.has_peak_within_tolerance", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14ms_peak_picker_2_c_10peak_index_has_peak_within_tolerance(__pyx_self, __pyx_v_peaklist, __pyx_v_mz, __pyx_v_tol);
+  __pyx_r = __pyx_pf_14ms_peak_picker_2_c_10peak_index_2has_peak_within_tolerance(__pyx_self, __pyx_v_peaklist, __pyx_v_mz, __pyx_v_tol);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":82
+/* "ms_peak_picker\_c\peak_index.pyx":122
  *     hi = len(peaklist)
  * 
  *     def sweep(lo, hi):             # <<<<<<<<<<<<<<
@@ -3917,11 +4413,11 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_hi)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("sweep", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("sweep", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "sweep") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "sweep") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3934,7 +4430,7 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("sweep", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("sweep", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.peak_index.has_peak_within_tolerance.sweep", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3967,30 +4463,30 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
   __pyx_outer_scope = (struct __pyx_obj_14ms_peak_picker_2_c_10peak_index___pyx_scope_struct__has_peak_within_tolerance *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":83
+  /* "ms_peak_picker\_c\peak_index.pyx":123
  * 
  *     def sweep(lo, hi):
  *         for i in range(hi - lo):             # <<<<<<<<<<<<<<
  *             i += lo
  *             v = peaklist[i].mz
  */
-  __pyx_t_1 = PyNumber_Subtract(__pyx_v_hi, __pyx_v_lo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyNumber_Subtract(__pyx_v_hi, __pyx_v_lo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -3998,17 +4494,17 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -4018,7 +4514,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         break;
       }
@@ -4027,55 +4523,55 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "ms_peak_picker\_c\peak_index.pyx":84
+    /* "ms_peak_picker\_c\peak_index.pyx":124
  *     def sweep(lo, hi):
  *         for i in range(hi - lo):
  *             i += lo             # <<<<<<<<<<<<<<
  *             v = peaklist[i].mz
  *             if abs(v - mz) < tol:
  */
-    __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_i, __pyx_v_lo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyNumber_InPlaceAdd(__pyx_v_i, __pyx_v_lo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_i, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "ms_peak_picker\_c\peak_index.pyx":85
+    /* "ms_peak_picker\_c\peak_index.pyx":125
  *         for i in range(hi - lo):
  *             i += lo
  *             v = peaklist[i].mz             # <<<<<<<<<<<<<<
  *             if abs(v - mz) < tol:
  *                 return i or True
  */
-    if (unlikely(!__pyx_cur_scope->__pyx_v_peaklist)) { __Pyx_RaiseClosureNameError("peaklist"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-    __pyx_t_1 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_peaklist, __pyx_v_i); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+    if (unlikely(!__pyx_cur_scope->__pyx_v_peaklist)) { __Pyx_RaiseClosureNameError("peaklist"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+    __pyx_t_1 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_peaklist, __pyx_v_i); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mz); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mz); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_v, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "ms_peak_picker\_c\peak_index.pyx":86
+    /* "ms_peak_picker\_c\peak_index.pyx":126
  *             i += lo
  *             v = peaklist[i].mz
  *             if abs(v - mz) < tol:             # <<<<<<<<<<<<<<
  *                 return i or True
  *         return False
  */
-    if (unlikely(!__pyx_cur_scope->__pyx_v_mz)) { __Pyx_RaiseClosureNameError("mz"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-    __pyx_t_5 = PyNumber_Subtract(__pyx_v_v, __pyx_cur_scope->__pyx_v_mz); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(!__pyx_cur_scope->__pyx_v_mz)) { __Pyx_RaiseClosureNameError("mz"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+    __pyx_t_5 = PyNumber_Subtract(__pyx_v_v, __pyx_cur_scope->__pyx_v_mz); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = PyNumber_Absolute(__pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyNumber_Absolute(__pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_cur_scope->__pyx_v_tol)) { __Pyx_RaiseClosureNameError("tol"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_cur_scope->__pyx_v_tol, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(!__pyx_cur_scope->__pyx_v_tol)) { __Pyx_RaiseClosureNameError("tol"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_cur_scope->__pyx_v_tol, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_6) {
 
-      /* "ms_peak_picker\_c\peak_index.pyx":87
+      /* "ms_peak_picker\_c\peak_index.pyx":127
  *             v = peaklist[i].mz
  *             if abs(v - mz) < tol:
  *                 return i or True             # <<<<<<<<<<<<<<
@@ -4083,14 +4579,14 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
  * 
  */
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_v_i); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_v_i); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (!__pyx_t_6) {
       } else {
         __Pyx_INCREF(__pyx_v_i);
         __pyx_t_5 = __pyx_v_i;
         goto __pyx_L6_bool_binop_done;
       }
-      __pyx_t_1 = __Pyx_PyBool_FromLong(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyBool_FromLong(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_5 = __pyx_t_1;
       __pyx_t_1 = 0;
@@ -4100,7 +4596,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       goto __pyx_L0;
 
-      /* "ms_peak_picker\_c\peak_index.pyx":86
+      /* "ms_peak_picker\_c\peak_index.pyx":126
  *             i += lo
  *             v = peaklist[i].mz
  *             if abs(v - mz) < tol:             # <<<<<<<<<<<<<<
@@ -4109,7 +4605,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
  */
     }
 
-    /* "ms_peak_picker\_c\peak_index.pyx":83
+    /* "ms_peak_picker\_c\peak_index.pyx":123
  * 
  *     def sweep(lo, hi):
  *         for i in range(hi - lo):             # <<<<<<<<<<<<<<
@@ -4119,7 +4615,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":88
+  /* "ms_peak_picker\_c\peak_index.pyx":128
  *             if abs(v - mz) < tol:
  *                 return i or True
  *         return False             # <<<<<<<<<<<<<<
@@ -4131,7 +4627,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
   __pyx_r = Py_False;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":82
+  /* "ms_peak_picker\_c\peak_index.pyx":122
  *     hi = len(peaklist)
  * 
  *     def sweep(lo, hi):             # <<<<<<<<<<<<<<
@@ -4154,7 +4650,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":90
+/* "ms_peak_picker\_c\peak_index.pyx":130
  *         return False
  * 
  *     def binsearch(lo, hi):             # <<<<<<<<<<<<<<
@@ -4194,11 +4690,11 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_hi)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("binsearch", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("binsearch", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "binsearch") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "binsearch") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4211,7 +4707,7 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("binsearch", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("binsearch", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.peak_index.has_peak_within_tolerance.binsearch", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4241,22 +4737,22 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
   __pyx_outer_scope = (struct __pyx_obj_14ms_peak_picker_2_c_10peak_index___pyx_scope_struct__has_peak_within_tolerance *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":91
+  /* "ms_peak_picker\_c\peak_index.pyx":131
  * 
  *     def binsearch(lo, hi):
  *         if (hi - lo) < 5:             # <<<<<<<<<<<<<<
  *             return sweep(lo, hi)
  *         else:
  */
-  __pyx_t_1 = PyNumber_Subtract(__pyx_v_hi, __pyx_v_lo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyNumber_Subtract(__pyx_v_hi, __pyx_v_lo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_int_5, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_int_5, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
 
-    /* "ms_peak_picker\_c\peak_index.pyx":92
+    /* "ms_peak_picker\_c\peak_index.pyx":132
  *     def binsearch(lo, hi):
  *         if (hi - lo) < 5:
  *             return sweep(lo, hi)             # <<<<<<<<<<<<<<
@@ -4264,14 +4760,14 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
  *             mid = (hi + lo) / 2
  */
     __Pyx_XDECREF(__pyx_r);
-    if (unlikely(!__pyx_cur_scope->__pyx_v_sweep)) { __Pyx_RaiseClosureNameError("sweep"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-    __pyx_t_2 = __pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_sweep(__pyx_cur_scope->__pyx_v_sweep, __pyx_v_lo, __pyx_v_hi); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(!__pyx_cur_scope->__pyx_v_sweep)) { __Pyx_RaiseClosureNameError("sweep"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+    __pyx_t_2 = __pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_sweep(__pyx_cur_scope->__pyx_v_sweep, __pyx_v_lo, __pyx_v_hi); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_r = __pyx_t_2;
     __pyx_t_2 = 0;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\peak_index.pyx":91
+    /* "ms_peak_picker\_c\peak_index.pyx":131
  * 
  *     def binsearch(lo, hi):
  *         if (hi - lo) < 5:             # <<<<<<<<<<<<<<
@@ -4280,7 +4776,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
  */
   }
 
-  /* "ms_peak_picker\_c\peak_index.pyx":94
+  /* "ms_peak_picker\_c\peak_index.pyx":134
  *             return sweep(lo, hi)
  *         else:
  *             mid = (hi + lo) / 2             # <<<<<<<<<<<<<<
@@ -4288,51 +4784,51 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
  *             if abs(v - mz) < tol:
  */
   /*else*/ {
-    __pyx_t_2 = PyNumber_Add(__pyx_v_hi, __pyx_v_lo); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PyNumber_Add(__pyx_v_hi, __pyx_v_lo); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_int_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_int_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_mid = __pyx_t_1;
     __pyx_t_1 = 0;
 
-    /* "ms_peak_picker\_c\peak_index.pyx":95
+    /* "ms_peak_picker\_c\peak_index.pyx":135
  *         else:
  *             mid = (hi + lo) / 2
  *             v = peaklist[mid].mz             # <<<<<<<<<<<<<<
  *             if abs(v - mz) < tol:
  *                 return mid
  */
-    if (unlikely(!__pyx_cur_scope->__pyx_v_peaklist)) { __Pyx_RaiseClosureNameError("peaklist"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-    __pyx_t_1 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_peaklist, __pyx_v_mid); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+    if (unlikely(!__pyx_cur_scope->__pyx_v_peaklist)) { __Pyx_RaiseClosureNameError("peaklist"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+    __pyx_t_1 = PyObject_GetItem(__pyx_cur_scope->__pyx_v_peaklist, __pyx_v_mid); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mz); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_mz); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_v = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "ms_peak_picker\_c\peak_index.pyx":96
+    /* "ms_peak_picker\_c\peak_index.pyx":136
  *             mid = (hi + lo) / 2
  *             v = peaklist[mid].mz
  *             if abs(v - mz) < tol:             # <<<<<<<<<<<<<<
  *                 return mid
  *             elif v > mz:
  */
-    if (unlikely(!__pyx_cur_scope->__pyx_v_mz)) { __Pyx_RaiseClosureNameError("mz"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-    __pyx_t_2 = PyNumber_Subtract(__pyx_v_v, __pyx_cur_scope->__pyx_v_mz); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(!__pyx_cur_scope->__pyx_v_mz)) { __Pyx_RaiseClosureNameError("mz"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+    __pyx_t_2 = PyNumber_Subtract(__pyx_v_v, __pyx_cur_scope->__pyx_v_mz); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyNumber_Absolute(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyNumber_Absolute(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_cur_scope->__pyx_v_tol)) { __Pyx_RaiseClosureNameError("tol"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-    __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_cur_scope->__pyx_v_tol, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(!__pyx_cur_scope->__pyx_v_tol)) { __Pyx_RaiseClosureNameError("tol"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+    __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_cur_scope->__pyx_v_tol, Py_LT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_3) {
 
-      /* "ms_peak_picker\_c\peak_index.pyx":97
+      /* "ms_peak_picker\_c\peak_index.pyx":137
  *             v = peaklist[mid].mz
  *             if abs(v - mz) < tol:
  *                 return mid             # <<<<<<<<<<<<<<
@@ -4344,7 +4840,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
       __pyx_r = __pyx_v_mid;
       goto __pyx_L0;
 
-      /* "ms_peak_picker\_c\peak_index.pyx":96
+      /* "ms_peak_picker\_c\peak_index.pyx":136
  *             mid = (hi + lo) / 2
  *             v = peaklist[mid].mz
  *             if abs(v - mz) < tol:             # <<<<<<<<<<<<<<
@@ -4353,20 +4849,20 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
  */
     }
 
-    /* "ms_peak_picker\_c\peak_index.pyx":98
+    /* "ms_peak_picker\_c\peak_index.pyx":138
  *             if abs(v - mz) < tol:
  *                 return mid
  *             elif v > mz:             # <<<<<<<<<<<<<<
  *                 return binsearch(lo, mid)
  *             else:
  */
-    if (unlikely(!__pyx_cur_scope->__pyx_v_mz)) { __Pyx_RaiseClosureNameError("mz"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-    __pyx_t_2 = PyObject_RichCompare(__pyx_v_v, __pyx_cur_scope->__pyx_v_mz, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(!__pyx_cur_scope->__pyx_v_mz)) { __Pyx_RaiseClosureNameError("mz"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+    __pyx_t_2 = PyObject_RichCompare(__pyx_v_v, __pyx_cur_scope->__pyx_v_mz, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_3) {
 
-      /* "ms_peak_picker\_c\peak_index.pyx":99
+      /* "ms_peak_picker\_c\peak_index.pyx":139
  *                 return mid
  *             elif v > mz:
  *                 return binsearch(lo, mid)             # <<<<<<<<<<<<<<
@@ -4374,14 +4870,14 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
  *                 return binsearch(mid, hi)
  */
       __Pyx_XDECREF(__pyx_r);
-      if (unlikely(!__pyx_cur_scope->__pyx_v_binsearch)) { __Pyx_RaiseClosureNameError("binsearch"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-      __pyx_t_2 = __pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_2binsearch(__pyx_cur_scope->__pyx_v_binsearch, __pyx_v_lo, __pyx_v_mid); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (unlikely(!__pyx_cur_scope->__pyx_v_binsearch)) { __Pyx_RaiseClosureNameError("binsearch"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+      __pyx_t_2 = __pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_2binsearch(__pyx_cur_scope->__pyx_v_binsearch, __pyx_v_lo, __pyx_v_mid); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_r = __pyx_t_2;
       __pyx_t_2 = 0;
       goto __pyx_L0;
 
-      /* "ms_peak_picker\_c\peak_index.pyx":98
+      /* "ms_peak_picker\_c\peak_index.pyx":138
  *             if abs(v - mz) < tol:
  *                 return mid
  *             elif v > mz:             # <<<<<<<<<<<<<<
@@ -4390,7 +4886,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
  */
     }
 
-    /* "ms_peak_picker\_c\peak_index.pyx":101
+    /* "ms_peak_picker\_c\peak_index.pyx":141
  *                 return binsearch(lo, mid)
  *             else:
  *                 return binsearch(mid, hi)             # <<<<<<<<<<<<<<
@@ -4398,8 +4894,8 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
  */
     /*else*/ {
       __Pyx_XDECREF(__pyx_r);
-      if (unlikely(!__pyx_cur_scope->__pyx_v_binsearch)) { __Pyx_RaiseClosureNameError("binsearch"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-      __pyx_t_2 = __pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_2binsearch(__pyx_cur_scope->__pyx_v_binsearch, __pyx_v_mid, __pyx_v_hi); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (unlikely(!__pyx_cur_scope->__pyx_v_binsearch)) { __Pyx_RaiseClosureNameError("binsearch"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+      __pyx_t_2 = __pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_2binsearch(__pyx_cur_scope->__pyx_v_binsearch, __pyx_v_mid, __pyx_v_hi); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_r = __pyx_t_2;
       __pyx_t_2 = 0;
@@ -4407,7 +4903,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
     }
   }
 
-  /* "ms_peak_picker\_c\peak_index.pyx":90
+  /* "ms_peak_picker\_c\peak_index.pyx":130
  *         return False
  * 
  *     def binsearch(lo, hi):             # <<<<<<<<<<<<<<
@@ -4429,7 +4925,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\peak_index.pyx":78
+/* "ms_peak_picker\_c\peak_index.pyx":118
  * 
  * 
  * def has_peak_within_tolerance(peaklist, mz, tol):             # <<<<<<<<<<<<<<
@@ -4437,7 +4933,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_to
  *     hi = len(peaklist)
  */
 
-static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_has_peak_within_tolerance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_peaklist, PyObject *__pyx_v_mz, PyObject *__pyx_v_tol) {
+static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_2has_peak_within_tolerance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_peaklist, PyObject *__pyx_v_mz, PyObject *__pyx_v_tol) {
   struct __pyx_obj_14ms_peak_picker_2_c_10peak_index___pyx_scope_struct__has_peak_within_tolerance *__pyx_cur_scope;
   long __pyx_v_lo;
   Py_ssize_t __pyx_v_hi;
@@ -4467,7 +4963,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_has_peak_within_tole
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_tol);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_tol);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":79
+  /* "ms_peak_picker\_c\peak_index.pyx":119
  * 
  * def has_peak_within_tolerance(peaklist, mz, tol):
  *     lo = 0             # <<<<<<<<<<<<<<
@@ -4476,7 +4972,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_has_peak_within_tole
  */
   __pyx_v_lo = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":80
+  /* "ms_peak_picker\_c\peak_index.pyx":120
  * def has_peak_within_tolerance(peaklist, mz, tol):
  *     lo = 0
  *     hi = len(peaklist)             # <<<<<<<<<<<<<<
@@ -4485,47 +4981,47 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_has_peak_within_tole
  */
   __pyx_t_1 = __pyx_cur_scope->__pyx_v_peaklist;
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_hi = __pyx_t_2;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":82
+  /* "ms_peak_picker\_c\peak_index.pyx":122
  *     hi = len(peaklist)
  * 
  *     def sweep(lo, hi):             # <<<<<<<<<<<<<<
  *         for i in range(hi - lo):
  *             i += lo
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_1sweep, 0, __pyx_n_s_has_peak_within_tolerance_locals, ((PyObject*)__pyx_cur_scope), __pyx_n_s_ms_peak_picker__c_peak_index, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_1sweep, 0, __pyx_n_s_has_peak_within_tolerance_locals, ((PyObject*)__pyx_cur_scope), __pyx_n_s_ms_peak_picker__c_peak_index, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_cur_scope->__pyx_v_sweep = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":90
+  /* "ms_peak_picker\_c\peak_index.pyx":130
  *         return False
  * 
  *     def binsearch(lo, hi):             # <<<<<<<<<<<<<<
  *         if (hi - lo) < 5:
  *             return sweep(lo, hi)
  */
-  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_3binsearch, 0, __pyx_n_s_has_peak_within_tolerance_locals_2, ((PyObject*)__pyx_cur_scope), __pyx_n_s_ms_peak_picker__c_peak_index, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_CyFunction_NewEx(&__pyx_mdef_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_3binsearch, 0, __pyx_n_s_has_peak_within_tolerance_locals_2, ((PyObject*)__pyx_cur_scope), __pyx_n_s_ms_peak_picker__c_peak_index, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_cur_scope->__pyx_v_binsearch = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":102
+  /* "ms_peak_picker\_c\peak_index.pyx":142
  *             else:
  *                 return binsearch(mid, hi)
  *     return binsearch(lo, hi)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_long(__pyx_v_lo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_long(__pyx_v_lo); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_hi); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyInt_FromSsize_t(__pyx_v_hi); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_2binsearch(__pyx_cur_scope->__pyx_v_binsearch, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __pyx_pf_14ms_peak_picker_2_c_10peak_index_25has_peak_within_tolerance_2binsearch(__pyx_cur_scope->__pyx_v_binsearch, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4533,7 +5029,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_10peak_index_has_peak_within_tole
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":78
+  /* "ms_peak_picker\_c\peak_index.pyx":118
  * 
  * 
  * def has_peak_within_tolerance(peaklist, mz, tol):             # <<<<<<<<<<<<<<
@@ -7069,10 +7565,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_array, __pyx_k_array, sizeof(__pyx_k_array), 0, 0, 1, 1},
   {&__pyx_n_s_between, __pyx_k_between, sizeof(__pyx_k_between), 0, 0, 1, 1},
   {&__pyx_n_s_binsearch, __pyx_k_binsearch, sizeof(__pyx_k_binsearch), 0, 0, 1, 1},
+  {&__pyx_n_s_chas_peak_within_tolerance, __pyx_k_chas_peak_within_tolerance, sizeof(__pyx_k_chas_peak_within_tolerance), 0, 0, 1, 1},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
   {&__pyx_n_s_clone, __pyx_k_clone, sizeof(__pyx_k_clone), 0, 0, 1, 1},
   {&__pyx_n_s_fft_patterson_charge_state, __pyx_k_fft_patterson_charge_state, sizeof(__pyx_k_fft_patterson_charge_state), 0, 0, 1, 1},
-  {&__pyx_n_s_full_width_at_half_max, __pyx_k_full_width_at_half_max, sizeof(__pyx_k_full_width_at_half_max), 0, 0, 1, 1},
   {&__pyx_n_s_get_nearest, __pyx_k_get_nearest, sizeof(__pyx_k_get_nearest), 0, 0, 1, 1},
   {&__pyx_n_s_has_peak_within_tolerance, __pyx_k_has_peak_within_tolerance, sizeof(__pyx_k_has_peak_within_tolerance), 0, 0, 1, 1},
   {&__pyx_n_s_has_peak_within_tolerance_locals, __pyx_k_has_peak_within_tolerance_locals, sizeof(__pyx_k_has_peak_within_tolerance_locals), 0, 0, 1, 1},
@@ -7082,6 +7578,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
   {&__pyx_n_s_intensity_array, __pyx_k_intensity_array, sizeof(__pyx_k_intensity_array), 0, 0, 1, 1},
+  {&__pyx_n_s_left_width, __pyx_k_left_width, sizeof(__pyx_k_left_width), 0, 0, 1, 1},
   {&__pyx_n_s_lo, __pyx_k_lo, sizeof(__pyx_k_lo), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_mid, __pyx_k_mid, sizeof(__pyx_k_mid), 0, 0, 1, 1},
@@ -7093,6 +7590,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_ndarray_is_not_Fortran_contiguou, __pyx_k_ndarray_is_not_Fortran_contiguou, sizeof(__pyx_k_ndarray_is_not_Fortran_contiguou), 0, 1, 0, 0},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
+  {&__pyx_n_s_out, __pyx_k_out, sizeof(__pyx_k_out), 0, 0, 1, 1},
   {&__pyx_n_s_peak_area, __pyx_k_peak_area, sizeof(__pyx_k_peak_area), 0, 0, 1, 1},
   {&__pyx_n_s_peak_statistics, __pyx_k_peak_statistics, sizeof(__pyx_k_peak_statistics), 0, 0, 1, 1},
   {&__pyx_n_s_peaklist, __pyx_k_peaklist, sizeof(__pyx_k_peaklist), 0, 0, 1, 1},
@@ -7100,6 +7598,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_predict_charge_state, __pyx_k_predict_charge_state, sizeof(__pyx_k_predict_charge_state), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
+  {&__pyx_n_s_right_width, __pyx_k_right_width, sizeof(__pyx_k_right_width), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
   {&__pyx_n_s_sweep, __pyx_k_sweep, sizeof(__pyx_k_sweep), 0, 0, 1, 1},
@@ -7111,7 +7610,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
@@ -7123,29 +7622,29 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":82
+  /* "ms_peak_picker\_c\peak_index.pyx":122
  *     hi = len(peaklist)
  * 
  *     def sweep(lo, hi):             # <<<<<<<<<<<<<<
  *         for i in range(hi - lo):
  *             i += lo
  */
-  __pyx_tuple_ = PyTuple_Pack(4, __pyx_n_s_lo, __pyx_n_s_hi, __pyx_n_s_i, __pyx_n_s_v); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple_ = PyTuple_Pack(4, __pyx_n_s_lo, __pyx_n_s_hi, __pyx_n_s_i, __pyx_n_s_v); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_D_Programming_exploration_peak_p, __pyx_n_s_sweep, 82, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_D_Programming_exploration_peak_p, __pyx_n_s_sweep, 122, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "ms_peak_picker\_c\peak_index.pyx":90
+  /* "ms_peak_picker\_c\peak_index.pyx":130
  *         return False
  * 
  *     def binsearch(lo, hi):             # <<<<<<<<<<<<<<
  *         if (hi - lo) < 5:
  *             return sweep(lo, hi)
  */
-  __pyx_tuple__3 = PyTuple_Pack(4, __pyx_n_s_lo, __pyx_n_s_hi, __pyx_n_s_mid, __pyx_n_s_v); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__3 = PyTuple_Pack(4, __pyx_n_s_lo, __pyx_n_s_hi, __pyx_n_s_mid, __pyx_n_s_v); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_D_Programming_exploration_peak_p, __pyx_n_s_binsearch, 90, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_D_Programming_exploration_peak_p, __pyx_n_s_binsearch, 130, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "C:\Users\Joshua\Anaconda2\lib\site-packages\Cython\Includes\numpy\__init__.pxd":218
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
@@ -7213,17 +7712,29 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":78
+  /* "ms_peak_picker\_c\peak_index.pyx":109
+ * 
+ * 
+ * def chas_peak_within_tolerance(PeakSet peaklist, double mz, double tol):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         size_t out
+ */
+  __pyx_tuple__11 = PyTuple_Pack(4, __pyx_n_s_peaklist, __pyx_n_s_mz, __pyx_n_s_tol, __pyx_n_s_out); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_D_Programming_exploration_peak_p, __pyx_n_s_chas_peak_within_tolerance, 109, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "ms_peak_picker\_c\peak_index.pyx":118
  * 
  * 
  * def has_peak_within_tolerance(peaklist, mz, tol):             # <<<<<<<<<<<<<<
  *     lo = 0
  *     hi = len(peaklist)
  */
-  __pyx_tuple__11 = PyTuple_Pack(9, __pyx_n_s_peaklist, __pyx_n_s_mz, __pyx_n_s_tol, __pyx_n_s_lo, __pyx_n_s_hi, __pyx_n_s_sweep, __pyx_n_s_sweep, __pyx_n_s_binsearch, __pyx_n_s_binsearch); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(3, 0, 9, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_D_Programming_exploration_peak_p, __pyx_n_s_has_peak_within_tolerance, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__13 = PyTuple_Pack(9, __pyx_n_s_peaklist, __pyx_n_s_mz, __pyx_n_s_tol, __pyx_n_s_lo, __pyx_n_s_hi, __pyx_n_s_sweep, __pyx_n_s_sweep, __pyx_n_s_binsearch, __pyx_n_s_binsearch); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 9, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_D_Programming_exploration_peak_p, __pyx_n_s_has_peak_within_tolerance, 118, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -7331,12 +7842,14 @@ PyMODINIT_FUNC PyInit_peak_index(void)
   /*--- Type init code ---*/
   __pyx_vtabptr_14ms_peak_picker_2_c_10peak_index_PeakIndex = &__pyx_vtable_14ms_peak_picker_2_c_10peak_index_PeakIndex;
   __pyx_vtable_14ms_peak_picker_2_c_10peak_index_PeakIndex._has_peak = (struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak *(*)(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *, double, struct __pyx_opt_args_14ms_peak_picker_2_c_10peak_index_9PeakIndex__has_peak *__pyx_optional_args))__pyx_f_14ms_peak_picker_2_c_10peak_index_9PeakIndex__has_peak;
+  __pyx_vtable_14ms_peak_picker_2_c_10peak_index_PeakIndex._between = (struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet *(*)(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *, double, double))__pyx_f_14ms_peak_picker_2_c_10peak_index_9PeakIndex__between;
+  __pyx_vtable_14ms_peak_picker_2_c_10peak_index_PeakIndex._get_size = (size_t (*)(struct __pyx_obj_14ms_peak_picker_2_c_10peak_index_PeakIndex *))__pyx_f_14ms_peak_picker_2_c_10peak_index_9PeakIndex__get_size;
   if (PyType_Ready(&__pyx_type_14ms_peak_picker_2_c_10peak_index_PeakIndex) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_14ms_peak_picker_2_c_10peak_index_PeakIndex.tp_print = 0;
   if (__Pyx_SetVtable(__pyx_type_14ms_peak_picker_2_c_10peak_index_PeakIndex.tp_dict, __pyx_vtabptr_14ms_peak_picker_2_c_10peak_index_PeakIndex) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyObject_SetAttrString(__pyx_m, "PeakIndex", (PyObject *)&__pyx_type_14ms_peak_picker_2_c_10peak_index_PeakIndex) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_14ms_peak_picker_2_c_10peak_index_PeakIndex = &__pyx_type_14ms_peak_picker_2_c_10peak_index_PeakIndex;
-  if (PyType_Ready(&__pyx_type_14ms_peak_picker_2_c_10peak_index___pyx_scope_struct__has_peak_within_tolerance) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_14ms_peak_picker_2_c_10peak_index___pyx_scope_struct__has_peak_within_tolerance) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_14ms_peak_picker_2_c_10peak_index___pyx_scope_struct__has_peak_within_tolerance.tp_print = 0;
   __pyx_ptype_14ms_peak_picker_2_c_10peak_index___pyx_scope_struct__has_peak_within_tolerance = &__pyx_type_14ms_peak_picker_2_c_10peak_index___pyx_scope_struct__has_peak_within_tolerance;
   /*--- Type import code ---*/
@@ -7354,8 +7867,8 @@ PyMODINIT_FUNC PyInit_peak_index(void)
   __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 861; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_14ms_peak_picker_2_c_8peak_set_FittedPeak = __Pyx_ImportType("ms_peak_picker._c.peak_set", "FittedPeak", sizeof(struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_FittedPeak), 1); if (unlikely(!__pyx_ptype_14ms_peak_picker_2_c_8peak_set_FittedPeak)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_vtabptr_14ms_peak_picker_2_c_8peak_set_FittedPeak = (struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_FittedPeak*)__Pyx_GetVtable(__pyx_ptype_14ms_peak_picker_2_c_8peak_set_FittedPeak->tp_dict); if (unlikely(!__pyx_vtabptr_14ms_peak_picker_2_c_8peak_set_FittedPeak)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_14ms_peak_picker_2_c_8peak_set_PeakSet = __Pyx_ImportType("ms_peak_picker._c.peak_set", "PeakSet", sizeof(struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet), 1); if (unlikely(!__pyx_ptype_14ms_peak_picker_2_c_8peak_set_PeakSet)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_vtabptr_14ms_peak_picker_2_c_8peak_set_PeakSet = (struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet*)__Pyx_GetVtable(__pyx_ptype_14ms_peak_picker_2_c_8peak_set_PeakSet->tp_dict); if (unlikely(!__pyx_vtabptr_14ms_peak_picker_2_c_8peak_set_PeakSet)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_14ms_peak_picker_2_c_8peak_set_PeakSet = __Pyx_ImportType("ms_peak_picker._c.peak_set", "PeakSet", sizeof(struct __pyx_obj_14ms_peak_picker_2_c_8peak_set_PeakSet), 1); if (unlikely(!__pyx_ptype_14ms_peak_picker_2_c_8peak_set_PeakSet)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_vtabptr_14ms_peak_picker_2_c_8peak_set_PeakSet = (struct __pyx_vtabstruct_14ms_peak_picker_2_c_8peak_set_PeakSet*)__Pyx_GetVtable(__pyx_ptype_14ms_peak_picker_2_c_8peak_set_PeakSet->tp_dict); if (unlikely(!__pyx_vtabptr_14ms_peak_picker_2_c_8peak_set_PeakSet)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
   __pyx_t_1 = __Pyx_ImportModule("ms_peak_picker._c.search"); if (!__pyx_t_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -7419,29 +7932,41 @@ PyMODINIT_FUNC PyInit_peak_index(void)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "ms_peak_picker\_c\peak_index.pyx":56
+  /* "ms_peak_picker\_c\peak_index.pyx":62
  *         return peak
  * 
  *     predict_charge_state = fft_patterson_charge_state             # <<<<<<<<<<<<<<
  * 
  *     def __len__(self):
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_fft_patterson_charge_state); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_fft_patterson_charge_state); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_14ms_peak_picker_2_c_10peak_index_PeakIndex->tp_dict, __pyx_n_s_predict_charge_state, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_14ms_peak_picker_2_c_10peak_index_PeakIndex->tp_dict, __pyx_n_s_predict_charge_state, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   PyType_Modified(__pyx_ptype_14ms_peak_picker_2_c_10peak_index_PeakIndex);
 
-  /* "ms_peak_picker\_c\peak_index.pyx":78
+  /* "ms_peak_picker\_c\peak_index.pyx":109
+ * 
+ * 
+ * def chas_peak_within_tolerance(PeakSet peaklist, double mz, double tol):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         size_t out
+ */
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_14ms_peak_picker_2_c_10peak_index_1chas_peak_within_tolerance, NULL, __pyx_n_s_ms_peak_picker__c_peak_index); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_chas_peak_within_tolerance, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "ms_peak_picker\_c\peak_index.pyx":118
  * 
  * 
  * def has_peak_within_tolerance(peaklist, mz, tol):             # <<<<<<<<<<<<<<
  *     lo = 0
  *     hi = len(peaklist)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_14ms_peak_picker_2_c_10peak_index_1has_peak_within_tolerance, NULL, __pyx_n_s_ms_peak_picker__c_peak_index); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_14ms_peak_picker_2_c_10peak_index_3has_peak_within_tolerance, NULL, __pyx_n_s_ms_peak_picker__c_peak_index); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_has_peak_within_tolerance, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_has_peak_within_tolerance, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "ms_peak_picker\_c\peak_index.pyx":1
@@ -8050,6 +8575,99 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED
 }
 #endif
 
+static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb) {
+#if CYTHON_COMPILING_IN_CPYTHON
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    PyThreadState *tstate = PyThreadState_GET();
+    tmp_type = tstate->curexc_type;
+    tmp_value = tstate->curexc_value;
+    tmp_tb = tstate->curexc_traceback;
+    tstate->curexc_type = type;
+    tstate->curexc_value = value;
+    tstate->curexc_traceback = tb;
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+#else
+    PyErr_Restore(type, value, tb);
+#endif
+}
+static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb) {
+#if CYTHON_COMPILING_IN_CPYTHON
+    PyThreadState *tstate = PyThreadState_GET();
+    *type = tstate->curexc_type;
+    *value = tstate->curexc_value;
+    *tb = tstate->curexc_traceback;
+    tstate->curexc_type = 0;
+    tstate->curexc_value = 0;
+    tstate->curexc_traceback = 0;
+#else
+    PyErr_Fetch(type, value, tb);
+#endif
+}
+
+static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
+                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
+                                  int full_traceback, CYTHON_UNUSED int nogil) {
+    PyObject *old_exc, *old_val, *old_tb;
+    PyObject *ctx;
+#ifdef WITH_THREAD
+    PyGILState_STATE state;
+    if (nogil)
+        state = PyGILState_Ensure();
+#endif
+    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
+    if (full_traceback) {
+        Py_XINCREF(old_exc);
+        Py_XINCREF(old_val);
+        Py_XINCREF(old_tb);
+        __Pyx_ErrRestore(old_exc, old_val, old_tb);
+        PyErr_PrintEx(1);
+    }
+    #if PY_MAJOR_VERSION < 3
+    ctx = PyString_FromString(name);
+    #else
+    ctx = PyUnicode_FromString(name);
+    #endif
+    __Pyx_ErrRestore(old_exc, old_val, old_tb);
+    if (!ctx) {
+        PyErr_WriteUnraisable(Py_None);
+    } else {
+        PyErr_WriteUnraisable(ctx);
+        Py_DECREF(ctx);
+    }
+#ifdef WITH_THREAD
+    if (nogil)
+        PyGILState_Release(state);
+#endif
+}
+
+static void __Pyx_RaiseArgumentTypeInvalid(const char* name, PyObject *obj, PyTypeObject *type) {
+    PyErr_Format(PyExc_TypeError,
+        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
+        name, type->tp_name, Py_TYPE(obj)->tp_name);
+}
+static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, int none_allowed,
+    const char *name, int exact)
+{
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    if (none_allowed && obj == Py_None) return 1;
+    else if (exact) {
+        if (likely(Py_TYPE(obj) == type)) return 1;
+        #if PY_MAJOR_VERSION == 2
+        else if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
+        #endif
+    }
+    else {
+        if (likely(PyObject_TypeCheck(obj, type))) return 1;
+    }
+    __Pyx_RaiseArgumentTypeInvalid(name, obj, type);
+    return 0;
+}
+
 static CYTHON_INLINE void __Pyx_RaiseClosureNameError(const char *varname) {
     PyErr_Format(PyExc_NameError, "free variable '%s' referenced before assignment in enclosing scope", varname);
 }
@@ -8656,37 +9274,6 @@ static CYTHON_INLINE void __Pyx_CyFunction_SetAnnotationsDict(PyObject *func, Py
     __pyx_CyFunctionObject *m = (__pyx_CyFunctionObject *) func;
     m->func_annotations = dict;
     Py_INCREF(dict);
-}
-
-static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    PyThreadState *tstate = PyThreadState_GET();
-    tmp_type = tstate->curexc_type;
-    tmp_value = tstate->curexc_value;
-    tmp_tb = tstate->curexc_traceback;
-    tstate->curexc_type = type;
-    tstate->curexc_value = value;
-    tstate->curexc_traceback = tb;
-    Py_XDECREF(tmp_type);
-    Py_XDECREF(tmp_value);
-    Py_XDECREF(tmp_tb);
-#else
-    PyErr_Restore(type, value, tb);
-#endif
-}
-static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    PyThreadState *tstate = PyThreadState_GET();
-    *type = tstate->curexc_type;
-    *value = tstate->curexc_value;
-    *tb = tstate->curexc_traceback;
-    tstate->curexc_type = 0;
-    tstate->curexc_value = 0;
-    tstate->curexc_traceback = 0;
-#else
-    PyErr_Fetch(type, value, tb);
-#endif
 }
 
 #if PY_MAJOR_VERSION < 3

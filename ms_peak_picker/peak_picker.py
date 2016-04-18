@@ -4,11 +4,13 @@ A Peak Picker/Fitter adapted from Decon2LS's DeconEngine
 
 from .peak_statistics import (
     find_full_width_at_half_max, find_signal_to_noise, quadratic_fit, lorenztian_fit,
-    peak_area)
+    peak_area, find_left_width, find_right_width)
 
 from .search import get_nearest_binary, get_nearest
 from .peak_set import FittedPeak, PeakSet
 from .peak_index import PeakIndex
+from .scan_filter import transform
+from .utils import Base
 
 
 import logging
@@ -16,6 +18,30 @@ import logging
 logger = logging.getLogger("peak_picker")
 info = logger.info
 debug = logger.debug
+
+
+fit_type_map = {
+    "quadratic": "quadratic",
+    "gaussian": "quadratic",
+    "lorenztian": "lorenztian",
+}
+
+
+
+class PartialPeakFitState(Base):
+    def __init__(self, left_width=-1, right_width=-1, full_width_at_half_max=-1, signal_to_noise=-1):
+        self.set = left_width != -1
+        self.left_width = left_width
+        self.right_width = right_width
+        self.full_width_at_half_max = full_width_at_half_max
+        self.signal_to_noise = signal_to_noise
+
+    def reset(self):
+        self.set = False
+        self.left_width = -1
+        self.right_width = -1
+        self.full_width_at_half_max = -1
+        self.signal_to_noise = -1
 
 
 class PeakProcessor(object):
@@ -31,6 +57,8 @@ class PeakProcessor(object):
         self.intensity_threshold = intensity_threshold
         self.peak_mode = peak_mode
         self.verbose = verbose
+
+        self.partial_fit_state = PartialPeakFitState()
 
         self.peak_data = []
 
@@ -88,6 +116,7 @@ class PeakProcessor(object):
             stop_index = size - 1
 
         for index in range(start_index, stop_index + 1):
+            self.partial_fit_state.reset()
             full_width_at_half_max = -1
             current_intensity = intensity_array[index]
             last_intensity = intensity_array[index - 1]
@@ -114,12 +143,12 @@ class PeakProcessor(object):
 
                     # Run Full-Width Half-Max algorithm to try to improve SNR
                     if signal_to_noise < signal_to_noise_threshold:
-                        full_width_at_half_max = find_full_width_at_half_max(
-                            mz_array, intensity_array, index, signal_to_noise)
+                        full_width_at_half_max = self.find_full_width_at_half_max(index,
+                            mz_array, intensity_array, signal_to_noise)
                         if 0 < full_width_at_half_max < 0.5:
-                            ilow = get_nearest_binary(mz_array, current_mz - full_width_at_half_max, 0, index)
+                            ilow = get_nearest_binary(mz_array, current_mz - self.partial_fit_state.left_width, 0, index)
                             ihigh = get_nearest_binary(
-                                mz_array, current_mz - full_width_at_half_max, index, stop_index)
+                                mz_array, current_mz + self.partial_fit_state.right_width, index, stop_index)
 
                             low_intensity = intensity_array[ilow]
                             high_intensity = intensity_array[ihigh]
@@ -131,21 +160,23 @@ class PeakProcessor(object):
                             else:
                                 signal_to_noise = 10.
 
+                    self.partial_fit_state.signal_to_noise = signal_to_noise
                     # Found a putative peak, fit it
                     if signal_to_noise >= signal_to_noise_threshold:
                         fitted_mz = self.fit_peak(index, mz_array, intensity_array)
                         if verbose:
                             debug("Considering peak at %d with fitted m/z %r", index, fitted_mz)
                         if full_width_at_half_max == -1:
-                            full_width_at_half_max = find_full_width_at_half_max(
-                                mz_array, intensity_array, index, signal_to_noise)
+                            full_width_at_half_max = self.find_full_width_at_half_max(index,
+                                mz_array, intensity_array, signal_to_noise)
 
                         if full_width_at_half_max > 0:
                             area = self.area(mz_array, intensity_array, fitted_mz, full_width_at_half_max, index)
 
                             peak_data.append(FittedPeak(
                                 fitted_mz, current_intensity, signal_to_noise,
-                                len(peak_data), index, full_width_at_half_max, area))
+                                len(peak_data), index, full_width_at_half_max, area,
+                                self.partial_fit_state.left_width, self.partial_fit_state.right_width))
 
                         # Move past adjacent equal-height peaks
                         incremented = False
@@ -157,13 +188,31 @@ class PeakProcessor(object):
         self.peak_data.extend(peak_data)
         return len(peak_data)
 
+    def find_full_width_at_half_max(self, index, mz_array, intensity_array, signal_to_noise):
+        left = find_left_width(mz_array, intensity_array, index, signal_to_noise)
+        right = find_right_width(mz_array, intensity_array, index, signal_to_noise)
+        
+        if left < 1e-6:
+            left = right
+        elif right < 1e-6:
+            right = left
+        elif right < 1e-6 and left < 1e-6:
+            left = right = 0.15
+        fwhm = left + right
+        self.partial_fit_state.left_width = left
+        self.partial_fit_state.right_width = right
+        self.partial_fit_state.full_width_at_half_max = fwhm
+
+        return fwhm
+
     def fit_peak(self, index, mz_array, intensity_array):
         if self.fit_type == "apex":
             return mz_array[index]
         elif self.fit_type == "quadratic":
             return quadratic_fit(mz_array, intensity_array, index)
         elif self.fit_type == "lorenztian":
-            full_width_at_half_max = find_full_width_at_half_max(mz_array, intensity_array, index)
+            full_width_at_half_max = self.find_full_width_at_half_max(index,
+                mz_array, intensity_array, self.partial_fit_state.signal_to_noise)
             if full_width_at_half_max != 0:
                 return lorenztian_fit(mz_array, intensity_array, index, full_width_at_half_max)
             return mz_array[index]
@@ -182,9 +231,15 @@ class PeakProcessor(object):
 
 def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode='profile',
                signal_to_noise_threshold=1, intensity_threshold=1, threshold_data=False,
-               target_envelopes=None, verbose=False):
+               target_envelopes=None, transforms=None, verbose=False):
+    if transforms is None:
+        transforms = []
+
     mz_array = mz_array.astype(float)
     intensity_array = intensity_array.astype(float)
+
+    mz_array, intensity_array = transform(mz_array, intensity_array, transforms)
+
     processor = PeakProcessor(
         fit_type, peak_mode, signal_to_noise_threshold, intensity_threshold, threshold_data,
         verbose=verbose)

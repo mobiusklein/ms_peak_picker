@@ -1,13 +1,14 @@
 import operator
 
-from cpython.tuple cimport PyTuple_GET_ITEM, PyTuple_GetItem, PyTuple_GetSlice
+from cpython.tuple cimport PyTuple_GET_ITEM, PyTuple_GetItem, PyTuple_GetSlice, PyTuple_GET_SIZE
 from cpython cimport PyObject
 
 cdef double ppm_error(double x, double y):
     return (x - y) / y
 
 cdef class FittedPeak(object):
-    def __init__(self, mz, intensity, signal_to_noise, peak_count, index, full_width_at_half_max, area):
+    def __init__(self, mz, intensity, signal_to_noise, peak_count, index, full_width_at_half_max,
+                 area, left_width=0, right_width=0):
             self.mz = mz
             self.intensity = intensity
             self.signal_to_noise = signal_to_noise
@@ -15,11 +16,13 @@ cdef class FittedPeak(object):
             self.index = index
             self.full_width_at_half_max = full_width_at_half_max
             self.area = area
+            self.left_width = left_width
+            self.right_width = right_width
 
     def clone(self):
         return FittedPeak(self.mz, self.intensity, self.signal_to_noise,
                           self.peak_count, self.index, self.full_width_at_half_max,
-                          self.area)
+                          self.area, self.left_width, self.right_width)
 
     def __repr__(self):
         return ("FittedPeak(mz=%0.3f, intensity=%0.3f, signal_to_noise=%0.3f, peak_count=%d, "
@@ -31,16 +34,17 @@ cdef class FittedPeak(object):
     def __getstate__(self):
         return (self.mz, self.intensity, self.signal_to_noise,
                 self.peak_count, self.index, self.full_width_at_half_max,
-                self.area)
+                self.area, self.left_width, self.right_width)
 
     def __setstate__(self, state):
         (self.mz, self.intensity, self.signal_to_noise,
          self.peak_count, self.index, self.full_width_at_half_max,
-         self.area) = state
+         self.area, self.left_width, self.right_width) = state
 
     def __reduce__(self):
         return FittedPeak, (self.mz, self.intensity, self.signal_to_noise, self.peak_count,
-                            self.index, self.full_width_at_half_max)
+                            self.index, self.full_width_at_half_max, self.left_width,
+                            self.right_width)
 
     def __hash__(self):
         return hash((self.mz, self.intensity, self.signal_to_noise, self.full_width_at_half_max))
@@ -69,7 +73,10 @@ cdef class PeakSet(object):
         self.peaks = tuple(peaks)
 
     def __len__(self):
-        return len(self.peaks)
+        return PyTuple_GET_SIZE(self.peaks)
+
+    cdef size_t _get_size(self):
+        return PyTuple_GET_SIZE(self.peaks)
 
     def _index(self):
         self.peaks = tuple(sorted(self.peaks, key=operator.attrgetter('mz')))
@@ -87,13 +94,13 @@ cdef class PeakSet(object):
         cdef:
             FittedPeak peak
             double err
-        peak = _binary_search_nearest_match(self.peaks, mz, 0, len(self.peaks), &err)
+        peak = _binary_search_nearest_match(self.peaks, mz, 0, PyTuple_GET_SIZE(self.peaks), &err)
         return peak, err
 
     cdef FittedPeak _get_nearest_peak(self, double mz, double* errout):
         cdef:
             FittedPeak peak
-        peak = _binary_search_nearest_match(self.peaks, mz, 0, len(self.peaks), errout)
+        peak = _binary_search_nearest_match(self.peaks, mz, 0, PyTuple_GET_SIZE(self.peaks), errout)
         return peak
 
     cdef FittedPeak _has_peak(self, double mz, double tolerance=1e-5):
