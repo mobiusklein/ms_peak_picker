@@ -1,6 +1,6 @@
-from peak_picker import PeakProcessor, pick_peaks
-from peak_set import PeakSet, FittedPeak
-from peak_index import PeakIndex
+from .peak_picker import PeakProcessor, pick_peaks
+from .peak_set import PeakSet, FittedPeak
+from .peak_index import PeakIndex
 import peak_statistics
 import search
 import fticr_denoising
