@@ -1,4 +1,4 @@
-#cython: profile=True
+# cython: embedsignature=True
 
 cimport cython
 cimport numpy as np

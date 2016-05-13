@@ -1237,7 +1237,7 @@ static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
 
-/* "ms_peak_picker\_c\search.pyx":10
+/* "ms_peak_picker\_c\search.pyx":12
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cpdef size_t nearest_left(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0):             # <<<<<<<<<<<<<<
@@ -1275,11 +1275,11 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
   __pyx_pybuffernd_vec.rcbuffer = &__pyx_pybuffer_vec;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_vec.diminfo[0].strides = __pyx_pybuffernd_vec.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_vec.diminfo[0].shape = __pyx_pybuffernd_vec.rcbuffer->pybuffer.shape[0];
 
-  /* "ms_peak_picker\_c\search.pyx":14
+  /* "ms_peak_picker\_c\search.pyx":16
  *         size_t nearest_index, next_index
  *         DTYPE_t next_val, best_distance, dist
  *     nearest_index = start_index             # <<<<<<<<<<<<<<
@@ -1288,7 +1288,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
  */
   __pyx_v_nearest_index = __pyx_v_start_index;
 
-  /* "ms_peak_picker\_c\search.pyx":15
+  /* "ms_peak_picker\_c\search.pyx":17
  *         DTYPE_t next_val, best_distance, dist
  *     nearest_index = start_index
  *     next_index = start_index             # <<<<<<<<<<<<<<
@@ -1297,7 +1297,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
  */
   __pyx_v_next_index = __pyx_v_start_index;
 
-  /* "ms_peak_picker\_c\search.pyx":17
+  /* "ms_peak_picker\_c\search.pyx":19
  *     next_index = start_index
  * 
  *     if next_index == 0:             # <<<<<<<<<<<<<<
@@ -1307,7 +1307,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
   __pyx_t_1 = ((__pyx_v_next_index == 0) != 0);
   if (__pyx_t_1) {
 
-    /* "ms_peak_picker\_c\search.pyx":18
+    /* "ms_peak_picker\_c\search.pyx":20
  * 
  *     if next_index == 0:
  *         return 0             # <<<<<<<<<<<<<<
@@ -1317,7 +1317,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
     __pyx_r = 0;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\search.pyx":17
+    /* "ms_peak_picker\_c\search.pyx":19
  *     next_index = start_index
  * 
  *     if next_index == 0:             # <<<<<<<<<<<<<<
@@ -1326,7 +1326,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
  */
   }
 
-  /* "ms_peak_picker\_c\search.pyx":19
+  /* "ms_peak_picker\_c\search.pyx":21
  *     if next_index == 0:
  *         return 0
  *     next_val = vec[next_index]             # <<<<<<<<<<<<<<
@@ -1336,7 +1336,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
   __pyx_t_2 = __pyx_v_next_index;
   __pyx_v_next_val = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_vec.diminfo[0].strides));
 
-  /* "ms_peak_picker\_c\search.pyx":20
+  /* "ms_peak_picker\_c\search.pyx":22
  *         return 0
  *     next_val = vec[next_index]
  *     best_distance = fabs(target_val - next_val)             # <<<<<<<<<<<<<<
@@ -1345,7 +1345,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
  */
   __pyx_v_best_distance = fabs((__pyx_v_target_val - __pyx_v_next_val));
 
-  /* "ms_peak_picker\_c\search.pyx":21
+  /* "ms_peak_picker\_c\search.pyx":23
  *     next_val = vec[next_index]
  *     best_distance = fabs(target_val - next_val)
  *     while next_val > target_val:             # <<<<<<<<<<<<<<
@@ -1356,7 +1356,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
     __pyx_t_1 = ((__pyx_v_next_val > __pyx_v_target_val) != 0);
     if (!__pyx_t_1) break;
 
-    /* "ms_peak_picker\_c\search.pyx":22
+    /* "ms_peak_picker\_c\search.pyx":24
  *     best_distance = fabs(target_val - next_val)
  *     while next_val > target_val:
  *         next_index -= 1             # <<<<<<<<<<<<<<
@@ -1365,7 +1365,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
  */
     __pyx_v_next_index = (__pyx_v_next_index - 1);
 
-    /* "ms_peak_picker\_c\search.pyx":23
+    /* "ms_peak_picker\_c\search.pyx":25
  *     while next_val > target_val:
  *         next_index -= 1
  *         next_val = vec[next_index]             # <<<<<<<<<<<<<<
@@ -1375,7 +1375,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
     __pyx_t_3 = __pyx_v_next_index;
     __pyx_v_next_val = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_vec.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\search.pyx":24
+    /* "ms_peak_picker\_c\search.pyx":26
  *         next_index -= 1
  *         next_val = vec[next_index]
  *         dist = fabs(next_val - target_val)             # <<<<<<<<<<<<<<
@@ -1384,7 +1384,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
  */
     __pyx_v_dist = fabs((__pyx_v_next_val - __pyx_v_target_val));
 
-    /* "ms_peak_picker\_c\search.pyx":25
+    /* "ms_peak_picker\_c\search.pyx":27
  *         next_val = vec[next_index]
  *         dist = fabs(next_val - target_val)
  *         if dist < best_distance:             # <<<<<<<<<<<<<<
@@ -1394,7 +1394,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
     __pyx_t_1 = ((__pyx_v_dist < __pyx_v_best_distance) != 0);
     if (__pyx_t_1) {
 
-      /* "ms_peak_picker\_c\search.pyx":26
+      /* "ms_peak_picker\_c\search.pyx":28
  *         dist = fabs(next_val - target_val)
  *         if dist < best_distance:
  *             best_distance = dist             # <<<<<<<<<<<<<<
@@ -1403,7 +1403,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
  */
       __pyx_v_best_distance = __pyx_v_dist;
 
-      /* "ms_peak_picker\_c\search.pyx":27
+      /* "ms_peak_picker\_c\search.pyx":29
  *         if dist < best_distance:
  *             best_distance = dist
  *             nearest_index = next_index             # <<<<<<<<<<<<<<
@@ -1412,7 +1412,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
  */
       __pyx_v_nearest_index = __pyx_v_next_index;
 
-      /* "ms_peak_picker\_c\search.pyx":25
+      /* "ms_peak_picker\_c\search.pyx":27
  *         next_val = vec[next_index]
  *         dist = fabs(next_val - target_val)
  *         if dist < best_distance:             # <<<<<<<<<<<<<<
@@ -1421,7 +1421,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
  */
     }
 
-    /* "ms_peak_picker\_c\search.pyx":28
+    /* "ms_peak_picker\_c\search.pyx":30
  *             best_distance = dist
  *             nearest_index = next_index
  *         if next_index == 0:             # <<<<<<<<<<<<<<
@@ -1431,7 +1431,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
     __pyx_t_1 = ((__pyx_v_next_index == 0) != 0);
     if (__pyx_t_1) {
 
-      /* "ms_peak_picker\_c\search.pyx":29
+      /* "ms_peak_picker\_c\search.pyx":31
  *             nearest_index = next_index
  *         if next_index == 0:
  *             break             # <<<<<<<<<<<<<<
@@ -1440,7 +1440,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
  */
       goto __pyx_L5_break;
 
-      /* "ms_peak_picker\_c\search.pyx":28
+      /* "ms_peak_picker\_c\search.pyx":30
  *             best_distance = dist
  *             nearest_index = next_index
  *         if next_index == 0:             # <<<<<<<<<<<<<<
@@ -1451,7 +1451,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
   }
   __pyx_L5_break:;
 
-  /* "ms_peak_picker\_c\search.pyx":30
+  /* "ms_peak_picker\_c\search.pyx":32
  *         if next_index == 0:
  *             break
  *     return nearest_index             # <<<<<<<<<<<<<<
@@ -1461,7 +1461,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
   __pyx_r = __pyx_v_nearest_index;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\search.pyx":10
+  /* "ms_peak_picker\_c\search.pyx":12
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cpdef size_t nearest_left(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0):             # <<<<<<<<<<<<<<
@@ -1487,6 +1487,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(PyArrayObject *_
 
 /* Python wrapper */
 static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_1nearest_left(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_14ms_peak_picker_2_c_6search_nearest_left[] = "nearest_left(ndarray vec, DTYPE_t target_val, size_t start_index=0) -> size_t";
 static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_1nearest_left(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_vec = 0;
   __pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t __pyx_v_target_val;
@@ -1518,7 +1519,7 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_1nearest_left(PyObject *_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_target_val)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("nearest_left", 0, 2, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("nearest_left", 0, 2, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (kw_args > 0) {
@@ -1527,7 +1528,7 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_1nearest_left(PyObject *_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "nearest_left") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "nearest_left") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1539,22 +1540,22 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_1nearest_left(PyObject *_
       }
     }
     __pyx_v_vec = ((PyArrayObject *)values[0]);
-    __pyx_v_target_val = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_target_val == (npy_float64)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_target_val = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_target_val == (npy_float64)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     if (values[2]) {
-      __pyx_v_start_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_start_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_start_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_start_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
       __pyx_v_start_index = ((size_t)0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("nearest_left", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("nearest_left", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.search.nearest_left", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vec), __pyx_ptype_5numpy_ndarray, 1, "vec", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vec), __pyx_ptype_5numpy_ndarray, 1, "vec", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_14ms_peak_picker_2_c_6search_nearest_left(__pyx_self, __pyx_v_vec, __pyx_v_target_val, __pyx_v_start_index);
 
   /* function exit code */
@@ -1584,14 +1585,14 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_6search_nearest_left(CYTHON_UNUSE
   __pyx_pybuffernd_vec.rcbuffer = &__pyx_pybuffer_vec;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_vec.diminfo[0].strides = __pyx_pybuffernd_vec.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_vec.diminfo[0].shape = __pyx_pybuffernd_vec.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.start_index = __pyx_v_start_index;
   __pyx_t_1 = __pyx_f_14ms_peak_picker_2_c_6search_nearest_left(((PyArrayObject *)__pyx_v_vec), __pyx_v_target_val, 0, &__pyx_t_2); 
-  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -1615,7 +1616,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_6search_nearest_left(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\search.pyx":36
+/* "ms_peak_picker\_c\search.pyx":38
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cpdef size_t nearest_right(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0):             # <<<<<<<<<<<<<<
@@ -1654,11 +1655,11 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
   __pyx_pybuffernd_vec.rcbuffer = &__pyx_pybuffer_vec;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_vec.diminfo[0].strides = __pyx_pybuffernd_vec.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_vec.diminfo[0].shape = __pyx_pybuffernd_vec.rcbuffer->pybuffer.shape[0];
 
-  /* "ms_peak_picker\_c\search.pyx":40
+  /* "ms_peak_picker\_c\search.pyx":42
  *         size_t nearest_index, next_index
  *         DTYPE_t next_val, best_distance, dist
  *     nearest_index = start_index             # <<<<<<<<<<<<<<
@@ -1667,7 +1668,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
  */
   __pyx_v_nearest_index = __pyx_v_start_index;
 
-  /* "ms_peak_picker\_c\search.pyx":41
+  /* "ms_peak_picker\_c\search.pyx":43
  *         DTYPE_t next_val, best_distance, dist
  *     nearest_index = start_index
  *     next_index = start_index             # <<<<<<<<<<<<<<
@@ -1676,7 +1677,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
  */
   __pyx_v_next_index = __pyx_v_start_index;
 
-  /* "ms_peak_picker\_c\search.pyx":43
+  /* "ms_peak_picker\_c\search.pyx":45
  *     next_index = start_index
  * 
  *     size = vec.shape[0] - 1             # <<<<<<<<<<<<<<
@@ -1685,7 +1686,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
  */
   __pyx_v_size = ((__pyx_v_vec->dimensions[0]) - 1);
 
-  /* "ms_peak_picker\_c\search.pyx":44
+  /* "ms_peak_picker\_c\search.pyx":46
  * 
  *     size = vec.shape[0] - 1
  *     if next_index == size:             # <<<<<<<<<<<<<<
@@ -1695,7 +1696,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
   __pyx_t_1 = ((__pyx_v_next_index == __pyx_v_size) != 0);
   if (__pyx_t_1) {
 
-    /* "ms_peak_picker\_c\search.pyx":45
+    /* "ms_peak_picker\_c\search.pyx":47
  *     size = vec.shape[0] - 1
  *     if next_index == size:
  *         return size             # <<<<<<<<<<<<<<
@@ -1705,7 +1706,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
     __pyx_r = __pyx_v_size;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\search.pyx":44
+    /* "ms_peak_picker\_c\search.pyx":46
  * 
  *     size = vec.shape[0] - 1
  *     if next_index == size:             # <<<<<<<<<<<<<<
@@ -1714,7 +1715,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
  */
   }
 
-  /* "ms_peak_picker\_c\search.pyx":47
+  /* "ms_peak_picker\_c\search.pyx":49
  *         return size
  * 
  *     next_val = vec[next_index]             # <<<<<<<<<<<<<<
@@ -1724,7 +1725,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
   __pyx_t_2 = __pyx_v_next_index;
   __pyx_v_next_val = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_vec.diminfo[0].strides));
 
-  /* "ms_peak_picker\_c\search.pyx":48
+  /* "ms_peak_picker\_c\search.pyx":50
  * 
  *     next_val = vec[next_index]
  *     best_distance = abs(next_val - target_val)             # <<<<<<<<<<<<<<
@@ -1733,7 +1734,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
  */
   __pyx_v_best_distance = fabs((__pyx_v_next_val - __pyx_v_target_val));
 
-  /* "ms_peak_picker\_c\search.pyx":49
+  /* "ms_peak_picker\_c\search.pyx":51
  *     next_val = vec[next_index]
  *     best_distance = abs(next_val - target_val)
  *     while (next_val < target_val):             # <<<<<<<<<<<<<<
@@ -1744,7 +1745,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
     __pyx_t_1 = ((__pyx_v_next_val < __pyx_v_target_val) != 0);
     if (!__pyx_t_1) break;
 
-    /* "ms_peak_picker\_c\search.pyx":50
+    /* "ms_peak_picker\_c\search.pyx":52
  *     best_distance = abs(next_val - target_val)
  *     while (next_val < target_val):
  *         next_index += 1             # <<<<<<<<<<<<<<
@@ -1753,7 +1754,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
  */
     __pyx_v_next_index = (__pyx_v_next_index + 1);
 
-    /* "ms_peak_picker\_c\search.pyx":51
+    /* "ms_peak_picker\_c\search.pyx":53
  *     while (next_val < target_val):
  *         next_index += 1
  *         next_val = vec[next_index]             # <<<<<<<<<<<<<<
@@ -1763,7 +1764,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
     __pyx_t_3 = __pyx_v_next_index;
     __pyx_v_next_val = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_vec.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\search.pyx":52
+    /* "ms_peak_picker\_c\search.pyx":54
  *         next_index += 1
  *         next_val = vec[next_index]
  *         dist = fabs(next_val - target_val)             # <<<<<<<<<<<<<<
@@ -1772,7 +1773,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
  */
     __pyx_v_dist = fabs((__pyx_v_next_val - __pyx_v_target_val));
 
-    /* "ms_peak_picker\_c\search.pyx":53
+    /* "ms_peak_picker\_c\search.pyx":55
  *         next_val = vec[next_index]
  *         dist = fabs(next_val - target_val)
  *         if dist < best_distance:             # <<<<<<<<<<<<<<
@@ -1782,7 +1783,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
     __pyx_t_1 = ((__pyx_v_dist < __pyx_v_best_distance) != 0);
     if (__pyx_t_1) {
 
-      /* "ms_peak_picker\_c\search.pyx":54
+      /* "ms_peak_picker\_c\search.pyx":56
  *         dist = fabs(next_val - target_val)
  *         if dist < best_distance:
  *             best_distance = dist             # <<<<<<<<<<<<<<
@@ -1791,7 +1792,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
  */
       __pyx_v_best_distance = __pyx_v_dist;
 
-      /* "ms_peak_picker\_c\search.pyx":55
+      /* "ms_peak_picker\_c\search.pyx":57
  *         if dist < best_distance:
  *             best_distance = dist
  *             nearest_index = next_index             # <<<<<<<<<<<<<<
@@ -1800,7 +1801,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
  */
       __pyx_v_nearest_index = __pyx_v_next_index;
 
-      /* "ms_peak_picker\_c\search.pyx":53
+      /* "ms_peak_picker\_c\search.pyx":55
  *         next_val = vec[next_index]
  *         dist = fabs(next_val - target_val)
  *         if dist < best_distance:             # <<<<<<<<<<<<<<
@@ -1809,7 +1810,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
  */
     }
 
-    /* "ms_peak_picker\_c\search.pyx":56
+    /* "ms_peak_picker\_c\search.pyx":58
  *             best_distance = dist
  *             nearest_index = next_index
  *         if next_index == size:             # <<<<<<<<<<<<<<
@@ -1819,7 +1820,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
     __pyx_t_1 = ((__pyx_v_next_index == __pyx_v_size) != 0);
     if (__pyx_t_1) {
 
-      /* "ms_peak_picker\_c\search.pyx":57
+      /* "ms_peak_picker\_c\search.pyx":59
  *             nearest_index = next_index
  *         if next_index == size:
  *             break             # <<<<<<<<<<<<<<
@@ -1828,7 +1829,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
  */
       goto __pyx_L5_break;
 
-      /* "ms_peak_picker\_c\search.pyx":56
+      /* "ms_peak_picker\_c\search.pyx":58
  *             best_distance = dist
  *             nearest_index = next_index
  *         if next_index == size:             # <<<<<<<<<<<<<<
@@ -1839,7 +1840,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
   }
   __pyx_L5_break:;
 
-  /* "ms_peak_picker\_c\search.pyx":58
+  /* "ms_peak_picker\_c\search.pyx":60
  *         if next_index == size:
  *             break
  *     return nearest_index             # <<<<<<<<<<<<<<
@@ -1849,7 +1850,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
   __pyx_r = __pyx_v_nearest_index;
   goto __pyx_L0;
 
-  /* "ms_peak_picker\_c\search.pyx":36
+  /* "ms_peak_picker\_c\search.pyx":38
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cpdef size_t nearest_right(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0):             # <<<<<<<<<<<<<<
@@ -1875,6 +1876,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(PyArrayObject *
 
 /* Python wrapper */
 static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_3nearest_right(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_14ms_peak_picker_2_c_6search_2nearest_right[] = "nearest_right(ndarray vec, DTYPE_t target_val, size_t start_index=0) -> size_t";
 static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_3nearest_right(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_vec = 0;
   __pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t __pyx_v_target_val;
@@ -1906,7 +1908,7 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_3nearest_right(PyObject *
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_target_val)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("nearest_right", 0, 2, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("nearest_right", 0, 2, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (kw_args > 0) {
@@ -1915,7 +1917,7 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_3nearest_right(PyObject *
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "nearest_right") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "nearest_right") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1927,22 +1929,22 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_3nearest_right(PyObject *
       }
     }
     __pyx_v_vec = ((PyArrayObject *)values[0]);
-    __pyx_v_target_val = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_target_val == (npy_float64)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_target_val = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_target_val == (npy_float64)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     if (values[2]) {
-      __pyx_v_start_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_start_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_start_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_start_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
       __pyx_v_start_index = ((size_t)0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("nearest_right", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("nearest_right", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.search.nearest_right", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vec), __pyx_ptype_5numpy_ndarray, 1, "vec", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vec), __pyx_ptype_5numpy_ndarray, 1, "vec", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_14ms_peak_picker_2_c_6search_2nearest_right(__pyx_self, __pyx_v_vec, __pyx_v_target_val, __pyx_v_start_index);
 
   /* function exit code */
@@ -1972,14 +1974,14 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_6search_2nearest_right(CYTHON_UNU
   __pyx_pybuffernd_vec.rcbuffer = &__pyx_pybuffer_vec;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_vec.diminfo[0].strides = __pyx_pybuffernd_vec.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_vec.diminfo[0].shape = __pyx_pybuffernd_vec.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.start_index = __pyx_v_start_index;
   __pyx_t_1 = __pyx_f_14ms_peak_picker_2_c_6search_nearest_right(((PyArrayObject *)__pyx_v_vec), __pyx_v_target_val, 0, &__pyx_t_2); 
-  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -2003,7 +2005,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_6search_2nearest_right(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\search.pyx":64
+/* "ms_peak_picker\_c\search.pyx":66
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cpdef size_t get_nearest_binary(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0, object stop_index=None):             # <<<<<<<<<<<<<<
@@ -2053,11 +2055,11 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
   __pyx_pybuffernd_vec.rcbuffer = &__pyx_pybuffer_vec;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_vec.diminfo[0].strides = __pyx_pybuffernd_vec.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_vec.diminfo[0].shape = __pyx_pybuffernd_vec.rcbuffer->pybuffer.shape[0];
 
-  /* "ms_peak_picker\_c\search.pyx":69
+  /* "ms_peak_picker\_c\search.pyx":71
  *         size_t stop_index_, mid_index
  * 
  *     if stop_index is None:             # <<<<<<<<<<<<<<
@@ -2068,7 +2070,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "ms_peak_picker\_c\search.pyx":70
+    /* "ms_peak_picker\_c\search.pyx":72
  * 
  *     if stop_index is None:
  *         stop_index_ = vec.shape[0] - 1             # <<<<<<<<<<<<<<
@@ -2077,7 +2079,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
     __pyx_v_stop_index_ = ((__pyx_v_vec->dimensions[0]) - 1);
 
-    /* "ms_peak_picker\_c\search.pyx":69
+    /* "ms_peak_picker\_c\search.pyx":71
  *         size_t stop_index_, mid_index
  * 
  *     if stop_index is None:             # <<<<<<<<<<<<<<
@@ -2087,7 +2089,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     goto __pyx_L3;
   }
 
-  /* "ms_peak_picker\_c\search.pyx":72
+  /* "ms_peak_picker\_c\search.pyx":74
  *         stop_index_ = vec.shape[0] - 1
  *     else:
  *         stop_index_ = stop_index             # <<<<<<<<<<<<<<
@@ -2095,12 +2097,12 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  *     if cval > target_val:
  */
   /*else*/ {
-    __pyx_t_3 = __Pyx_PyInt_As_size_t(__pyx_v_stop_index); if (unlikely((__pyx_t_3 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyInt_As_size_t(__pyx_v_stop_index); if (unlikely((__pyx_t_3 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_v_stop_index_ = __pyx_t_3;
   }
   __pyx_L3:;
 
-  /* "ms_peak_picker\_c\search.pyx":73
+  /* "ms_peak_picker\_c\search.pyx":75
  *     else:
  *         stop_index_ = stop_index
  *     cval = vec[start_index]             # <<<<<<<<<<<<<<
@@ -2110,7 +2112,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
   __pyx_t_3 = __pyx_v_start_index;
   __pyx_v_cval = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_3, __pyx_pybuffernd_vec.diminfo[0].strides));
 
-  /* "ms_peak_picker\_c\search.pyx":74
+  /* "ms_peak_picker\_c\search.pyx":76
  *         stop_index_ = stop_index
  *     cval = vec[start_index]
  *     if cval > target_val:             # <<<<<<<<<<<<<<
@@ -2120,7 +2122,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
   __pyx_t_2 = ((__pyx_v_cval > __pyx_v_target_val) != 0);
   if (__pyx_t_2) {
 
-    /* "ms_peak_picker\_c\search.pyx":75
+    /* "ms_peak_picker\_c\search.pyx":77
  *     cval = vec[start_index]
  *     if cval > target_val:
  *         return start_index             # <<<<<<<<<<<<<<
@@ -2130,7 +2132,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     __pyx_r = __pyx_v_start_index;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\search.pyx":74
+    /* "ms_peak_picker\_c\search.pyx":76
  *         stop_index_ = stop_index
  *     cval = vec[start_index]
  *     if cval > target_val:             # <<<<<<<<<<<<<<
@@ -2139,7 +2141,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
   }
 
-  /* "ms_peak_picker\_c\search.pyx":77
+  /* "ms_peak_picker\_c\search.pyx":79
  *         return start_index
  * 
  *     cval = vec[stop_index_]             # <<<<<<<<<<<<<<
@@ -2149,7 +2151,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
   __pyx_t_4 = __pyx_v_stop_index_;
   __pyx_v_cval = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_4, __pyx_pybuffernd_vec.diminfo[0].strides));
 
-  /* "ms_peak_picker\_c\search.pyx":78
+  /* "ms_peak_picker\_c\search.pyx":80
  * 
  *     cval = vec[stop_index_]
  *     if cval < target_val:             # <<<<<<<<<<<<<<
@@ -2159,7 +2161,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
   __pyx_t_2 = ((__pyx_v_cval < __pyx_v_target_val) != 0);
   if (__pyx_t_2) {
 
-    /* "ms_peak_picker\_c\search.pyx":79
+    /* "ms_peak_picker\_c\search.pyx":81
  *     cval = vec[stop_index_]
  *     if cval < target_val:
  *         return stop_index_             # <<<<<<<<<<<<<<
@@ -2169,7 +2171,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     __pyx_r = __pyx_v_stop_index_;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\search.pyx":78
+    /* "ms_peak_picker\_c\search.pyx":80
  * 
  *     cval = vec[stop_index_]
  *     if cval < target_val:             # <<<<<<<<<<<<<<
@@ -2178,7 +2180,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
   }
 
-  /* "ms_peak_picker\_c\search.pyx":80
+  /* "ms_peak_picker\_c\search.pyx":82
  *     if cval < target_val:
  *         return stop_index_
  *     while True:             # <<<<<<<<<<<<<<
@@ -2187,7 +2189,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
   while (1) {
 
-    /* "ms_peak_picker\_c\search.pyx":81
+    /* "ms_peak_picker\_c\search.pyx":83
  *         return stop_index_
  *     while True:
  *         min_val = vec[start_index]             # <<<<<<<<<<<<<<
@@ -2197,7 +2199,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     __pyx_t_5 = __pyx_v_start_index;
     __pyx_v_min_val = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_5, __pyx_pybuffernd_vec.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\search.pyx":82
+    /* "ms_peak_picker\_c\search.pyx":84
  *     while True:
  *         min_val = vec[start_index]
  *         max_val = vec[stop_index_]             # <<<<<<<<<<<<<<
@@ -2207,7 +2209,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     __pyx_t_6 = __pyx_v_stop_index_;
     __pyx_v_max_val = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_6, __pyx_pybuffernd_vec.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\search.pyx":83
+    /* "ms_peak_picker\_c\search.pyx":85
  *         min_val = vec[start_index]
  *         max_val = vec[stop_index_]
  *         if fabs(stop_index_ - start_index) <= 1 and (target_val >= min_val) and (target_val <= max_val):             # <<<<<<<<<<<<<<
@@ -2231,7 +2233,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     __pyx_L9_bool_binop_done:;
     if (__pyx_t_2) {
 
-      /* "ms_peak_picker\_c\search.pyx":84
+      /* "ms_peak_picker\_c\search.pyx":86
  *         max_val = vec[stop_index_]
  *         if fabs(stop_index_ - start_index) <= 1 and (target_val >= min_val) and (target_val <= max_val):
  *             if fabs(min_val - target_val) < fabs(max_val - target_val):             # <<<<<<<<<<<<<<
@@ -2241,7 +2243,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
       __pyx_t_2 = ((fabs((__pyx_v_min_val - __pyx_v_target_val)) < fabs((__pyx_v_max_val - __pyx_v_target_val))) != 0);
       if (__pyx_t_2) {
 
-        /* "ms_peak_picker\_c\search.pyx":85
+        /* "ms_peak_picker\_c\search.pyx":87
  *         if fabs(stop_index_ - start_index) <= 1 and (target_val >= min_val) and (target_val <= max_val):
  *             if fabs(min_val - target_val) < fabs(max_val - target_val):
  *                 return start_index             # <<<<<<<<<<<<<<
@@ -2251,7 +2253,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
         __pyx_r = __pyx_v_start_index;
         goto __pyx_L0;
 
-        /* "ms_peak_picker\_c\search.pyx":84
+        /* "ms_peak_picker\_c\search.pyx":86
  *         max_val = vec[stop_index_]
  *         if fabs(stop_index_ - start_index) <= 1 and (target_val >= min_val) and (target_val <= max_val):
  *             if fabs(min_val - target_val) < fabs(max_val - target_val):             # <<<<<<<<<<<<<<
@@ -2260,7 +2262,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
       }
 
-      /* "ms_peak_picker\_c\search.pyx":86
+      /* "ms_peak_picker\_c\search.pyx":88
  *             if fabs(min_val - target_val) < fabs(max_val - target_val):
  *                 return start_index
  *             return stop_index_             # <<<<<<<<<<<<<<
@@ -2270,7 +2272,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
       __pyx_r = __pyx_v_stop_index_;
       goto __pyx_L0;
 
-      /* "ms_peak_picker\_c\search.pyx":83
+      /* "ms_peak_picker\_c\search.pyx":85
  *         min_val = vec[start_index]
  *         max_val = vec[stop_index_]
  *         if fabs(stop_index_ - start_index) <= 1 and (target_val >= min_val) and (target_val <= max_val):             # <<<<<<<<<<<<<<
@@ -2279,7 +2281,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
     }
 
-    /* "ms_peak_picker\_c\search.pyx":87
+    /* "ms_peak_picker\_c\search.pyx":89
  *                 return start_index
  *             return stop_index_
  *         ratio = (max_val - target_val) / (max_val - min_val)             # <<<<<<<<<<<<<<
@@ -2288,7 +2290,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
     __pyx_v_ratio = ((__pyx_v_max_val - __pyx_v_target_val) / (__pyx_v_max_val - __pyx_v_min_val));
 
-    /* "ms_peak_picker\_c\search.pyx":88
+    /* "ms_peak_picker\_c\search.pyx":90
  *             return stop_index_
  *         ratio = (max_val - target_val) / (max_val - min_val)
  *         mid_index = <size_t>(start_index * ratio + stop_index_ * (1 - ratio) + 0.5)             # <<<<<<<<<<<<<<
@@ -2297,7 +2299,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
     __pyx_v_mid_index = ((size_t)(((__pyx_v_start_index * __pyx_v_ratio) + (__pyx_v_stop_index_ * (1.0 - __pyx_v_ratio))) + 0.5));
 
-    /* "ms_peak_picker\_c\search.pyx":89
+    /* "ms_peak_picker\_c\search.pyx":91
  *         ratio = (max_val - target_val) / (max_val - min_val)
  *         mid_index = <size_t>(start_index * ratio + stop_index_ * (1 - ratio) + 0.5)
  *         if (mid_index == start_index):             # <<<<<<<<<<<<<<
@@ -2307,7 +2309,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     __pyx_t_2 = ((__pyx_v_mid_index == __pyx_v_start_index) != 0);
     if (__pyx_t_2) {
 
-      /* "ms_peak_picker\_c\search.pyx":90
+      /* "ms_peak_picker\_c\search.pyx":92
  *         mid_index = <size_t>(start_index * ratio + stop_index_ * (1 - ratio) + 0.5)
  *         if (mid_index == start_index):
  *             mid_index = start_index + 1             # <<<<<<<<<<<<<<
@@ -2316,7 +2318,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
       __pyx_v_mid_index = (__pyx_v_start_index + 1);
 
-      /* "ms_peak_picker\_c\search.pyx":89
+      /* "ms_peak_picker\_c\search.pyx":91
  *         ratio = (max_val - target_val) / (max_val - min_val)
  *         mid_index = <size_t>(start_index * ratio + stop_index_ * (1 - ratio) + 0.5)
  *         if (mid_index == start_index):             # <<<<<<<<<<<<<<
@@ -2326,7 +2328,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
       goto __pyx_L13;
     }
 
-    /* "ms_peak_picker\_c\search.pyx":91
+    /* "ms_peak_picker\_c\search.pyx":93
  *         if (mid_index == start_index):
  *             mid_index = start_index + 1
  *         elif (mid_index == stop_index_):             # <<<<<<<<<<<<<<
@@ -2336,7 +2338,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     __pyx_t_2 = ((__pyx_v_mid_index == __pyx_v_stop_index_) != 0);
     if (__pyx_t_2) {
 
-      /* "ms_peak_picker\_c\search.pyx":92
+      /* "ms_peak_picker\_c\search.pyx":94
  *             mid_index = start_index + 1
  *         elif (mid_index == stop_index_):
  *             mid_index = stop_index_ - 1             # <<<<<<<<<<<<<<
@@ -2345,7 +2347,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
       __pyx_v_mid_index = (__pyx_v_stop_index_ - 1);
 
-      /* "ms_peak_picker\_c\search.pyx":91
+      /* "ms_peak_picker\_c\search.pyx":93
  *         if (mid_index == start_index):
  *             mid_index = start_index + 1
  *         elif (mid_index == stop_index_):             # <<<<<<<<<<<<<<
@@ -2355,7 +2357,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     }
     __pyx_L13:;
 
-    /* "ms_peak_picker\_c\search.pyx":94
+    /* "ms_peak_picker\_c\search.pyx":96
  *             mid_index = stop_index_ - 1
  * 
  *         mid_val = vec[mid_index]             # <<<<<<<<<<<<<<
@@ -2365,7 +2367,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     __pyx_t_7 = __pyx_v_mid_index;
     __pyx_v_mid_val = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_7, __pyx_pybuffernd_vec.diminfo[0].strides));
 
-    /* "ms_peak_picker\_c\search.pyx":96
+    /* "ms_peak_picker\_c\search.pyx":98
  *         mid_val = vec[mid_index]
  * 
  *         if mid_val >= target_val:             # <<<<<<<<<<<<<<
@@ -2375,7 +2377,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     __pyx_t_2 = ((__pyx_v_mid_val >= __pyx_v_target_val) != 0);
     if (__pyx_t_2) {
 
-      /* "ms_peak_picker\_c\search.pyx":97
+      /* "ms_peak_picker\_c\search.pyx":99
  * 
  *         if mid_val >= target_val:
  *             stop_index_ = mid_index             # <<<<<<<<<<<<<<
@@ -2384,7 +2386,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
       __pyx_v_stop_index_ = __pyx_v_mid_index;
 
-      /* "ms_peak_picker\_c\search.pyx":96
+      /* "ms_peak_picker\_c\search.pyx":98
  *         mid_val = vec[mid_index]
  * 
  *         if mid_val >= target_val:             # <<<<<<<<<<<<<<
@@ -2394,7 +2396,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
       goto __pyx_L14;
     }
 
-    /* "ms_peak_picker\_c\search.pyx":98
+    /* "ms_peak_picker\_c\search.pyx":100
  *         if mid_val >= target_val:
  *             stop_index_ = mid_index
  *         elif mid_index + 1 == stop_index_:             # <<<<<<<<<<<<<<
@@ -2404,7 +2406,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     __pyx_t_2 = (((__pyx_v_mid_index + 1) == __pyx_v_stop_index_) != 0);
     if (__pyx_t_2) {
 
-      /* "ms_peak_picker\_c\search.pyx":99
+      /* "ms_peak_picker\_c\search.pyx":101
  *             stop_index_ = mid_index
  *         elif mid_index + 1 == stop_index_:
  *             if fabs(mid_val - target_val) < fabs(max_val - target_val):             # <<<<<<<<<<<<<<
@@ -2414,7 +2416,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
       __pyx_t_2 = ((fabs((__pyx_v_mid_val - __pyx_v_target_val)) < fabs((__pyx_v_max_val - __pyx_v_target_val))) != 0);
       if (__pyx_t_2) {
 
-        /* "ms_peak_picker\_c\search.pyx":100
+        /* "ms_peak_picker\_c\search.pyx":102
  *         elif mid_index + 1 == stop_index_:
  *             if fabs(mid_val - target_val) < fabs(max_val - target_val):
  *                 return mid_index             # <<<<<<<<<<<<<<
@@ -2424,7 +2426,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
         __pyx_r = __pyx_v_mid_index;
         goto __pyx_L0;
 
-        /* "ms_peak_picker\_c\search.pyx":99
+        /* "ms_peak_picker\_c\search.pyx":101
  *             stop_index_ = mid_index
  *         elif mid_index + 1 == stop_index_:
  *             if fabs(mid_val - target_val) < fabs(max_val - target_val):             # <<<<<<<<<<<<<<
@@ -2433,7 +2435,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
       }
 
-      /* "ms_peak_picker\_c\search.pyx":101
+      /* "ms_peak_picker\_c\search.pyx":103
  *             if fabs(mid_val - target_val) < fabs(max_val - target_val):
  *                 return mid_index
  *             return stop_index_             # <<<<<<<<<<<<<<
@@ -2443,7 +2445,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
       __pyx_r = __pyx_v_stop_index_;
       goto __pyx_L0;
 
-      /* "ms_peak_picker\_c\search.pyx":98
+      /* "ms_peak_picker\_c\search.pyx":100
  *         if mid_val >= target_val:
  *             stop_index_ = mid_index
  *         elif mid_index + 1 == stop_index_:             # <<<<<<<<<<<<<<
@@ -2452,7 +2454,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
     }
 
-    /* "ms_peak_picker\_c\search.pyx":103
+    /* "ms_peak_picker\_c\search.pyx":105
  *             return stop_index_
  *         else:
  *             mid_next_val = vec[mid_index + 1]             # <<<<<<<<<<<<<<
@@ -2463,7 +2465,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
       __pyx_t_8 = (__pyx_v_mid_index + 1);
       __pyx_v_mid_next_val = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_8, __pyx_pybuffernd_vec.diminfo[0].strides));
 
-      /* "ms_peak_picker\_c\search.pyx":104
+      /* "ms_peak_picker\_c\search.pyx":106
  *         else:
  *             mid_next_val = vec[mid_index + 1]
  *             if target_val >= mid_val and target_val <= mid_next_val:             # <<<<<<<<<<<<<<
@@ -2481,7 +2483,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
       __pyx_L17_bool_binop_done:;
       if (__pyx_t_2) {
 
-        /* "ms_peak_picker\_c\search.pyx":105
+        /* "ms_peak_picker\_c\search.pyx":107
  *             mid_next_val = vec[mid_index + 1]
  *             if target_val >= mid_val and target_val <= mid_next_val:
  *                 if (target_val - mid_val < mid_next_val - mid_val):             # <<<<<<<<<<<<<<
@@ -2491,7 +2493,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
         __pyx_t_2 = (((__pyx_v_target_val - __pyx_v_mid_val) < (__pyx_v_mid_next_val - __pyx_v_mid_val)) != 0);
         if (__pyx_t_2) {
 
-          /* "ms_peak_picker\_c\search.pyx":106
+          /* "ms_peak_picker\_c\search.pyx":108
  *             if target_val >= mid_val and target_val <= mid_next_val:
  *                 if (target_val - mid_val < mid_next_val - mid_val):
  *                     return mid_index             # <<<<<<<<<<<<<<
@@ -2501,7 +2503,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
           __pyx_r = __pyx_v_mid_index;
           goto __pyx_L0;
 
-          /* "ms_peak_picker\_c\search.pyx":105
+          /* "ms_peak_picker\_c\search.pyx":107
  *             mid_next_val = vec[mid_index + 1]
  *             if target_val >= mid_val and target_val <= mid_next_val:
  *                 if (target_val - mid_val < mid_next_val - mid_val):             # <<<<<<<<<<<<<<
@@ -2510,7 +2512,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
         }
 
-        /* "ms_peak_picker\_c\search.pyx":107
+        /* "ms_peak_picker\_c\search.pyx":109
  *                 if (target_val - mid_val < mid_next_val - mid_val):
  *                     return mid_index
  *                 return mid_index + 1             # <<<<<<<<<<<<<<
@@ -2520,7 +2522,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
         __pyx_r = (__pyx_v_mid_index + 1);
         goto __pyx_L0;
 
-        /* "ms_peak_picker\_c\search.pyx":104
+        /* "ms_peak_picker\_c\search.pyx":106
  *         else:
  *             mid_next_val = vec[mid_index + 1]
  *             if target_val >= mid_val and target_val <= mid_next_val:             # <<<<<<<<<<<<<<
@@ -2529,7 +2531,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
  */
       }
 
-      /* "ms_peak_picker\_c\search.pyx":108
+      /* "ms_peak_picker\_c\search.pyx":110
  *                     return mid_index
  *                 return mid_index + 1
  *             start_index = mid_index + 1             # <<<<<<<<<<<<<<
@@ -2541,7 +2543,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
     __pyx_L14:;
   }
 
-  /* "ms_peak_picker\_c\search.pyx":64
+  /* "ms_peak_picker\_c\search.pyx":66
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cpdef size_t get_nearest_binary(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0, object stop_index=None):             # <<<<<<<<<<<<<<
@@ -2569,6 +2571,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(PyArrayObj
 
 /* Python wrapper */
 static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_5get_nearest_binary(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_14ms_peak_picker_2_c_6search_4get_nearest_binary[] = "get_nearest_binary(ndarray vec, DTYPE_t target_val, size_t start_index=0, stop_index=None) -> size_t";
 static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_5get_nearest_binary(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_vec = 0;
   __pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t __pyx_v_target_val;
@@ -2603,7 +2606,7 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_5get_nearest_binary(PyObj
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_target_val)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_nearest_binary", 0, 2, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("get_nearest_binary", 0, 2, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (kw_args > 0) {
@@ -2617,7 +2620,7 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_5get_nearest_binary(PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_nearest_binary") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_nearest_binary") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2630,9 +2633,9 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_5get_nearest_binary(PyObj
       }
     }
     __pyx_v_vec = ((PyArrayObject *)values[0]);
-    __pyx_v_target_val = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_target_val == (npy_float64)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_target_val = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_target_val == (npy_float64)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     if (values[2]) {
-      __pyx_v_start_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_start_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_start_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_start_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
       __pyx_v_start_index = ((size_t)0);
     }
@@ -2640,13 +2643,13 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_5get_nearest_binary(PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_nearest_binary", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("get_nearest_binary", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.search.get_nearest_binary", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vec), __pyx_ptype_5numpy_ndarray, 1, "vec", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vec), __pyx_ptype_5numpy_ndarray, 1, "vec", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_14ms_peak_picker_2_c_6search_4get_nearest_binary(__pyx_self, __pyx_v_vec, __pyx_v_target_val, __pyx_v_start_index, __pyx_v_stop_index);
 
   /* function exit code */
@@ -2676,7 +2679,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_6search_4get_nearest_binary(CYTHO
   __pyx_pybuffernd_vec.rcbuffer = &__pyx_pybuffer_vec;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_vec.diminfo[0].strides = __pyx_pybuffernd_vec.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_vec.diminfo[0].shape = __pyx_pybuffernd_vec.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
@@ -2684,7 +2687,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_6search_4get_nearest_binary(CYTHO
   __pyx_t_2.start_index = __pyx_v_start_index;
   __pyx_t_2.stop_index = __pyx_v_stop_index;
   __pyx_t_1 = __pyx_f_14ms_peak_picker_2_c_6search_get_nearest_binary(((PyArrayObject *)__pyx_v_vec), __pyx_v_target_val, 0, &__pyx_t_2); 
-  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -2708,7 +2711,7 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_6search_4get_nearest_binary(CYTHO
   return __pyx_r;
 }
 
-/* "ms_peak_picker\_c\search.pyx":114
+/* "ms_peak_picker\_c\search.pyx":116
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cpdef size_t get_nearest(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index):             # <<<<<<<<<<<<<<
@@ -2751,21 +2754,21 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
   __pyx_pybuffernd_vec.rcbuffer = &__pyx_pybuffer_vec;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_vec.diminfo[0].strides = __pyx_pybuffernd_vec.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_vec.diminfo[0].shape = __pyx_pybuffernd_vec.rcbuffer->pybuffer.shape[0];
 
-  /* "ms_peak_picker\_c\search.pyx":121
+  /* "ms_peak_picker\_c\search.pyx":123
  * 
  * 
  *     size = len(vec) - 1             # <<<<<<<<<<<<<<
  *     if target_val >= vec[size]:
  *         return size
  */
-  __pyx_t_1 = PyObject_Length(((PyObject *)__pyx_v_vec)); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_Length(((PyObject *)__pyx_v_vec)); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_size = (__pyx_t_1 - 1);
 
-  /* "ms_peak_picker\_c\search.pyx":122
+  /* "ms_peak_picker\_c\search.pyx":124
  * 
  *     size = len(vec) - 1
  *     if target_val >= vec[size]:             # <<<<<<<<<<<<<<
@@ -2776,7 +2779,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
   __pyx_t_3 = ((__pyx_v_target_val >= (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_2, __pyx_pybuffernd_vec.diminfo[0].strides))) != 0);
   if (__pyx_t_3) {
 
-    /* "ms_peak_picker\_c\search.pyx":123
+    /* "ms_peak_picker\_c\search.pyx":125
  *     size = len(vec) - 1
  *     if target_val >= vec[size]:
  *         return size             # <<<<<<<<<<<<<<
@@ -2786,7 +2789,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
     __pyx_r = __pyx_v_size;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\search.pyx":122
+    /* "ms_peak_picker\_c\search.pyx":124
  * 
  *     size = len(vec) - 1
  *     if target_val >= vec[size]:             # <<<<<<<<<<<<<<
@@ -2795,7 +2798,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
  */
   }
 
-  /* "ms_peak_picker\_c\search.pyx":124
+  /* "ms_peak_picker\_c\search.pyx":126
  *     if target_val >= vec[size]:
  *         return size
  *     elif target_val <= vec[0]:             # <<<<<<<<<<<<<<
@@ -2807,7 +2810,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
   __pyx_t_3 = ((__pyx_v_target_val <= (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_4, __pyx_pybuffernd_vec.diminfo[0].strides))) != 0);
   if (__pyx_t_3) {
 
-    /* "ms_peak_picker\_c\search.pyx":125
+    /* "ms_peak_picker\_c\search.pyx":127
  *         return size
  *     elif target_val <= vec[0]:
  *         return 0             # <<<<<<<<<<<<<<
@@ -2817,7 +2820,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
     __pyx_r = 0;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\search.pyx":124
+    /* "ms_peak_picker\_c\search.pyx":126
  *     if target_val >= vec[size]:
  *         return size
  *     elif target_val <= vec[0]:             # <<<<<<<<<<<<<<
@@ -2826,7 +2829,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
  */
   }
 
-  /* "ms_peak_picker\_c\search.pyx":127
+  /* "ms_peak_picker\_c\search.pyx":129
  *         return 0
  * 
  *     distance_remaining = target_val - vec[start_index]             # <<<<<<<<<<<<<<
@@ -2836,7 +2839,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
   __pyx_t_5 = __pyx_v_start_index;
   __pyx_v_distance_remaining = (__pyx_v_target_val - (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_5, __pyx_pybuffernd_vec.diminfo[0].strides)));
 
-  /* "ms_peak_picker\_c\search.pyx":129
+  /* "ms_peak_picker\_c\search.pyx":131
  *     distance_remaining = target_val - vec[start_index]
  * 
  *     if start_index < size:             # <<<<<<<<<<<<<<
@@ -2846,7 +2849,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
   __pyx_t_3 = ((__pyx_v_start_index < __pyx_v_size) != 0);
   if (__pyx_t_3) {
 
-    /* "ms_peak_picker\_c\search.pyx":130
+    /* "ms_peak_picker\_c\search.pyx":132
  * 
  *     if start_index < size:
  *         step = vec[start_index + 1] - vec[start_index]             # <<<<<<<<<<<<<<
@@ -2857,7 +2860,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
     __pyx_t_7 = __pyx_v_start_index;
     __pyx_v_step = ((*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_6, __pyx_pybuffernd_vec.diminfo[0].strides)) - (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_7, __pyx_pybuffernd_vec.diminfo[0].strides)));
 
-    /* "ms_peak_picker\_c\search.pyx":129
+    /* "ms_peak_picker\_c\search.pyx":131
  *     distance_remaining = target_val - vec[start_index]
  * 
  *     if start_index < size:             # <<<<<<<<<<<<<<
@@ -2867,7 +2870,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
     goto __pyx_L4;
   }
 
-  /* "ms_peak_picker\_c\search.pyx":132
+  /* "ms_peak_picker\_c\search.pyx":134
  *         step = vec[start_index + 1] - vec[start_index]
  *     else:
  *         step = vec[start_index] - vec[start_index - 1]             # <<<<<<<<<<<<<<
@@ -2881,7 +2884,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
   }
   __pyx_L4:;
 
-  /* "ms_peak_picker\_c\search.pyx":134
+  /* "ms_peak_picker\_c\search.pyx":136
  *         step = vec[start_index] - vec[start_index - 1]
  * 
  *     move_by = <size_t>(distance_remaining / step)             # <<<<<<<<<<<<<<
@@ -2890,7 +2893,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
  */
   __pyx_v_move_by = ((size_t)(__pyx_v_distance_remaining / __pyx_v_step));
 
-  /* "ms_peak_picker\_c\search.pyx":136
+  /* "ms_peak_picker\_c\search.pyx":138
  *     move_by = <size_t>(distance_remaining / step)
  * 
  *     next_index = start_index + move_by             # <<<<<<<<<<<<<<
@@ -2899,7 +2902,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
  */
   __pyx_v_next_index = (__pyx_v_start_index + __pyx_v_move_by);
 
-  /* "ms_peak_picker\_c\search.pyx":138
+  /* "ms_peak_picker\_c\search.pyx":140
  *     next_index = start_index + move_by
  * 
  *     if next_index < 0:             # <<<<<<<<<<<<<<
@@ -2909,7 +2912,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
   __pyx_t_3 = ((__pyx_v_next_index < 0) != 0);
   if (__pyx_t_3) {
 
-    /* "ms_peak_picker\_c\search.pyx":139
+    /* "ms_peak_picker\_c\search.pyx":141
  * 
  *     if next_index < 0:
  *         next_index = 0             # <<<<<<<<<<<<<<
@@ -2918,7 +2921,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
  */
     __pyx_v_next_index = 0;
 
-    /* "ms_peak_picker\_c\search.pyx":138
+    /* "ms_peak_picker\_c\search.pyx":140
  *     next_index = start_index + move_by
  * 
  *     if next_index < 0:             # <<<<<<<<<<<<<<
@@ -2927,7 +2930,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
  */
   }
 
-  /* "ms_peak_picker\_c\search.pyx":140
+  /* "ms_peak_picker\_c\search.pyx":142
  *     if next_index < 0:
  *         next_index = 0
  *     if next_index > size:             # <<<<<<<<<<<<<<
@@ -2937,7 +2940,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
   __pyx_t_3 = ((__pyx_v_next_index > __pyx_v_size) != 0);
   if (__pyx_t_3) {
 
-    /* "ms_peak_picker\_c\search.pyx":141
+    /* "ms_peak_picker\_c\search.pyx":143
  *         next_index = 0
  *     if next_index > size:
  *         next_index = size - 1             # <<<<<<<<<<<<<<
@@ -2946,7 +2949,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
  */
     __pyx_v_next_index = (__pyx_v_size - 1);
 
-    /* "ms_peak_picker\_c\search.pyx":140
+    /* "ms_peak_picker\_c\search.pyx":142
  *     if next_index < 0:
  *         next_index = 0
  *     if next_index > size:             # <<<<<<<<<<<<<<
@@ -2955,7 +2958,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
  */
   }
 
-  /* "ms_peak_picker\_c\search.pyx":143
+  /* "ms_peak_picker\_c\search.pyx":145
  *         next_index = size - 1
  * 
  *     next_val = vec[next_index]             # <<<<<<<<<<<<<<
@@ -2965,7 +2968,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
   __pyx_t_10 = __pyx_v_next_index;
   __pyx_v_next_val = (*__Pyx_BufPtrStrided1d(__pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t *, __pyx_pybuffernd_vec.rcbuffer->pybuffer.buf, __pyx_t_10, __pyx_pybuffernd_vec.diminfo[0].strides));
 
-  /* "ms_peak_picker\_c\search.pyx":144
+  /* "ms_peak_picker\_c\search.pyx":146
  * 
  *     next_val = vec[next_index]
  *     if target_val >= next_val:             # <<<<<<<<<<<<<<
@@ -2975,7 +2978,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
   __pyx_t_3 = ((__pyx_v_target_val >= __pyx_v_next_val) != 0);
   if (__pyx_t_3) {
 
-    /* "ms_peak_picker\_c\search.pyx":145
+    /* "ms_peak_picker\_c\search.pyx":147
  *     next_val = vec[next_index]
  *     if target_val >= next_val:
  *         return nearest_right(vec, target_val, next_index)             # <<<<<<<<<<<<<<
@@ -2988,7 +2991,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
     __pyx_r = __pyx_t_11;
     goto __pyx_L0;
 
-    /* "ms_peak_picker\_c\search.pyx":144
+    /* "ms_peak_picker\_c\search.pyx":146
  * 
  *     next_val = vec[next_index]
  *     if target_val >= next_val:             # <<<<<<<<<<<<<<
@@ -2997,7 +3000,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
  */
   }
 
-  /* "ms_peak_picker\_c\search.pyx":147
+  /* "ms_peak_picker\_c\search.pyx":149
  *         return nearest_right(vec, target_val, next_index)
  *     else:
  *         return nearest_left(vec, target_val, next_index)             # <<<<<<<<<<<<<<
@@ -3010,7 +3013,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
     goto __pyx_L0;
   }
 
-  /* "ms_peak_picker\_c\search.pyx":114
+  /* "ms_peak_picker\_c\search.pyx":116
  * @cython.nonecheck(False)
  * @cython.cdivision(True)
  * cpdef size_t get_nearest(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index):             # <<<<<<<<<<<<<<
@@ -3036,6 +3039,7 @@ static size_t __pyx_f_14ms_peak_picker_2_c_6search_get_nearest(PyArrayObject *__
 
 /* Python wrapper */
 static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_7get_nearest(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_14ms_peak_picker_2_c_6search_6get_nearest[] = "get_nearest(ndarray vec, DTYPE_t target_val, size_t start_index) -> size_t";
 static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_7get_nearest(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_vec = 0;
   __pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t __pyx_v_target_val;
@@ -3067,16 +3071,16 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_7get_nearest(PyObject *__
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_target_val)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_nearest", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("get_nearest", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_start_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_nearest", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("get_nearest", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_nearest") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_nearest") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -3086,18 +3090,18 @@ static PyObject *__pyx_pw_14ms_peak_picker_2_c_6search_7get_nearest(PyObject *__
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_vec = ((PyArrayObject *)values[0]);
-    __pyx_v_target_val = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_target_val == (npy_float64)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_start_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_start_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_target_val = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_target_val == (npy_float64)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_start_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_start_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_nearest", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("get_nearest", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("ms_peak_picker._c.search.get_nearest", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vec), __pyx_ptype_5numpy_ndarray, 1, "vec", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_vec), __pyx_ptype_5numpy_ndarray, 1, "vec", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_14ms_peak_picker_2_c_6search_6get_nearest(__pyx_self, __pyx_v_vec, __pyx_v_target_val, __pyx_v_start_index);
 
   /* function exit code */
@@ -3125,11 +3129,11 @@ static PyObject *__pyx_pf_14ms_peak_picker_2_c_6search_6get_nearest(CYTHON_UNUSE
   __pyx_pybuffernd_vec.rcbuffer = &__pyx_pybuffer_vec;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_vec.rcbuffer->pybuffer, (PyObject*)__pyx_v_vec, &__Pyx_TypeInfo_nn___pyx_t_14ms_peak_picker_2_c_6search_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_vec.diminfo[0].strides = __pyx_pybuffernd_vec.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_vec.diminfo[0].shape = __pyx_pybuffernd_vec.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_f_14ms_peak_picker_2_c_6search_get_nearest(((PyArrayObject *)__pyx_v_vec), __pyx_v_target_val, __pyx_v_start_index, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_f_14ms_peak_picker_2_c_6search_get_nearest(((PyArrayObject *)__pyx_v_vec), __pyx_v_target_val, __pyx_v_start_index, 0)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5297,10 +5301,10 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_get_array_base(PyArrayObject *__py
 }
 
 static PyMethodDef __pyx_methods[] = {
-  {"nearest_left", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_6search_1nearest_left, METH_VARARGS|METH_KEYWORDS, 0},
-  {"nearest_right", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_6search_3nearest_right, METH_VARARGS|METH_KEYWORDS, 0},
-  {"get_nearest_binary", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_6search_5get_nearest_binary, METH_VARARGS|METH_KEYWORDS, 0},
-  {"get_nearest", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_6search_7get_nearest, METH_VARARGS|METH_KEYWORDS, 0},
+  {"nearest_left", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_6search_1nearest_left, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14ms_peak_picker_2_c_6search_nearest_left},
+  {"nearest_right", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_6search_3nearest_right, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14ms_peak_picker_2_c_6search_2nearest_right},
+  {"get_nearest_binary", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_6search_5get_nearest_binary, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14ms_peak_picker_2_c_6search_4get_nearest_binary},
+  {"get_nearest", (PyCFunction)__pyx_pw_14ms_peak_picker_2_c_6search_7get_nearest, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14ms_peak_picker_2_c_6search_6get_nearest},
   {0, 0, 0, 0}
 };
 
@@ -5543,9 +5547,9 @@ PyMODINIT_FUNC PyInit_search(void)
   #endif
 
   /* "ms_peak_picker\_c\search.pyx":1
- * cimport numpy as np             # <<<<<<<<<<<<<<
- * cimport cython
+ * # cython: embedsignature=True             # <<<<<<<<<<<<<<
  * 
+ * cimport numpy as np
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);

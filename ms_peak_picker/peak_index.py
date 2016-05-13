@@ -41,17 +41,22 @@ class PeakIndex(object):
         return len(self.peaks)
 
     def area(self, peak):
-        lo = self.get_nearest(peak.mz - peak.left_width, peak.index)
-        hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
+        lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
+        hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
         return peak_area(self.mz_array, self.intensity_array, lo, hi)
 
-    def points_along(self, peak):
-        lo = self.get_nearest(peak.mz - peak.left_width, peak.index)
-        hi = self.get_nearest(peak.mz + peak.right_width, peak.index)
+    def points_along(self, peak, width=None):
+        if width is None:
+            width = peak.full_width_at_half_max
+        lo = self.get_nearest(peak.mz - width, peak.index)
+        hi = self.get_nearest(peak.mz + width, peak.index)
         return self.mz_array[lo:hi], self.intensity_array[lo:hi]
 
     def set_peaks(self, peaks):
         self.peaks = self.peaks.__class__(tuple(peaks))
+
+    def __repr__(self):
+        return "PeakIndex(%d points, %d peaks)" % (len(self.mz_array), len(self.peaks))
 
 
 def has_peak_within_tolerance(peaklist, mz, tol):
@@ -82,5 +87,7 @@ def has_peak_within_tolerance(peaklist, mz, tol):
 
 
 _PeakIndex = PeakIndex
-from ms_peak_picker._c.peak_index import PeakIndex
-
+try:
+    from ms_peak_picker._c.peak_index import PeakIndex
+except:
+    pass

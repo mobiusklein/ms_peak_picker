@@ -1,7 +1,7 @@
 import numpy as np
 
 from .utils import Base
-
+from .fticr_denoising import denoise as fticr_remove_baseline
 
 filter_register = {}
 
@@ -70,6 +70,16 @@ class NPercentOfMaxFilter(FilterBase):
         intensity_array_clone = np.array(intensity_array)
         intensity_array_clone[mask] = 0.
         return mz_array, intensity_array_clone
+
+@register("fticr_baseline")
+class FTICRBaselineRemoval(FilterBase):
+    def __init__(window_length=1., region_width=10, scale=5):
+        self.window_length = window_length
+        self.region_width = region_width
+        self.scale = scale
+
+    def filter(self, mz_array, intensity_array):
+        return fticr_remove_baseline(mz_array, intensity_array, self.window_length, self.region_width, self.scale)
 
 
 def transform(mz_array, intensity_array, filters=None):

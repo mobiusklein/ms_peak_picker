@@ -1,3 +1,5 @@
+# cython: embedsignature=True
+
 import operator
 
 from cpython.tuple cimport PyTuple_GET_ITEM, PyTuple_GetItem, PyTuple_GetSlice, PyTuple_GET_SIZE

@@ -60,7 +60,6 @@ try:
         if ax is None:
             fig, ax = plt.subplots(1)
         ax.plot(mz_array, intensity_array, **kwargs)
-        ax.xaxis.set_ticks_position('none')
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")
         return ax
@@ -82,7 +81,6 @@ try:
             fig, ax = plt.subplots(1)
         mz_array, intensity_array = peaklist_to_vector(peaklist)
         ax.plot(mz_array, intensity_array, **kwargs)
-        ax.xaxis.set_ticks_position('none')
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")
         return ax
