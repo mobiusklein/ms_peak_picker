@@ -1,3 +1,5 @@
+# cython: embedsignature=True
+
 cimport numpy as np
 cimport cython
 
