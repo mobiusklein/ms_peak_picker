@@ -71,9 +71,10 @@ class NPercentOfMaxFilter(FilterBase):
         intensity_array_clone[mask] = 0.
         return mz_array, intensity_array_clone
 
+
 @register("fticr_baseline")
 class FTICRBaselineRemoval(FilterBase):
-    def __init__(window_length=1., region_width=10, scale=5):
+    def __init__(self, window_length=1., region_width=10, scale=5):
         self.window_length = window_length
         self.region_width = region_width
         self.scale = scale

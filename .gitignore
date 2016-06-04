@@ -1,3 +1,5 @@
+ms_peak_picker/_c/*.c
+ms_peak_picker/_c/*.c
 *.pyc
 ms_peak_picker/*.html
 build/
