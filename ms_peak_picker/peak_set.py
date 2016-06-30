@@ -91,6 +91,7 @@ class PeakSet(Base):
 
     def _index(self):
         self.peaks = sorted(self.peaks, key=operator.attrgetter('mz'))
+        i = 0
         for i, peak in enumerate(self.peaks):
             peak.peak_count = i
         return i

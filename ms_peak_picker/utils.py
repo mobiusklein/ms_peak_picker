@@ -56,7 +56,9 @@ try:
     has_plot = True
     from matplotlib import pyplot as plt
 
-    def draw_raw(mz_array, intensity_array, ax=None, **kwargs):
+    def draw_raw(mz_array, intensity_array=None, ax=None, **kwargs):
+        if intensity_array is None and len(mz_array) == 2:
+            mz_array, intensity_array = mz_array
         if ax is None:
             fig, ax = plt.subplots(1)
         ax.plot(mz_array, intensity_array, **kwargs)
