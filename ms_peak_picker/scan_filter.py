@@ -83,6 +83,19 @@ class FTICRBaselineRemoval(FilterBase):
         return fticr_remove_baseline(mz_array, intensity_array, self.window_length, self.region_width, self.scale)
 
 
+@register("linear_resampling", 0.01)
+class LinearResampling(FilterBase):
+    def __init__(self, spacing):
+        self.spacing = spacing
+
+    def filter(self, mz_array, intensity_array):
+        lo = mz_array.min()
+        hi = mz_array.max()
+        new_mz = np.arange(lo, hi + self.spacing, self.spacing)
+        new_intensity = np.interp(new_mz, mz_array, intensity_array)
+        return new_mz, new_intensity
+
+
 def transform(mz_array, intensity_array, filters=None):
     if filters is None:
         filters = []

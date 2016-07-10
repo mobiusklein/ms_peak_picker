@@ -3,8 +3,6 @@ An implementation of the noise filtering methods from MasSpike
 '''
 
 import numpy as np
-
-import numpy as np
 from ms_peak_picker.search import get_nearest
 
 
