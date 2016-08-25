@@ -42,13 +42,13 @@ def add_peak_volume(a, axis=None):
     return axis
 
 
-def peaklist_to_profile(peaks):
+def peaklist_to_profile(peaks, precision=5):
     axis = defaultdict(float)
     for p in peaks:
         add_peak_volume(p, axis)
     axis_xs = defaultdict(float)
     for x, y in axis.items():
-        axis_xs[round(x, 3)] += y
+        axis_xs[round(x, precision)] += y
     xs, ys = map(np.array, zip(*sorted(axis_xs.items())))
     return xs, ys
 
@@ -69,7 +69,7 @@ try:
     def peaklist_to_vector(peaklist):
         mzs = []
         intensities = []
-        for peak in peaklist:
+        for peak in sorted(peaklist, key=lambda x: x.mz):
             mzs.append(peak.mz - .000001)
             intensities.append(0.)
             mzs.append(peak.mz)

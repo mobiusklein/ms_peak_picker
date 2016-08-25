@@ -2,6 +2,9 @@
 A Peak Picker/Fitter adapted from Decon2LS's DeconEngine
 '''
 
+import numpy as np
+
+
 from .peak_statistics import (
     find_signal_to_noise, quadratic_fit, lorenztian_fit,
     peak_area, find_left_width, find_right_width)
@@ -217,14 +220,20 @@ class PeakProcessor(object):
         return len(peak_data)
 
     def find_full_width_at_half_max(self, index, mz_array, intensity_array, signal_to_noise):
-        left = find_left_width(mz_array, intensity_array, index, signal_to_noise)
-        right = find_right_width(mz_array, intensity_array, index, signal_to_noise)
+        try:
+            left = find_left_width(mz_array, intensity_array, index, signal_to_noise)
+        except np.linalg.LinAlgError:
+            left = 1e-7
+        try:
+            right = find_right_width(mz_array, intensity_array, index, signal_to_noise)
+        except np.linalg.LinAlgError:
+            right = 1e-7
 
         if left < 1e-6:
             left = right
         elif right < 1e-6:
             right = left
-        elif right < 1e-6 and left < 1e-6:
+        if right < 1e-6 and left < 1e-6:
             left = right = 0.15
         fwhm = left + right
         self.partial_fit_state.left_width = left

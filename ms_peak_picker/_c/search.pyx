@@ -37,13 +37,13 @@ cpdef size_t nearest_left(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, s
 @cython.cdivision(True)
 cpdef size_t nearest_right(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0):
     cdef:
-        size_t nearest_index, next_index
+        size_t nearest_index, next_index, size
         DTYPE_t next_val, best_distance, dist
     nearest_index = start_index
     next_index = start_index
 
     size = vec.shape[0] - 1
-    if next_index == size:
+    if next_index >= size:
         return size
 
     next_val = vec[next_index]

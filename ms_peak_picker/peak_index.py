@@ -10,10 +10,16 @@ class PeakIndex(object):
         self.intensity_array = intensity_array
         self.peaks = peaks
 
+    def pack(self):
+        return PeakIndex(np.array([], dtype=np.float64), np.array([], dtype=np.float64), self.peaks.clone())
+
     def clone(self):
         return PeakIndex(np.array(self.mz_array), np.array(self.intensity_array), self.peaks.clone())
 
     def get_nearest(self, mz, index):
+        if self.mz_array is None:
+            raise ValueError("Cannot call get_nearest when raw arrays are None")
+
         return get_nearest(self.mz_array, mz, index)
 
     def get_nearest_peak(self, mz):
@@ -41,11 +47,17 @@ class PeakIndex(object):
         return len(self.peaks)
 
     def area(self, peak):
+        if self.mz_array is None:
+            raise ValueError("Cannot call area when raw arrays are None")
+
         lo = self.get_nearest(peak.mz - peak.full_width_at_half_max, peak.index)
         hi = self.get_nearest(peak.mz + peak.full_width_at_half_max, peak.index)
         return peak_area(self.mz_array, self.intensity_array, lo, hi)
 
     def points_along(self, peak, width=None):
+        if self.mz_array is None:
+            raise ValueError("Cannot call points_along when raw arrays are None")
+
         if width is None:
             width = peak.full_width_at_half_max
         lo = self.get_nearest(peak.mz - width, peak.index)
