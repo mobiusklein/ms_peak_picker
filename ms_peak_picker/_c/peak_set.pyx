@@ -1,5 +1,5 @@
 # cython: embedsignature=True
-
+cimport cython
 import operator
 
 from cpython.tuple cimport PyTuple_GET_ITEM, PyTuple_GetItem, PyTuple_GetSlice, PyTuple_GET_SIZE
@@ -8,6 +8,8 @@ from cpython cimport PyObject
 cdef double ppm_error(double x, double y):
     return (x - y) / y
 
+
+@cython.freelist(100000)
 cdef class FittedPeak(object):
     def __init__(self, mz, intensity, signal_to_noise, peak_count, index, full_width_at_half_max,
                  area, left_width=0, right_width=0):
@@ -134,7 +136,7 @@ cdef class PeakSet(object):
         p1 = self._get_nearest_peak(m1, &err)
         p2 = self._get_nearest_peak(m2, &err)
 
-        return self[p1.peak_count-1:p2.peak_count+1]
+        return self[p1.peak_count - 1:p2.peak_count + 1]
 
     cdef PeakSet _between(self, double m1, double m2):
         cdef:

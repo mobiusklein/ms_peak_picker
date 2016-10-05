@@ -57,6 +57,7 @@ try:
     from matplotlib import pyplot as plt
 
     def draw_raw(mz_array, intensity_array=None, ax=None, **kwargs):
+        pretty = kwargs.pop("pretty", False)
         if intensity_array is None and len(mz_array) == 2:
             mz_array, intensity_array = mz_array
         if ax is None:
@@ -64,6 +65,8 @@ try:
         ax.plot(mz_array, intensity_array, **kwargs)
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")
+        if pretty:
+            _beautify_axes(ax)
         return ax
 
     def peaklist_to_vector(peaklist):
@@ -79,12 +82,23 @@ try:
         return np.array(mzs), np.array(intensities)
 
     def draw_peaklist(peaklist, ax=None, **kwargs):
+        pretty = kwargs.pop("pretty", False)
         if ax is None:
             fig, ax = plt.subplots(1)
         mz_array, intensity_array = peaklist_to_vector(peaklist)
         ax.plot(mz_array, intensity_array, **kwargs)
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")
+        if pretty:
+            _beautify_axes(ax)
+        return ax
+
+    def _beautify_axes(ax):
+        ax.axes.spines['right'].set_visible(False)
+        ax.axes.spines['top'].set_visible(False)
+        ax.yaxis.tick_left()
+        ax.xaxis.tick_bottom()
+        ax.xaxis.set_ticks_position('none')
         return ax
 
 except ImportError:
