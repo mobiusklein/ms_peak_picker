@@ -154,6 +154,8 @@ class PeakProcessor(object):
             current_mz = mz_array[index]
 
             if self.peak_mode == "centroid":
+                if current_intensity <= 0:
+                    continue
                 mz = mz_array[index]
                 signal_to_noise = current_intensity / intensity_threshold
                 full_width_at_half_max = 0.1
@@ -204,11 +206,10 @@ class PeakProcessor(object):
                         if full_width_at_half_max > 0:
                             area = self.area(mz_array, intensity_array, fitted_mz, full_width_at_half_max, index)
                             if full_width_at_half_max > 1.:
-                                # print(
-                                #     "Full Width at Half Max too wide", full_width_at_half_max,
-                                #     fitted_mz,
-                                #     current_intensity)
                                 full_width_at_half_max = 1.
+
+                            if signal_to_noise > current_intensity:
+                                signal_to_noise = current_intensity
 
                             peak_data.append(FittedPeak(
                                 fitted_mz, current_intensity, signal_to_noise,
