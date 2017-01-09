@@ -89,6 +89,9 @@ class PeakSet(Base):
     def __len__(self):
         return len(self.peaks)
 
+    def reindex(self):
+        self._index()
+
     def _index(self):
         self.peaks = sorted(self.peaks, key=operator.attrgetter('mz'))
         i = 0

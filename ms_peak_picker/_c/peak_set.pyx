@@ -82,6 +82,9 @@ cdef class PeakSet(object):
     cdef size_t _get_size(self):
         return PyTuple_GET_SIZE(self.peaks)
 
+    def reindex(self):
+        self._index()
+
     def _index(self):
         self.peaks = tuple(sorted(self.peaks, key=operator.attrgetter('mz')))
         i = 0
