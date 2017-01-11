@@ -96,6 +96,17 @@ class LinearResampling(FilterBase):
         return new_mz, new_intensity
 
 
+@register("over_10", 10)
+@register("over_100", 100)
+class ConstantThreshold(FilterBase):
+    def __init__(self, constant):
+        self.constant = constant
+
+    def filter(self, mz_array, intensity_array):
+        mask = intensity_array > self.constant
+        return mz_array[mask], intensity_array[mask]
+
+
 def transform(mz_array, intensity_array, filters=None):
     if filters is None:
         filters = []
