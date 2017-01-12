@@ -107,6 +107,17 @@ class ConstantThreshold(FilterBase):
         return mz_array[mask], intensity_array[mask]
 
 
+@register("extreme_scale_limiter", 30e3)
+class MaximumScaler(FilterBase):
+    def __init__(self, threshold):
+        self.threshold = threshold
+
+    def filter(self, mz_array, intensity_array):
+        if intensity_array.max() > self.threshold:
+            intensity_array = intensity_array / intensity_array.max() * self.threshold
+        return mz_array, intensity_array
+
+
 def transform(mz_array, intensity_array, filters=None):
     if filters is None:
         filters = []
