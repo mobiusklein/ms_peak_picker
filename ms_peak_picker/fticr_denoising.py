@@ -26,7 +26,7 @@ class Window(object):
 
     def truncated_mean(self, threshold=0.95):
         hist_count, hist_values = np.histogram(self.intensity_array)
-        mask = (hist_count.max() * 0.05) < hist_count
+        mask = (hist_count.max() * (1 - threshold)) < hist_count
         mean = (hist_values[1:][mask] * hist_count[mask]
                 ).sum() / hist_count[mask].sum()
         return mean

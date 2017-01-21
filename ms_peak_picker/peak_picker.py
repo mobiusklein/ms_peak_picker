@@ -284,8 +284,7 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode='profi
     mz_array = mz_array.astype(float)
     intensity_array = intensity_array.astype(float)
 
-    if peak_mode != 'centroid':
-        mz_array, intensity_array = transform(mz_array, intensity_array, transforms)
+    mz_array, intensity_array = transform(mz_array, intensity_array, transforms)
 
     processor = PeakProcessor(
         fit_type, peak_mode, signal_to_noise_threshold, intensity_threshold, threshold_data,
