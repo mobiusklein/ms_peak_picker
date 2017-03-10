@@ -41,6 +41,7 @@ cdef class FittedPeak(object):
         inst.peak_count = peak_count
         inst.index = index
         inst.area = area
+        return inst
 
     cpdef FittedPeak clone(self):
         return FittedPeak._create(
