@@ -23,10 +23,30 @@ cdef class FittedPeak(object):
             self.left_width = left_width
             self.right_width = right_width
 
-    def clone(self):
-        return FittedPeak(self.mz, self.intensity, self.signal_to_noise,
-                          self.peak_count, self.index, self.full_width_at_half_max,
-                          self.area, self.left_width, self.right_width)
+    @staticmethod
+    cdef FittedPeak _create(double mz, double intensity, double signal_to_noise,
+                            double full_width_at_half_max, double left_width,
+                            double right_width, long peak_count, long index,
+                            double area):
+        cdef:
+            FittedPeak inst
+
+        inst = FittedPeak.__new__(FittedPeak)
+        inst.mz = mz
+        inst.intensity = intensity
+        inst.signal_to_noise = signal_to_noise
+        inst.full_width_at_half_max = full_width_at_half_max
+        inst.left_width = left_width
+        inst.right_width = right_width
+        inst.peak_count = peak_count
+        inst.index = index
+        inst.area = area
+
+    cpdef FittedPeak clone(self):
+        return FittedPeak._create(
+            self.mz, self.intensity, self.signal_to_noise,
+            self.full_width_at_half_max, self.left_width, self.right_width,
+            self.peak_count, self.index, self.area)
 
     def __repr__(self):
         return ("FittedPeak(mz=%0.3f, intensity=%0.3f, signal_to_noise=%0.3f, peak_count=%d, "
@@ -90,6 +110,8 @@ cdef class PeakSet(object):
         i = 0
         for i, peak in enumerate(self.peaks):
             peak.peak_count = i
+            if peak.index == -1:
+                peak.index = i
         return i
 
     def has_peak(self, double mz, double tolerance=1e-5):

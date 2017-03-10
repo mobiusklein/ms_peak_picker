@@ -1,11 +1,11 @@
 from .peak_picker import PeakProcessor, pick_peaks
 from .peak_set import PeakSet, FittedPeak
 from .peak_index import PeakIndex
-import peak_statistics
-import search
-import fticr_denoising
-import fft_patterson_charge_state
-import scan_filter
+from . import peak_statistics
+from . import search
+from . import fticr_denoising
+from . import fft_patterson_charge_state
+from . import scan_filter
 import os
 
 __all__ = ["PeakProcessor", "pick_peaks", "PeakIndex", "PeakSet", "FittedPeak", "peak_statistics",

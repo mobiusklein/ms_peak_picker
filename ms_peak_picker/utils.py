@@ -52,6 +52,7 @@ def peaklist_to_profile(peaks, precision=5):
     xs, ys = map(np.array, zip(*sorted(axis_xs.items())))
     return xs, ys
 
+
 try:
     has_plot = True
     from matplotlib import pyplot as plt

@@ -11,6 +11,13 @@ cdef class FittedPeak(object):
         public double area
 
     cpdef bint _eq(self, FittedPeak other)
+    cpdef FittedPeak clone(self)
+
+    @staticmethod
+    cdef FittedPeak _create(double mz, double intensity, double signal_to_noise,
+                            double full_width_at_half_max, double left_width,
+                            double right_width, long peak_count, long index,
+                            double area)
 
 cdef class PeakSet(object):
     cdef:
