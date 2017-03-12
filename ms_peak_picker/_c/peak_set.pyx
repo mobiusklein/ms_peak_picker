@@ -43,6 +43,8 @@ cdef class FittedPeak(object):
         inst.area = area
         return inst
 
+        return inst
+
     cpdef FittedPeak clone(self):
         return FittedPeak._create(
             self.mz, self.intensity, self.signal_to_noise,
