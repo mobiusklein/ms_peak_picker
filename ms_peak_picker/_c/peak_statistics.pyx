@@ -113,7 +113,7 @@ cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1, mode='c'] x, np.ndarray[DTYP
             xpow = xpow * x[i]
         out[0, i] = yfit
         out[1, i] = y[i] - yfit
-        mse += y[i]-yfit
+        mse += y[i] - yfit
     return mse
 
 

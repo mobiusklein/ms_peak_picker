@@ -1,14 +1,24 @@
-cdef class FittedPeak(object):
+
+cdef class PeakBase(object):
     cdef:
         public double mz
         public double intensity
+        public double area
+
+    cpdef PeakBase clone(self)
+
+
+cdef class FittedPeak(PeakBase):
+    cdef:
+        # public double mz
+        # public double intensity
         public double signal_to_noise
         public double full_width_at_half_max
         public double left_width
         public double right_width
         public long peak_count
         public long index
-        public double area
+        # public double area
 
     cpdef bint _eq(self, FittedPeak other)
     cpdef FittedPeak clone(self)

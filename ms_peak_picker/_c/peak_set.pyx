@@ -9,8 +9,14 @@ cdef double ppm_error(double x, double y):
     return (x - y) / y
 
 
-@cython.freelist(100000)
-cdef class FittedPeak(object):
+@cython.freelist(1000000)
+cdef class PeakBase:
+
+    cpdef PeakBase clone(self):
+        return PeakBase()
+
+
+cdef class FittedPeak(PeakBase):
     def __init__(self, mz, intensity, signal_to_noise, peak_count, index, full_width_at_half_max,
                  area, left_width=0, right_width=0):
             self.mz = mz
