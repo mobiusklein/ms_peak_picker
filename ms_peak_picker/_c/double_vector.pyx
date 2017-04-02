@@ -61,6 +61,10 @@ cdef void print_double_vector(DoubleVector* vec) nogil:
     printf("]\n")
 
 
+cdef void reset_double_vector(DoubleVector* vec) nogil:
+    vec.used = 0
+
+
 cdef list double_vector_to_list(DoubleVector* vec):
     cdef:
         size_t i
@@ -70,7 +74,6 @@ cdef list double_vector_to_list(DoubleVector* vec):
     while i < vec.used:
         result.append(vec.v[i])
         i += 1
-        print(i, result)
     return result
 
 
