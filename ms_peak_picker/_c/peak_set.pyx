@@ -161,23 +161,24 @@ cdef class PeakSet(object):
         return PeakSet(p.clone() for p in self)
 
     def between(self, double m1, double m2):
-        cdef:
-            FittedPeak p1
-            FittedPeak p2
-            double err
-        p1 = self._get_nearest_peak(m1, &err)
-        p2 = self._get_nearest_peak(m2, &err)
-
-        return self[p1.peak_count - 1:p2.peak_count + 1]
+        return self._between(m1, m2)
 
     cdef PeakSet _between(self, double m1, double m2):
         cdef:
             FittedPeak p1
             FittedPeak p2
             double err
+            size_t start, end, n
         p1 = self._get_nearest_peak(m1, &err)
         p2 = self._get_nearest_peak(m2, &err)
-        return PeakSet(<tuple>PyTuple_GetSlice(self.peaks, p1.peak_count, p2.peak_count + 1))
+        start = p1.peak_count
+        end = p2.peak_count + 1
+        n = self._get_size()
+        if p1.mz < m1 and start + 1 < n:
+            start += 1
+        if p2.mz > m2 and end > 0:
+            end -= 1
+        return PeakSet(<tuple>PyTuple_GetSlice(self.peaks, start, end))
 
     def __getstate__(self):
         return self.peaks
@@ -187,6 +188,40 @@ cdef class PeakSet(object):
 
     def __reduce__(self):
         return PeakSet, (tuple(),), self.__getstate__()
+
+    def __richcmp__(self, object other, int code):
+        cdef:
+            tuple other_tuple
+            PeakSet other_peak_set
+
+        if other is None:
+            if code == 2:
+                return False
+            elif code == 3:
+                return True
+        if isinstance(other, PeakSet):
+            if code == 2:
+                return self.peaks == other.peaks
+            elif code == 3:
+                return self.peaks != other.peaks
+            else:
+                return NotImplemented
+        else:
+            try:
+                other_tuple = tuple(other)
+                if code == 2:
+                    return self.peaks == other_tuple
+                elif code == 3:
+                    return self.peaks != other_tuple
+                else:
+                    return NotImplemented
+            except Exception:
+                if code == 2:
+                    return False
+                elif code == 3:
+                    return True
+                else:
+                    return NotImplemented
 
 
 cdef FittedPeak _null_peak

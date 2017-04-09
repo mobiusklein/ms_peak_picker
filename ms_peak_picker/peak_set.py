@@ -48,6 +48,13 @@ class FittedPeak(Base):
     def __ne__(self, other):
         return not (self == other)
 
+    def __repr__(self):
+        return ("FittedPeak(mz=%0.3f, intensity=%0.3f, signal_to_noise=%0.3f, peak_count=%d, "
+                "index=%d, full_width_at_half_max=%0.3f, area=%0.3f)") % (
+                    self.mz, self.intensity, self.signal_to_noise,
+                    self.peak_count, self.index, self.full_width_at_half_max,
+                    self.area)
+
 
 def _get_nearest_peak(peaklist, mz):
     lo = 0
@@ -121,7 +128,24 @@ class PeakSet(Base):
         p1, _ = self.get_nearest_peak(m1)
         p2, _ = self.get_nearest_peak(m2)
 
-        return self[p1.peak_count - 1:p2.peak_count + 1]
+        start = p1.peak_count
+        end = p2.peak_count + 1
+        start = p1.peak_count
+        end = p2.peak_count
+        n = len(self)
+        if p1.mz < m1 and start + 1 < n:
+            start += 1
+        if p2.mz > m2 and end > 0:
+            end -= 1
+        return self[start:end]
+
+    def __eq__(self, other):
+        if other is None:
+            return False
+        return tuple(self) == tuple(other)
+
+    def __ne__(self, other):
+        return not (self == other)
 
 
 def _sweep_solution(array, value, lo, hi, tolerance, verbose=False):
