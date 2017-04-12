@@ -6,3 +6,4 @@ recursive-include ms_peak_picker *.h
 recursive-exclude ms_peak_picker *.pyd
 
 include README.rst
+include requirements.txt
