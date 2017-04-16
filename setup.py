@@ -3,42 +3,45 @@ import traceback
 import os
 
 from setuptools import setup, Extension, find_packages
-import numpy
-
-try:
-    from Cython.Build import cythonize
-    extensions = cythonize([
-        Extension(name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.pyx"],
-                  include_dirs=[numpy.get_include()]),
-        Extension(name='ms_peak_picker._c.peak_set', sources=["ms_peak_picker/_c/peak_set.pyx"]),
-        Extension(name='ms_peak_picker._c.fft_patterson_charge_state',
-                  sources=["ms_peak_picker/_c/fft_patterson_charge_state.pyx"],
-                  include_dirs=[numpy.get_include()]),
-        Extension(name="ms_peak_picker._c.search", sources=["ms_peak_picker/_c/search.pyx"],
-                  include_dirs=[numpy.get_include()]),
-        Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.pyx"],
-                  include_dirs=[numpy.get_include()]),
-        Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
-        ])
-except ImportError:
-    extensions = ([
-        Extension(name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.c"],
-                  include_dirs=[numpy.get_include()]),
-        Extension(name='ms_peak_picker._c.peak_set', sources=["ms_peak_picker/_c/peak_set.c"]),
-        Extension(name='ms_peak_picker._c.fft_patterson_charge_state',
-                  sources=["ms_peak_picker/_c/fft_patterson_charge_state.c"],
-                  include_dirs=[numpy.get_include()]),
-        Extension(name="ms_peak_picker._c.search", sources=["ms_peak_picker/_c/search.c"],
-                  include_dirs=[numpy.get_include()]),
-        Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.c"],
-                  include_dirs=[numpy.get_include()]),
-        Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
-        ])
-
 
 from distutils.command.build_ext import build_ext
 from distutils.errors import (CCompilerError, DistutilsExecError,
                               DistutilsPlatformError)
+
+
+def make_cextensions():
+    import numpy
+    try:
+        from Cython.Build import cythonize
+        extensions = cythonize([
+            Extension(name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.pyx"],
+                      include_dirs=[numpy.get_include()]),
+            Extension(name='ms_peak_picker._c.peak_set', sources=["ms_peak_picker/_c/peak_set.pyx"]),
+            Extension(name='ms_peak_picker._c.fft_patterson_charge_state',
+                      sources=["ms_peak_picker/_c/fft_patterson_charge_state.pyx"],
+                      include_dirs=[numpy.get_include()]),
+            Extension(name="ms_peak_picker._c.search", sources=["ms_peak_picker/_c/search.pyx"],
+                      include_dirs=[numpy.get_include()]),
+            Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.pyx"],
+                      include_dirs=[numpy.get_include()]),
+            Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
+        ])
+    except ImportError:
+        extensions = ([
+            Extension(name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.c"],
+                      include_dirs=[numpy.get_include()]),
+            Extension(name='ms_peak_picker._c.peak_set', sources=["ms_peak_picker/_c/peak_set.c"]),
+            Extension(name='ms_peak_picker._c.fft_patterson_charge_state',
+                      sources=["ms_peak_picker/_c/fft_patterson_charge_state.c"],
+                      include_dirs=[numpy.get_include()]),
+            Extension(name="ms_peak_picker._c.search", sources=["ms_peak_picker/_c/search.c"],
+                      include_dirs=[numpy.get_include()]),
+            Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.c"],
+                      include_dirs=[numpy.get_include()]),
+            Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
+        ])
+    return extensions
+
 
 ext_errors = (CCompilerError, DistutilsExecError, DistutilsPlatformError)
 if sys.platform == 'win32':
@@ -109,11 +112,11 @@ def run_setup(include_cext=True):
         name='ms_peak_picker',
         description='A library to pick peaks from mass spectral data',
         long_description='A library to pick peaks from mass spectral data',
-        version="0.1.2",
+        version="0.1.3",
         packages=find_packages(),
         zip_safe=False,
         install_requires=['numpy'],
-        ext_modules=extensions if include_cext else None,
+        ext_modules=make_cextensions() if include_cext else None,
         cmdclass=cmdclass,
         maintainer='Joshua Klein',
         maintainer_email="jaklein@bu.edu",
@@ -128,6 +131,7 @@ def run_setup(include_cext=True):
             'Topic :: Software Development :: Libraries'
         ],
         license='License :: OSI Approved :: Apache Software License')
+
 
 try:
     run_setup(True)
