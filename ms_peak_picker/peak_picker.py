@@ -72,7 +72,10 @@ class PeakProcessor(object):
 
     def __init__(self, fit_type='quadratic', peak_mode='profile', signal_to_noise_threshold=1, intensity_threshold=1,
                  threshold_data=False, verbose=False):
-        assert fit_type in fit_type_map
+        if fit_type not in fit_type_map:
+            raise ValueError("Unknown fit_type %r" % (fit_type,))
+        if peak_mode not in ("profile", "centroid"):
+            raise ValueError("Unknown peak_mode %r" % (peak_mode,))
 
         self._signal_to_noise_threshold = 0
         self._intensity_threshold = 0
@@ -278,11 +281,51 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode='profi
                signal_to_noise_threshold=1, intensity_threshold=1, threshold_data=False,
                target_envelopes=None, transforms=None, verbose=False,
                start_mz=None, stop_mz=None):
+    """Picks peaks for the given m/z, intensity array pair, producing a centroid-containing
+    PeakIndex instance.
+
+    Parameters
+    ----------
+    mz_array : np.ndarray
+        An array of m/z measurements. Will by converted into np.float64
+        values
+    intensity_array : np.ndarray
+        An array of intensity measurements. Will by converted into np.float64
+        values
+    fit_type : str, optional
+        The name of the peak model to use. One of "quadratic", "gaussian", "lorentzian", or "apex"
+    peak_mode : str, optional
+        Whether peaks are in "profile" mode or are pre"centroid"ed
+    signal_to_noise_threshold : int, optional
+        Minimum signal-to-noise measurement to accept a peak
+    intensity_threshold : int, optional
+        Minimum intensity measurement to accept a peak
+    threshold_data : bool, optional
+        Whether to apply thresholds to the data
+    target_envelopes : list, optional
+        A sequence of (start m/z, end m/z) pairs, limiting peak picking to only those intervals
+    transforms : list, optional
+        A list of :class:`scan_filter.FilterBase` instances or callable that
+        accepts (mz_array, intensity_array) and returns (mz_array, intensity_array) or
+        `str` matching one of the premade names in `scan_filter.filter_register`
+    verbose : bool, optional
+        Whether to log extra information while picking peaks
+    start_mz : float, optional
+        A minimum m/z value to start picking peaks from
+    stop_mz : None, optional
+        A maximum m/z value to stop picking peaks after
+
+    Returns
+    -------
+    PeakIndex
+        Contains all fitted peaks, as well as the transformed m/z and
+        intensity arrays
+    """
     if transforms is None:
         transforms = []
 
-    mz_array = mz_array.astype(float)
-    intensity_array = intensity_array.astype(float)
+    mz_array = np.asanyarray(mz_array, dtype=np.float64)
+    intensity_array = np.asanyarray(intensity_array, dtype=np.float64)
 
     mz_array, intensity_array = transform(mz_array, intensity_array, transforms)
 
