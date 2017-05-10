@@ -25,7 +25,10 @@ class Window(object):
         return self.intensity_array.mean()
 
     def truncated_mean(self, threshold=0.95):
-        hist_count, hist_values = np.histogram(self.intensity_array)
+        try:
+            hist_count, hist_values = np.histogram(self.intensity_array)
+        except ValueError:
+            return 1e-6
         mask = (hist_count.max() * (1 - threshold)) < hist_count
         mean = (hist_values[1:][mask] * hist_count[mask]
                 ).sum() / hist_count[mask].sum()
@@ -88,14 +91,16 @@ class NoiseRegion(object):
             [w.intensity_array for w in self.windows])
         return mz_array, intensity_array
 
-    def denoise(self, scale=5):
+    def denoise(self, scale=5, maxiter=10):
+        if scale == 0:
+            return 0
         noise_mean = self.noise_window().truncated_mean() * scale
         for window in self.windows:
             window.deduct_intensity(noise_mean)
         last_mean = noise_mean
         noise_mean = self.noise_window().truncated_mean()
         niter = 1
-        while abs(last_mean - noise_mean) > 1e-3 or niter < 10:
+        while abs(last_mean - noise_mean) > 1e-3 or niter < maxiter:
             niter += 1
             noise_mean = self.noise_window().truncated_mean() * scale
             for window in self.windows:
