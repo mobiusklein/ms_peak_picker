@@ -1,4 +1,4 @@
-from .peak_picker import PeakProcessor, pick_peaks
+from .peak_picker import PeakProcessor, pick_peaks, fit_type_map, peak_mode_map
 from .peak_set import PeakSet, FittedPeak
 from .peak_index import PeakIndex
 from . import peak_statistics
@@ -9,7 +9,8 @@ from . import scan_filter
 import os
 
 __all__ = ["PeakProcessor", "pick_peaks", "PeakIndex", "PeakSet", "FittedPeak", "peak_statistics",
-           "search", "fticr_denoising", "scan_filter", "fft_patterson_charge_state", "get_include"]
+           "search", "fticr_denoising", "scan_filter", "fft_patterson_charge_state", "get_include",
+           "fit_type_map", "peak_mode_map"]
 
 
 def get_include():

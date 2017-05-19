@@ -10,6 +10,23 @@ from libc.math cimport fabs
 @cython.nonecheck(False)
 @cython.cdivision(True)
 cpdef size_t nearest_left(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0):
+    """Locate the index nearest to `target_val` in `vec` searching
+    to the left of `start_index`
+    
+    Parameters
+    ----------
+    vec : np.array
+        The array to search
+    target_val : float
+        The value to search for
+    start_index : int, optional
+        The starting point to search from
+    
+    Returns
+    -------
+    int
+        The nearest index
+    """
     cdef:
         size_t nearest_index, next_index
         DTYPE_t next_val, best_distance, dist
@@ -36,6 +53,23 @@ cpdef size_t nearest_left(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, s
 @cython.nonecheck(False)
 @cython.cdivision(True)
 cpdef size_t nearest_right(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0):
+    """Locate the index nearest to `target_val` in `vec` searching
+    to the right of `start_index`
+    
+    Parameters
+    ----------
+    vec : np.array
+        The array to search
+    target_val : float
+        The value to search for
+    start_index : int, optional
+        The starting point to search from
+    
+    Returns
+    -------
+    int
+        The nearest index
+    """
     cdef:
         size_t nearest_index, next_index, size
         DTYPE_t next_val, best_distance, dist
@@ -64,6 +98,25 @@ cpdef size_t nearest_right(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, 
 @cython.nonecheck(False)
 @cython.cdivision(True)
 cpdef size_t get_nearest_binary(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0, object stop_index=None):
+    """Find the nearest index to `target_val` in `vec` using binary
+    search
+    
+    Parameters
+    ----------
+    vec : np.ndarray
+        The array to search
+    target_val : float
+        The value to search for
+    start_index : int, optional
+        The lower bound index
+    stop_index : None, optional
+        The upper bound index
+    
+    Returns
+    -------
+    int
+        The nearest index
+    """
     cdef:
         DTYPE_t min_val, max_val, ratio, mid_next_val, mid_val, cval
         size_t stop_index_, mid_index
@@ -114,6 +167,25 @@ cpdef size_t get_nearest_binary(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_
 @cython.nonecheck(False)
 @cython.cdivision(True)
 cpdef size_t get_nearest(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index):
+    """Locate the index nearest to `target_val` in `vec`. Starts
+    by interpolating from the value at `start_index` to `target_val`
+    and then starts searching to the left and right of the guessed
+    index.
+
+    Parameters
+    ----------
+    vec : np.array
+        The array to search
+    target_val : float
+        The value to search for
+    start_index : int, optional
+        The starting point to search from
+    
+    Returns
+    -------
+    int
+        The nearest index
+    """
     cdef:
         size_t size, next_index, move_by
         DTYPE_t step, next_val

@@ -5,7 +5,36 @@ from .utils import Base, ppm_error, range
 
 
 class FittedPeak(Base):
+    """Represent a single centroided mass spectral peak.
 
+    FittedPeak instances are comparable for equality and
+    hashable.
+    
+    Attributes
+    ----------
+    mz : float
+        The m/z value at which the peak achieves its maximal
+        abundance
+    intensity : float
+        The apex height of the peak
+    signal_to_noise : float
+        The signal to noise ratio of the peak
+    full_width_at_half_max : double
+        The symmetric full width at half of the
+        peak's maximum height
+    index : int
+        The index at which the peak was found in the m/z array
+        it was picked from
+    peak_count : int
+        The order in which the peak was picked
+    area : float
+        The total area of the peak, as determined
+        by trapezoid integration
+    left_width : float
+        The left-sided width at half of max
+    right_width : float
+        The right-sided width at half of max
+    """
     __slots__ = [
         "mz", "intensity", "signal_to_noise", "peak_count",
         "index", "full_width_at_half_max", "area",
@@ -25,6 +54,12 @@ class FittedPeak(Base):
         self.right_width = right_width
 
     def clone(self):
+        """Creates a deep copy of the peak
+
+        Returns
+        -------
+        FittedPeak
+        """
         return FittedPeak(self.mz, self.intensity, self.signal_to_noise,
                           self.peak_count, self.index, self.full_width_at_half_max,
                           self.area, self.left_width, self.right_width)
@@ -90,6 +125,22 @@ def _get_nearest_peak(peaklist, mz):
 
 
 class PeakSet(Base):
+    """A sequence of :class:`FittedPeak` instances, ordered by m/z,
+    providing efficient search and retrieval of individual peaks or
+    whole intervals of the m/z domain.
+
+    This collection is not meant to be updated once created, as it
+    it is indexed for ease of connecting individual peak objects to
+    their position in the underlying sequence.
+
+    One :class:`PeakSet` is considered equal to another if all of their
+    contained :class:`FittedPeak` members are equal to each other
+    
+    Attributes
+    ----------
+    peaks : tuple
+        The :class:`FittedPeak` instances, stored
+    """
     def __init__(self, peaks):
         self.peaks = tuple(peaks)
 
@@ -97,6 +148,10 @@ class PeakSet(Base):
         return len(self.peaks)
 
     def reindex(self):
+        """Re-indexes the sequence of peaks, updating their
+        :attr:`peak_count` and setting their :attr:`index` if
+        it is missing.
+        """
         self._index()
 
     def _index(self):
@@ -109,6 +164,21 @@ class PeakSet(Base):
         return i
 
     def has_peak(self, mz, tolerance=1e-5):
+        """Search the for the peak nearest to `mz` within
+        `tolerance` error (in PPM)
+        
+        Parameters
+        ----------
+        mz : float
+            The m/z to search for
+        tolerance : float, optional
+            The error tolerance to accept. Defaults to 1e-5 (10 ppm)
+        
+        Returns
+        -------
+        FittedPeak
+            The peak, if found. `None` otherwise.
+        """
         return binary_search(self.peaks, mz, tolerance)
 
     get_nearest_peak = _get_nearest_peak
@@ -122,9 +192,31 @@ class PeakSet(Base):
         return self.peaks[item]
 
     def clone(self):
+        """Creates a deep copy of the sequence of peaks
+        
+        Returns
+        -------
+        PeakSet
+        """
         return PeakSet(p.clone() for p in self)
 
-    def between(self, m1, m2, tolerance=1e-5):
+    def between(self, m1, m2):
+        """Retrieve a :class:`PeakSet` containing all the peaks
+        in `self` whose m/z is between `m1` and `m2`.
+
+        These peaks are not copied.
+        
+        Parameters
+        ----------
+        m1 : float
+            The lower m/z limit
+        m2 : float
+            The upper m/z limit
+        
+        Returns
+        -------
+        PeakSet
+        """
         p1, _ = self.get_nearest_peak(m1)
         p2, _ = self.get_nearest_peak(m2)
 

@@ -24,7 +24,8 @@ class FilterBase(Base):
 
 @register("median")
 class MedianIntensityFilter(FilterBase):
-
+    """Filter signal below the median signal
+    """
     def filter(self, mz_array, intensity_array):
         mask = intensity_array < np.median(intensity_array)
         intensity_array = np.array(intensity_array)
@@ -34,7 +35,8 @@ class MedianIntensityFilter(FilterBase):
 
 @register("mean_below_mean")
 class MeanBelowMeanFilter(FilterBase):
-
+    """Filter signal below the mean below the mean
+    """
     def filter(self, mz_array, intensity_array):
         mean = intensity_array.mean()
         mean_below_mean = (intensity_array < mean).mean()
@@ -45,6 +47,17 @@ class MeanBelowMeanFilter(FilterBase):
 
 @register("savitsky_golay")
 class SavitskyGolayFilter(FilterBase):
+    """Apply Savitsky-Golay smoothing
+
+    Attributes
+    ----------
+    deriv : int
+        Number of derivatives to take
+    polyorder : int
+        Order of the polynomial to construct
+    window_length : int
+        Number of data points to include around the current point
+    """
     def __init__(self, window_length=5, polyorder=3, deriv=0):
         self.window_length = window_length
         self.polyorder = polyorder

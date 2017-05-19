@@ -27,6 +27,17 @@ fit_type_map = {
     "quadratic": "quadratic",
     "gaussian": "quadratic",
     "lorenztian": "lorenztian",
+    "apex": "apex"
+}
+
+
+CENTROID = "centroid"
+PROFILE = "profile"
+
+
+peak_mode_map = {
+    CENTROID: CENTROID,
+    PROFILE: PROFILE
 }
 
 
@@ -70,11 +81,11 @@ class PartialPeakFitState(Base):
 
 class PeakProcessor(object):
 
-    def __init__(self, fit_type='quadratic', peak_mode='profile', signal_to_noise_threshold=1, intensity_threshold=1,
+    def __init__(self, fit_type='quadratic', peak_mode=PROFILE, signal_to_noise_threshold=1, intensity_threshold=1,
                  threshold_data=False, verbose=False):
         if fit_type not in fit_type_map:
             raise ValueError("Unknown fit_type %r" % (fit_type,))
-        if peak_mode not in ("profile", "centroid"):
+        if peak_mode not in peak_mode_map:
             raise ValueError("Unknown peak_mode %r" % (peak_mode,))
 
         self._signal_to_noise_threshold = 0
@@ -156,7 +167,7 @@ class PeakProcessor(object):
 
             current_mz = mz_array[index]
 
-            if self.peak_mode == "centroid":
+            if self.peak_mode == CENTROID:
                 if current_intensity <= 0:
                     continue
                 mz = mz_array[index]
@@ -277,7 +288,7 @@ class PeakProcessor(object):
             yield peak
 
 
-def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode='profile',
+def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFILE,
                signal_to_noise_threshold=1, intensity_threshold=1, threshold_data=False,
                target_envelopes=None, transforms=None, verbose=False,
                start_mz=None, stop_mz=None):

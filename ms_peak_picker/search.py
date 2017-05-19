@@ -2,6 +2,23 @@ import numpy as np
 
 
 def nearest_left(vec, target_val, start_index=0):
+    """Locate the index nearest to `target_val` in `vec` searching
+    to the left of `start_index`
+
+    Parameters
+    ----------
+    vec : np.array
+        The array to search
+    target_val : float
+        The value to search for
+    start_index : int, optional
+        The starting point to search from
+
+    Returns
+    -------
+    int
+        The nearest index
+    """
     nearest_index = start_index
     next_index = start_index
 
@@ -22,6 +39,23 @@ def nearest_left(vec, target_val, start_index=0):
 
 
 def nearest_right(vec, target_val, start_index=0):
+    """Locate the index nearest to `target_val` in `vec` searching
+    to the right of `start_index`
+
+    Parameters
+    ----------
+    vec : np.array
+        The array to search
+    target_val : float
+        The value to search for
+    start_index : int, optional
+        The starting point to search from
+
+    Returns
+    -------
+    int
+        The nearest index
+    """
     nearest_index = start_index
     next_index = start_index
 
@@ -44,6 +78,25 @@ def nearest_right(vec, target_val, start_index=0):
 
 
 def get_nearest_binary(vec, target_val, start_index=0, stop_index=None):
+    """Find the nearest index to `target_val` in `vec` using binary
+    search
+    
+    Parameters
+    ----------
+    vec : np.ndarray
+        The array to search
+    target_val : float
+        The value to search for
+    start_index : int, optional
+        The lower bound index
+    stop_index : None, optional
+        The upper bound index
+    
+    Returns
+    -------
+    int
+        The nearest index
+    """
     if stop_index is None:
         stop_index = len(vec) - 1
     if vec[start_index] > target_val:
@@ -82,6 +135,25 @@ def get_nearest_binary(vec, target_val, start_index=0, stop_index=None):
 
 
 def get_nearest(vec, target_val, start_index):
+    """Locate the index nearest to `target_val` in `vec`. Starts
+    by interpolating from the value at `start_index` to `target_val`
+    and then starts searching to the left and right of the guessed
+    index.
+
+    Parameters
+    ----------
+    vec : np.array
+        The array to search
+    target_val : float
+        The value to search for
+    start_index : int, optional
+        The starting point to search from
+
+    Returns
+    -------
+    int
+        The nearest index
+    """
     size = len(vec) - 1
     if target_val >= vec[size]:
         return size

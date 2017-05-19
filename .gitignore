@@ -3,6 +3,7 @@ ms_peak_picker/_c/*.c
 *.pyc
 ms_peak_picker/*.html
 build/
+docs/_build
 *.egg-info
 *.pyd
 *.so

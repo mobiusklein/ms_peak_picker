@@ -10,24 +10,91 @@ from .peak_statistics import peak_area
 from ms_peak_picker.fft_patterson_charge_state import fft_patterson_charge_state
 
 cdef class PeakIndex(object):
+    """Represent a pair of m/z and intensity arrays paired with
+    their :class:`PeakSet`.
 
+    This class provides wrappers for most :class:`PeakSet` methods which
+    it provides for its :attr:`peaks` attribute, and relates these peaks
+    to their raw signal, making re-integration more convenient.
+
+    This type also provides some limited multi-peak analysis
+    to estimate the charge state of a peak using the isotopic pattern-free
+    using Senko's Fourier Patterson Charge State determination algorithm
+    :meth:`fft_patterson_charge_state`
+    
+    Attributes
+    ----------
+    mz_array : np.ndarray
+        The original m/z array the peaks were picked from
+    intensity_array : np.ndarray
+        The original intensity array the peaks were picked from
+    peaks : PeakSet
+        The set of :class:`FittedPeak` objects picked from the associated
+        arrays
+    """
     def __init__(self, mz_array, intensity_array, peaks):
         self.mz_array = mz_array
         self.intensity_array = intensity_array
         self.peaks = peaks
 
     def pack(self):
+        """Create a copy of `self` with the large
+        arrays stripped out. This removes most functionality
+        beyond wrapping the underlying :class:`PeakSet` but
+        makes the object smaller.
+        
+        Returns
+        -------
+        PeakIndex
+        """
         return PeakIndex(np.array([], dtype=np.float64), np.array([], dtype=np.float64), self.peaks.clone())
 
     def clone(self):
+        """Create a deep copy of `self`
+        
+        Returns
+        -------
+        PeakIndex
+        """
         return PeakIndex(np.array(self.mz_array), np.array(self.intensity_array), self.peaks.clone())
 
     def get_nearest(self, double mz, size_t index):
+        """Get the nearest index to `mz` in the underlying arrays
+        
+        Parameters
+        ----------
+        mz : float
+            The m/z to search for
+        index : int
+            The index to search from
+        
+        Returns
+        -------
+        int
+        
+        Raises
+        ------
+        ValueError
+            If the underlying arrays have been stripped, this method
+            cannot be used
+        """
         if self.mz_array is None:
             raise ValueError("Cannot call get_nearest when raw arrays are None")
         return get_nearest(self.mz_array, mz, index)
 
     def get_nearest_peak(self, double mz):
+        """Wraps :meth:`PeakSet.get_nearest_peak`
+        
+        Parameters
+        ----------
+        mz : float
+            The m/z to search with
+        
+        Returns
+        -------
+        tuple of (FittedPeak, float)
+            The nearest peak and the m/z delta between that peak and `mz`
+        """
         cdef:
             double err
         return self.peaks._get_nearest_peak(mz, &err), err
@@ -37,6 +104,19 @@ cdef class PeakIndex(object):
                 self.peaks.between(self.mz_array[start], self.mz_array[stop] + 1)))
 
     def between(self, double start, double stop):
+        """Wraps :meth:`PeakSet.between`
+                
+        Parameters
+        ----------
+        start : float
+            The lower m/z limit
+        stop : float
+            The upper m/z limit
+        
+        Returns
+        -------
+        PeakSet
+        """
         return self.peaks._between(start, stop)
 
     cdef PeakSet _between(self, double start, double stop):
@@ -52,6 +132,20 @@ cdef class PeakIndex(object):
         return self.peaks[index]
 
     def has_peak(self, double mz, double tolerance=2e-5):
+        """Wraps :meth:`PeakSet.has_peak`
+        
+        Parameters
+        ----------
+        mz : float
+            The m/z to search for
+        tolerance : float, optional
+            The error tolerance to accept. Defaults to 2e-5 (20 ppm)
+        
+        Returns
+        -------
+        FittedPeak
+            The peak, if found. `None` otherwise.
+        """
         cdef:
             FittedPeak peak
         peak = self.peaks._has_peak(mz, tolerance)
