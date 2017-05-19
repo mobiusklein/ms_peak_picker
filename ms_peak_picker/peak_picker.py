@@ -80,7 +80,33 @@ class PartialPeakFitState(Base):
 
 
 class PeakProcessor(object):
-
+    """Directs the peak picking process, encapsulating the apex finding,
+    peak fitting, and signal-to-noise estimation tasks.
+    
+    Attributes
+    ----------
+    background_intensity : float
+        A static background intensity to use when estimating signal-to-noise
+        ratio.
+    fit_type : str
+        The type of peak to fit
+    intensity_threshold : float
+        The minimum intensity required to accept a peak
+    partial_fit_state : PartialPeakFitState
+        A stateful container of measurements for the peak currently
+        being fitted
+    peak_data : list
+        A list of :class:`ms_peak_picker.peak_set.FittedPeak` instances
+    peak_mode : str
+        Whether the peaks being picked are in profile mode or already centroided
+        and just need to be passed directly into :class:`FittedPeak` instances
+    signal_to_noise_threshold : float
+        The minimum signal-to-noise ratio required to accept a peak fit
+    threshold_data : bool
+        Whether or not to enforce a signal-to-noise and intensity threhsold
+    verbose : bool
+        Whether to log additional diagnostic information
+    """
     def __init__(self, fit_type='quadratic', peak_mode=PROFILE, signal_to_noise_threshold=1, intensity_threshold=1,
                  threshold_data=False, verbose=False):
         if fit_type not in fit_type_map:
@@ -135,6 +161,25 @@ class PeakProcessor(object):
     intensity_threshold = property(get_intensity_threshold, set_intensity_threshold)
 
     def discover_peaks(self, mz_array, intensity_array, start_mz=None, stop_mz=None):
+        """Carries out the peak picking process on `mz_array` and `intensity_array`. All
+        peaks picked are appended to :attr:`peak_data`.
+        
+        Parameters
+        ----------
+        mz_array : np.ndarray
+            The m/z values to pick peaks from
+        intensity_array : np.ndarray
+            The intensity values to pick peaks from
+        start_mz : float, optional
+            The minimum m/z to pick peaks above
+        stop_mz : float, optional
+            The maximum m/z to pick peaks below
+        
+        Returns
+        -------
+        int
+            The current number of peaks accumulated
+        """
         if start_mz is None:
             start_mz = mz_array[0]
         if stop_mz is None:
@@ -241,6 +286,28 @@ class PeakProcessor(object):
         return len(peak_data)
 
     def find_full_width_at_half_max(self, index, mz_array, intensity_array, signal_to_noise):
+        """Calculate full-width-at-half-max for a peak centered at `index` from
+        `mz_array` and `intensity_array`, using the `signal_to_noise` to detect
+        when to stop searching.
+
+        This method will set attributes on :attr:`partial_fit_state`.
+        
+        Parameters
+        ----------
+        index : int
+            The index of peak apex
+        mz_array : np.ndarray
+            The m/z array to search in
+        intensity_array : np.ndarray
+            The intensity array to search in
+        signal_to_noise : float
+            The signal-to-noise ratio for this peak
+        
+        Returns
+        -------
+        float
+            The symmetric full-width-at-half-max
+        """
         try:
             left = find_left_width(mz_array, intensity_array, index, signal_to_noise)
         except np.linalg.LinAlgError:
@@ -264,6 +331,22 @@ class PeakProcessor(object):
         return fwhm
 
     def fit_peak(self, index, mz_array, intensity_array):
+        """Performs the peak shape fitting procedure.
+
+        Parameters
+        ----------
+        index : int
+            The index to start the peak fit from
+        mz_array : np.ndarray
+            The m/z array to search in
+        intensity_array : np.ndarray
+            The intensity array to search in
+        
+        Returns
+        -------
+        float
+            m/z of the fitted peak center
+        """
         if self.fit_type == "apex":
             return mz_array[index]
         elif self.fit_type == "quadratic":
@@ -279,6 +362,28 @@ class PeakProcessor(object):
         return 0.0
 
     def area(self, mz_array, intensity_array, mz, full_width_at_half_max, index):
+        """Integrate the peak found at `index` with width `full_width_at_half_max`,
+        centered at `mz`.
+        
+        Parameters
+        ----------
+        mz_array : np.ndarray
+            The m/z array to search in
+        intensity_array : np.ndarray
+            The intensity array to search in
+        mz : float
+            The center m/z to start from
+        full_width_at_half_max : float
+            The width to use when extracting
+            the range of points to integrate
+        index : int
+            The index to start the search from
+
+        Returns
+        -------
+        float
+            The integrated peak area
+        """
         lo = get_nearest(mz_array, mz - full_width_at_half_max, index)
         hi = get_nearest(mz_array, mz + full_width_at_half_max, index)
         return peak_area(mz_array, intensity_array, lo, hi)
@@ -294,6 +399,15 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
                start_mz=None, stop_mz=None):
     """Picks peaks for the given m/z, intensity array pair, producing a centroid-containing
     PeakIndex instance.
+
+    Applies each :class:`.FilterBase` in `transforms` in order to
+    `mz_array` and `intensity_array`.
+
+    Creates an instance of :class:`.PeakProcessor` and configures it according to the parameters
+    passed. If `target_envelopes` is set, each region is handled by :meth:`.PeakProcessor.discover_peaks`
+    otherwise, :meth:`.PeakProcessor.discover_peaks` is invoked with `start_mz` and `stop_mz`.
+
+    Produces a :class:`.PeakIndex`, a fast searchable collection of :class:`.FittedPeak` objects.
 
     Parameters
     ----------
@@ -328,7 +442,7 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
 
     Returns
     -------
-    PeakIndex
+    :class:`PeakIndex`
         Contains all fitted peaks, as well as the transformed m/z and
         intensity arrays
     """

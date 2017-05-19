@@ -6,6 +6,10 @@
 Welcome to ms_peak_picker's documentation!
 ==========================================
 
+.. autofunction:: ms_peak_picker.peak_picker.pick_peaks
+    :noindex:
+
+
 Contents:
 
 .. toctree::

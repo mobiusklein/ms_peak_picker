@@ -79,6 +79,11 @@ release = u'0.1.4'
 # Usually you set "language" from the command line for these cases.
 language = 'en'
 
+
+autodoc_default_flags = ['members']
+numpydoc_show_class_members = False
+
+
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
 #
@@ -100,7 +105,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 #
-# add_function_parentheses = True
+add_function_parentheses = True
 
 # If true, the current module name will be prepended to all description
 # unit titles (such as .. function::).
