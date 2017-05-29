@@ -95,6 +95,7 @@ class ve_build_ext(build_ext):
                 raise BuildFailed()
             raise
 
+
 cmdclass = {}
 
 cmdclass['build_ext'] = ve_build_ext

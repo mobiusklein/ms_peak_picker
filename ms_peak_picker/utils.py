@@ -61,7 +61,7 @@ try:
     def draw_raw(mz_array, intensity_array=None, ax=None, **kwargs):
         """Draws un-centroided profile data, visualizing continuous
         data points
-        
+
         Parameters
         ----------
         mz_array : np.ndarray or tuple
@@ -79,7 +79,7 @@ try:
             If `True`, will call :func:`_beautify_axes` on `ax`
         **kwargs
             Passed to :meth:`matplotlib.Axes.plot`
-        
+
         Returns
         -------
         matplotlib.Axes

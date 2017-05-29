@@ -3,6 +3,12 @@ import numpy as np
 from .utils import Base
 from .fticr_denoising import denoise as fticr_remove_baseline
 
+try:
+    basestring
+except NameError:
+    from six import string_types as basestring
+
+
 filter_register = {}
 
 

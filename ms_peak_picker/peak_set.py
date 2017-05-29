@@ -9,7 +9,7 @@ class FittedPeak(Base):
 
     FittedPeak instances are comparable for equality and
     hashable.
-    
+
     Attributes
     ----------
     mz : float
@@ -135,12 +135,13 @@ class PeakSet(Base):
 
     One :class:`PeakSet` is considered equal to another if all of their
     contained :class:`FittedPeak` members are equal to each other
-    
+
     Attributes
     ----------
     peaks : tuple
         The :class:`FittedPeak` instances, stored
     """
+
     def __init__(self, peaks):
         self.peaks = tuple(peaks)
 
@@ -166,14 +167,14 @@ class PeakSet(Base):
     def has_peak(self, mz, tolerance=1e-5):
         """Search the for the peak nearest to `mz` within
         `tolerance` error (in PPM)
-        
+
         Parameters
         ----------
         mz : float
             The m/z to search for
         tolerance : float, optional
             The error tolerance to accept. Defaults to 1e-5 (10 ppm)
-        
+
         Returns
         -------
         FittedPeak
@@ -193,7 +194,7 @@ class PeakSet(Base):
 
     def clone(self):
         """Creates a deep copy of the sequence of peaks
-        
+
         Returns
         -------
         PeakSet
@@ -205,14 +206,14 @@ class PeakSet(Base):
         in `self` whose m/z is between `m1` and `m2`.
 
         These peaks are not copied.
-        
+
         Parameters
         ----------
         m1 : float
             The lower m/z limit
         m2 : float
             The upper m/z limit
-        
+
         Returns
         -------
         PeakSet
