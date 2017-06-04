@@ -10,18 +10,14 @@ cdef class PeakBase(object):
 
 cdef class FittedPeak(PeakBase):
     cdef:
-        # public double mz
-        # public double intensity
         public double signal_to_noise
         public double full_width_at_half_max
         public double left_width
         public double right_width
         public long peak_count
         public long index
-        # public double area
 
     cpdef bint _eq(self, FittedPeak other)
-    cpdef FittedPeak clone(self)
 
     @staticmethod
     cdef FittedPeak _create(double mz, double intensity, double signal_to_noise,
@@ -41,7 +37,7 @@ cdef class PeakSet(object):
 
     cdef FittedPeak getitem(self, size_t i)
 
-    cdef size_t _get_size(self)
+    cdef size_t get_size(self)
 
 
 cpdef FittedPeak binary_search_ppm_error(tuple array, double value, double tolerance)

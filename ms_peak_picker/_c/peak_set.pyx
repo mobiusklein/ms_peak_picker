@@ -79,7 +79,7 @@ cdef class FittedPeak(PeakBase):
         inst.area = area
         return inst
 
-    cpdef FittedPeak clone(self):
+    cpdef PeakBase clone(self):
         return FittedPeak._create(
             self.mz, self.intensity, self.signal_to_noise,
             self.full_width_at_half_max, self.left_width, self.right_width,
@@ -151,7 +151,7 @@ cdef class PeakSet(object):
     def __len__(self):
         return PyTuple_GET_SIZE(self.peaks)
 
-    cdef size_t _get_size(self):
+    cdef size_t get_size(self):
         return PyTuple_GET_SIZE(self.peaks)
 
     def reindex(self):
