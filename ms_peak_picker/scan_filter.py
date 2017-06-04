@@ -13,6 +13,27 @@ filter_register = {}
 
 
 def register(name, *args, **kwargs):
+    """Decorate a class to register a name for
+    it, optionally with a set of associated initialization
+    parameters.
+
+    Parameters
+    ----------
+    name : str
+        The name to register the filter under.
+    *args
+        Positional arguments forwarded to the decorated class's
+        initialization method
+    **kwargs
+        Keyword arguments forwarded to the decorated class's
+        intialization method
+
+    Returns
+    -------
+    function
+        A decorating function which will carry out the registration
+        process on the decorated class
+    """
     def wrap(cls):
         filter_register[name] = cls(*args, **kwargs)
         return cls
@@ -20,7 +41,12 @@ def register(name, *args, **kwargs):
 
 
 class FilterBase(Base):
+    """A base type for Filters over raw signal arrays.
 
+    All subtypes should provide a :meth:`filter` method
+    which takes arguments *mz_array* and *intensity_array*
+    which will be NumPy Arrays.
+    """
     def filter(self, mz_array, intensity_array):
         return mz_array, intensity_array
 
@@ -93,6 +119,21 @@ class NPercentOfMaxFilter(FilterBase):
 
 @register("fticr_baseline")
 class FTICRBaselineRemoval(FilterBase):
+    """Apply FTICR baseline removal.
+
+    This calls :func:`.fticr_remove_baseline`
+
+    Attributes
+    ----------
+    region_width : float
+        The width of the region to group windows
+        by.
+    scale : float
+        The multiplier of the noise level to remove.
+    window_length : float
+        The size of the window to tile across each
+        region
+    """
     def __init__(self, window_length=1., region_width=10, scale=5):
         self.window_length = window_length
         self.region_width = region_width
@@ -138,6 +179,33 @@ class MaximumScaler(FilterBase):
 
 
 def transform(mz_array, intensity_array, filters=None):
+    """Apply a series of *filters* to the paired m/z and intensity
+    arrays.
+
+    The `filters` argument should be an iterable of either strings,
+    callables, or instances of :class:`FilterBase`-derived classes.
+    If they are strings, they must be registered names, as created by
+    :func:`register`.
+
+    Parameters
+    ----------
+    mz_array : np.ndarray[float64]
+        The m/z array to filter
+    intensity_array : np.ndarray[float64]
+        The intensity array to filter
+    filters : Iterable
+        An Iterable of either strings, callables, or instances
+        of :class:`FilterBase`-derived classes. If they are
+        strings, they must be registered names, as created by
+        :func:`register`
+
+    Returns
+    -------
+    np.ndarray[float64]:
+        The m/z array after filtering
+    np.ndarray[float64]:
+        The intensity array after filtering
+    """
     if filters is None:
         filters = []
 
