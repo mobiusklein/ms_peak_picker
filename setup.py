@@ -108,15 +108,26 @@ def status_msgs(*msgs):
     print('*' * 75)
 
 
+with open("ms_peak_picker/version.py") as version_file:
+    version = None
+    for line in version_file.readlines():
+        if "version = " in line:
+            version = line.split(" = ")[1].replace("\"", "").strip()
+            print("Version is: %r" % (version,))
+            break
+    else:
+        print("Cannot determine version")
+
+
 def run_setup(include_cext=True):
     setup(
         name='ms_peak_picker',
         description='A library to pick peaks from mass spectral data',
         long_description='A library to pick peaks from mass spectral data',
-        version="0.1.5",
+        version=version,
         packages=find_packages(),
         zip_safe=False,
-        install_requires=['numpy'],
+        install_requires=['numpy', "scipy"],
         ext_modules=make_cextensions() if include_cext else None,
         cmdclass=cmdclass,
         maintainer='Joshua Klein',
