@@ -259,7 +259,7 @@ cdef class PeakSet(object):
         p2 = self._get_nearest_peak(m2, &err)
         start = p1.peak_count
         end = p2.peak_count + 1
-        n = self._get_size()
+        n = self.get_size()
         if p1.mz < m1 and start + 1 < n:
             start += 1
         if p2.mz > m2 and end > 0:
