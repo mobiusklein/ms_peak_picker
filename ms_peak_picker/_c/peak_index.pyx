@@ -122,8 +122,8 @@ cdef class PeakIndex(object):
     cdef PeakSet _between(self, double start, double stop):
         return self.peaks._between(start, stop)
 
-    cdef size_t _get_size(self):
-        return self.peaks._get_size()      
+    cdef size_t get_size(self):
+        return self.peaks.get_size()      
 
     def has_peak_within_tolerance(self, double mz, double tol):
         return has_peak_within_tolerance(self.peaks, mz, tol)
