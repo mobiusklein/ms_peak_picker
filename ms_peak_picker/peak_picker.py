@@ -204,17 +204,19 @@ class PeakProcessor(object):
         start_index = get_nearest_binary(mz_array, start_mz, 0, size)
         stop_index = get_nearest_binary(mz_array, stop_mz, start_index, size)
 
-        if start_index <= 0:
+        if start_index <= 0 and self.peak_mode != CENTROID:
             start_index = 1
-        if stop_index >= size - 1:
+        elif start_index < 0 and self.peak_mode == CENTROID:
+            start_index = 0
+        if stop_index >= size - 1 and self.peak_mode != CENTROID:
             stop_index = size - 1
+        elif stop_index >= size and self.peak_mode == CENTROID:
+            stop_index = size
 
         for index in range(start_index, stop_index + 1):
             self.partial_fit_state.reset()
             full_width_at_half_max = -1
             current_intensity = intensity_array[index]
-            last_intensity = intensity_array[index - 1]
-            next_intensity = intensity_array[index + 1]
 
             current_mz = mz_array[index]
 
@@ -227,6 +229,9 @@ class PeakProcessor(object):
                 peak_data.append(FittedPeak(mz, current_intensity, signal_to_noise, len(
                     peak_data), index, full_width_at_half_max, current_intensity))
             else:
+                last_intensity = intensity_array[index - 1]
+                next_intensity = intensity_array[index + 1]
+
                 # Three point peak picking. Check if the peak is greater than
                 # both the previous and next points
                 if (current_intensity >= last_intensity and current_intensity >= next_intensity and
