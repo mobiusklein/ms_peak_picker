@@ -9,6 +9,7 @@ except NameError:
     from six import string_types as basestring
 
 
+#: Global register of all named scan filters
 filter_register = {}
 
 
@@ -79,7 +80,8 @@ class MeanBelowMeanFilter(FilterBase):
 
 @register("savitsky_golay")
 class SavitskyGolayFilter(FilterBase):
-    """Apply Savitsky-Golay smoothing
+    """Apply :ref:`Savitsky-Golay smoothing <https://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter>`
+    to the signal.
 
     Attributes
     ----------
@@ -121,7 +123,7 @@ class NPercentOfMaxFilter(FilterBase):
 class FTICRBaselineRemoval(FilterBase):
     """Apply FTICR baseline removal.
 
-    This calls :func:`.fticr_remove_baseline`
+    This calls :py:func:`~ms_peak_picker.fticr_denoising.denoise`
 
     Attributes
     ----------
@@ -133,6 +135,10 @@ class FTICRBaselineRemoval(FilterBase):
     window_length : float
         The size of the window to tile across each
         region
+
+    See Also
+    --------
+    ms_peak_picker.fticr_denoising.denoise
     """
     def __init__(self, window_length=1., region_width=10, scale=5):
         self.window_length = window_length
