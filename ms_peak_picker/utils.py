@@ -128,5 +128,5 @@ try:
         ax.xaxis.set_ticks_position('none')
         return ax
 
-except ImportError:
+except (RuntimeError, ImportError):
     has_plot = False
