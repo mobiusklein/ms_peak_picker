@@ -109,7 +109,7 @@ try:
         return np.array(mzs), np.array(intensities)
 
     def draw_peaklist(peaklist, ax=None, **kwargs):
-        pretty = kwargs.pop("pretty", False)
+        pretty = kwargs.pop("pretty", True)
         if ax is None:
             fig, ax = plt.subplots(1)
         mz_array, intensity_array = peaklist_to_vector(peaklist)
@@ -126,6 +126,7 @@ try:
         ax.yaxis.tick_left()
         ax.xaxis.tick_bottom()
         ax.xaxis.set_ticks_position('none')
+        ax.get_xaxis().get_major_formatter().set_useOffset(False)
         return ax
 
 except (RuntimeError, ImportError):
