@@ -127,6 +127,7 @@ try:
         ax.xaxis.tick_bottom()
         ax.xaxis.set_ticks_position('none')
         ax.get_xaxis().get_major_formatter().set_useOffset(False)
+        ax.set_ylim(0, max(ax.get_ylim()))
         return ax
 
 except (RuntimeError, ImportError):
