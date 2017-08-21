@@ -3,3 +3,6 @@ test:
 
 retest:
 	py.test -v ms_peak_picker --lf
+
+sphinx:
+	cd docs && make html

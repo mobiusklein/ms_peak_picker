@@ -11,8 +11,10 @@ import os
 
 __all__ = ["PeakProcessor", "pick_peaks", "PeakIndex", "PeakSet", "FittedPeak", "peak_statistics",
            "search", "fticr_denoising", "scan_filter", "fft_patterson_charge_state", "get_include",
-           "fit_type_map", "peak_mode_map"]
+           "fit_type_map", "peak_mode_map", "reprofile"]
 
 
 def get_include():
+    """Retrieve the path to compiled C extensions' source files to make linking simple.
+    """
     return os.path.join(__path__[0], "_c")

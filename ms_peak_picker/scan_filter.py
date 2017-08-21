@@ -80,7 +80,7 @@ class MeanBelowMeanFilter(FilterBase):
 
 @register("savitsky_golay")
 class SavitskyGolayFilter(FilterBase):
-    """Apply :ref:`Savitsky-Golay smoothing <https://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter>`
+    """Apply `Savitsky-Golay smoothing <https://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_filter>`_
     to the signal.
 
     Attributes

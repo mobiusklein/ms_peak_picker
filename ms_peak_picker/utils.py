@@ -3,7 +3,6 @@ try:
 except NameError:
     range = range
 
-from collections import defaultdict
 import numpy as np
 
 
@@ -22,36 +21,6 @@ class Base(object):
 
 def ppm_error(x, y):
     return (x - y) / y
-
-
-def gaussian_volume(peak, fwhm=0.01):
-    center = peak.mz
-    amplitude = peak.intensity
-    if fwhm is None:
-        fwhm = peak.full_width_at_half_max
-    spread = fwhm / 2.35482
-    x = np.arange(center - fwhm - 0.02, center + fwhm + 0.02, 0.001)
-    return x, amplitude * np.exp(-((x - center) ** 2) / (2 * spread ** 2))
-
-
-def add_peak_volume(a, axis=None, fwhm=None):
-    xa, ya = gaussian_volume(a, fwhm)
-    if axis is None:
-        axis = defaultdict(float)
-    for x, y in zip(xa, ya):
-        axis[x] += y
-    return axis
-
-
-def peaklist_to_profile(peaks, precision=5):
-    axis = defaultdict(float)
-    for p in peaks:
-        add_peak_volume(p, axis)
-    axis_xs = defaultdict(float)
-    for x, y in axis.items():
-        axis_xs[round(x, precision)] += y
-    xs, ys = map(np.array, zip(*sorted(axis_xs.items())))
-    return xs, ys
 
 
 try:

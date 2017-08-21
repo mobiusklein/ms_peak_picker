@@ -13,7 +13,7 @@ Welcome to ms_peak_picker's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    ms_peak_picker
 
