@@ -2,37 +2,20 @@ import unittest
 
 import numpy as np
 
-from ms_peak_picker.peak_set import FittedPeak, PeakSet, _FittedPeak, _PeakSet
-from ms_peak_picker.peak_index import PeakIndex, _PeakIndex
-from ms_peak_picker.peak_statistics import gaussian_shape
+from ms_peak_picker.peak_set import FittedPeak, PeakSet
+from ms_peak_picker.peak_index import PeakIndex
+from ms_peak_picker.reprofile import reprofile
+from ms_peak_picker.peak_picker import pick_peaks
 
 
 def make_peak(mz, intensity, fwhm=0.05):
     return FittedPeak(mz, intensity, 0, 0, 0, fwhm, intensity)
 
 
-def make_profile_array(points, fwhm=0.05):
-    peaks = []
-    for point in points:
-        fp = make_peak(*point, fwhm=fwhm)
-        peaks.append(fp)
-    mz = np.array([0])
-    intensity = np.array([0])
-
-    for p in peaks:
-        x, y = gaussian_shape(p)
-        mz = np.concatenate([mz, [x[0] - 0.0001], x, [x[-1] + 0.0001]])
-        intensity = np.concatenate([intensity, [0], y, [0]])
-    return mz, intensity
-
-
 points = [(276.5, 2e4), (576.5, 8e4), (862.1, 15e4)]
 
 
 class TestPeakSet(unittest.TestCase):
-    def make_profile(self):
-        return make_profile_array(points)
-
     @staticmethod
     def make_peaks():
         inst = PeakSet([make_peak(*point) for point in points])
@@ -58,6 +41,18 @@ class TestPeakSet(unittest.TestCase):
         dup = inst.clone()
         for a, b in zip(inst.peaks, dup.peaks):
             self.assertEqual(a, b)
+
+
+class TestPeakPicker(unittest.TestCase):
+    @staticmethod
+    def make_profile():
+        return reprofile([make_peak(*point) for point in points])
+
+    def test_pick_peaks(self):
+        mzs, intensities = self.make_profile()
+        peaks = pick_peaks(mzs, intensities)
+        peak = peaks.has_peak(276.5, 1e-5)
+        self.assertIsNotNone(peak)
 
 
 class TestPeakIndex(TestPeakSet):
