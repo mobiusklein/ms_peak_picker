@@ -13,6 +13,8 @@ from ms_peak_picker._c.double_vector cimport (
     print_double_vector, double_vector_to_list,
     list_to_double_vector)
 
+from ms_peak_picker._c.peak_set cimport FittedPeak
+
 from cpython.list cimport PyList_GET_SIZE, PyList_GET_ITEM
 
 from ms_peak_picker._c.peak_set cimport FittedPeak
@@ -544,9 +546,6 @@ cpdef double gaussian_volume(FittedPeak peak):
 
 
 cdef class PeakShapeModel(object):
-    cdef:
-        public FittedPeak peak
-        public double center
 
     def __init__(self, peak):
         self.peak = peak
@@ -583,11 +582,6 @@ cdef class GaussianModel(PeakShapeModel):
 
 
 cdef class PeakSetReprofiler(object):
-    cdef:
-        public list models
-        public np.ndarray gridx
-        public np.ndarray gridy
-        public double dx
 
     def __init__(self, models, dx=0.01):
         self.models = sorted(models, key=lambda x: x.center)
@@ -596,14 +590,14 @@ cdef class PeakSetReprofiler(object):
         self.gridy = None
         self._build_grid()
 
-    def _build_grid(self):
+    cdef void _build_grid(self):
         lo = self.models[0].center
         hi = self.models[-1].center
         self.gridx = np.arange(max(lo - 3, 0), hi + 3, self.dx, dtype=np.float64)
         self.gridy = np.zeros_like(self.gridx, dtype=np.float64)
 
     @cython.boundscheck(False)
-    def _reprofile(self):
+    cpdef _reprofile(self):
         cdef:
             ssize_t i, j, nmodels, offset
             double x, y, pred
