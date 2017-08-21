@@ -1,9 +1,11 @@
 ms_peak_picker/_c/*.c
-ms_peak_picker/_c/*.c
+ms_peak_picker/_c/*.html
 *.pyc
-ms_peak_picker/*.html
 build/
 docs/_build
 *.egg-info
 *.pyd
-*.so
+*sublime*
+dist/
+.coverage
+htmlcov/
