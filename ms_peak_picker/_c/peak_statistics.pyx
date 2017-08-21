@@ -13,6 +13,11 @@ from ms_peak_picker._c.double_vector cimport (
     print_double_vector, double_vector_to_list,
     list_to_double_vector)
 
+from cpython.list cimport PyList_GET_SIZE, PyList_GET_ITEM
+
+from ms_peak_picker._c.peak_set cimport FittedPeak
+
+np.import_array()
 
 cdef DTYPE_t minimum_signal_to_noise = 4.0
 
@@ -498,3 +503,167 @@ cpdef double peak_area(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarra
         area += (y1 * (x2 - x1)) + ((y2 - y1) * (x2 - x1) / 2.)
 
     return area
+
+
+@cython.cdivision(True)
+cpdef double gaussian_predict(FittedPeak peak, double mz):
+    cdef:
+        double x, center, amplitude, fwhm, spread, y
+    x = mz
+    center = peak.mz
+    amplitude = peak.intensity
+    fwhm = peak.full_width_at_half_max
+    spread = fwhm / 2.35482
+    y = amplitude * math.exp(-((x - center) ** 2) / (2 * spread ** 2))
+    return y
+
+
+cpdef object gaussian_shape(FittedPeak peak):
+    cdef:
+        double center, amplitude, fwhm, spread
+        np.ndarray[double, ndim=1] x, y
+    center = peak.mz
+    amplitude = peak.intensity
+    fwhm = peak.full_width_at_half_max
+    spread = fwhm / 2.35482
+    x = np.arange(center - fwhm - 0.02, center + fwhm + 0.02, 0.0001)
+    y = amplitude * np.exp(-((x - center) ** 2) / (2 * spread ** 2))
+    return x, y
+
+
+cpdef double gaussian_error(FittedPeak peak, double mz, double intensity):
+    y = gaussian_predict(peak, mz)
+    return intensity - y
+
+
+cpdef double gaussian_volume(FittedPeak peak):
+    cdef:
+        np.ndarray[double, ndim=1] x, y
+    x, y = gaussian_shape(peak)
+    return np.trapz(y, x, dx=0.0001)
+
+
+cdef class PeakShapeModel(object):
+    cdef:
+        public FittedPeak peak
+        public double center
+
+    def __init__(self, peak):
+        self.peak = peak
+        self.center = peak.mz
+
+    cpdef double predict(self, double mz):
+        raise NotImplementedError()
+
+    cpdef object shape(self):
+        raise NotImplementedError()
+
+    cpdef double volume(self):
+        raise NotImplementedError()
+
+    cpdef double error(self, double mz, double intensity):
+        raise NotImplementedError()
+
+    def __repr__(self):
+        return "{self.__class__.__name__}({self.peak})".format(self=self)
+
+
+cdef class GaussianModel(PeakShapeModel):
+    cpdef object shape(self):
+        return gaussian_shape(self.peak)
+
+    cpdef double predict(self, double mz):
+        return gaussian_predict(self.peak, mz)
+
+    cpdef double volume(self):
+        return gaussian_volume(self.peak)
+
+    cpdef double error(self, double mz, double intensity):
+        return gaussian_error(self.peak, mz, intensity)
+
+
+cdef class PeakSetReprofiler(object):
+    cdef:
+        public list models
+        public np.ndarray gridx
+        public np.ndarray gridy
+        public double dx
+
+    def __init__(self, models, dx=0.01):
+        self.models = sorted(models, key=lambda x: x.center)
+        self.dx = dx
+        self.gridx = None
+        self.gridy = None
+        self._build_grid()
+
+    def _build_grid(self):
+        lo = self.models[0].center
+        hi = self.models[-1].center
+        self.gridx = np.arange(max(lo - 3, 0), hi + 3, self.dx, dtype=np.float64)
+        self.gridy = np.zeros_like(self.gridx, dtype=np.float64)
+
+    @cython.boundscheck(False)
+    def _reprofile(self):
+        cdef:
+            ssize_t i, j, nmodels, offset
+            double x, y, pred
+            PeakShapeModel model
+            np.ndarray[double, ndim=1, mode='c'] gridx, gridy
+            list models
+        gridx = self.gridx
+        gridy = self.gridy
+        models = self.models
+        nmodels = PyList_GET_SIZE(models)
+        i = 0
+        for i in range(gridx.shape[0]):
+            x = gridx[i]
+            y = 0
+            offset = self._find_starting_model(x)
+            j = offset - 1
+            while j > 0:
+                model = <PeakShapeModel>PyList_GET_ITEM(models, j)
+                if (x - model.center) > 3:
+                    break
+                pred = model.predict(x)
+                y += pred
+                j -= 1
+            j = offset
+            while j < nmodels:
+                model = <PeakShapeModel>PyList_GET_ITEM(models, j)
+                if (model.center - x) > 3:
+                    break
+                pred = model.predict(x)
+                y += pred
+                j += 1
+
+            gridy[i] = y
+        gridx = self.gridx
+        gridy = self.gridy
+
+    cpdef size_t _find_starting_model(self, double x):
+        cdef:
+            size_t lo, hi, mid
+            list models
+            double center, err
+            PeakShapeModel model
+        lo = 0
+        models = self.models
+        hi = PyList_GET_SIZE(models)
+        while (lo != hi):
+            mid = (hi + lo) // 2
+            model = <PeakShapeModel>PyList_GET_ITEM(models, mid)
+            center = model.center
+            err = center - x
+            if abs(err) < 0.0001:
+                return mid
+            elif (hi - lo) == 1:
+                return mid
+            elif err > 0:
+                hi = mid
+            else:
+                lo = mid
+        return 0
+
+    def reprofile(self):
+        self._reprofile()
+        return self.gridx, self.gridy

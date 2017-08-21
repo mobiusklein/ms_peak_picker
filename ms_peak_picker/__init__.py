@@ -6,6 +6,7 @@ from . import search
 from . import fticr_denoising
 from . import fft_patterson_charge_state
 from . import scan_filter
+from .reprofile import reprofile
 import os
 
 __all__ = ["PeakProcessor", "pick_peaks", "PeakIndex", "PeakSet", "FittedPeak", "peak_statistics",

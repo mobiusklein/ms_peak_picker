@@ -435,6 +435,18 @@ def lorenztian_volume(peak):
 class PeakShapeModel(object):
     def __init__(self, peak):
         self.peak = peak
+        self.center = peak.mz
+
+    def __repr__(self):
+        return "{self.__class__.__name__}({self.peak})".format(self=self)
+
+
+try:
+    # Import C extension base class which simply sets up the type
+    # signature for later classes to inherit from
+    from ms_peak_picker._c.peak_statistics import PeakShapeModel
+except ImportError:
+    pass
 
 
 class GaussianModel(PeakShapeModel):
@@ -451,6 +463,13 @@ class GaussianModel(PeakShapeModel):
         return gaussian_error(self.peak, mz, intensity)
 
 
+try:
+    # Import the accelerated gaussian shape implementation
+    from ms_peak_picker._c.peak_statistics import GaussianModel
+except ImportError:
+    pass
+
+
 class LorenztianModel(PeakShapeModel):
     def shape(self):
         return lorenztian_shape(self.peak)
@@ -463,30 +482,6 @@ class LorenztianModel(PeakShapeModel):
 
     def error(self, mz, intensity):
         return lorenztian_error(self.peak, mz, intensity)
-
-
-class ShapeModelIndex(object):
-    def __init__(self, peak_index, shape_model):
-        self.index = peak_index
-        self.shape_model = shape_model
-
-    def wrap(self, peak):
-        return self.shape_model(peak)
-
-    def error(self, peak):
-        model = self.wrap(peak)
-        x, y = self.index.points_along(peak)
-        return model.error(x, y)
-
-    def points_along(self, peak):
-        return self.index.points_along(peak)
-
-
-class PeakShapeFit(Base):
-    def __init__(self, peak_model, error, points):
-        self.peak_model = peak_model
-        self.error = error
-        self.points = points
 
 
 def peak_area(mz_array, intensity_array, start, stop):
