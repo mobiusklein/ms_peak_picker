@@ -472,6 +472,11 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
     mz_array = np.asanyarray(mz_array, dtype=np.float64)
     intensity_array = np.asanyarray(intensity_array, dtype=np.float64)
 
+    # make sure the m/z array is properly sorted
+    indexing = np.argsort(mz_array)
+    mz_array = mz_array[indexing]
+    intensity_array = intensity_array[indexing]
+
     mz_array, intensity_array = transform(
         mz_array, intensity_array, transforms)
 
