@@ -4,79 +4,42 @@ from collections import defaultdict
 import numpy as np
 
 from ms_peak_picker import search
-from ms_peak_picker.utils import peaklist_to_profile
 
 
-def average_profile_scans(scan_arrays, width=0.01):
-    groups = [[arr.astype(float) for arr in group] for group in scan_arrays]
-
-    mzs = set()
-    for mz_array, intensity_array in groups:
-        mzs.update(mz_array)
-
-    mzs = sorted(mzs)
-    mz_out = []
-    intensity_out = []
-
-    _abs = abs
-    _len = len
-
-    for mz in mzs:
-        cluster_mzs = []
-        cluster_intensities = []
-        for group in groups:
-            mz_array, intensity_array = group
-            left_ix = search.get_nearest(mz_array, mz - width, 0)
-            left_mz = mz_array[left_ix]
-            err = (left_mz - (mz - width))
-            abs_err = _abs(err)
-            if abs_err > width:
-                if err > 0 and left_ix != 0:
-                    left_ix -= 1
-                elif left_ix != _len(mz_array) - 1:
-                    left_ix += 1
-
-            left_mz = mz_array[left_ix]
-            err = (left_mz - (mz - width))
-            if _abs(err) > (2 * width):
+def average_signal(arrays, dx=0.01):
+    lo = max(min([x.min() for x, y in arrays]) - 1, 0)
+    hi = max([x.max() for x, y in arrays]) + 1
+    arrays = [(x.astype(float), y.astype(float)) for x, y in arrays]
+    mz_array = np.arange(lo, hi, dx)
+    intensity_array = np.zeros_like(mz_array)
+    for mz, inten in arrays:
+        last = (-1, -1)
+        contrib = 0
+        for i, x in enumerate(mz_array):
+            j = search.get_nearest_binary(mz, x)
+            mz_j = mz[j]
+            if mz_j < x and j + 1 < mz.shape[0]:
+                mz_j1 = mz[j + 1]
+                inten_j = inten[j]
+                inten_j1 = inten[j + 1]
+            elif mz_j > x and j > 0:
+                mz_j1 = mz_j
+                inten_j1 = inten[j]
+                mz_j = mz[j - 1]
+                inten_j = mz[j - 1]
+            else:
                 continue
-
-            right_ix = search.get_nearest(mz_array, mz + width, 0)
-            right_mz = mz_array[right_ix]
-            err = (right_mz - (mz + width))
-            abs_err = _abs(err)
-            if abs_err > width:
-                if err > 0:
-                    right_ix -= 1
-                elif right_ix != _len(mz_array) - 1:
-                    right_ix += 1
-
-            right_mz = mz_array[right_ix]
-            err = (right_mz - (mz + width))
-            abs_err = _abs(err)
-            if abs_err > (2 * width):
-                continue
-
-            mz_values = mz_array[left_ix:(right_ix + 1)]
-            intensity_values = intensity_array[left_ix:(right_ix + 1)]
-
-            cluster_mzs.extend(mz_values)
-            cluster_intensities.extend(intensity_values)
-
-        cluster_mzs = np.array(cluster_mzs)
-        cluster_intensities = np.array(cluster_intensities)
-        ix = np.argsort(cluster_mzs)
-        cluster_mzs = cluster_mzs[ix]
-        cluster_intensities = cluster_intensities[ix]
-
-        u = np.mean(cluster_mzs)
-        sd = np.std(cluster_mzs)
-        gauss_weights = np.exp(-((cluster_mzs - u) ** 2) / (2 * (sd ** 2)))
-        intensity = (gauss_weights * cluster_intensities).sum() / \
-            gauss_weights.sum()
-        mz_out.append(mz)
-        intensity_out.append(intensity)
-    return np.array(mz_out, dtype=np.float64), np.array(intensity_out, dtype=np.float64)
+            if (mz_j, mz_j1) == last:
+                # don't update contrib, as the interpolation
+                # points haven't changed. If we did, it would cause
+                # the terms in the linear interpolation formula which
+                # depend upon x to change, leading to a sawtooth pattern
+                pass
+            else:
+                contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
+                last = (mz_j, mz_j1)
+            intensity_array[i] += contrib
+    return mz_array, intensity_array / len(arrays)
 
 
 def peak_set_similarity(peak_set_a, peak_set_b, precision=0):
@@ -131,6 +94,9 @@ def peak_set_similarity(peak_set_a, peak_set_b, precision=0):
         return z / n_ab
 
 
-def average_peak_lists(peak_lists, width=0.01):
-    scan_arrays = map(peaklist_to_profile, peak_lists)
-    return average_profile_scans(scan_arrays, width=width)
+try:
+    _has_c = True
+    _average_signal = average_signal
+    from ms_peak_picker._c.peak_statistics import average_signal
+except ImportError:
+    _has_c = False

@@ -25,6 +25,8 @@ def make_cextensions():
             Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.pyx"],
                       include_dirs=[numpy.get_include()]),
             Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
+            Extension(name='ms_peak_picker._c.smoother', sources=["ms_peak_picker/_c/smoother.pyx"],
+                      include_dirs=[numpy.get_include()]),
         ])
     except ImportError:
         extensions = ([
@@ -38,7 +40,9 @@ def make_cextensions():
                       include_dirs=[numpy.get_include()]),
             Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.c"],
                       include_dirs=[numpy.get_include()]),
-            Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
+            Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.c"]),
+            Extension(name='ms_peak_picker._c.smoother', sources=["ms_peak_picker/_c/smoother.c"],
+                      include_dirs=[numpy.get_include()])
         ])
     return extensions
 

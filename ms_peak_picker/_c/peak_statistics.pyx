@@ -16,8 +16,10 @@ from ms_peak_picker._c.double_vector cimport (
 from ms_peak_picker._c.peak_set cimport FittedPeak
 
 from cpython.list cimport PyList_GET_SIZE, PyList_GET_ITEM
+from cpython.tuple cimport PyTuple_GET_SIZE, PyTuple_GET_ITEM
 
 from ms_peak_picker._c.peak_set cimport FittedPeak
+from ms_peak_picker._c.search cimport get_nearest_binary
 
 np.import_array()
 
@@ -661,3 +663,76 @@ cdef class PeakSetReprofiler(object):
     def reprofile(self):
         self._reprofile()
         return self.gridx, self.gridy
+
+
+@cython.cdivision(True)
+@cython.boundscheck(False)
+cpdef average_signal(object arrays, double dx=0.01):
+    cdef:
+        double lo, hi
+        # tracks the last two x coordinates
+        double last_0, last_1
+        double mz_j, mz_j1
+        double inten_j, inten_j1
+        double x, contrib
+        size_t i, j, n, n_arrays, k_array
+        object omz, ointen
+        list convert
+        tuple pair
+        np.ndarray[double, ndim=1, mode='c'] mz_array
+        np.ndarray[double, ndim=1, mode='c'] intensity_array
+        np.ndarray[double, ndim=1, mode='c'] mz
+        np.ndarray[double, ndim=1, mode='c'] inten
+
+    convert = []
+    for omz, ointen in arrays:
+        mz = omz.astype(np.double)
+        inten = ointen.astype(np.double)
+        convert.append((mz, inten))
+
+    lo = convert[0][0][0]
+    hi = 0
+    for mz, inten in convert:
+        lo = min(mz[0], lo)
+        hi = max(mz[mz.shape[0] - 1], hi)
+
+    lo = max(lo - 1, 0)
+    hi += 1
+
+    mz_array = np.arange(lo, hi, dx)
+    intensity_array = np.zeros_like(mz_array)
+    # for mz, inten in convert:
+    for k_array in range(len(convert)):
+        pair = <tuple>PyList_GET_ITEM(convert, k_array)
+        mz = <np.ndarray[double, ndim=1, mode='c']>PyTuple_GET_ITEM(pair, 0)
+        inten = <np.ndarray[double, ndim=1, mode='c']>PyTuple_GET_ITEM(pair, 1)
+        last_0 = -1
+        last_1 = -1
+        contrib = 0
+        for i in range(mz_array.shape[0]):
+            x = mz_array[i]
+            j = get_nearest_binary(mz, x)
+            mz_j = mz[j]
+            if mz_j < x and j + 1 < mz.shape[0]:
+                mz_j1 = mz[j + 1]
+                inten_j = inten[j]
+                inten_j1 = inten[j + 1]
+            elif mz_j > x and j > 0:
+                mz_j1 = mz_j
+                inten_j1 = inten[j]
+                mz_j = mz[j - 1]
+                inten_j = mz[j - 1]
+            else:
+                continue
+            if (mz_j == last_0) and (mz_j1 == last_1):
+                # don't update contrib, as the interpolation
+                # points haven't changed. If we did, it would cause
+                # the terms in the linear interpolation formula which
+                # depend upon x to change, leading to a sawtooth pattern
+                pass
+            else:
+                contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
+                last_0 = mz_j
+                last_1 = mz_j1
+            intensity_array[i] += contrib
+    return mz_array, intensity_array / len(convert)

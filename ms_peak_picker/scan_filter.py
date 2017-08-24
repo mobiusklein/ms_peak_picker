@@ -2,6 +2,7 @@ import numpy as np
 
 from .utils import Base
 from .fticr_denoising import denoise as fticr_remove_baseline
+from .smoothing import gaussian_smooth
 
 try:
     basestring
@@ -104,6 +105,16 @@ class SavitskyGolayFilter(FilterBase):
             polyorder=self.polyorder, deriv=self.deriv).clip(0)
         mask = smoothed > 0
         return mz_array[mask], smoothed[mask]
+
+
+@register("gaussian_smooth", 0.02)
+class GaussianSmoothFilter(FilterBase):
+    def __init__(self, width=0.02):
+        self.width = 0.02
+
+    def filter(self, mz_array, intensity_array):
+        intensity_array = gaussian_smooth(mz_array, intensity_array, self.width)
+        return mz_array, intensity_array
 
 
 @register("tenth_percent_of_max")
