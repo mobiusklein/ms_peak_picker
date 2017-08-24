@@ -15,11 +15,6 @@ import numpy as np
 np.import_array()
 
 
-cdef np.ndarray[double, ndim=1, mode='c'] gauss(np.ndarray[double, ndim=1, mode='c'] x,
-                                                double mean, double variance, double scale=2.0):
-    return 1. / np.sqrt(2 * np.pi * variance) * np.exp(-(x - mean) ** 2 / (scale * variance))
-
-
 @cython.cdivision(True)
 cdef int mean_var(double* x, size_t n, double* mean, double* variance) nogil:
     cdef:
