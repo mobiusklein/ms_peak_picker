@@ -7,11 +7,15 @@ from . import fticr_denoising
 from . import fft_patterson_charge_state
 from . import scan_filter
 from .reprofile import reprofile
+from .scan_averaging import average_signal
+from .smoothing import gaussian_smooth
 import os
 
-__all__ = ["PeakProcessor", "pick_peaks", "PeakIndex", "PeakSet", "FittedPeak", "peak_statistics",
-           "search", "fticr_denoising", "scan_filter", "fft_patterson_charge_state", "get_include",
-           "fit_type_map", "peak_mode_map", "reprofile"]
+__all__ = ["PeakProcessor", "pick_peaks", "PeakIndex", "PeakSet",
+           "FittedPeak", "peak_statistics", "search", "fticr_denoising",
+           "scan_filter", "fft_patterson_charge_state", "get_include",
+           "fit_type_map", "peak_mode_map", "reprofile", "average_signal",
+           "gaussian_smooth"]
 
 
 def get_include():
