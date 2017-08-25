@@ -104,7 +104,8 @@ class SavitskyGolayFilter(FilterBase):
             intensity_array, window_length=self.window_length,
             polyorder=self.polyorder, deriv=self.deriv).clip(0)
         mask = smoothed > 0
-        return mz_array[mask], smoothed[mask]
+        smoothed[~mask] = 0
+        return mz_array, smoothed
 
 
 @register("gaussian_smooth", 0.02)
