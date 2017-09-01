@@ -53,7 +53,7 @@ try:
         -------
         matplotlib.Axes
         """
-        pretty = kwargs.pop("pretty", False)
+        pretty = kwargs.pop("pretty", True)
         if intensity_array is None and len(mz_array) == 2:
             mz_array, intensity_array = mz_array
         if ax is None:
@@ -65,15 +65,15 @@ try:
             _beautify_axes(ax)
         return ax
 
-    def peaklist_to_vector(peaklist):
+    def peaklist_to_vector(peaklist, width=0.000001):
         mzs = []
         intensities = []
         for peak in sorted(peaklist, key=lambda x: x.mz):
-            mzs.append(peak.mz - .000001)
+            mzs.append(peak.mz - width)
             intensities.append(0.)
             mzs.append(peak.mz)
             intensities.append(peak.intensity)
-            mzs.append(peak.mz + .000001)
+            mzs.append(peak.mz + width)
             intensities.append(0.)
         return np.array(mzs), np.array(intensities)
 
