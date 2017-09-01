@@ -84,6 +84,24 @@ cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1
 @cython.boundscheck(False)
 cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1, mode='c'] x, np.ndarray[DTYPE_t, ndim=1, mode='c'] y, size_t n,
                         np.ndarray[DTYPE_t, ndim=1, mode='c'] terms, size_t nterms):
+    """
+    Fit a least squares polynomial regression
+
+    Parameters
+    ----------
+    x : array
+    y : array
+    n : int
+    terms : array
+        Mutated to pass back coefficients
+        of fit.
+    nterms : int
+        Number of terms
+
+    Returns
+    -------
+    float
+    """
     cdef:
         np.ndarray[DTYPE_t, ndim=1] weights
         np.ndarray[DTYPE_t, ndim=2] At, Z, At_T, At_At_T, I_At_At_T, At_Ai_At
@@ -94,11 +112,13 @@ cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1, mode='c'] x, np.ndarray[DTYP
     weights = np.ones(n)
     
     # Weighted powers of x transposed
-    # Like Vandermonte Matrix?
+    # the polynomial regression's design matrix
     At = np.zeros((nterms + 1, n))
     for i in range(n):
+        # set the intercept
         At[0, i] = weights[i]
         for j in range(1, nterms + 1):
+            # the successive powers of x[i]
             At[j, i] = At[j - 1, i] * x[i]
     
     Z = np.zeros((n, 1))

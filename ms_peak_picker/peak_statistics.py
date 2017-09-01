@@ -1,6 +1,6 @@
 import numpy as np
 
-from .utils import range, Base
+from .utils import range
 from .search import get_nearest
 
 
@@ -58,7 +58,7 @@ def quadratic_fit(mz_array, intensity_array, index):
 
 def curve_reg(x, y, n, terms, nterms):
     """
-    Fit a least squares regression
+    Fit a least squares polynomial regression
 
     Parameters
     ----------
@@ -80,6 +80,7 @@ def curve_reg(x, y, n, terms, nterms):
     # Weighted powers of x transposed
     At = np.zeros((nterms + 1, n))
     for i in range(n):
+        # set the intercept term
         At[0, i] = weights[i]
         for j in range(1, nterms + 1):
             At[j, i] = At[j - 1, i] * x[i]

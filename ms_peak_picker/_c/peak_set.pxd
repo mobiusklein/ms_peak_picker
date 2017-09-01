@@ -38,9 +38,19 @@ cdef class PeakSet(object):
     cdef FittedPeak getitem(self, size_t i)
 
     cdef size_t get_size(self)
+    
+    cpdef bint _eq(self, PeakSet other)
 
 
 cpdef FittedPeak binary_search_ppm_error(tuple array, double value, double tolerance)
 cdef FittedPeak _binary_search_ppm_error(tuple array, double value, size_t lo, size_t hi, double tolerance)
 cdef FittedPeak _binary_search_nearest_match(tuple array, double value, size_t lo, size_t hi, double* errout)
 
+
+cdef class PeakSetIndexed(PeakSet):
+    cdef:
+        double* mz_index
+
+    cpdef _allocate_index(self)
+
+cdef size_t double_binary_search_ppm(double* array, double value, double tolerance, size_t n)

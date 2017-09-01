@@ -1,12 +1,16 @@
 # cython: embedsignature=True
 cimport cython
 import operator
+from libc.stdlib cimport malloc, realloc, free
 
 from cpython.tuple cimport PyTuple_GET_ITEM, PyTuple_GetItem, PyTuple_GetSlice, PyTuple_GET_SIZE
 from cpython cimport PyObject
 
 cdef double ppm_error(double x, double y):
     return (x - y) / y
+
+
+cdef double INF = float('inf')
 
 
 @cython.freelist(1000000)
@@ -275,10 +279,24 @@ cdef class PeakSet(object):
     def __reduce__(self):
         return PeakSet, (tuple(),), self.__getstate__()
 
+    cpdef bint _eq(self, PeakSet other):
+        cdef:
+            size_t i, n
+            FittedPeak p1, p2
+
+        n = self.get_size()
+        if n != other.get_size():
+            return False
+        for i in range(n):
+            p1 = self.getitem(i)
+            p2 = other.getitem(i)
+            if not p1._eq(p2):
+                return False
+        return True
+
     def __richcmp__(self, object other, int code):
         cdef:
             tuple other_tuple
-            PeakSet other_peak_set
 
         if other is None:
             if code == 2:
@@ -287,9 +305,9 @@ cdef class PeakSet(object):
                 return True
         if isinstance(other, PeakSet):
             if code == 2:
-                return self.peaks == other.peaks
+                return self._eq(<PeakSet>other)
             elif code == 3:
-                return self.peaks != other.peaks
+                return not self._eq(<PeakSet>other)
             else:
                 return NotImplemented
         else:
@@ -398,3 +416,120 @@ cdef FittedPeak _binary_search_nearest_match(tuple array, double value, size_t l
         else:
             return _binary_search_nearest_match(array, value, mid, hi, errout)
 
+
+@cython.cdivision(True)
+cdef size_t double_binary_search_ppm(double* array, double value, double tolerance, size_t n):
+    cdef:
+        size_t lo, hi, mid
+        size_t i, best_ix
+        double x, err, best_err, abs_err
+    lo = 0
+    hi = n
+    while hi != lo:
+        mid = (hi + lo) / 2
+        x = array[mid]
+        err = (x - value) / value
+        if abs(err) < tolerance:
+            i = mid
+            best_error = err
+            best_ix = mid
+            while i > 0:
+                i -= 1
+                x = array[i]
+                err = (x - value) / value
+                abs_err = abs(err)
+                if abs_err > tolerance:
+                    break
+                elif abs_err < best_error:
+                    best_error = abs_err
+                    best_ix = i
+            i = mid
+            while i < n - 1:
+                i += 1
+                x = array[i]
+                err = (x - value) / value
+                abs_err = abs(err)
+                if abs_err > tolerance:
+                    break
+                elif abs_err < best_error:
+                    best_error = abs_err
+                    best_ix = i
+            return best_ix
+        elif (hi - 1) == lo:
+            return mid
+        elif err > 0:
+            hi = mid
+        else:
+            lo = mid
+    return 0
+
+
+cdef class PeakSetIndexed(PeakSet):
+
+    def __init__(self, peaks):
+        PeakSet.__init__(self, peaks)
+        self.mz_index = NULL
+
+    def __dealloc__(self):
+        free(self.mz_index)
+
+    cpdef _allocate_index(self):
+        cdef:
+            size_t i, n
+            FittedPeak p
+        n = self.get_size()
+        if self.mz_index != NULL:
+            free(self.mz_index)
+            self.mz_index = NULL
+        self.mz_index = <double*>malloc(sizeof(double) * n)
+        for i in range(n):
+            p = self.getitem(i)
+            self.mz_index[i] = p.mz
+
+    def _index(self):
+        i = PeakSet._index(self)
+        self._allocate_index()
+        return i
+
+    @cython.cdivision(True)
+    cdef FittedPeak _has_peak(self, double mz, double tolerance=1e-5):
+        cdef:
+            size_t i, n
+            FittedPeak peak
+        n = self.get_size()
+        if n == 0:
+            return _null_peak
+        i = double_binary_search_ppm(self.mz_index, mz, tolerance, n)
+        peak = self.getitem(i)
+        if abs((peak.mz - mz) / mz) < tolerance:
+            return peak
+        else:
+            return _null_peak
+
+    @cython.cdivision(True)
+    def get_nearest_peak(self, double mz):
+        cdef:
+            size_t i, n
+            FittedPeak peak
+            double errout
+        n = self.get_size()
+        if n == 0:
+            return _null_peak, INF
+        i = double_binary_search_ppm(self.mz_index, mz, 0, n)
+        peak = self.getitem(i)
+        errout = (peak.mz - mz) / mz
+        return peak, errout
+
+    @cython.cdivision(True)
+    cdef FittedPeak _get_nearest_peak(self, double mz, double* errout):
+        cdef:
+            size_t i, n
+            FittedPeak peak
+        n = self.get_size()
+        if n == 0:
+            errout[0] = INF
+            return _null_peak
+        i = double_binary_search_ppm(self.mz_index, mz, 0, n)
+        peak = self.getitem(i)
+        errout[0] = (peak.mz - mz) / mz
+        return peak
