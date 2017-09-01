@@ -54,6 +54,7 @@ cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1
     if index <= 0 or index >= size:
         return 0
 
+    # locate the next valley to the left
     for i in range(index, 0, -1):
         if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:
             min_intensity_left = intensity_array[i]
@@ -61,6 +62,7 @@ cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1
     else:
         min_intensity_left = intensity_array[0]
 
+    # locate the next valley to the right
     for i in range(index, size):
         if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:
             min_intensity_right = intensity_array[i]

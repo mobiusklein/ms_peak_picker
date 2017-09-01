@@ -149,6 +149,15 @@ cdef class PeakSet(object):
     peaks : tuple
         The :class:`FittedPeak` instances, stored
     """
+
+    @staticmethod
+    cdef PeakSet _create(tuple peaks):
+        cdef:
+            PeakSet inst
+        inst = PeakSet.__new__(PeakSet)
+        inst.peaks = peaks
+        return inst
+
     def __init__(self, peaks):
         self.peaks = tuple(peaks)
 
@@ -258,6 +267,7 @@ cdef class PeakSet(object):
             FittedPeak p1
             FittedPeak p2
             double err
+            tuple sliced
             size_t start, end, n
         p1 = self._get_nearest_peak(m1, &err)
         p2 = self._get_nearest_peak(m2, &err)
@@ -268,13 +278,15 @@ cdef class PeakSet(object):
             start += 1
         if p2.mz > m2 and end > 0:
             end -= 1
-        return PeakSet(<tuple>PyTuple_GetSlice(self.peaks, start, end))
+        sliced = <tuple>PyTuple_GetSlice(self.peaks, start, end)
+        return PeakSet._create(sliced)
 
     def __getstate__(self):
         return self.peaks
 
     def __setstate__(self, state):
         self.peaks = state
+        self.reindex()
 
     def __reduce__(self):
         return PeakSet, (tuple(),), self.__getstate__()
@@ -465,6 +477,15 @@ cdef size_t double_binary_search_ppm(double* array, double value, double toleran
 
 
 cdef class PeakSetIndexed(PeakSet):
+
+    @staticmethod
+    cdef PeakSet _create(tuple peaks):
+        cdef:
+            PeakSetIndexed inst
+        inst = PeakSetIndexed.__new__(PeakSetIndexed)
+        inst.peaks = peaks
+        inst.mz_index = NULL
+        return inst
 
     def __init__(self, peaks):
         PeakSet.__init__(self, peaks)

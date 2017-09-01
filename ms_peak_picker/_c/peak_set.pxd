@@ -29,6 +29,9 @@ cdef class PeakSet(object):
     cdef:
         public tuple peaks
 
+    @staticmethod
+    cdef PeakSet _create(tuple peaks)
+
     cdef FittedPeak _get_nearest_peak(self, double mz, double* errout)
 
     cdef FittedPeak _has_peak(self, double mz, double tolerance=*)
