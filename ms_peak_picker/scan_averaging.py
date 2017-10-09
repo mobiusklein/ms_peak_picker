@@ -3,8 +3,6 @@ from collections import defaultdict
 
 import numpy as np
 
-from ms_peak_picker import search
-
 
 def binsearch(array, x):
     lo = 0
