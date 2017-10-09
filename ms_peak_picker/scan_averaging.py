@@ -6,17 +6,35 @@ import numpy as np
 from ms_peak_picker import search
 
 
+def binsearch(array, x):
+    lo = 0
+    hi = len(array)
+    while hi != lo:
+        mid = (hi + lo) // 2
+        y = array[mid]
+        err = y - x
+        if hi - lo == 1:
+            return mid
+        elif err > 0:
+            hi = mid
+        else:
+            lo = mid
+    return 0
+
+
 def average_signal(arrays, dx=0.01):
     lo = max(min([x.min() for x, y in arrays]) - 1, 0)
     hi = max([x.max() for x, y in arrays]) + 1
     arrays = [(x.astype(float), y.astype(float)) for x, y in arrays]
-    mz_array = np.arange(lo, hi, dx)
+    if isinstance(dx, float):
+        mz_array = np.arange(lo, hi, dx)
+    elif isinstance(dx, np.ndarray):
+        mz_array = dx
     intensity_array = np.zeros_like(mz_array)
     for mz, inten in arrays:
-        last = (-1, -1)
         contrib = 0
         for i, x in enumerate(mz_array):
-            j = search.get_nearest_binary(mz, x)
+            j = binsearch(mz, x)
             mz_j = mz[j]
             if mz_j < x and j + 1 < mz.shape[0]:
                 mz_j1 = mz[j + 1]
@@ -29,15 +47,7 @@ def average_signal(arrays, dx=0.01):
                 inten_j = mz[j - 1]
             else:
                 continue
-            if (mz_j, mz_j1) == last:
-                # don't update contrib, as the interpolation
-                # points haven't changed. If we did, it would cause
-                # the terms in the linear interpolation formula which
-                # depend upon x to change, leading to a sawtooth pattern
-                pass
-            else:
-                contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
-                last = (mz_j, mz_j1)
+            contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
             intensity_array[i] += contrib
     return mz_array, intensity_array / len(arrays)
 

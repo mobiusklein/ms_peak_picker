@@ -687,6 +687,30 @@ cdef class PeakSetReprofiler(object):
         return self.gridx, self.gridy
 
 
+
+@cython.cdivision(True)
+@cython.boundscheck(False)
+cdef size_t binsearch(np.ndarray[double, ndim=1, mode='c'] array, double x):
+    cdef:
+        size_t lo, hi, mid
+        double y, err
+
+    lo = 0
+    hi = array.shape[0]
+
+    while hi != lo:
+        mid = (hi + lo) / 2
+        y = array[mid]
+        err = y - x
+        if hi - lo == 1:
+            return mid
+        elif err > 0:
+            hi = mid
+        else:
+            lo = mid
+    return 0
+
+
 @cython.cdivision(True)
 @cython.boundscheck(False)
 cpdef average_signal(object arrays, double dx=0.01):
@@ -728,12 +752,10 @@ cpdef average_signal(object arrays, double dx=0.01):
         pair = <tuple>PyList_GET_ITEM(convert, k_array)
         mz = <np.ndarray[double, ndim=1, mode='c']>PyTuple_GET_ITEM(pair, 0)
         inten = <np.ndarray[double, ndim=1, mode='c']>PyTuple_GET_ITEM(pair, 1)
-        last_0 = -1
-        last_1 = -1
         contrib = 0
         for i in range(mz_array.shape[0]):
             x = mz_array[i]
-            j = get_nearest_binary(mz, x)
+            j = binsearch(mz, x)
             mz_j = mz[j]
             if mz_j < x and j + 1 < mz.shape[0]:
                 mz_j1 = mz[j + 1]
@@ -746,15 +768,7 @@ cpdef average_signal(object arrays, double dx=0.01):
                 inten_j = mz[j - 1]
             else:
                 continue
-            if (mz_j == last_0) and (mz_j1 == last_1):
-                # don't update contrib, as the interpolation
-                # points haven't changed. If we did, it would cause
-                # the terms in the linear interpolation formula which
-                # depend upon x to change, leading to a sawtooth pattern
-                pass
-            else:
-                contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
-                last_0 = mz_j
-                last_1 = mz_j1
+            
+            contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
             intensity_array[i] += contrib
     return mz_array, intensity_array / len(convert)
