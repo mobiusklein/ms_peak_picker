@@ -1,12 +1,51 @@
 import sys
 import traceback
 import os
+import platform
 
 from setuptools import setup, Extension, find_packages
 
 from distutils.command.build_ext import build_ext
 from distutils.errors import (CCompilerError, DistutilsExecError,
                               DistutilsPlatformError)
+
+
+def has_option(name):
+    try:
+        sys.argv.remove('--%s' % name)
+        return True
+    except ValueError:
+        pass
+    # allow passing all cmd line options also as environment variables
+    env_val = os.getenv(name.upper().replace('-', '_'), 'false').lower()
+    if env_val == "true":
+        return True
+    return False
+
+
+# with_openmp = has_option('with-openmp')
+no_openmp = has_option('no-openmp')
+
+with_openmp = not no_openmp
+
+print "Building with OpenMP?", with_openmp
+
+
+def configure_openmp(ext):
+    # http://www.microsoft.com/en-us/download/confirmation.aspx?id=2092 was required.
+    if os.name == 'nt' and with_openmp:
+        ext.extra_compile_args.append("/openmp")
+    elif platform.system() == 'Darwin':
+        pass
+    elif with_openmp:
+        ext.extra_compile_args.append("-fopenmp")
+        ext.extra_link_args.append("-fopenmp")
+
+
+def OpenMPExtension(*args, **kwargs):
+    ext = Extension(*args, **kwargs)
+    configure_openmp(ext)
+    return ext
 
 
 def make_cextensions():
@@ -27,6 +66,9 @@ def make_cextensions():
             Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
             Extension(name='ms_peak_picker._c.smoother', sources=["ms_peak_picker/_c/smoother.pyx"],
                       include_dirs=[numpy.get_include()]),
+            OpenMPExtension(name='ms_peak_picker._c.scan_averaging',
+                            sources=['ms_peak_picker/_c/scan_averaging.pyx'],
+                            include_dirs=[numpy.get_include()])
         ])
     except ImportError:
         extensions = ([
@@ -42,7 +84,10 @@ def make_cextensions():
                       include_dirs=[numpy.get_include()]),
             Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.c"]),
             Extension(name='ms_peak_picker._c.smoother', sources=["ms_peak_picker/_c/smoother.c"],
-                      include_dirs=[numpy.get_include()])
+                      include_dirs=[numpy.get_include()]),
+            OpenMPExtension(name='ms_peak_picker._c.scan_averaging',
+                            sources=['ms_peak_picker/_c/scan_averaging.c'],
+                            include_dirs=[numpy.get_include()])
         ])
     return extensions
 

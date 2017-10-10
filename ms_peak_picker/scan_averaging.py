@@ -105,6 +105,6 @@ def peak_set_similarity(peak_set_a, peak_set_b, precision=0):
 try:
     _has_c = True
     _average_signal = average_signal
-    from ms_peak_picker._c.peak_statistics import average_signal
+    from ms_peak_picker._c.scan_averaging import average_signal
 except ImportError:
     _has_c = False
