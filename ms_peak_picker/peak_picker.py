@@ -239,7 +239,7 @@ class PeakProcessor(object):
                     signal_to_noise = 0.
                     if not self.threshold_data:
                         signal_to_noise = find_signal_to_noise(
-                            current_intensity, mz_array, index)
+                            current_intensity, intensity_array, index)
                     else:
                         signal_to_noise = current_intensity / \
                             float(self.background_intensity)
