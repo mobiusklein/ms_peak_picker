@@ -28,7 +28,7 @@ no_openmp = has_option('no-openmp')
 
 with_openmp = not no_openmp
 
-print "Building with OpenMP?", with_openmp
+print("Building with OpenMP?", with_openmp)
 
 
 def configure_openmp(ext):
@@ -53,8 +53,9 @@ def make_cextensions():
     try:
         from Cython.Build import cythonize
         extensions = cythonize([
-            Extension(name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.pyx"],
-                      include_dirs=[numpy.get_include()]),
+            OpenMPExtension(
+                name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.pyx"],
+                include_dirs=[numpy.get_include()]),
             Extension(name='ms_peak_picker._c.peak_set', sources=["ms_peak_picker/_c/peak_set.pyx"]),
             Extension(name='ms_peak_picker._c.fft_patterson_charge_state',
                       sources=["ms_peak_picker/_c/fft_patterson_charge_state.pyx"],
@@ -72,8 +73,9 @@ def make_cextensions():
         ])
     except ImportError:
         extensions = ([
-            Extension(name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.c"],
-                      include_dirs=[numpy.get_include()]),
+            OpenMPExtension(
+                name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.c"],
+                include_dirs=[numpy.get_include()]),
             Extension(name='ms_peak_picker._c.peak_set', sources=["ms_peak_picker/_c/peak_set.c"]),
             Extension(name='ms_peak_picker._c.fft_patterson_charge_state',
                       sources=["ms_peak_picker/_c/fft_patterson_charge_state.c"],

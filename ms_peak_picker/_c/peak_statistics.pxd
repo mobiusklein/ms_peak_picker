@@ -6,7 +6,10 @@ from ms_peak_picker._c.peak_set cimport FittedPeak
 
 ctypedef np.float64_t DTYPE_t
 
-cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array, size_t index)
+cpdef DTYPE_t find_signal_to_noise(
+    double target_val,
+    np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
+    size_t index)
 
 cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
                                           np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
@@ -21,10 +24,9 @@ cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
                               np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
                               size_t data_index, DTYPE_t signal_to_noise=*)
 
-cdef double lorenztian_least_squares(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
-                                     np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
-                                     double amplitude, double full_width_at_half_max,
-                                     double vo, size_t lstart, size_t lstop)
+cpdef DTYPE_t quadratic_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
+                            np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
+                            ssize_t index)
 
 cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
                             np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,

@@ -81,7 +81,7 @@ cpdef size_t nearest_right(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, 
         return size
 
     next_val = vec[next_index]
-    best_distance = abs(next_val - target_val)
+    best_distance = fabs(next_val - target_val)
     while (next_val < target_val):
         next_index += 1
         next_val = vec[next_index]
@@ -192,7 +192,7 @@ cpdef size_t get_nearest(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, si
         DTYPE_t distance_remaining
 
 
-    size = len(vec) - 1
+    size = (vec.shape[0]) - 1
     if target_val >= vec[size]:
         return size
     elif target_val <= vec[0]:

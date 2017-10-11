@@ -1,6 +1,7 @@
 # cython: embedsignature=True
 
 cimport cython
+from cython cimport parallel
 cimport numpy as np
 from libc cimport math
 import numpy as np
@@ -28,13 +29,13 @@ cdef DTYPE_t minimum_signal_to_noise = 4.0
 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef bint isclose(DTYPE_t x, DTYPE_t y, DTYPE_t rtol=1.e-5, DTYPE_t atol=1.e-8):
-    return abs(x-y) <= (atol + rtol * abs(y))
+cdef bint isclose(DTYPE_t x, DTYPE_t y, DTYPE_t rtol=1.e-5, DTYPE_t atol=1.e-8) nogil:
+    return math.fabs(x-y) <= (atol + rtol * math.fabs(y))
 
 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef bint aboutzero(DTYPE_t x):
+cdef bint aboutzero(DTYPE_t x) nogil:
     return isclose(x, 0)
 
 
@@ -45,40 +46,44 @@ cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1
     cdef:
         DTYPE_t min_intensity_left, min_intensity_right
         size_t size, i
+        DTYPE_t* pintensity_array
+        int path_id
 
-    min_intensity_left = 0
-    min_intensity_right = 0
-    size = intensity_array.shape[0] - 1
-    if aboutzero(target_val):
-        return 0
-    if index <= 0 or index >= size:
-        return 0
+    with nogil:
+        min_intensity_left = 0
+        min_intensity_right = 0
+        size = intensity_array.shape[0] - 1
+        if aboutzero(target_val):
+            return 0
+        if index <= 0 or index >= size:
+            return 0
 
-    # locate the next valley to the left
-    for i in range(index, 0, -1):
-        if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:
-            min_intensity_left = intensity_array[i]
-            break
-    else:
-        min_intensity_left = intensity_array[0]
+        pintensity_array = &intensity_array[0]
 
-    # locate the next valley to the right
-    for i in range(index, size):
-        if intensity_array[i + 1] >= intensity_array[i] and intensity_array[i - 1] > intensity_array[i]:
-            min_intensity_right = intensity_array[i]
-            break
-    else:
-        min_intensity_right = intensity_array[size]
-
-    if aboutzero(min_intensity_left):
-        if aboutzero(min_intensity_right):
-            return 100
+        # locate the next valley to the left
+        for i in range(index, 0, -1):
+            if pintensity_array[i + 1] >= pintensity_array[i] and pintensity_array[i - 1] > pintensity_array[i]:
+                min_intensity_left = pintensity_array[i]
+                break
         else:
-            return target_val / min_intensity_right
+            min_intensity_left = pintensity_array[0]
+        # locate the next valley to the right
+        for i in range(index, size):
+            if pintensity_array[i + 1] >= pintensity_array[i] and pintensity_array[i - 1] > pintensity_array[i]:
+                min_intensity_right = pintensity_array[i]
+                break
+        else:
+            min_intensity_right = pintensity_array[size]
 
-    if min_intensity_right < min_intensity_left and not aboutzero(min_intensity_right):
-        return target_val / min_intensity_right
-    return target_val / min_intensity_left
+        if aboutzero(min_intensity_left):
+            if aboutzero(min_intensity_right):
+                return 100
+            else:
+                return target_val / min_intensity_right
+     
+        if min_intensity_right < min_intensity_left and not aboutzero(min_intensity_right):
+            return target_val / min_intensity_right
+        return target_val / min_intensity_left
 
 
 @cython.nonecheck(False)
@@ -204,7 +209,7 @@ cpdef DTYPE_t find_right_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, n
                                size_t data_index, DTYPE_t signal_to_noise=0.):
     cdef:
         int points
-        DTYPE_t peak, peak_half, mass, X1, X2, Y1, Y2, mse
+        DTYPE_t peak, peak_half, mass, X1, X2, Y1, Y2, mse, last_Y1
         DTYPE_t lower, current_mass
         size_t size, index, j, k
         np.ndarray[DTYPE_t, ndim=1, mode='c'] coef
@@ -224,11 +229,12 @@ cpdef DTYPE_t find_right_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, n
     if data_index <= 0 or data_index >= size:
         return 0.
 
+    last_Y1 = peak
     lower = mz_array[size]
     for index in range(data_index, size):
         current_mass = mz_array[index]
         Y1 = intensity_array[index]
-        if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
+        if((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (Y1 > last_Y1) or (
                 (index > size - 1 or intensity_array[index + 1] > Y1) and (
                 index > size - 2 or intensity_array[index + 2] > Y1) and signal_to_noise < minimum_signal_to_noise)):
             Y2 = intensity_array[index - 1]
@@ -261,6 +267,7 @@ cpdef DTYPE_t find_right_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, n
                     free_double_vector(vect_mzs)
                     lower = coef[1] * peak_half + coef[0]
             break
+        last_Y1 = Y1
     return abs(lower - mass)
 
 
@@ -272,7 +279,7 @@ cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np
                               size_t data_index, DTYPE_t signal_to_noise=0.):
     cdef:
         int points
-        DTYPE_t peak, peak_half, mass, X1, X2, Y1, Y2, mse
+        DTYPE_t peak, peak_half, mass, X1, X2, Y1, Y2, mse, last_Y1
         DTYPE_t upper, current_mass
         size_t size, index, j, k
         np.ndarray[DTYPE_t, ndim=1, mode='c'] coef
@@ -292,12 +299,12 @@ cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np
     size = len(mz_array) - 1
     if data_index <= 0 or data_index >= size:
         return 0.
-
+    last_Y1 = peak
     upper = mz_array[0]
     for index in range(data_index, -1, -1):
         current_mass = mz_array[index]
         Y1 = intensity_array[index]
-        if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (
+        if ((Y1 < peak_half) or (abs(mass - current_mass) > 1.5) or (Y1 > last_Y1) or (
                 (index < 1 or intensity_array[index - 1] > Y1) and (
                     index < 2 or intensity_array[index - 2] > Y1) and (signal_to_noise < minimum_signal_to_noise))):
             Y2 = intensity_array[index + 1]
@@ -314,11 +321,11 @@ cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np
                     vect_intensity = make_double_vector()
 
                     for j in range(points - 1, -1, -1):
-                        double_vector_append(vect_mzs, mz_array[index - j])
-                        double_vector_append(vect_intensity, intensity_array[index - j])
+                        double_vector_append(vect_mzs, mz_array[data_index - j])
+                        double_vector_append(vect_intensity, intensity_array[data_index - j])
 
                     j = 0
-                    while j < points and (vect_intensity.v[0] == vect_intensity.v[j]):
+                    while j < points and isclose(vect_intensity.v[0], vect_intensity.v[j]):
                         j += 1
 
                     if j == points:
@@ -330,6 +337,7 @@ cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np
                     free_double_vector(vect_mzs)
                     upper = coef[1] * peak_half + coef[0]
             break
+        last_Y1 = Y1
     return abs(mass - upper)
 
 
@@ -440,10 +448,40 @@ cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1, mode='c'] 
 
 
 @cython.boundscheck(False)
+@cython.cdivision(True)
+cpdef DTYPE_t quadratic_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
+                            np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
+                            ssize_t index):
+    cdef:
+        DTYPE_t x1, x2, x3
+        DTYPE_t y1, y2, y3
+        DTYPE_t d, mz_fit
+
+    if index < 1:
+        return mz_array[0]
+    elif index > mz_array.shape[0] - 1:
+        return mz_array[-1]
+    x1 = mz_array[index - 1]
+    x2 = mz_array[index]
+    x3 = mz_array[index + 1]
+    y1 = intensity_array[index - 1]
+    y2 = intensity_array[index]
+    y3 = intensity_array[index + 1]
+
+    d = (y2 - y1) * (x3 - x2) - (y3 - y2) * (x2 - x1)
+    if d == 0:  # If the interpolated intensity is 0, the peak fitting is no better than the peak
+        return x2
+    mz_fit = ((x1 + x2) - ((y2 - y1) * (x3 - x2) * (x1 - x3)) / d) / 2.0
+    return mz_fit
+
+
+@cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef double lorenztian_least_squares(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array, double amplitude, double full_width_at_half_max,
-                                     double vo, size_t lstart, size_t lstop):
+cdef double lorenztian_least_squares(DTYPE_t[:] mz_array,
+                                     DTYPE_t[:] intensity_array,
+                                     double amplitude, double full_width_at_half_max,
+                                     double vo, size_t lstart, size_t lstop) nogil:
 
     cdef:
         double root_mean_squared_error, u, Y2
@@ -472,6 +510,8 @@ cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.n
         double amplitude
         DTYPE_t vo, step, current_error, last_error
         size_t lstart, lstop, i
+        DTYPE_t[:] view_mz_array
+        DTYPE_t[:] view_intensity_array
 
     amplitude = intensity_array[index]
     vo = mz_array[index]
@@ -485,29 +525,33 @@ cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.n
     lstart = get_nearest(mz_array, vo + full_width_at_half_max, index) + 1
     lstop = get_nearest(mz_array, vo - full_width_at_half_max, index) - 1
 
-    current_error = lorenztian_least_squares(
-        mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
-    for i in range(50):
-        last_error = current_error
-        vo = vo + step
-        current_error = lorenztian_least_squares(
-            mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
-        if (current_error > last_error):
-            break
+    view_mz_array = mz_array
+    view_intensity_array = intensity_array
 
-    vo = vo - step
-    current_error = lorenztian_least_squares(
-        mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
-    for i in range(50):
-        last_error = current_error
+    with nogil:
+        current_error = lorenztian_least_squares(
+            view_mz_array, view_intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+        for i in range(50):
+            last_error = current_error
+            vo = vo + step
+            current_error = lorenztian_least_squares(
+                view_mz_array, view_intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+            if (current_error > last_error):
+                break
+
         vo = vo - step
         current_error = lorenztian_least_squares(
-            mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
-        if (current_error > last_error):
-            break
+            view_mz_array, view_intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+        for i in range(50):
+            last_error = current_error
+            vo = vo - step
+            current_error = lorenztian_least_squares(
+                view_mz_array, view_intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
+            if (current_error > last_error):
+                break
 
-    vo += step
-    return vo
+        vo += step
+        return vo
 
 
 @cython.boundscheck(False)

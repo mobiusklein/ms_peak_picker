@@ -129,7 +129,6 @@ def find_right_width(mz_array, intensity_array, data_index, signal_to_noise=0.):
     if data_index <= 0 or data_index >= size:
         return 0.
 
-    decreasing = True
     last_Y1 = peak
 
     lower = mz_array[size]
@@ -186,14 +185,11 @@ def find_left_width(mz_array, intensity_array, data_index, signal_to_noise=0.):
     if data_index <= 0 or data_index >= size:
         return 0.
 
-
-    decreasing = True
     last_Y1 = peak
     upper = mz_array[0]
     for index in range(data_index, -1, -1):
         current_mass = mz_array[index]
         Y1 = intensity_array[index]
-
 
         if ((Y1 < peak_half) or (np.fabs(mass - current_mass) > 1.5) or (Y1 > last_Y1) or (
                 (index < 1 or intensity_array[index - 1] > Y1) and (
@@ -505,11 +501,13 @@ try:
     _find_left_width = find_left_width
     _find_right_width = find_right_width
     _peak_area = peak_area
+    _quadratic_fit = quadratic_fit
 
     find_signal_to_noise = peak_statistics.find_signal_to_noise
     peak_area = peak_statistics.peak_area
     find_full_width_at_half_max = peak_statistics.find_full_width_at_half_max
-    # find_left_width = peak_statistics.find_left_width
-    # find_right_width = peak_statistics.find_right_width
+    quadratic_fit = peak_statistics.quadratic_fit
+    find_left_width = peak_statistics.find_left_width
+    find_right_width = peak_statistics.find_right_width
 except ImportError:
     pass
