@@ -495,7 +495,7 @@ def peak_area(mz_array, intensity_array, start, stop):
 
 
 try:
-    from ._c import peak_statistics
+    from ._c import peak_statistics as cpeak_statistics
     _find_signal_to_noise = find_signal_to_noise
     _find_full_width_at_half_max = find_full_width_at_half_max
     _find_left_width = find_left_width
@@ -503,11 +503,11 @@ try:
     _peak_area = peak_area
     _quadratic_fit = quadratic_fit
 
-    find_signal_to_noise = peak_statistics.find_signal_to_noise
-    peak_area = peak_statistics.peak_area
-    find_full_width_at_half_max = peak_statistics.find_full_width_at_half_max
-    quadratic_fit = peak_statistics.quadratic_fit
-    find_left_width = peak_statistics.find_left_width
-    find_right_width = peak_statistics.find_right_width
+    find_signal_to_noise = cpeak_statistics.find_signal_to_noise
+    peak_area = cpeak_statistics.peak_area
+    find_full_width_at_half_max = cpeak_statistics.find_full_width_at_half_max
+    quadratic_fit = cpeak_statistics.quadratic_fit
+    find_left_width = cpeak_statistics.find_left_width
+    find_right_width = cpeak_statistics.find_right_width
 except ImportError:
     pass
