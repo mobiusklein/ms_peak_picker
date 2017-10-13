@@ -303,3 +303,8 @@ def to_array(peak_set):
     array[:, 4] = [p.index for p in peak_set]
     array[:, 5] = [p.peak_count for p in peak_set]
     return array
+
+
+def simple_peak(mz, intensity, fwhm):
+    return FittedPeak(mz, intensity, intensity, -1, -1,
+                      fwhm, intensity, fwhm / 2, fwhm / 2)
