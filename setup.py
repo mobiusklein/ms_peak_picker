@@ -28,7 +28,7 @@ no_openmp = has_option('no-openmp')
 
 with_openmp = not no_openmp
 
-print("Building with OpenMP?", with_openmp)
+print("Building with OpenMP? %s" % with_openmp)
 
 
 def configure_openmp(ext):
