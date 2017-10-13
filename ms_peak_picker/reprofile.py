@@ -2,6 +2,7 @@ import numpy as np
 
 from ms_peak_picker import FittedPeak
 from ms_peak_picker.peak_statistics import GaussianModel
+from ms_peak_picker.peak_set import simple_peak
 
 
 class PeakSetReprofiler(object):
@@ -114,6 +115,14 @@ def reprofile(peaks, max_fwhm=0.2, dx=0.01, model_cls=GaussianModel):
     x, y = task.reprofile()
     y /= len(peaks)
     return x, y
+
+
+def reprofile_any(peaks, fwhm=0.05, dx=0.01):
+    if hasattr(peaks[0], 'mz'):
+        new_peaks = [simple_peak(p.mz, p.intensity, fwhm) for p in peaks]
+    else:
+        new_peaks = [simple_peak(p[0], p[1], fwhm) for p in peaks]
+    return reprofile(new_peaks, dx=dx)
 
 
 try:
