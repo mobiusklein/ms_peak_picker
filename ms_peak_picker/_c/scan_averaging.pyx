@@ -5,13 +5,17 @@ from cython cimport parallel
 cimport numpy as np
 from libc cimport math
 from libc.stdlib cimport malloc, calloc, free
+from multiprocessing import cpu_count
 import numpy as np
 
 from cpython cimport PyFloat_AsDouble
+from cpython cimport PyInt_AsLong
 from cpython.list cimport PyList_GET_SIZE, PyList_GET_ITEM
 from cpython.tuple cimport PyTuple_GET_SIZE, PyTuple_GET_ITEM
 
 np.import_array()
+
+cdef long num_processors = PyInt_AsLong(cpu_count())
 
 
 @cython.cdivision(True)
@@ -73,7 +77,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
         double x, contrib
         double scan_weight
         size_t i, j, n, n_arrays, n_points
-        long k_array, n_scans
+        long k_array, n_scans, n_workers, worker_block
         object omz, ointen
         list convert
 
@@ -121,7 +125,11 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
     intensity_array = np.zeros_like(mz_array)
     n_points = mz_array.shape[0]
     with nogil:
-        for k_array in parallel.prange(n_scans):
+        if n_scans < num_processors:
+            n_workers = n_scans
+        else:
+            n_workers = num_processors
+        for k_array in parallel.prange(n_workers):
             intensity_array_local = <double*>calloc(sizeof(double), n_points)
             pair = spectrum_pairs[k_array]
             pmz = pair.mz
@@ -146,10 +154,14 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
                 
                 contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
                 intensity_array_local[i] += contrib * scan_weight
-            with gil:
-                for i in range(n_points):
-                    intensity_array[i] += intensity_array_local[i]
+            for i in range(n_points):
+                intensity_array[i] = intensity_array[i] + intensity_array_local[i]
             free(intensity_array_local)
-    free(spectrum_pairs)
-    free(pweights)
-    return mz_array, intensity_array / sum(weights)
+        scan_weight = 0
+        for i in range(n_scans):
+            scan_weight += pweights[i]
+        for i in range(n_points):
+            intensity_array[i] /= scan_weight
+        free(spectrum_pairs)
+        free(pweights)
+    return mz_array, intensity_array
