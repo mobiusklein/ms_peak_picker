@@ -3,8 +3,8 @@ cimport numpy as np
 
 from ms_peak_picker._c.peak_set cimport FittedPeak
 
-
 ctypedef np.float64_t DTYPE_t
+
 
 cpdef DTYPE_t find_signal_to_noise(
     double target_val,

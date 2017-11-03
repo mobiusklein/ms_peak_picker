@@ -527,30 +527,30 @@ cdef class PeakSetIndexed(PeakSet):
         else:
             return _null_peak
 
-    @cython.cdivision(True)
-    def get_nearest_peak(self, double mz):
-        cdef:
-            size_t i, n
-            FittedPeak peak
-            double errout
-        n = self.get_size()
-        if n == 0:
-            return _null_peak, INF
-        i = double_binary_search_ppm(self.mz_index, mz, 0, n)
-        peak = self.getitem(i)
-        errout = (peak.mz - mz) / mz
-        return peak, errout
+    # @cython.cdivision(True)
+    # def get_nearest_peak(self, double mz):
+    #     cdef:
+    #         size_t i, n
+    #         FittedPeak peak
+    #         double errout
+    #     n = self.get_size()
+    #     if n == 0:
+    #         return _null_peak, INF
+    #     i = double_binary_search_ppm(self.mz_index, mz, 0, n)
+    #     peak = self.getitem(i)
+    #     errout = (peak.mz - mz) / mz
+    #     return peak, errout
 
-    @cython.cdivision(True)
-    cdef FittedPeak _get_nearest_peak(self, double mz, double* errout):
-        cdef:
-            size_t i, n
-            FittedPeak peak
-        n = self.get_size()
-        if n == 0:
-            errout[0] = INF
-            return _null_peak
-        i = double_binary_search_ppm(self.mz_index, mz, 0, n)
-        peak = self.getitem(i)
-        errout[0] = (peak.mz - mz) / mz
-        return peak
+    # @cython.cdivision(True)
+    # cdef FittedPeak _get_nearest_peak(self, double mz, double* errout):
+    #     cdef:
+    #         size_t i, n
+    #         FittedPeak peak
+    #     n = self.get_size()
+    #     if n == 0:
+    #         errout[0] = INF
+    #         return _null_peak
+    #     i = double_binary_search_ppm(self.mz_index, mz, 0, n)
+    #     peak = self.getitem(i)
+    #     errout[0] = (peak.mz - mz) / mz
+    #     return peak

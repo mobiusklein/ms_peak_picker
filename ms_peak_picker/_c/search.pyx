@@ -4,12 +4,12 @@ cimport numpy as np
 cimport cython
 
 from libc.math cimport fabs
-
+# ctypedef cython.floating mz_t
 
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cpdef size_t nearest_left(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0):
+cpdef size_t nearest_left(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target_val, size_t start_index=0):
     """Locate the index nearest to `target_val` in `vec` searching
     to the left of `start_index`
     
@@ -52,7 +52,7 @@ cpdef size_t nearest_left(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, s
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cpdef size_t nearest_right(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0):
+cpdef size_t nearest_right(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target_val, size_t start_index=0):
     """Locate the index nearest to `target_val` in `vec` searching
     to the right of `start_index`
     
@@ -97,7 +97,7 @@ cpdef size_t nearest_right(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, 
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cpdef size_t get_nearest_binary(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index=0, object stop_index=None):
+cpdef size_t get_nearest_binary(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target_val, size_t start_index=0, object stop_index=None):
     """Find the nearest index to `target_val` in `vec` using binary
     search
     
@@ -166,7 +166,7 @@ cpdef size_t get_nearest_binary(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cpdef size_t get_nearest(np.ndarray[DTYPE_t, ndim=1] vec, DTYPE_t target_val, size_t start_index):
+cpdef size_t get_nearest(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target_val, size_t start_index):
     """Locate the index nearest to `target_val` in `vec`. Starts
     by interpolating from the value at `start_index` to `target_val`
     and then starts searching to the left and right of the guessed
