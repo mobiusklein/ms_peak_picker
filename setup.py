@@ -69,7 +69,9 @@ def make_cextensions():
                       include_dirs=[numpy.get_include()]),
             OpenMPExtension(name='ms_peak_picker._c.scan_averaging',
                             sources=['ms_peak_picker/_c/scan_averaging.pyx'],
-                            include_dirs=[numpy.get_include()])
+                            include_dirs=[numpy.get_include()]),
+            Extension(name='ms_peak_picker._c.fticr_denoising', sources=['ms_peak_picker/_c/fticr_denoising.pyx'],
+                      include_dirs=[numpy.get_include()])
         ])
     except ImportError:
         extensions = ([
@@ -89,7 +91,9 @@ def make_cextensions():
                       include_dirs=[numpy.get_include()]),
             OpenMPExtension(name='ms_peak_picker._c.scan_averaging',
                             sources=['ms_peak_picker/_c/scan_averaging.c'],
-                            include_dirs=[numpy.get_include()])
+                            include_dirs=[numpy.get_include()]),
+            Extension(name='ms_peak_picker._c.fticr_denoising', sources=['ms_peak_picker/_c/fticr_denoising.c'],
+                      include_dirs=[numpy.get_include()])
         ])
     return extensions
 
@@ -199,6 +203,7 @@ def run_setup(include_cext=True):
 try:
     run_setup(True)
 except Exception as exc:
+    print exc
     run_setup(False)
 
     status_msgs(

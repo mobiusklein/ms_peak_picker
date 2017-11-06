@@ -3,7 +3,24 @@ An implementation of the noise filtering methods from MasSpike
 '''
 
 import numpy as np
-from ms_peak_picker.search import get_nearest
+
+
+def binsearch(array, x, hint=None):
+    n = len(array)
+    lo = 0
+    hi = n
+
+    while hi != lo:
+        mid = (hi + lo) / 2
+        y = array[mid]
+        err = y - x
+        if hi - lo == 1:
+            return mid
+        elif err > 0:
+            hi = mid
+        else:
+            lo = mid
+    return 0
 
 
 class Window(object):
@@ -45,7 +62,7 @@ def windowed_spectrum(mz_array, intensity_array, window_size=1.):
 
     step_size = window_size / 2.
     center_mz = mz_min + step_size
-    center_i = get_nearest(mz_array, center_mz, 1)
+    center_i = binsearch(mz_array, center_mz, 1)
 
     windows = []
 
@@ -55,15 +72,15 @@ def windowed_spectrum(mz_array, intensity_array, window_size=1.):
         lo_mz = center_mz - step_size
         hi_mz = center_mz + step_size
 
-        lo_i = get_nearest(mz_array, lo_mz, center_i)
-        hi_i = get_nearest(mz_array, hi_mz, center_i)
+        lo_i = binsearch(mz_array, lo_mz, center_i)
+        hi_i = binsearch(mz_array, hi_mz, center_i)
         win = Window(mz_array[lo_i:hi_i + 1],
                      intensity_array[lo_i:hi_i + 1], lo_i, hi_i)
         win.center_mz = center_mz
         windows.append(win)
 
         center_mz = center_mz + window_size
-        center_i = get_nearest(mz_array, center_mz, center_i)
+        center_i = binsearch(mz_array, center_mz, center_i)
 
         niter += 1
 
@@ -145,10 +162,17 @@ class FTICRScan(object):
         for region in self.regions:
             region.denoise(scale)
             mz_, intensity_ = region.arrays()
-            assert len(mz_) == len(intensity_)
             mz.extend(mz_)
             intensity.extend(intensity_)
         return FTICRScan(np.array(mz), np.array(intensity))
+
+
+try:
+    _FTICRScan = FTICRScan
+    has_c = True
+    from ms_peak_picker._c.fticr_denoising import FTICRScan
+except ImportError:
+    has_c = False
 
 
 def denoise(mz_array, intensity_array, window_size=1., region_width=10, scale=5):
