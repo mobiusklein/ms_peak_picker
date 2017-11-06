@@ -203,7 +203,6 @@ def run_setup(include_cext=True):
 try:
     run_setup(True)
 except Exception as exc:
-    print exc
     run_setup(False)
 
     status_msgs(
