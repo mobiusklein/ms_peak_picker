@@ -20,7 +20,11 @@ def binsearch(array, x):
     return 0
 
 
-def average_signal(arrays, dx=0.01):
+def average_signal(arrays, dx=0.01, weights=None):
+    if weights is None:
+        weights = [1 for omz in arrays]
+    elif len(arrays) != len(weights):
+        raise ValueError("`arrays` and `weights` must have the same length")
     lo = max(min([x.min() for x, y in arrays]) - 1, 0)
     hi = max([x.max() for x, y in arrays]) + 1
     arrays = [(x.astype(float), y.astype(float)) for x, y in arrays]
@@ -29,7 +33,10 @@ def average_signal(arrays, dx=0.01):
     elif isinstance(dx, np.ndarray):
         mz_array = dx
     intensity_array = np.zeros_like(mz_array)
+    arrays_k = 0
     for mz, inten in arrays:
+        weight = weights[arrays_k]
+        arrays_k += 1
         contrib = 0
         for i, x in enumerate(mz_array):
             j = binsearch(mz, x)
@@ -46,8 +53,8 @@ def average_signal(arrays, dx=0.01):
             else:
                 continue
             contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
-            intensity_array[i] += contrib
-    return mz_array, intensity_array / len(arrays)
+            intensity_array[i] += contrib * weight
+    return mz_array, intensity_array / sum(weights)
 
 
 def peak_set_similarity(peak_set_a, peak_set_b, precision=0):
