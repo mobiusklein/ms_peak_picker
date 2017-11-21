@@ -57,3 +57,5 @@ cdef class PeakSetIndexed(PeakSet):
     cpdef _allocate_index(self)
 
 cdef size_t double_binary_search_ppm(double* array, double value, double tolerance, size_t n)
+cdef size_t double_binary_search_nearest_match(double* array, double value, size_t n)
+cdef size_t double_binary_search_ppm_with_hint(double* array, double value, double tolerance, size_t n, size_t hint=*)

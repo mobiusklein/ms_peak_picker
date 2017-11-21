@@ -476,6 +476,98 @@ cdef size_t double_binary_search_ppm(double* array, double value, double toleran
     return 0
 
 
+@cython.cdivision(True)
+cdef size_t double_binary_search_nearest_match(double* array, double value, size_t n):
+    cdef:
+        size_t lo, hi, mid
+        size_t i, best_ix
+        double x, err, best_err, abs_err
+    lo = 0
+    hi = n
+    while hi != lo:
+        mid = (hi + lo) / 2
+        x = array[mid]
+        err = x - value
+        if err == 0 or ((hi - 1) == lo):
+            i = mid
+            best_err = abs(err)
+            best_ix = mid
+            while i > 0:
+                i -= 1
+                x = array[i]
+                err = (x - value)
+                abs_err = abs(err)
+                if abs_err > best_err:
+                    break
+                elif abs_err < best_err:
+                    best_err = abs_err
+                    best_ix = i
+            i = mid
+            while i < n - 1:
+                i += 1
+                x = array[i]
+                err = (x - value)
+                abs_err = abs(err)
+                if abs_err > best_err:
+                    break
+                elif abs_err < best_err:
+                    best_err = abs_err
+                    best_ix = i
+            return best_ix
+        elif err > 0:
+            hi = mid
+        else:
+            lo = mid
+    return 0
+
+
+@cython.cdivision(True)
+cdef size_t double_binary_search_ppm_with_hint(double* array, double value, double tolerance, size_t n, size_t hint=0):
+    cdef:
+        size_t lo, hi, mid
+        size_t i, best_ix
+        double x, err, best_err, abs_err
+    lo = hint
+    hi = n
+    while hi != lo:
+        mid = (hi + lo) / 2
+        x = array[mid]
+        err = (x - value) / value
+        if abs(err) < tolerance:
+            i = mid
+            best_error = err
+            best_ix = mid
+            while i > 0:
+                i -= 1
+                x = array[i]
+                err = (x - value) / value
+                abs_err = abs(err)
+                if abs_err > tolerance:
+                    break
+                elif abs_err < best_error:
+                    best_error = abs_err
+                    best_ix = i
+            i = mid
+            while i < n - 1:
+                i += 1
+                x = array[i]
+                err = (x - value) / value
+                abs_err = abs(err)
+                if abs_err > tolerance:
+                    break
+                elif abs_err < best_error:
+                    best_error = abs_err
+                    best_ix = i
+            return best_ix
+        elif (hi - 1) == lo:
+            return mid
+        elif err > 0:
+            hi = mid
+        else:
+            lo = mid
+    return 0
+
+
 cdef class PeakSetIndexed(PeakSet):
 
     @staticmethod
@@ -527,30 +619,30 @@ cdef class PeakSetIndexed(PeakSet):
         else:
             return _null_peak
 
-    # @cython.cdivision(True)
-    # def get_nearest_peak(self, double mz):
-    #     cdef:
-    #         size_t i, n
-    #         FittedPeak peak
-    #         double errout
-    #     n = self.get_size()
-    #     if n == 0:
-    #         return _null_peak, INF
-    #     i = double_binary_search_ppm(self.mz_index, mz, 0, n)
-    #     peak = self.getitem(i)
-    #     errout = (peak.mz - mz) / mz
-    #     return peak, errout
+    @cython.cdivision(True)
+    def get_nearest_peak(self, double mz):
+        cdef:
+            size_t i, n
+            FittedPeak peak
+            double errout
+        n = self.get_size()
+        if n == 0:
+            return _null_peak, INF
+        i = double_binary_search_nearest_match(self.mz_index, mz, n)
+        peak = self.getitem(i)
+        errout = (peak.mz - mz) / mz
+        return peak, errout
 
-    # @cython.cdivision(True)
-    # cdef FittedPeak _get_nearest_peak(self, double mz, double* errout):
-    #     cdef:
-    #         size_t i, n
-    #         FittedPeak peak
-    #     n = self.get_size()
-    #     if n == 0:
-    #         errout[0] = INF
-    #         return _null_peak
-    #     i = double_binary_search_ppm(self.mz_index, mz, 0, n)
-    #     peak = self.getitem(i)
-    #     errout[0] = (peak.mz - mz) / mz
-    #     return peak
+    @cython.cdivision(True)
+    cdef FittedPeak _get_nearest_peak(self, double mz, double* errout):
+        cdef:
+            size_t i, n
+            FittedPeak peak
+        n = self.get_size()
+        if n == 0:
+            errout[0] = INF
+            return _null_peak
+        i = double_binary_search_nearest_match(self.mz_index, mz, n)
+        peak = self.getitem(i)
+        errout[0] = (peak.mz - mz) / mz
+        return peak
