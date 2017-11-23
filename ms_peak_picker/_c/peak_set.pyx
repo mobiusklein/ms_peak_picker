@@ -3,6 +3,8 @@ cimport cython
 import operator
 from libc.stdlib cimport malloc, realloc, free
 
+from libc.stdio cimport printf
+
 from cpython.tuple cimport PyTuple_GET_ITEM, PyTuple_GetItem, PyTuple_GetSlice, PyTuple_GET_SIZE
 from cpython cimport PyObject
 
@@ -181,6 +183,7 @@ cdef class PeakSet(object):
             peak.peak_count = i
             if peak.index == -1:
                 peak.index = i
+        self.indexed = True
         return i
 
     def has_peak(self, double mz, double tolerance=1e-5):
@@ -234,14 +237,16 @@ cdef class PeakSet(object):
             return PeakSet(self.peaks[item])
         return self.peaks[item]
 
-    def clone(self):
+    cpdef PeakSet clone(self):
         """Creates a deep copy of the sequence of peaks
         
         Returns
         -------
         PeakSet
         """
-        return PeakSet(p.clone() for p in self)
+        cdef PeakSet inst = PeakSet._create(tuple([p.clone() for p in self]))
+        inst.indexed = self.indexed
+        return inst
 
     def between(self, double m1, double m2):
         """Retrieve a :class:`PeakSet` containing all the peaks
@@ -281,11 +286,32 @@ cdef class PeakSet(object):
         sliced = <tuple>PyTuple_GetSlice(self.peaks, start, end)
         return PeakSet._create(sliced)
 
+    cdef int _between_bounds(self, double m1, double m2, size_t* startp, size_t* endp):
+        cdef:
+            FittedPeak p1
+            FittedPeak p2
+            double err
+            size_t start, end, n
+
+        p1 = self._get_nearest_peak(m1, &err)
+        p2 = self._get_nearest_peak(m2, &err)
+        start = p1.peak_count
+        end = p2.peak_count + 1
+        n = self.get_size()
+        if p1.mz < m1 and start + 1 < n:
+            start += 1
+        if p2.mz > m2 and end > 0:
+            end -= 1
+        startp[0] = start
+        endp[0] = end
+        return 0
+
     def __getstate__(self):
         return self.peaks
 
     def __setstate__(self, state):
         self.peaks = state
+        self.indexed = False
         self.reindex()
 
     def __reduce__(self):
@@ -522,7 +548,7 @@ cdef size_t double_binary_search_nearest_match(double* array, double value, size
 
 
 @cython.cdivision(True)
-cdef size_t double_binary_search_ppm_with_hint(double* array, double value, double tolerance, size_t n, size_t hint=0):
+cdef size_t double_binary_search_ppm_with_hint(double* array, double value, double tolerance, size_t n, size_t hint):
     cdef:
         size_t lo, hi, mid
         size_t i, best_ix
@@ -567,6 +593,52 @@ cdef size_t double_binary_search_ppm_with_hint(double* array, double value, doub
             lo = mid
     return 0
 
+@cython.cdivision(True)
+cdef size_t double_binary_search_nearest_match_with_hint(double* array, double value, size_t n, size_t hint):
+    cdef:
+        size_t lo, hi, mid
+        size_t i, best_ix
+        double x, err, best_err, abs_err
+    lo = hint
+    hi = n
+    while hi != lo:
+        mid = (hi + lo) / 2
+        x = array[mid]
+        err = x - value
+        if err == 0 or ((hi - 1) == lo):
+            i = mid
+            best_err = abs(err)
+            best_ix = mid
+            while i > 0:
+                i -= 1
+                x = array[i]
+                err = (x - value)
+                abs_err = abs(err)
+                if abs_err > best_err:
+                    break
+                elif abs_err < best_err:
+                    best_err = abs_err
+                    best_ix = i
+            i = mid
+            while i < n - 1:
+                i += 1
+                x = array[i]
+                err = (x - value)
+                abs_err = abs(err)
+                if abs_err > best_err:
+                    break
+                elif abs_err < best_err:
+                    best_err = abs_err
+                    best_ix = i
+            return best_ix
+        elif err > 0:
+            hi = mid
+        else:
+            lo = mid
+    return 0
+
+
+cdef size_t INTERVAL_INDEX_SIZE = 500
 
 cdef class PeakSetIndexed(PeakSet):
 
@@ -577,19 +649,32 @@ cdef class PeakSetIndexed(PeakSet):
         inst = PeakSetIndexed.__new__(PeakSetIndexed)
         inst.peaks = peaks
         inst.mz_index = NULL
+        inst.interval_index = NULL
         return inst
 
     def __init__(self, peaks):
         PeakSet.__init__(self, peaks)
         self.mz_index = NULL
+        self.interval_index = NULL
 
     def __dealloc__(self):
-        free(self.mz_index)
+        if self.mz_index != NULL:
+            free(self.mz_index)
+        if self.interval_index != NULL:
+            free_index_list(self.interval_index)
+
+    cpdef PeakSet clone(self):
+        cdef PeakSetIndexed inst = PeakSetIndexed._create(tuple([p.clone() for p in self]))
+        inst.indexed = self.indexed
+        if self.indexed:
+            self._allocate_index()
+        return inst
 
     cpdef _allocate_index(self):
         cdef:
             size_t i, n
             FittedPeak p
+            index_list* interval_index
         n = self.get_size()
         if self.mz_index != NULL:
             free(self.mz_index)
@@ -598,6 +683,10 @@ cdef class PeakSetIndexed(PeakSet):
         for i in range(n):
             p = self.getitem(i)
             self.mz_index[i] = p.mz
+        
+        interval_index = <index_list*>malloc(sizeof(index_list))
+        build_interval_index(self, interval_index, INTERVAL_INDEX_SIZE)
+        self.interval_index = interval_index
 
     def _index(self):
         i = PeakSet._index(self)
@@ -607,12 +696,16 @@ cdef class PeakSetIndexed(PeakSet):
     @cython.cdivision(True)
     cdef FittedPeak _has_peak(self, double mz, double tolerance=1e-5):
         cdef:
-            size_t i, n
+            size_t i, n, s
             FittedPeak peak
         n = self.get_size()
         if n == 0:
             return _null_peak
-        i = double_binary_search_ppm(self.mz_index, mz, tolerance, n)
+        if self.interval_index != NULL:
+            find_search_interval(self.interval_index, mz, &s, &n)
+            i = double_binary_search_ppm_with_hint(self.mz_index, mz, tolerance, n, s)
+        else:
+            i = double_binary_search_ppm(self.mz_index, mz, tolerance, n)
         peak = self.getitem(i)
         if abs((peak.mz - mz) / mz) < tolerance:
             return peak
@@ -622,27 +715,154 @@ cdef class PeakSetIndexed(PeakSet):
     @cython.cdivision(True)
     def get_nearest_peak(self, double mz):
         cdef:
-            size_t i, n
-            FittedPeak peak
             double errout
-        n = self.get_size()
-        if n == 0:
-            return _null_peak, INF
-        i = double_binary_search_nearest_match(self.mz_index, mz, n)
-        peak = self.getitem(i)
-        errout = (peak.mz - mz) / mz
+            FittedPeak peak
+        peak = self._get_nearest_peak(mz, &errout)
         return peak, errout
 
     @cython.cdivision(True)
     cdef FittedPeak _get_nearest_peak(self, double mz, double* errout):
         cdef:
-            size_t i, n
+            size_t i, n, s
             FittedPeak peak
         n = self.get_size()
         if n == 0:
             errout[0] = INF
             return _null_peak
-        i = double_binary_search_nearest_match(self.mz_index, mz, n)
+        if self.interval_index != NULL:
+            find_search_interval(self.interval_index, mz, &s, &n)
+            i = double_binary_search_nearest_match_with_hint(self.mz_index, mz, n, s)
+        else:
+            i = double_binary_search_nearest_match(self.mz_index, mz, n)
         peak = self.getitem(i)
         errout[0] = (peak.mz - mz) / mz
         return peak
+
+    cpdef FittedPeak has_peak_hinted(self, double mz, double tolerance=2e-5, size_t hint_start=0, size_t hint_end=-1):
+        cdef:
+            size_t i, n
+            FittedPeak peak
+        n = self.get_size()
+        if hint_start > n :
+            raise ValueError("Hinted start index %d cannot be greater than the set size %d" % (hint_start, n))
+        if hint_end > n:
+            raise ValueError("Hinted start index %d cannot be greater than the set size %d" % (hint_end, n))
+        if n == 0:
+            return _null_peak
+        i = double_binary_search_ppm_with_hint(self.mz_index, mz, tolerance, hint_end, hint_start)
+        peak = self.getitem(i)
+        if abs((peak.mz - mz) / mz) < tolerance:
+            return peak
+        else:
+            return _null_peak
+
+    def test_interval(self, double value):
+        cdef:
+            int status
+            size_t start, end
+            size_t i
+
+        status = find_search_interval(self.interval_index, value, &start, &end)
+        return start, end
+
+    def check_interval(self, size_t i):
+        cdef:
+            index_cell cell
+        cell = self.interval_index.index[i]
+        return cell
+
+
+cdef double* build_linear_spaced_array(double low, double high, size_t n):
+    cdef:
+        double* array
+        double delta
+        size_t i
+
+    delta = (high - low) / (n - 1)
+
+    array = <double*>malloc(sizeof(double) * n)
+
+    for i in range(n):
+        array[i] = low + i * delta
+    return array
+
+
+cdef void free_index_list(index_list* index):
+    free(index.index)
+    free(index)
+
+cdef int build_interval_index(PeakSet peaks, index_list* index, size_t index_size):
+    cdef:
+        double* linear_spacing
+        double current_value, err, next_value
+        size_t i, start_i, end_i, index_i, peaks_size
+        FittedPeak peak
+    peaks_size = peaks.get_size()
+    if peaks_size > 0:
+        index.low = peaks.getitem(0).mz
+        index.high = peaks.getitem(peaks_size - 1).mz
+    else:
+        index.low = 0
+        index.high = 1
+    index.size = index_size
+    linear_spacing = build_linear_spaced_array(
+        index.low,
+        index.high,
+        index_size)
+
+    index.index = <index_cell*>malloc(sizeof(index_cell) * index_size)
+
+    for index_i in range(index_size):
+        current_value = linear_spacing[index_i]
+        peak = peaks._get_nearest_peak(current_value, &err)
+        if peaks_size > 0:
+            start_i = peak.peak_count
+            if index_i > 0:
+                start_i = index.index[index_i - 1].end - 1
+            if index_i == index_size - 1:
+                end_i = peaks_size - 1
+            else:
+                next_value = linear_spacing[index_i + 1]
+                i = peak.peak_count
+                while i < peaks_size:
+                    peak = peaks.getitem(i)
+                    if abs(current_value - peak.mz) > abs(next_value - peak.mz):
+                        break
+                    i += 1
+                end_i = i
+        else:
+            start_i = 0
+            end_i = 0
+        index.index[index_i].center_value = current_value
+        index.index[index_i].start = start_i
+        index.index[index_i].end = end_i
+
+    free(linear_spacing)
+    return 0
+
+cdef size_t interpolate_index(index_list* index, double value):
+    cdef:
+        double v
+        size_t i
+    v = (((value - index.low) / (index.high - index.low)) * index.size)
+    i = <size_t>v
+    return i
+
+cdef int find_search_interval(index_list* index, double value, size_t* start, size_t* end):
+    cdef:
+        size_t i
+    if value > index.high:
+        i = index.size - 1
+    elif value < index.low:
+        i = 0
+    else:
+        i = interpolate_index(index, value)
+    if i > 0:
+        start[0] = index.index[i - 1].start
+    else:
+        start[0] = index.index[i].start
+    if i == (index.size - 1):
+        end[0] = index.index[i].end
+    else:
+        end[0] = index.index[i + 1].end
+    return 0
