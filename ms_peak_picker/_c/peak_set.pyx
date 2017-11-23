@@ -762,7 +762,10 @@ cdef class PeakSetIndexed(PeakSet):
             size_t i
 
         status = find_search_interval(self.interval_index, value, &start, &end)
-        return start, end
+        return start, end, interpolate_index(self.interval_index, value)
+
+    def find_interval_for(self, double value):
+        return interpolate_index(self.interval_index, value)        
 
     def check_interval(self, size_t i):
         cdef:
@@ -857,11 +860,17 @@ cdef int find_search_interval(index_list* index, double value, size_t* start, si
     else:
         i = interpolate_index(index, value)
     if i > 0:
-        start[0] = index.index[i - 1].start
+        if i < index.size:
+            start[0] = index.index[i - 1].start
+        else:
+            # if we're at index.size or greater, act as if we're at the last
+            # cell of the index
+            start[0] = index.index[index.size - 2].start
     else:
+        # if somehow the index were negative, this could end badly.
         start[0] = index.index[i].start
-    if i == (index.size - 1):
-        end[0] = index.index[i].end
+    if i >= (index.size - 1):
+        end[0] = index.index[index.size - 1].end + 1
     else:
-        end[0] = index.index[i + 1].end
+        end[0] = index.index[i + 1].end + 1
     return 0

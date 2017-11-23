@@ -31,6 +31,8 @@ class TestPeakSet(unittest.TestCase):
         inst = self.make_peaks()
         self.assertIsNotNone(inst.has_peak(576.5))
         self.assertIsNone(inst.has_peak(1576.5))
+        for peak in inst:
+            assert inst.has_peak(peak.mz) is not None
 
     def test_between(self):
         inst = self.make_peaks()
