@@ -244,7 +244,7 @@ cdef class PeakSet(object):
         -------
         PeakSet
         """
-        cdef PeakSet inst = PeakSet._create(tuple([p.clone() for p in self]))
+        cdef PeakSet inst = PeakSet([p.clone() for p in self])
         inst.indexed = self.indexed
         return inst
 
@@ -664,10 +664,9 @@ cdef class PeakSetIndexed(PeakSet):
             free_index_list(self.interval_index)
 
     cpdef PeakSet clone(self):
-        cdef PeakSetIndexed inst = PeakSetIndexed._create(tuple([p.clone() for p in self]))
-        inst.indexed = self.indexed
+        cdef PeakSetIndexed inst = PeakSetIndexed(tuple([p.clone() for p in self]))
         if self.indexed:
-            self._allocate_index()
+            inst.reindex()
         return inst
 
     cpdef _allocate_index(self):
