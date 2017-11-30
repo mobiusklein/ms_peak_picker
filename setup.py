@@ -105,19 +105,6 @@ if sys.platform == 'win32':
     ext_errors += (IOError,)
 
 
-def has_option(name):
-    try:
-        sys.argv.remove('--%s' % name)
-        return True
-    except ValueError:
-        pass
-    # allow passing all cmd line options also as environment variables
-    env_val = os.getenv(name.upper().replace('-', '_'), 'false').lower()
-    if env_val == "true":
-        return True
-    return False
-
-
 class BuildFailed(Exception):
 
     def __init__(self):

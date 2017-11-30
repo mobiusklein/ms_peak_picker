@@ -211,7 +211,7 @@ cdef class PeakSet(object):
         cdef:
             FittedPeak peak
             double err
-        peak = _binary_search_nearest_match(self.peaks, mz, 0, PyTuple_GET_SIZE(self.peaks), &err)
+        peak = self._get_nearest_peak(mz, &err)
         return peak, err
 
     cdef FittedPeak _get_nearest_peak(self, double mz, double* errout):
@@ -638,7 +638,7 @@ cdef size_t double_binary_search_nearest_match_with_hint(double* array, double v
     return 0
 
 
-cdef size_t INTERVAL_INDEX_SIZE = 500
+cdef size_t INTERVAL_INDEX_SIZE = 10000
 
 cdef class PeakSetIndexed(PeakSet):
 
