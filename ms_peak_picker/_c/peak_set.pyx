@@ -27,7 +27,7 @@ cdef class FittedPeak(PeakBase):
 
     FittedPeak instances are comparable for equality and
     hashable.
-    
+
     Attributes
     ----------
     mz : float
@@ -145,7 +145,7 @@ cdef class PeakSet(object):
 
     One :class:`PeakSet` is considered equal to another if all of their
     contained :class:`FittedPeak` members are equal to each other
-    
+
     Attributes
     ----------
     peaks : tuple
@@ -189,14 +189,14 @@ cdef class PeakSet(object):
     def has_peak(self, double mz, double tolerance=1e-5):
         """Search the for the peak nearest to `mz` within
         `tolerance` error (in PPM)
-        
+
         Parameters
         ----------
         mz : float
             The m/z to search for
         tolerance : float, optional
             The error tolerance to accept. Defaults to 1e-5 (10 ppm)
-        
+
         Returns
         -------
         FittedPeak
@@ -239,7 +239,7 @@ cdef class PeakSet(object):
 
     cpdef PeakSet clone(self):
         """Creates a deep copy of the sequence of peaks
-        
+
         Returns
         -------
         PeakSet
@@ -253,14 +253,14 @@ cdef class PeakSet(object):
         in `self` whose m/z is between `m1` and `m2`.
 
         These peaks are not copied.
-        
+
         Parameters
         ----------
         m1 : float
             The lower m/z limit
         m2 : float
             The upper m/z limit
-        
+
         Returns
         -------
         PeakSet
@@ -682,7 +682,9 @@ cdef class PeakSetIndexed(PeakSet):
         for i in range(n):
             p = self.getitem(i)
             self.mz_index[i] = p.mz
-        
+
+        if n < 2:
+            return
         interval_index = <index_list*>malloc(sizeof(index_list))
         build_interval_index(self, interval_index, INTERVAL_INDEX_SIZE)
         self.interval_index = interval_index
@@ -765,7 +767,7 @@ cdef class PeakSetIndexed(PeakSet):
         return start, end, interpolate_index(self.interval_index, value)
 
     def find_interval_for(self, double value):
-        return interpolate_index(self.interval_index, value)        
+        return interpolate_index(self.interval_index, value)
 
     def check_interval(self, size_t i):
         cdef:
