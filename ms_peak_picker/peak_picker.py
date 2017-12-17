@@ -3,7 +3,7 @@ A Peak Picker/Fitter adapted from Decon2LS's DeconEngine
 '''
 
 import numpy as np
-
+from numpy.linalg import LinAlgError
 
 from .peak_statistics import (
     find_signal_to_noise, quadratic_fit, lorenztian_fit,
@@ -246,9 +246,12 @@ class PeakProcessor(object):
 
                     # Run Full-Width Half-Max algorithm to try to improve SNR
                     if signal_to_noise < signal_to_noise_threshold:
-                        full_width_at_half_max = self.find_full_width_at_half_max(
-                            index,
-                            mz_array, intensity_array, signal_to_noise)
+                        try:
+                            full_width_at_half_max = self.find_full_width_at_half_max(
+                                index,
+                                mz_array, intensity_array, signal_to_noise)
+                        except LinAlgError:
+                            full_width_at_half_max = 0
                         if 0 < full_width_at_half_max < 0.5:
                             ilow = get_nearest_binary(
                                 mz_array, current_mz - self.partial_fit_state.left_width, 0, index)
@@ -275,9 +278,12 @@ class PeakProcessor(object):
                             debug(
                                 "Considering peak at %d with fitted m/z %r", index, fitted_mz)
                         if full_width_at_half_max == -1:
-                            full_width_at_half_max = self.find_full_width_at_half_max(
-                                index,
-                                mz_array, intensity_array, signal_to_noise)
+                            try:
+                                full_width_at_half_max = self.find_full_width_at_half_max(
+                                    index,
+                                    mz_array, intensity_array, signal_to_noise)
+                            except LinAlgError:
+                                full_width_at_half_max = 0
 
                         if full_width_at_half_max > 0:
                             area = self.area(

@@ -2,7 +2,7 @@ import numpy as np
 
 from ms_peak_picker import FittedPeak
 from ms_peak_picker.peak_statistics import GaussianModel
-from ms_peak_picker.peak_set import simple_peak
+from ms_peak_picker.peak_set import simple_peak, is_peak
 
 
 class PeakSetReprofiler(object):
@@ -74,8 +74,11 @@ def models_from_peak_sets(peak_sets, max_fwhm=0.2, model_cls=None):
     models = []
     for peaks in peak_sets:
         for peak in peaks:
-            if peak.full_width_at_half_max > max_fwhm:
-                continue
+            try:
+                if peak.full_width_at_half_max > max_fwhm:
+                    continue
+            except AttributeError:
+                peak = simple_peak(peak.mz, peak.intensity, 0.1)
             models.append(model_cls(peak))
     return models
 
@@ -108,21 +111,13 @@ def reprofile(peaks, max_fwhm=0.2, dx=0.01, model_cls=GaussianModel):
     intensity_array: np.ndarray[float64]
         The modeled total signal at each grid point
     """
-    if isinstance(peaks[0], FittedPeak):
+    if is_peak(peaks[0]):
         peaks = [peaks]
     models = models_from_peak_sets(peaks, max_fwhm, model_cls)
     task = PeakSetReprofiler(models, dx)
     x, y = task.reprofile()
     y /= len(peaks)
     return x, y
-
-
-def reprofile_any(peaks, fwhm=0.05, dx=0.01):
-    if hasattr(peaks[0], 'mz'):
-        new_peaks = [simple_peak(p.mz, p.intensity, fwhm) for p in peaks]
-    else:
-        new_peaks = [simple_peak(p[0], p[1], fwhm) for p in peaks]
-    return reprofile(new_peaks, dx=dx)
 
 
 try:

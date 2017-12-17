@@ -6,3 +6,6 @@ retest:
 
 sphinx:
 	cd docs && make html
+
+dev:
+	python setup.py develop

@@ -308,3 +308,7 @@ def to_array(peak_set):
 def simple_peak(mz, intensity, fwhm):
     return FittedPeak(mz, intensity, intensity, -1, -1,
                       fwhm, intensity, fwhm / 2, fwhm / 2)
+
+
+def is_peak(obj):
+    return hasattr(obj, 'mz') and hasattr(obj, 'intensity')
