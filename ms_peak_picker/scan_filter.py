@@ -196,6 +196,15 @@ class MaximumScaler(FilterBase):
         return mz_array, intensity_array
 
 
+@register("recalibrate", 0)
+class RecalibrateMass(FilterBase):
+    def __init__(self, offset):
+        self.offset = offset
+
+    def filter(self, mz_array, intensity_array):
+        return mz_array+self.offset, intensity_array
+
+
 def transform(mz_array, intensity_array, filters=None):
     """Apply a series of *filters* to the paired m/z and intensity
     arrays.
