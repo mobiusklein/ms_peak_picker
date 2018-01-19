@@ -485,6 +485,9 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
 
     mz_array, intensity_array = transform(
         mz_array, intensity_array, transforms)
+    
+    if len(mz_array) < 1:
+        return None
 
     processor = PeakProcessor(
         fit_type, peak_mode, signal_to_noise_threshold, intensity_threshold, threshold_data,
