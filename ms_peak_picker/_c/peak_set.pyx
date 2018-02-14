@@ -683,11 +683,16 @@ cdef class PeakSetIndexed(PeakSet):
             p = self.getitem(i)
             self.mz_index[i] = p.mz
 
-        if n < 2:
-            return
-        interval_index = <index_list*>malloc(sizeof(index_list))
-        build_interval_index(self, interval_index, INTERVAL_INDEX_SIZE)
-        self.interval_index = interval_index
+        if n > 2:
+            if self.interval_index != NULL:
+                free_index_list(self.interval_index)
+                self.interval_index = NULL
+            interval_index = <index_list*>malloc(sizeof(index_list))
+            build_interval_index(self, interval_index, INTERVAL_INDEX_SIZE)
+            if check_index(interval_index) != 0:
+                free_index_list(interval_index)
+            else:
+                self.interval_index = interval_index
 
     def _index(self):
         i = PeakSet._index(self)
@@ -795,6 +800,16 @@ cdef void free_index_list(index_list* index):
     free(index.index)
     free(index)
 
+
+cdef int check_index(index_list* index) nogil:
+    if index.size == 0:
+        return 1
+    elif (index.high - index.low) == 0:
+        return 2
+    else:
+        return 0
+
+
 cdef int build_interval_index(PeakSet peaks, index_list* index, size_t index_size):
     cdef:
         double* linear_spacing
@@ -844,6 +859,7 @@ cdef int build_interval_index(PeakSet peaks, index_list* index, size_t index_siz
     free(linear_spacing)
     return 0
 
+
 cdef size_t interpolate_index(index_list* index, double value):
     cdef:
         double v
@@ -851,6 +867,7 @@ cdef size_t interpolate_index(index_list* index, double value):
     v = (((value - index.low) / (index.high - index.low)) * index.size)
     i = <size_t>v
     return i
+
 
 cdef int find_search_interval(index_list* index, double value, size_t* start, size_t* end):
     cdef:

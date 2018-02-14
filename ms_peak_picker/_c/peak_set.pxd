@@ -67,6 +67,9 @@ cdef struct index_list:
     double high
 
 
+cdef int check_index(index_list* index) nogil
+
+
 cdef size_t INTERVAL_INDEX_SIZE
 
 

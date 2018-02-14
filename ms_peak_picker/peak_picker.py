@@ -186,15 +186,17 @@ class PeakProcessor(object):
         int
             The current number of peaks accumulated
         """
+        size = len(intensity_array) - 1
+
+        if size < 1:
+            return 0
+
         if start_mz is None:
             start_mz = mz_array[0]
         if stop_mz is None:
             stop_mz = mz_array[len(mz_array) - 1]
 
-        if len(intensity_array) < 1:
-            return 0
         peak_data = []
-        size = len(intensity_array) - 1
 
         verbose = self.verbose
 
@@ -485,7 +487,7 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
 
     mz_array, intensity_array = transform(
         mz_array, intensity_array, transforms)
-    
+
     if len(mz_array) < 1:
         return None
 
