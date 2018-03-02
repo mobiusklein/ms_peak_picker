@@ -320,7 +320,7 @@ cdef class NoiseRegion(object):
         last_mean = noise_mean
         noise_mean = self.noise_window().truncated_mean()
         niter = 1
-        while abs(last_mean - noise_mean) > 1e-3 or niter < maxiter:
+        while abs(last_mean - noise_mean) > 1e-3 and niter < maxiter:
             niter += 1
             noise_mean = self.noise_window().truncated_mean() * scale
             for i in range(n):
@@ -364,9 +364,13 @@ cpdef list windowed_spectrum(np.ndarray[mz_type, ndim=1, mode='c'] mz_array,
 
         lo_i = binsearch(_mz_array, lo_mz, n)
         hi_i = binsearch(_mz_array, hi_mz, n)
-        win = Window(mz_array[lo_i:hi_i + 1],
-                     intensity_array[lo_i:hi_i + 1],
-                     lo_i, hi_i, center_mz)
+        if lo_mz < (_mz_array[lo_i] + _mz_array[hi_i]) / 2 < hi_mz:        
+            win = Window(mz_array[lo_i:hi_i + 1],
+                         intensity_array[lo_i:hi_i + 1],
+                         lo_i, hi_i, center_mz)
+        else:
+            win = Window(np.array([center_mz], dtype=np.float64),
+                         np.array([0.0], dtype=np.float64), lo_i, hi_i, center_mz)
         windows.append(win)
 
         center_mz = center_mz + window_size

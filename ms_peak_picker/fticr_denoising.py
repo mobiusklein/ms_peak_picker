@@ -74,8 +74,12 @@ def windowed_spectrum(mz_array, intensity_array, window_size=1.):
 
         lo_i = binsearch(mz_array, lo_mz, center_i)
         hi_i = binsearch(mz_array, hi_mz, center_i)
-        win = Window(mz_array[lo_i:hi_i + 1],
-                     intensity_array[lo_i:hi_i + 1], lo_i, hi_i)
+        mz_window = mz_array[lo_i:hi_i + 1]
+        if lo_mz < mz_window.mean() < hi_mz:
+            win = Window(mz_window,
+                         intensity_array[lo_i:hi_i + 1], lo_i, hi_i)
+        else:
+            win = Window(np.array([center_mz]), np.array([0.0]), lo_i, hi_i)
         win.center_mz = center_mz
         windows.append(win)
 
@@ -117,7 +121,7 @@ class NoiseRegion(object):
         last_mean = noise_mean
         noise_mean = self.noise_window().truncated_mean()
         niter = 1
-        while abs(last_mean - noise_mean) > 1e-3 or niter < maxiter:
+        while abs(last_mean - noise_mean) > 1e-3 and niter < maxiter:
             niter += 1
             noise_mean = self.noise_window().truncated_mean() * scale
             for window in self.windows:
