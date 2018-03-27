@@ -1,5 +1,5 @@
 from .peak_picker import PeakProcessor, pick_peaks, fit_type_map, peak_mode_map
-from .peak_set import PeakSet, FittedPeak
+from .peak_set import PeakSet, FittedPeak, is_peak, simple_peak
 from .peak_index import PeakIndex
 from . import peak_statistics
 from . import search
@@ -15,7 +15,7 @@ __all__ = ["PeakProcessor", "pick_peaks", "PeakIndex", "PeakSet",
            "FittedPeak", "peak_statistics", "search", "fticr_denoising",
            "scan_filter", "fft_patterson_charge_state", "get_include",
            "fit_type_map", "peak_mode_map", "reprofile", "average_signal",
-           "gaussian_smooth"]
+           "gaussian_smooth", 'is_peak', 'simple_peak']
 
 
 def get_include():

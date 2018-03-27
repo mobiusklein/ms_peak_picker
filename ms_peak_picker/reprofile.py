@@ -68,7 +68,7 @@ class PeakSetReprofiler(object):
         return self.gridx, self.gridy
 
 
-def models_from_peak_sets(peak_sets, max_fwhm=0.2, model_cls=None):
+def models_from_peak_sets(peak_sets, max_fwhm=0.2, model_cls=None, default_fwhm=0.1):
     if model_cls is None:
         model_cls = GaussianModel
     models = []
@@ -78,12 +78,12 @@ def models_from_peak_sets(peak_sets, max_fwhm=0.2, model_cls=None):
                 if peak.full_width_at_half_max > max_fwhm:
                     continue
             except AttributeError:
-                peak = simple_peak(peak.mz, peak.intensity, 0.1)
+                peak = simple_peak(peak.mz, peak.intensity, default_fwhm)
             models.append(model_cls(peak))
     return models
 
 
-def reprofile(peaks, max_fwhm=0.2, dx=0.01, model_cls=GaussianModel):
+def reprofile(peaks, max_fwhm=0.2, dx=0.01, model_cls=GaussianModel, default_fwhm=0.1):
     """Converts fitted peak centroids into theoretical profiles derived from
     its fitted parameters and a theoretical shape model.
 
@@ -113,7 +113,7 @@ def reprofile(peaks, max_fwhm=0.2, dx=0.01, model_cls=GaussianModel):
     """
     if is_peak(peaks[0]):
         peaks = [peaks]
-    models = models_from_peak_sets(peaks, max_fwhm, model_cls)
+    models = models_from_peak_sets(peaks, max_fwhm, model_cls, default_fwhm)
     task = PeakSetReprofiler(models, dx)
     x, y = task.reprofile()
     y /= len(peaks)

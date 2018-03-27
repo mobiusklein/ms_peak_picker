@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 try:
     range = xrange
 except NameError:
@@ -21,6 +23,9 @@ class Base(object):
 
 def ppm_error(x, y):
     return (x - y) / y
+
+
+point = namedtuple('point', ('mz', 'intensity'))
 
 
 try:
@@ -62,20 +67,32 @@ try:
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")
         if pretty:
-            _beautify_axes(ax)
+            _beautify_axes(ax, intensity_array.min() > 0)
         return ax
 
     def peaklist_to_vector(peaklist, width=0.000001):
-        mzs = []
-        intensities = []
-        for peak in sorted(peaklist, key=lambda x: x.mz):
-            mzs.append(peak.mz - width)
-            intensities.append(0.)
-            mzs.append(peak.mz)
-            intensities.append(peak.intensity)
-            mzs.append(peak.mz + width)
-            intensities.append(0.)
-        return np.array(mzs), np.array(intensities)
+        try:
+            mzs = []
+            intensities = []
+            for peak in sorted(peaklist, key=lambda x: x.mz):
+                mzs.append(peak.mz - width)
+                intensities.append(0.)
+                mzs.append(peak.mz)
+                intensities.append(peak.intensity)
+                mzs.append(peak.mz + width)
+                intensities.append(0.)
+            return np.array(mzs), np.array(intensities)
+        except AttributeError:
+            pt = peaklist[0]
+            if not hasattr(pt, 'mz') and not hasattr(pt, 'intensity'):
+                try:
+                    if len(pt) == 2:
+                        peaklist = [point(*p) for p in peaklist]
+                        return peaklist_to_vector(peaklist, width)
+                except Exception:
+                    pass
+            raise TypeError("Expected a sequence of peak-like objects"
+                            " or (mz, intensity) pairs, but got %r instead" % type(pt))
 
     def draw_peaklist(peaklist, ax=None, **kwargs):
         pretty = kwargs.pop("pretty", True)
@@ -86,17 +103,18 @@ try:
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")
         if pretty:
-            _beautify_axes(ax)
+            _beautify_axes(ax, intensity_array.min() > 0)
         return ax
 
-    def _beautify_axes(ax):
+    def _beautify_axes(ax, set_ylim=True):
         ax.axes.spines['right'].set_visible(False)
         ax.axes.spines['top'].set_visible(False)
         ax.yaxis.tick_left()
         ax.xaxis.tick_bottom()
         ax.xaxis.set_ticks_position('none')
         ax.get_xaxis().get_major_formatter().set_useOffset(False)
-        ax.set_ylim(0, max(ax.get_ylim()))
+        if set_ylim:
+            ax.set_ylim(0, max(ax.get_ylim()))
         return ax
 
 except (RuntimeError, ImportError):
