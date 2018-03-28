@@ -67,7 +67,11 @@ try:
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")
         if pretty:
-            _beautify_axes(ax, intensity_array.min() > 0)
+            if intensity_array.shape[0] > 0:
+                set_ylim = intensity_array.min() > 0
+            else:
+                set_ylim = True
+            _beautify_axes(ax, set_ylim)
         return ax
 
     def peaklist_to_vector(peaklist, width=0.000001):
@@ -103,7 +107,11 @@ try:
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")
         if pretty:
-            _beautify_axes(ax, intensity_array.min() > 0)
+            if intensity_array.shape[0] > 0:
+                set_ylim = intensity_array.min() > 0
+            else:
+                set_ylim = True
+            _beautify_axes(ax, set_ylim)
         return ax
 
     def _beautify_axes(ax, set_ylim=True):
