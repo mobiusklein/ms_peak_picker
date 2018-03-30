@@ -559,9 +559,10 @@ cdef size_t double_binary_search_ppm_with_hint(double* array, double value, doub
         mid = (hi + lo) / 2
         x = array[mid]
         err = (x - value) / value
-        if abs(err) < tolerance:
+        abs_err = abs(err)
+        if abs_err < tolerance:
             i = mid
-            best_error = err
+            best_err = abs_err
             best_ix = mid
             while i > 0:
                 i -= 1
@@ -570,8 +571,8 @@ cdef size_t double_binary_search_ppm_with_hint(double* array, double value, doub
                 abs_err = abs(err)
                 if abs_err > tolerance:
                     break
-                elif abs_err < best_error:
-                    best_error = abs_err
+                elif abs_err < best_err:
+                    best_err = abs_err
                     best_ix = i
             i = mid
             while i < n - 1:
@@ -581,8 +582,8 @@ cdef size_t double_binary_search_ppm_with_hint(double* array, double value, doub
                 abs_err = abs(err)
                 if abs_err > tolerance:
                     break
-                elif abs_err < best_error:
-                    best_error = abs_err
+                elif abs_err < best_err:
+                    best_err = abs_err
                     best_ix = i
             return best_ix
         elif (hi - 1) == lo:
