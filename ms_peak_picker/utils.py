@@ -68,7 +68,7 @@ try:
         ax.set_ylabel("Relative Intensity")
         if pretty:
             if intensity_array.shape[0] > 0:
-                set_ylim = intensity_array.min() > 0
+                set_ylim = intensity_array.min() >= 0
             else:
                 set_ylim = True
             _beautify_axes(ax, set_ylim)
@@ -108,7 +108,7 @@ try:
         ax.set_ylabel("Relative Intensity")
         if pretty:
             if intensity_array.shape[0] > 0:
-                set_ylim = intensity_array.min() > 0
+                set_ylim = intensity_array.min() >= 0
             else:
                 set_ylim = True
             _beautify_axes(ax, set_ylim)
