@@ -131,6 +131,12 @@ cdef class PeakIndex(object):
     def __getitem__(self, index):
         return self.peaks[index]
 
+    def __eq__(self, other):
+        return self.peaks == other.peaks
+
+    def __ne__(self, other):
+        return self.peaks != other.peaks
+
     def has_peak(self, double mz, double tolerance=2e-5):
         """Wraps :meth:`PeakSet.has_peak`
         
