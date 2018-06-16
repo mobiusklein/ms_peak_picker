@@ -422,7 +422,7 @@ class PeakProcessor(object):
 
 
 def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFILE,
-               signal_to_noise_threshold=1, intensity_threshold=1, threshold_data=False,
+               signal_to_noise_threshold=1., intensity_threshold=1., threshold_data=False,
                target_envelopes=None, transforms=None, verbose=False,
                start_mz=None, stop_mz=None):
     """Picks peaks for the given m/z, intensity array pair, producing a centroid-containing
@@ -449,9 +449,9 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
         The name of the peak model to use. One of "quadratic", "gaussian", "lorentzian", or "apex"
     peak_mode : str, optional
         Whether peaks are in "profile" mode or are pre"centroid"ed
-    signal_to_noise_threshold : int, optional
+    signal_to_noise_threshold : float, optional
         Minimum signal-to-noise measurement to accept a peak
-    intensity_threshold : int, optional
+    intensity_threshold : float, optional
         Minimum intensity measurement to accept a peak
     threshold_data : bool, optional
         Whether to apply thresholds to the data
