@@ -23,6 +23,22 @@ def binsearch(array, x, hint=None):
     return 0
 
 
+def between_search(array, lo, hi):
+    n = len(array)
+    lo_i = binsearch(array, lo)
+    hi_i = binsearch(array, hi)
+
+    if lo - array[lo_i] > 0.1:
+        if lo_i < n - 1:
+            lo_i += 1
+    if ((array[hi_i] - hi) > 0.1) and (hi_i - 1) > lo_i:
+        if hi_i > 0:
+            hi_i -= 1
+    if lo_i > hi_i:
+        hi_i = lo_i
+    return lo_i, hi_i
+
+
 class Window(object):
 
     def __init__(self, mz_array, intensity_array, start_index=None, end_index=None,
@@ -72,8 +88,9 @@ def windowed_spectrum(mz_array, intensity_array, window_size=1.):
         lo_mz = center_mz - step_size
         hi_mz = center_mz + step_size
 
-        lo_i = binsearch(mz_array, lo_mz, center_i)
-        hi_i = binsearch(mz_array, hi_mz, center_i)
+        # lo_i = binsearch(mz_array, lo_mz, center_i)
+        # hi_i = binsearch(mz_array, hi_mz, center_i)
+        lo_i, hi_i = between_search(mz_array, lo_mz, hi_mz)
         mz_window = mz_array[lo_i:hi_i + 1]
         if lo_mz < mz_window.mean() < hi_mz:
             win = Window(mz_window,
@@ -157,18 +174,19 @@ class FTICRScan(object):
         yield self.mz_array
         yield self.intensity_array
 
-    def denoise(self, window_size=1., region_width=10, scale=5):
+    def build_windows(self, window_size=1.):
         self.windows = windowed_spectrum(
             self.mz_array, self.intensity_array, window_size=window_size)
+
+    def build_regions(self, region_width=10):
         self.regions = group_windows(self.windows, region_width)
-        mz = []
-        intensity = []
+
+    def denoise(self, window_size=1., region_width=10, scale=5):
+        self.build_windows(window_size)
+        self.build_regions(region_width)
         for region in self.regions:
             region.denoise(scale)
-            mz_, intensity_ = region.arrays()
-            mz.extend(mz_)
-            intensity.extend(intensity_)
-        return FTICRScan(np.array(mz), np.array(intensity))
+        return self
 
 
 try:
@@ -182,4 +200,6 @@ except ImportError:
 def denoise(mz_array, intensity_array, window_size=1., region_width=10, scale=5):
     scan = FTICRScan(mz_array, intensity_array)
     denoised = scan.denoise(window_size, region_width, scale)
-    return list(denoised)
+    x, y = list(denoised)
+    assert x.shape == mz_array.shape and y.shape == intensity_array.shape
+    return x, y

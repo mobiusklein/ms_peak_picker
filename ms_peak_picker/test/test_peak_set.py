@@ -1,4 +1,3 @@
-import pytest
 import unittest
 
 import numpy as np
@@ -8,9 +7,7 @@ from ms_peak_picker.peak_index import PeakIndex
 from ms_peak_picker.reprofile import reprofile
 from ms_peak_picker.peak_picker import pick_peaks
 
-
-def make_peak(mz, intensity, fwhm=0.05):
-    return FittedPeak(mz, intensity, 0, 0, 0, fwhm, intensity)
+from ms_peak_picker.test.common import make_peak
 
 
 points = [(276.5, 2e4), (576.5, 8e4), (862.1, 15e4)]
