@@ -32,7 +32,7 @@ try:
     has_plot = True
     from matplotlib import pyplot as plt
 
-    def draw_raw(mz_array, intensity_array=None, ax=None, **kwargs):
+    def draw_raw(mz_array, intensity_array=None, ax=None, normalize=False, **kwargs):
         """Draws un-centroided profile data, visualizing continuous
         data points
 
@@ -51,6 +51,8 @@ try:
             :func:`matplotlib.pyplot.subplots`
         pretty: bool, optional
             If `True`, will call :func:`_beautify_axes` on `ax`
+        normalize: bool, optional
+            if `True`, will normalize the abundance dimension to be between 0 and 100%
         **kwargs
             Passed to :meth:`matplotlib.Axes.plot`
 
@@ -63,6 +65,8 @@ try:
             mz_array, intensity_array = mz_array
         if ax is None:
             fig, ax = plt.subplots(1)
+        if normalize:
+            intensity_array = intensity_array / intensity_array.max() * 100.0
         ax.plot(mz_array, intensity_array, **kwargs)
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")
@@ -98,11 +102,13 @@ try:
             raise TypeError("Expected a sequence of peak-like objects"
                             " or (mz, intensity) pairs, but got %r instead" % type(pt))
 
-    def draw_peaklist(peaklist, ax=None, **kwargs):
+    def draw_peaklist(peaklist, ax=None, normalize=False, **kwargs):
         pretty = kwargs.pop("pretty", True)
         if ax is None:
             fig, ax = plt.subplots(1)
         mz_array, intensity_array = peaklist_to_vector(peaklist)
+        if normalize:
+            intensity_array = intensity_array / intensity_array.max() * 100.0
         ax.plot(mz_array, intensity_array, **kwargs)
         ax.set_xlabel("m/z")
         ax.set_ylabel("Relative Intensity")
