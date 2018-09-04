@@ -286,12 +286,13 @@ def binary_search(array, value, tolerance=2e-5, verbose=False):
 
 
 try:
+    _has_c = True
     _FittedPeak = FittedPeak
     _PeakSet = PeakSet
     _p_binary_search = binary_search
     from ._c.peak_set import FittedPeak, PeakSetIndexed as PeakSet
 except ImportError:
-    pass
+    _has_c = False
 
 
 def to_array(peak_set):

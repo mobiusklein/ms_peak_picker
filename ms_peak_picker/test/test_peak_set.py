@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from ms_peak_picker.peak_set import FittedPeak, PeakSet
+from ms_peak_picker.peak_set import FittedPeak, PeakSet, _has_c, _PeakSet
 from ms_peak_picker.peak_index import PeakIndex
 from ms_peak_picker.reprofile import reprofile
 from ms_peak_picker.peak_picker import pick_peaks
@@ -14,9 +14,10 @@ points = [(276.5, 2e4), (576.5, 8e4), (862.1, 15e4)]
 
 
 class TestPeakSet(unittest.TestCase):
-    @staticmethod
-    def make_peaks():
-        inst = PeakSet([make_peak(*point) for point in points])
+    peak_set_type = PeakSet
+
+    def make_peaks(self):
+        inst = self.peak_set_type([make_peak(*point) for point in points])
         inst.reindex()
         return inst
 
@@ -33,14 +34,19 @@ class TestPeakSet(unittest.TestCase):
 
     def test_between(self):
         inst = self.make_peaks()
-        self.assertIn(inst.has_peak(576.5), list(inst.between(300, 1000)))
-        self.assertNotIn(inst.has_peak(276.5), list(inst.between(300, 1000)))
+        self.assertIn(inst.has_peak(576.5), list(inst.between(300.0, 1000.01)))
+        self.assertNotIn(inst.has_peak(276.5), list(inst.between(300.0, 1000.01)))
 
     def test_clone(self):
         inst = self.make_peaks()
         dup = inst.clone()
         for a, b in zip(inst.peaks, dup.peaks):
             self.assertEqual(a, b)
+
+
+if _has_c:
+    class TestPythonPeakSet(TestPeakSet):
+        peak_set_type = _PeakSet
 
 
 class TestPeakPicker(unittest.TestCase):
