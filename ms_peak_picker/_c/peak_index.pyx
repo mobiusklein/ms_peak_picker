@@ -209,7 +209,7 @@ cdef int _has_peak_within_tolerance(PeakSet peaklist, double mz, double tol, siz
     hi = len(peaklist)
 
     while hi != lo:
-        mid = (hi + lo) / 2
+        mid = (hi + lo) // 2
         peak = peaklist.getitem(mid)
         v = peak.mz
         if abs(v - mz) < tol:
@@ -249,7 +249,7 @@ def has_peak_within_tolerance(peaklist, mz, tol):
         if (hi - lo) < 5:
             return sweep(lo, hi)
         else:
-            mid = (hi + lo) / 2
+            mid = (hi + lo) // 2
             v = peaklist[mid].mz
             if abs(v - mz) < tol:
                 return mid
