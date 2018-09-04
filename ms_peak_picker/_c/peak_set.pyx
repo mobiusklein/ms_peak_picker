@@ -382,7 +382,7 @@ cdef FittedPeak _binary_search_ppm_error(tuple array, double value, size_t lo, s
     if (hi - lo) < 5:
         return _sweep_solution_ppm_error(array, value, lo, hi, tolerance)
     else:
-        mid = (hi + lo) / 2
+        mid = (hi + lo) // 2
         target = <FittedPeak>PyTuple_GetItem(array, mid)
         target_value = target.mz
         error = ppm_error(value, target_value)
@@ -445,7 +445,7 @@ cdef FittedPeak _binary_search_nearest_match(tuple array, double value, size_t l
     if (hi - lo) < 5:
         return _sweep_nearest_match(array, value, lo, hi, errout)
     else:
-        mid = (hi + lo) / 2
+        mid = (hi + lo) // 2
         v = array[mid].mz
         if abs(v - value) < 1.:
             return _sweep_nearest_match(array, value, lo, hi, errout)
@@ -464,7 +464,7 @@ cdef size_t double_binary_search_ppm(double* array, double value, double toleran
     lo = 0
     hi = n
     while hi != lo:
-        mid = (hi + lo) / 2
+        mid = (hi + lo) // 2
         x = array[mid]
         err = (x - value) / value
         if abs(err) < tolerance:
@@ -511,7 +511,7 @@ cdef size_t double_binary_search_nearest_match(double* array, double value, size
     lo = 0
     hi = n
     while hi != lo:
-        mid = (hi + lo) / 2
+        mid = (hi + lo) // 2
         x = array[mid]
         err = x - value
         if err == 0 or ((hi - 1) == lo):
@@ -556,7 +556,7 @@ cdef size_t double_binary_search_ppm_with_hint(double* array, double value, doub
     lo = hint
     hi = n
     while hi != lo:
-        mid = (hi + lo) / 2
+        mid = (hi + lo) // 2
         x = array[mid]
         err = (x - value) / value
         abs_err = abs(err)
@@ -603,7 +603,7 @@ cdef size_t double_binary_search_nearest_match_with_hint(double* array, double v
     lo = hint
     hi = n
     while hi != lo:
-        mid = (hi + lo) / 2
+        mid = (hi + lo) // 2
         x = array[mid]
         err = x - value
         if err == 0 or ((hi - 1) == lo):

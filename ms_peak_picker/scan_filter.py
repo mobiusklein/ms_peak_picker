@@ -196,6 +196,16 @@ class MaximumScaler(FilterBase):
         return mz_array, intensity_array
 
 
+@register("magnitude_boost", 100.0)
+class IntensityScaler(FilterBase):
+    def __init__(self, scale):
+        self.scale = scale
+
+    def filter(self, mz_array, intensity_array):
+        intensity_array = intensity_array * self.scale
+        return mz_array, intensity_array
+
+
 class RecalibrateMass(FilterBase):
     def __init__(self, offset):
         self.offset = offset

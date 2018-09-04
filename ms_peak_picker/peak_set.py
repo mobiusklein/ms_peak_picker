@@ -113,7 +113,7 @@ def _get_nearest_peak(peaklist, mz):
         if (hi - lo) < 5:
             return sweep(lo, hi)
         else:
-            mid = (hi + lo) / 2
+            mid = (hi + lo) // 2
             v = peaklist[mid].mz
             if abs(v - mz) < tol:
                 return sweep(lo, hi)

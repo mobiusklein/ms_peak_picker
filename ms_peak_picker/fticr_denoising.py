@@ -11,7 +11,7 @@ def binsearch(array, x, hint=None):
     hi = n
 
     while hi != lo:
-        mid = (hi + lo) / 2
+        mid = (hi + lo) // 2
         y = array[mid]
         err = y - x
         if hi - lo == 1:
