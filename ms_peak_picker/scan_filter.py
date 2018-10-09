@@ -251,3 +251,36 @@ def transform(mz_array, intensity_array, filters=None):
         mz_array, intensity_array = filt(mz_array, intensity_array)
 
     return mz_array, intensity_array
+
+
+def cast(arg):
+    try:
+        return int(arg)
+    except ValueError:
+        try:
+            return float(arg)
+        except ValueError:
+            return str(arg)
+
+
+def parse(text):
+    tokens = text.split(" ")
+    filter_name = tokens[0]
+    params = list(map(cast, tokens[1:]))
+    filter_tp = None
+    if filter_name in filter_register:
+        filter_instance = filter_register[filter_name]
+        if len(tokens) == 1:
+            return filter_instance
+        else:
+            filter_tp = filter_instance.__class__
+    else:
+        filter_name = filter_name.lower()
+        for tp in FilterBase.__subclasses__():
+            if tp.__name__.lower() == filter_name:
+                filter_tp = tp
+                break
+    if filter_tp is None:
+        raise KeyError(filter_name)
+    else:
+        return filter_tp(*params)
