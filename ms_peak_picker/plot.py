@@ -78,7 +78,7 @@ def peaklist_to_vector(peaklist, width=0.000001):
     Raises
     ------
     TypeError
-        Description
+        When the input could not be coerced into a peak list
     """
     try:
         mzs = []
