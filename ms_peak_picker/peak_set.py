@@ -306,7 +306,7 @@ def to_array(peak_set):
     return array
 
 
-def simple_peak(mz, intensity, fwhm):
+def simple_peak(mz, intensity, fwhm=0.01):
     return FittedPeak(mz, intensity, intensity, -1, -1,
                       fwhm, intensity, fwhm / 2, fwhm / 2)
 
