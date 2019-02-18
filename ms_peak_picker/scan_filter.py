@@ -181,8 +181,10 @@ class ConstantThreshold(FilterBase):
         self.constant = constant
 
     def filter(self, mz_array, intensity_array):
-        mask = intensity_array > self.constant
-        return mz_array[mask], intensity_array[mask]
+        mask = intensity_array < self.constant
+        intensity_array = intensity_array.copy()
+        intensity_array[mask] = 0
+        return mz_array, intensity_array
 
 
 @register("extreme_scale_limiter", 30e3)
