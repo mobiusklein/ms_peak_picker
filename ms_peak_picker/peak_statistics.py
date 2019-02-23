@@ -502,11 +502,13 @@ try:
     _find_right_width = find_right_width
     _peak_area = peak_area
     _quadratic_fit = quadratic_fit
+    _lorentzian_fit = lorentzian_fit
 
     find_signal_to_noise = cpeak_statistics.find_signal_to_noise
     peak_area = cpeak_statistics.peak_area
     find_full_width_at_half_max = cpeak_statistics.find_full_width_at_half_max
     quadratic_fit = cpeak_statistics.quadratic_fit
+    lorentzian_fit = cpeak_statistics.lorentzian_fit
     find_left_width = cpeak_statistics.find_left_width
     find_right_width = cpeak_statistics.find_right_width
 except ImportError:

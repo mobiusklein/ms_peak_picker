@@ -116,7 +116,8 @@ class PeakProcessor(object):
             raise ValueError("Unknown fit_type %r" % (fit_type,))
         if peak_mode not in peak_mode_map:
             raise ValueError("Unknown peak_mode %r" % (peak_mode,))
-
+        # normalize fit_type
+        fit_type = fit_type_map[fit_type]
         self._signal_to_noise_threshold = 0
         self._intensity_threshold = 0
 
