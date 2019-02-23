@@ -320,7 +320,7 @@ def find_full_width_at_half_max(mz_array, intensity_array, data_index, signal_to
     return np.fabs(upper - lower)
 
 
-def lorenztian_least_squares(mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop):
+def lorentzian_least_squares(mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop):
     root_mean_squared_error = 0
 
     for index in range(lstart, lstop + 1):
@@ -333,7 +333,7 @@ def lorenztian_least_squares(mz_array, intensity_array, amplitude, full_width_at
     return root_mean_squared_error
 
 
-def lorenztian_fit(mz_array, intensity_array, index, full_width_at_half_max):
+def lorentzian_fit(mz_array, intensity_array, index, full_width_at_half_max):
     amplitude = intensity_array[index]
     vo = mz_array[index]
     step = np.fabs((vo - mz_array[index + 1]) / 100.0)
@@ -346,23 +346,23 @@ def lorenztian_fit(mz_array, intensity_array, index, full_width_at_half_max):
     lstart = get_nearest(mz_array, vo + full_width_at_half_max, index) + 1
     lstop = get_nearest(mz_array, vo - full_width_at_half_max, index) - 1
     last_error = 0.
-    current_error = lorenztian_least_squares(
+    current_error = lorentzian_least_squares(
         mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
     for i in range(50):
         last_error = current_error
         vo = vo + step
-        current_error = lorenztian_least_squares(
+        current_error = lorentzian_least_squares(
             mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
         if (current_error > last_error):
             break
 
     vo = vo - step
-    current_error = lorenztian_least_squares(
+    current_error = lorentzian_least_squares(
         mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
     for i in range(50):
         last_error = current_error
         vo = vo - step
-        current_error = lorenztian_least_squares(
+        current_error = lorentzian_least_squares(
             mz_array, intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
         if (current_error > last_error):
             break
@@ -412,20 +412,20 @@ def lorentzian_predict(peak, mz):
     return a * (b / c)
 
 
-def lorenztian_shape(peak):
+def lorentzian_shape(peak):
     center = peak.mz
     fwhm = peak.full_width_at_half_max
     x = np.arange(center - fwhm - 0.02, center + fwhm + 0.02, 0.0001)
     return x, lorentzian_predict(peak, x)
 
 
-def lorenztian_error(peak, mz, intensity):
+def lorentzian_error(peak, mz, intensity):
     y = lorentzian_predict(peak, mz)
     return intensity - y
 
 
-def lorenztian_volume(peak):
-    x, y = lorenztian_shape(peak)
+def lorentzian_volume(peak):
+    x, y = lorentzian_shape(peak)
     return np.trapz(y, x, dx=0.0001)
 
 
@@ -467,18 +467,18 @@ except ImportError:
     pass
 
 
-class LorenztianModel(PeakShapeModel):
+class LorentzianModel(PeakShapeModel):
     def shape(self):
-        return lorenztian_shape(self.peak)
+        return lorentzian_shape(self.peak)
 
     def predict(self, mz):
         return lorentzian_predict(self.peak, mz)
 
     def volume(self):
-        return lorenztian_volume(self.peak)
+        return lorentzian_volume(self.peak)
 
     def error(self, mz, intensity):
-        return lorenztian_error(self.peak, mz, intensity)
+        return lorentzian_error(self.peak, mz, intensity)
 
 
 def peak_area(mz_array, intensity_array, start, stop):

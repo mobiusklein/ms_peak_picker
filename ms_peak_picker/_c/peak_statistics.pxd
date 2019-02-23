@@ -28,7 +28,7 @@ cpdef DTYPE_t quadratic_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
                             np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
                             ssize_t index)
 
-cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
+cpdef double lorentzian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
                             np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
                             size_t index, double full_width_at_half_max)
 
