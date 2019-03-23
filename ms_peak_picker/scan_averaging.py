@@ -4,7 +4,7 @@ from collections import defaultdict
 import numpy as np
 
 
-def binsearch(array, x):
+def _binsearch(array, x):
     lo = 0
     hi = len(array)
     while hi != lo:
@@ -21,6 +21,22 @@ def binsearch(array, x):
 
 
 def average_signal(arrays, dx=0.01, weights=None):
+    """Average multiple spectras' intensity arrays, with a common m/z axis
+
+    Parameters
+    ----------
+    arrays : :class:`list` of pairs of :class:`np.ndarray`
+        The m/z and intensity arrays to combine
+    dx : float, optional
+        The m/z resolution to build the averaged m/z axis with
+    weights : :class:`list` of :class:`float`, optional
+        Weight of each entry in `arrays`. Defaults to 1.0 for each if not provided.
+
+    Returns
+    -------
+    mz_array: :class:`np.ndarray`
+    intensity_array: :class:`np.ndarray`
+    """
     if weights is None:
         weights = [1 for omz in arrays]
     elif len(arrays) != len(weights):
@@ -39,7 +55,7 @@ def average_signal(arrays, dx=0.01, weights=None):
         arrays_k += 1
         contrib = 0
         for i, x in enumerate(mz_array):
-            j = binsearch(mz, x)
+            j = _binsearch(mz, x)
             mz_j = mz[j]
             if mz_j < x and j + 1 < mz.shape[0]:
                 mz_j1 = mz[j + 1]
