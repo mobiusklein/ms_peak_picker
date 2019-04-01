@@ -172,7 +172,7 @@ cdef class PeakSet(object):
     cdef size_t get_size(self):
         return PyTuple_GET_SIZE(self.peaks)
 
-    def reindex(self):
+    cpdef reindex(self):
         """Re-indexes the sequence of peaks, updating their
         :attr:`peak_count` and setting their :attr:`index` if
         it is missing.
