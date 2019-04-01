@@ -7,7 +7,7 @@ from ms_peak_picker._c.peak_set cimport FittedPeak
 
 from ms_peak_picker._c.peak_statistics cimport (
     find_signal_to_noise, find_left_width, find_right_width,
-    quadratic_fit, lorenztian_fit, peak_area)
+    quadratic_fit, lorentzian_fit, peak_area)
 
 from ms_peak_picker._c.search cimport get_nearest_binary, get_nearest
 
@@ -26,9 +26,11 @@ cdef str PROFILE = 'profile'
 cdef dict fit_type_map = {
     "quadratic": "quadratic",
     "gaussian": "quadratic",
-    "lorenztian": "lorenztian",
+    "lorenztian": "lorentzian",
+    "lorentzian": "lorentzian",
     "apex": "apex"
 }
+
 
 cdef dict peak_mode_map = {
     CENTROID: CENTROID,
@@ -400,12 +402,12 @@ cdef class PeakProcessor(object):
             return mz_array[index]
         elif self.fit_type == "quadratic":
             return quadratic_fit(mz_array, intensity_array, index)
-        elif self.fit_type == "lorenztian":
+        elif self.fit_type == "lorentzian":
             full_width_at_half_max = self.find_full_width_at_half_max(
                 index, mz_array, intensity_array,
                 self.partial_fit_state.signal_to_noise)
             if full_width_at_half_max != 0:
-                return lorenztian_fit(mz_array, intensity_array, index, full_width_at_half_max)
+                return lorentzian_fit(mz_array, intensity_array, index, full_width_at_half_max)
             return mz_array[index]
 
         return 0.0
