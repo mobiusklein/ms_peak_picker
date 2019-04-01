@@ -70,6 +70,22 @@ cdef int prepare_arrays(list arrays, spectrum_holder** out):
 @cython.cdivision(True)
 @cython.boundscheck(False)
 cpdef average_signal(object arrays, double dx=0.01, object weights=None):
+    """Average multiple spectras' intensity arrays, with a common m/z axis
+
+    Parameters
+    ----------
+    arrays : :class:`list` of pairs of :class:`np.ndarray`
+        The m/z and intensity arrays to combine
+    dx : float, optional
+        The m/z resolution to build the averaged m/z axis with
+    weights : :class:`list` of :class:`float`, optional
+        Weight of each entry in `arrays`. Defaults to 1.0 for each if not provided.
+
+    Returns
+    -------
+    mz_array: :class:`np.ndarray`
+    intensity_array: :class:`np.ndarray`
+    """
     cdef:
         double lo, hi
         double mz_j, mz_j1
@@ -151,7 +167,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
                     inten_j = pmz[j - 1]
                 else:
                     continue
-                
+
                 contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
                 intensity_array_local[i] += contrib * scan_weight
             for i in range(n_points):

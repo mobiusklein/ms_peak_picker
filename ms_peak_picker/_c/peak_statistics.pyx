@@ -483,7 +483,7 @@ cpdef DTYPE_t quadratic_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef double lorenztian_least_squares(DTYPE_t[:] mz_array,
+cdef double lorentzian_least_squares(DTYPE_t[:] mz_array,
                                      DTYPE_t[:] intensity_array,
                                      double amplitude, double full_width_at_half_max,
                                      double vo, size_t lstart, size_t lstop) nogil:
@@ -509,7 +509,7 @@ cdef double lorenztian_least_squares(DTYPE_t[:] mz_array,
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
+cpdef double lorentzian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
                             size_t index, double full_width_at_half_max):
     cdef:
         double amplitude
@@ -534,23 +534,23 @@ cpdef double lorenztian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.n
     view_intensity_array = intensity_array
 
     with nogil:
-        current_error = lorenztian_least_squares(
+        current_error = lorentzian_least_squares(
             view_mz_array, view_intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
         for i in range(50):
             last_error = current_error
             vo = vo + step
-            current_error = lorenztian_least_squares(
+            current_error = lorentzian_least_squares(
                 view_mz_array, view_intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
             if (current_error > last_error):
                 break
 
         vo = vo - step
-        current_error = lorenztian_least_squares(
+        current_error = lorentzian_least_squares(
             view_mz_array, view_intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
         for i in range(50):
             last_error = current_error
             vo = vo - step
-            current_error = lorenztian_least_squares(
+            current_error = lorentzian_least_squares(
                 view_mz_array, view_intensity_array, amplitude, full_width_at_half_max, vo, lstart, lstop)
             if (current_error > last_error):
                 break

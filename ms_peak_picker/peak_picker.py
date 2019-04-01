@@ -6,7 +6,7 @@ import numpy as np
 from numpy.linalg import LinAlgError
 
 from .peak_statistics import (
-    find_signal_to_noise, quadratic_fit, lorenztian_fit,
+    find_signal_to_noise, quadratic_fit, lorentzian_fit,
     peak_area, find_left_width, find_right_width)
 
 from .search import get_nearest_binary, get_nearest
@@ -26,7 +26,8 @@ debug = logger.debug
 fit_type_map = {
     "quadratic": "quadratic",
     "gaussian": "quadratic",
-    "lorenztian": "lorenztian",
+    "lorenztian": "lorentzian",
+    "lorentzian": "lorentzian",
     "apex": "apex"
 }
 
@@ -115,7 +116,8 @@ class PeakProcessor(object):
             raise ValueError("Unknown fit_type %r" % (fit_type,))
         if peak_mode not in peak_mode_map:
             raise ValueError("Unknown peak_mode %r" % (peak_mode,))
-
+        # normalize fit_type
+        fit_type = fit_type_map[fit_type]
         self._signal_to_noise_threshold = 0
         self._intensity_threshold = 0
 
@@ -379,12 +381,12 @@ class PeakProcessor(object):
             return mz_array[index]
         elif self.fit_type == "quadratic":
             return quadratic_fit(mz_array, intensity_array, index)
-        elif self.fit_type == "lorenztian":
+        elif self.fit_type == "lorentzian":
             full_width_at_half_max = self.find_full_width_at_half_max(
                 index, mz_array, intensity_array,
                 self.partial_fit_state.signal_to_noise)
             if full_width_at_half_max != 0:
-                return lorenztian_fit(mz_array, intensity_array, index, full_width_at_half_max)
+                return lorentzian_fit(mz_array, intensity_array, index, full_width_at_half_max)
             return mz_array[index]
 
         return 0.0

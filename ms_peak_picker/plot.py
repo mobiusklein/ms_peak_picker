@@ -1,3 +1,5 @@
+'''A collection of tools for drawing and annotating mass spectra
+'''
 from collections import namedtuple
 
 from matplotlib import pyplot as plt
@@ -16,15 +18,15 @@ def draw_raw(mz_array, intensity_array=None, ax=None, normalize=False, **kwargs)
 
     Parameters
     ----------
-    mz_array : np.ndarray or tuple
+    mz_array : :class:`np.ndarray` or :class:`tuple`
         Either the m/z array to be visualized, or if `intensity_array`
         is `None`, `mz_array` will be unpacked, looking to find a sequence
         of two `np.ndarray` objects for the m/z (X) and intensity (Y)
         coordinates
-    intensity_array : np.ndarray, optional
+    intensity_array : :class:`np.ndarray`, optional
         The intensity array to be visualized. If `None`, will attempt to
         unpack `mz_array`
-    ax : matplotlib.Axes, optional
+    ax : :class:`matplotlib.Axes`, optional
         The axis to draw the plot on. If missing, a new one will be created using
         :func:`matplotlib.pyplot.subplots`
     pretty: bool, optional
@@ -36,13 +38,13 @@ def draw_raw(mz_array, intensity_array=None, ax=None, normalize=False, **kwargs)
 
     Returns
     -------
-    matplotlib.Axes
+    :class:`~.Axes`
     """
     pretty = kwargs.pop("pretty", True)
     if intensity_array is None and len(mz_array) == 2:
         mz_array, intensity_array = mz_array
     if ax is None:
-        fig, ax = plt.subplots(1)
+        _, ax = plt.subplots(1)
     if normalize:
         intensity_array = intensity_array / intensity_array.max() * 100.0
     ax.plot(mz_array, intensity_array, **kwargs)
@@ -105,9 +107,32 @@ def peaklist_to_vector(peaklist, width=0.000001):
 
 
 def draw_peaklist(peaklist, ax=None, normalize=False, **kwargs):
+    """Draws centroided peak data, visualizing peak apexes.
+
+    The peaks will be converted into a single smooth curve using
+    :func:`peaklist_to_vector`.
+
+    Parameters
+    ----------
+    peaklist: :class:`Iterable` of :class:`~.PeakLike`
+        The peaks to draw.
+    ax : matplotlib.Axes, optional
+        The axis to draw the plot on. If missing, a new one will be created using
+        :func:`matplotlib.pyplot.subplots`
+    pretty: bool, optional
+        If `True`, will call :func:`_beautify_axes` on `ax`
+    normalize: bool, optional
+        if `True`, will normalize the abundance dimension to be between 0 and 100%
+    **kwargs
+        Passed to :meth:`matplotlib.Axes.plot`
+
+    Returns
+    -------
+    matplotlib.Axes
+    """
     pretty = kwargs.pop("pretty", True)
     if ax is None:
-        fig, ax = plt.subplots(1)
+        _, ax = plt.subplots(1)
     mz_array, intensity_array = peaklist_to_vector(peaklist)
     if normalize:
         intensity_array = intensity_array / intensity_array.max() * 100.0
