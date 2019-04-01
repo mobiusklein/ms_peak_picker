@@ -1,21 +1,17 @@
-'''
-A Peak Picker/Fitter adapted from Decon2LS's DeconEngine
-'''
-
+cimport cython
 import numpy as np
+cimport numpy as np
+np.import_array()
+
+from ms_peak_picker._c.peak_set cimport FittedPeak
+
+from ms_peak_picker._c.peak_statistics cimport (
+    find_signal_to_noise, find_left_width, find_right_width,
+    quadratic_fit, lorenztian_fit, peak_area)
+
+from ms_peak_picker._c.search cimport get_nearest_binary, get_nearest
+
 from numpy.linalg import LinAlgError
-
-from .peak_statistics import (
-    find_signal_to_noise, quadratic_fit, lorenztian_fit,
-    peak_area, find_left_width, find_right_width)
-
-from .search import get_nearest_binary, get_nearest
-from .peak_set import FittedPeak, PeakSet
-from .peak_index import PeakIndex
-from .scan_filter import transform
-from .utils import Base
-
-
 import logging
 
 logger = logging.getLogger("peak_picker")
@@ -23,25 +19,28 @@ info = logger.info
 debug = logger.debug
 
 
-fit_type_map = {
+cdef str CENTROID = 'centroid'
+cdef str PROFILE = 'profile'
+
+
+cdef dict fit_type_map = {
     "quadratic": "quadratic",
     "gaussian": "quadratic",
     "lorenztian": "lorenztian",
     "apex": "apex"
 }
 
-
-CENTROID = "centroid"
-PROFILE = "profile"
-
-
-peak_mode_map = {
+cdef dict peak_mode_map = {
     CENTROID: CENTROID,
     PROFILE: PROFILE
 }
 
 
-class PartialPeakFitState(Base):
+
+@cython.final
+@cython.freelist(1000)
+cdef class PartialPeakFitState(object):
+
     """Stores partial state for the peak currently being picked by a :class:`PeakProcessor`
     instance.
 
@@ -70,7 +69,7 @@ class PartialPeakFitState(Base):
         self.full_width_at_half_max = full_width_at_half_max
         self.signal_to_noise = signal_to_noise
 
-    def reset(self):
+    cpdef reset(self):
         """Resets all the data in the object to initial configuration
         """
         self.set = False
@@ -80,34 +79,8 @@ class PartialPeakFitState(Base):
         self.signal_to_noise = -1
 
 
-class PeakProcessor(object):
-    """Directs the peak picking process, encapsulating the apex finding,
-    peak fitting, and signal-to-noise estimation tasks.
 
-    Attributes
-    ----------
-    background_intensity : float
-        A static background intensity to use when estimating signal-to-noise
-        ratio.
-    fit_type : str
-        The type of peak to fit
-    intensity_threshold : float
-        The minimum intensity required to accept a peak
-    partial_fit_state : PartialPeakFitState
-        A stateful container of measurements for the peak currently
-        being fitted
-    peak_data : list
-        A list of :class:`ms_peak_picker.peak_set.FittedPeak` instances
-    peak_mode : str
-        Whether the peaks being picked are in profile mode or already centroided
-        and just need to be passed directly into :class:`FittedPeak` instances
-    signal_to_noise_threshold : float
-        The minimum signal-to-noise ratio required to accept a peak fit
-    threshold_data : bool
-        Whether or not to enforce a signal-to-noise and intensity threhsold
-    verbose : bool
-        Whether to log additional diagnostic information
-    """
+cdef class PeakProcessor(object):
 
     def __init__(self, fit_type='quadratic', peak_mode=PROFILE, signal_to_noise_threshold=1, intensity_threshold=1,
                  threshold_data=False, verbose=False):
@@ -133,31 +106,29 @@ class PeakProcessor(object):
 
         self.peak_data = []
 
-    def get_signal_to_noise_threshold(self):
+    cpdef double get_signal_to_noise_threshold(self):
         return self._signal_to_noise_threshold
 
-    def set_signal_to_noise_threshold(self, signal_to_noise_threshold):
+    cpdef object set_signal_to_noise_threshold(self, double signal_to_noise_threshold):
         self._signal_to_noise_threshold = signal_to_noise_threshold
 
         if self.threshold_data:
-            if self.signal_to_noise_threshold != 0:
-                self.background_intensity = (
-                    self.intensity_threshold / float(self.signal_to_noise_threshold))
+            if self.get_signal_to_noise_threshold() != 0:
+                self.background_intensity = self.get_intensity_threshold() / self.get_signal_to_noise_threshold()
             else:
                 self.background_intensity = 1.
 
     signal_to_noise_threshold = property(
         get_signal_to_noise_threshold, set_signal_to_noise_threshold)
 
-    def get_intensity_threshold(self):
+    cpdef double get_intensity_threshold(self):
         return self._intensity_threshold
 
-    def set_intensity_threshold(self, intensity_threshold):
+    cpdef object set_intensity_threshold(self, double intensity_threshold):
         self._intensity_threshold = intensity_threshold
         if self.threshold_data:
-            if self.signal_to_noise_threshold != 0:
-                self.background_intensity = intensity_threshold / \
-                    float(self.signal_to_noise_threshold)
+            if self.get_signal_to_noise_threshold() != 0:
+                self.background_intensity = intensity_threshold / self.get_signal_to_noise_threshold()
             elif intensity_threshold != 0:
                 self.background_intensity = intensity_threshold
             else:
@@ -166,7 +137,7 @@ class PeakProcessor(object):
     intensity_threshold = property(
         get_intensity_threshold, set_intensity_threshold)
 
-    def discover_peaks(self, mz_array, intensity_array, start_mz=None, stop_mz=None):
+    def discover_peaks(self, np.ndarray[cython.floating] mz_array, np.ndarray[cython.floating] intensity_array, start_mz=None, stop_mz=None):
         """Carries out the peak picking process on `mz_array` and `intensity_array`. All
         peaks picked are appended to :attr:`peak_data`.
 
@@ -186,14 +157,60 @@ class PeakProcessor(object):
         int
             The current number of peaks accumulated
         """
+        cdef:
+            double _start_mz, _stop_mz
+
+        if start_mz is None:
+            _start_mz = -1
+        else:
+            _start_mz = start_mz
+        if stop_mz is None:
+            _stop_mz = -1
+        else:
+            _stop_mz = stop_mz
+        return self._discover_peaks(mz_array, intensity_array, _start_mz, _stop_mz)
+
+    @cython.nonecheck(False)
+    @cython.cdivision(True)
+    @cython.boundscheck(False)
+    cpdef size_t _discover_peaks(self, np.ndarray[cython.floating] mz_array, np.ndarray[cython.floating] intensity_array, double start_mz, double stop_mz):
+        """Carries out the peak picking process on `mz_array` and `intensity_array`. All
+        peaks picked are appended to :attr:`peak_data`.
+
+        Parameters
+        ----------
+        mz_array : np.ndarray
+            The m/z values to pick peaks from
+        intensity_array : np.ndarray
+            The intensity values to pick peaks from
+        start_mz : float, optional
+            The minimum m/z to pick peaks above
+        stop_mz : float, optional
+            The maximum m/z to pick peaks below
+
+        Returns
+        -------
+        int
+            The current number of peaks accumulated
+        """
+        cdef:
+            Py_ssize_t size, start_index, stop_index, ihigh, ilow, index
+            list peak_data
+            bint verbose
+            double intensity_threshold, signal_to_noise_threshold, signal_to_noise
+            double current_intensity, last_intensity, next_intensity, sum_intensity
+            double low_intensity, high_intensity
+            double full_width_at_half_max, current_mz, mz
+            FittedPeak peak
+
         size = len(intensity_array) - 1
 
         if size < 1:
             return 0
 
-        if start_mz is None:
+        if start_mz <= -1:
             start_mz = mz_array[0]
-        if stop_mz is None:
+        if stop_mz <= -1:
             stop_mz = mz_array[len(mz_array) - 1]
 
         peak_data = []
@@ -244,7 +261,7 @@ class PeakProcessor(object):
                             current_intensity, intensity_array, index)
                     else:
                         signal_to_noise = current_intensity / \
-                            float(self.background_intensity)
+                            self.background_intensity
 
                     # Run Full-Width Half-Max algorithm to try to improve SNR
                     if signal_to_noise < signal_to_noise_threshold:
@@ -296,10 +313,11 @@ class PeakProcessor(object):
                             if signal_to_noise > current_intensity:
                                 signal_to_noise = current_intensity
 
-                            peak_data.append(FittedPeak(
+                            peak = FittedPeak._create(
                                 fitted_mz, current_intensity, signal_to_noise,
-                                len(peak_data), index, full_width_at_half_max, area,
-                                self.partial_fit_state.left_width, self.partial_fit_state.right_width))
+                                full_width_at_half_max, self.partial_fit_state.left_width,
+                                self.partial_fit_state.right_width, len(peak_data), index, area)
+                            peak_data.append(peak)
 
                         # Move past adjacent equal-height peaks
                         incremented = False
@@ -311,7 +329,8 @@ class PeakProcessor(object):
         self.peak_data.extend(peak_data)
         return len(peak_data)
 
-    def find_full_width_at_half_max(self, index, mz_array, intensity_array, signal_to_noise):
+    cpdef double find_full_width_at_half_max(self, Py_ssize_t index, np.ndarray[cython.floating, ndim=1] mz_array,
+                                             np.ndarray[cython.floating, ndim=1] intensity_array, double signal_to_noise):
         """Calculate full-width-at-half-max for a peak centered at `index` from
         `mz_array` and `intensity_array`, using the `signal_to_noise` to detect
         when to stop searching.
@@ -334,6 +353,8 @@ class PeakProcessor(object):
         float
             The symmetric full-width-at-half-max
         """
+        cdef:
+            double left, right, fwhm
         try:
             left = find_left_width(
                 mz_array, intensity_array, index, signal_to_noise)
@@ -358,7 +379,7 @@ class PeakProcessor(object):
 
         return fwhm
 
-    def fit_peak(self, index, mz_array, intensity_array):
+    cpdef double fit_peak(self, Py_ssize_t index, np.ndarray[cython.floating] mz_array, np.ndarray[cython.floating] intensity_array):
         """Performs the peak shape fitting procedure.
 
         Parameters
@@ -389,7 +410,8 @@ class PeakProcessor(object):
 
         return 0.0
 
-    def area(self, mz_array, intensity_array, mz, full_width_at_half_max, index):
+    cpdef double area(self, np.ndarray[cython.floating] mz_array, np.ndarray[cython.floating] intensity_array, double mz,
+                      double full_width_at_half_max, Py_ssize_t index):
         """Integrate the peak found at `index` with width `full_width_at_half_max`,
         centered at `mz`.
 
@@ -419,99 +441,3 @@ class PeakProcessor(object):
     def __iter__(self):
         for peak in self.peak_data:
             yield peak
-
-
-def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFILE,
-               signal_to_noise_threshold=1., intensity_threshold=1., threshold_data=False,
-               target_envelopes=None, transforms=None, verbose=False,
-               start_mz=None, stop_mz=None):
-    """Picks peaks for the given m/z, intensity array pair, producing a centroid-containing
-    PeakIndex instance.
-
-    Applies each :class:`.FilterBase` in `transforms` in order to
-    `mz_array` and `intensity_array`.
-
-    Creates an instance of :class:`.PeakProcessor` and configures it according to the parameters
-    passed. If `target_envelopes` is set, each region is handled by :meth:`.PeakProcessor.discover_peaks`
-    otherwise, :meth:`.PeakProcessor.discover_peaks` is invoked with `start_mz` and `stop_mz`.
-
-    Produces a :class:`.PeakIndex`, a fast searchable collection of :class:`.FittedPeak` objects.
-
-    Parameters
-    ----------
-    mz_array : np.ndarray
-        An array of m/z measurements. Will by converted into np.float64
-        values
-    intensity_array : np.ndarray
-        An array of intensity measurements. Will by converted into np.float64
-        values
-    fit_type : str, optional
-        The name of the peak model to use. One of "quadratic", "gaussian", "lorentzian", or "apex"
-    peak_mode : str, optional
-        Whether peaks are in "profile" mode or are pre"centroid"ed
-    signal_to_noise_threshold : float, optional
-        Minimum signal-to-noise measurement to accept a peak
-    intensity_threshold : float, optional
-        Minimum intensity measurement to accept a peak
-    threshold_data : bool, optional
-        Whether to apply thresholds to the data
-    target_envelopes : list, optional
-        A sequence of (start m/z, end m/z) pairs, limiting peak picking to only those intervals
-    transforms : list, optional
-        A list of :class:`scan_filter.FilterBase` instances or callable that
-        accepts (mz_array, intensity_array) and returns (mz_array, intensity_array) or
-        `str` matching one of the premade names in `scan_filter.filter_register`
-    verbose : bool, optional
-        Whether to log extra information while picking peaks
-    start_mz : float, optional
-        A minimum m/z value to start picking peaks from
-    stop_mz : None, optional
-        A maximum m/z value to stop picking peaks after
-
-    Returns
-    -------
-    :class:`PeakIndex`
-        Contains all fitted peaks, as well as the transformed m/z and
-        intensity arrays
-    """
-    if transforms is None:
-        transforms = []
-
-    mz_array = np.asanyarray(mz_array, dtype=np.float64)
-    intensity_array = np.asanyarray(intensity_array, dtype=np.float64)
-
-    # make sure the m/z array is properly sorted
-    indexing = np.argsort(mz_array)
-    mz_array = mz_array[indexing]
-    intensity_array = intensity_array[indexing]
-
-    mz_array, intensity_array = transform(
-        mz_array, intensity_array, transforms)
-
-    if len(mz_array) < 1:
-        return None
-
-    processor = PeakProcessor(
-        fit_type, peak_mode, signal_to_noise_threshold, intensity_threshold, threshold_data,
-        verbose=verbose)
-    if target_envelopes is None:
-        processor.discover_peaks(
-            mz_array, intensity_array,
-            start_mz=start_mz, stop_mz=stop_mz)
-    else:
-        for start, stop in sorted(target_envelopes):
-            processor.discover_peaks(
-                mz_array, intensity_array, start_mz=start, stop_mz=stop)
-    peaks = PeakSet(processor)
-    peaks._index()
-    return PeakIndex(mz_array, intensity_array, peaks)
-
-
-try:
-    _has_c = True
-    _PartialPeakFitState = PartialPeakFitState
-    _PeakProcessor = PeakProcessor
-    from ms_peak_picker._c.peak_picker import PartialPeakFitState, PeakProcessor
-except ImportError as err:
-    print(err)
-    _has_c = False

@@ -71,7 +71,9 @@ def make_cextensions():
                             sources=['ms_peak_picker/_c/scan_averaging.pyx'],
                             include_dirs=[numpy.get_include()]),
             Extension(name='ms_peak_picker._c.fticr_denoising', sources=['ms_peak_picker/_c/fticr_denoising.pyx'],
-                      include_dirs=[numpy.get_include()])
+                      include_dirs=[numpy.get_include()]),
+            Extension(name="ms_peak_picker._c.peak_picker", sources=['ms_peak_picker/_c/peak_picker.pyx'],
+                      include_dirs=[numpy.get_include()]),
         ])
     except ImportError:
         extensions = ([

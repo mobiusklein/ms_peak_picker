@@ -6,6 +6,7 @@ cdef class PeakBase(object):
         public double area
 
     cpdef PeakBase clone(self)
+    cpdef PeakBase copy(self)
 
 
 cdef class FittedPeak(PeakBase):
@@ -38,6 +39,7 @@ cdef class PeakSet(object):
     cdef FittedPeak _has_peak(self, double mz, double tolerance=*)
 
     cpdef PeakSet clone(self)
+    cpdef PeakSet copy(self)
 
     cdef PeakSet _between(self, double m1, double m2)
     cdef int _between_bounds(self, double m1, double m2, size_t* startp, size_t* endp)
@@ -45,7 +47,7 @@ cdef class PeakSet(object):
     cdef FittedPeak getitem(self, size_t i)
 
     cdef size_t get_size(self)
-    
+
     cpdef bint _eq(self, PeakSet other)
 
 

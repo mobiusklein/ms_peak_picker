@@ -21,7 +21,7 @@ cdef class PeakIndex(object):
     to estimate the charge state of a peak using the isotopic pattern-free
     using Senko's Fourier Patterson Charge State determination algorithm
     :meth:`fft_patterson_charge_state`
-    
+
     Attributes
     ----------
     mz_array : np.ndarray
@@ -42,36 +42,39 @@ cdef class PeakIndex(object):
         arrays stripped out. This removes most functionality
         beyond wrapping the underlying :class:`PeakSet` but
         makes the object smaller.
-        
+
         Returns
         -------
         PeakIndex
         """
         return PeakIndex(np.array([], dtype=np.float64), np.array([], dtype=np.float64), self.peaks.clone())
 
-    def clone(self):
+    cpdef PeakIndex clone(self):
         """Create a deep copy of `self`
-        
+
         Returns
         -------
         PeakIndex
         """
         return PeakIndex(np.array(self.mz_array), np.array(self.intensity_array), self.peaks.clone())
 
+    cpdef PeakIndex copy(self):
+        return self.clone()
+
     def get_nearest(self, double mz, size_t index):
         """Get the nearest index to `mz` in the underlying arrays
-        
+
         Parameters
         ----------
         mz : float
             The m/z to search for
         index : int
             The index to search from
-        
+
         Returns
         -------
         int
-        
+
         Raises
         ------
         ValueError
@@ -84,12 +87,12 @@ cdef class PeakIndex(object):
 
     def get_nearest_peak(self, double mz):
         """Wraps :meth:`PeakSet.get_nearest_peak`
-        
+
         Parameters
         ----------
         mz : float
             The m/z to search with
-        
+
         Returns
         -------
         tuple of (FittedPeak, float)
@@ -105,14 +108,14 @@ cdef class PeakIndex(object):
 
     def between(self, double start, double stop):
         """Wraps :meth:`PeakSet.between`
-                
+
         Parameters
         ----------
         start : float
             The lower m/z limit
         stop : float
             The upper m/z limit
-        
+
         Returns
         -------
         PeakSet
@@ -123,7 +126,7 @@ cdef class PeakIndex(object):
         return self.peaks._between(start, stop)
 
     cdef size_t get_size(self):
-        return self.peaks.get_size()      
+        return self.peaks.get_size()
 
     def has_peak_within_tolerance(self, double mz, double tol):
         return has_peak_within_tolerance(self.peaks, mz, tol)
@@ -139,14 +142,14 @@ cdef class PeakIndex(object):
 
     def has_peak(self, double mz, double tolerance=2e-5):
         """Wraps :meth:`PeakSet.has_peak`
-        
+
         Parameters
         ----------
         mz : float
             The m/z to search for
         tolerance : float, optional
             The error tolerance to accept. Defaults to 2e-5 (20 ppm)
-        
+
         Returns
         -------
         FittedPeak

@@ -11,3 +11,6 @@ cdef class PeakIndex(object):
     cdef FittedPeak _has_peak(self, double mz, double tolerance=*)
     cdef PeakSet _between(self, double start, double stop)
     cdef size_t get_size(self)
+
+    cpdef PeakIndex clone(self)
+    cpdef PeakIndex copy(self)

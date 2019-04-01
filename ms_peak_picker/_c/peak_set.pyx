@@ -21,6 +21,9 @@ cdef class PeakBase:
     cpdef PeakBase clone(self):
         return PeakBase()
 
+    cpdef PeakBase copy(self):
+        return self.clone()
+
 
 cdef class FittedPeak(PeakBase):
     """Represent a single centroided mass spectral peak.
@@ -247,6 +250,9 @@ cdef class PeakSet(object):
         cdef PeakSet inst = PeakSet([p.clone() for p in self])
         inst.indexed = self.indexed
         return inst
+
+    cpdef PeakSet copy(self):
+        return self.clone()
 
     def between(self, double m1, double m2):
         """Retrieve a :class:`PeakSet` containing all the peaks
