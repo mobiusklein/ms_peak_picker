@@ -24,17 +24,22 @@ cdef str PROFILE = 'profile'
 
 
 cdef dict fit_type_map = {
-    "quadratic": "quadratic",
-    "gaussian": "quadratic",
-    "lorenztian": "lorentzian",
-    "lorentzian": "lorentzian",
-    "apex": "apex"
+    "quadratic": PeakFit.quadratic,
+    "gaussian": PeakFit.quadratic,
+    "lorenztian": PeakFit.lorentzian,
+    "lorentzian": PeakFit.lorentzian,
+    "apex": PeakFit.apex,
+    PeakFit.apex: PeakFit.apex,
+    PeakFit.quadratic: PeakFit.quadratic,
+    PeakFit.lorentzian: PeakFit.lorentzian
 }
 
 
 cdef dict peak_mode_map = {
-    CENTROID: CENTROID,
-    PROFILE: PROFILE
+    CENTROID: PeakMode.centroid,
+    PROFILE: PeakMode.profile,
+    PeakMode.profile: PeakMode.profile,
+    PeakMode.centroid: PeakMode.centroid
 }
 
 
@@ -81,15 +86,18 @@ cdef class PartialPeakFitState(object):
         self.signal_to_noise = -1
 
 
-
 cdef class PeakProcessor(object):
 
     def __init__(self, fit_type='quadratic', peak_mode=PROFILE, signal_to_noise_threshold=1, intensity_threshold=1,
                  threshold_data=False, verbose=False):
         if fit_type not in fit_type_map:
             raise ValueError("Unknown fit_type %r" % (fit_type,))
+        else:
+            fit_type = fit_type_map[fit_type]
         if peak_mode not in peak_mode_map:
             raise ValueError("Unknown peak_mode %r" % (peak_mode,))
+        else:
+            peak_mode = peak_mode_map[peak_mode]
 
         self._signal_to_noise_threshold = 0
         self._intensity_threshold = 0
@@ -198,7 +206,7 @@ cdef class PeakProcessor(object):
         cdef:
             Py_ssize_t size, start_index, stop_index, ihigh, ilow, index
             list peak_data
-            bint verbose
+            bint verbose, is_centroid
             double intensity_threshold, signal_to_noise_threshold, signal_to_noise
             double current_intensity, last_intensity, next_intensity, sum_intensity
             double low_intensity, high_intensity
@@ -218,6 +226,7 @@ cdef class PeakProcessor(object):
         peak_data = []
 
         verbose = self.verbose
+        is_centroid = self.peak_mode == PeakMode.centroid
 
         intensity_threshold = self.intensity_threshold
         signal_to_noise_threshold = self.signal_to_noise_threshold
@@ -225,13 +234,13 @@ cdef class PeakProcessor(object):
         start_index = get_nearest_binary(mz_array, start_mz, 0, size)
         stop_index = get_nearest_binary(mz_array, stop_mz, start_index, size)
 
-        if start_index <= 0 and self.peak_mode != CENTROID:
+        if start_index <= 0 and not is_centroid:
             start_index = 1
-        elif start_index < 0 and self.peak_mode == CENTROID:
+        elif start_index < 0 and is_centroid:
             start_index = 0
-        if stop_index >= size - 1 and self.peak_mode != CENTROID:
+        if stop_index >= size - 1 and not is_centroid:
             stop_index = size - 1
-        elif stop_index >= size and self.peak_mode == CENTROID:
+        elif stop_index >= size and is_centroid:
             stop_index = size
 
         for index in range(start_index, stop_index + 1):
@@ -241,14 +250,20 @@ cdef class PeakProcessor(object):
 
             current_mz = mz_array[index]
 
-            if self.peak_mode == CENTROID:
+            # If we are dealing with pre-centroided data, just walk down the array making each
+            # point a FittedPeak.
+            if is_centroid:
                 if current_intensity <= 0:
                     continue
                 mz = mz_array[index]
-                signal_to_noise = current_intensity / intensity_threshold
-                full_width_at_half_max = 0.1
-                peak_data.append(FittedPeak(mz, current_intensity, signal_to_noise, len(
-                    peak_data), index, full_width_at_half_max, current_intensity))
+                signal_to_noise = current_intensity / (intensity_threshold or 1.0)
+                full_width_at_half_max = 0.025
+                peak = FittedPeak._create(
+                    mz, current_intensity, signal_to_noise,
+                    full_width_at_half_max, full_width_at_half_max / 2.,
+                    full_width_at_half_max / 2., len(peak_data), index, area)
+                peak_data.append(peak)
+            # Otherwise, carry out the peak finding and fitting procedure.
             else:
                 last_intensity = intensity_array[index - 1]
                 next_intensity = intensity_array[index + 1]
@@ -398,11 +413,11 @@ cdef class PeakProcessor(object):
         float
             m/z of the fitted peak center
         """
-        if self.fit_type == "apex":
+        if self.fit_type == PeakFit.apex:
             return mz_array[index]
-        elif self.fit_type == "quadratic":
+        elif self.fit_type == PeakFit.quadratic:
             return quadratic_fit(mz_array, intensity_array, index)
-        elif self.fit_type == "lorentzian":
+        elif self.fit_type == PeakFit.lorentzian:
             full_width_at_half_max = self.find_full_width_at_half_max(
                 index, mz_array, intensity_array,
                 self.partial_fit_state.signal_to_noise)

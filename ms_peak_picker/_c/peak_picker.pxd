@@ -1,6 +1,18 @@
 cimport cython
 cimport numpy as np
 
+
+cpdef enum PeakMode:
+    profile = 1
+    centroid = 2
+
+
+cpdef enum PeakFit:
+    quadratic = 1
+    lorentzian = 2
+    apex = 3
+
+
 cdef class PartialPeakFitState(object):
     cdef:
         public bint set
@@ -20,8 +32,8 @@ cdef class PeakProcessor(object):
 
         public PartialPeakFitState partial_fit_state
 
-        public str fit_type
-        public str peak_mode
+        public PeakFit fit_type
+        public PeakMode peak_mode
 
         public list peak_data
 
