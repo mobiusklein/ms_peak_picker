@@ -1,3 +1,4 @@
+import os
 from .peak_picker import PeakProcessor, pick_peaks, fit_type_map, peak_mode_map
 from .peak_set import PeakSet, FittedPeak, is_peak, simple_peak
 from .peak_index import PeakIndex
@@ -10,7 +11,7 @@ from .base import PeakLike
 from .reprofile import reprofile
 from .scan_averaging import average_signal
 from .smoothing import gaussian_smooth
-import os
+from .version import version as __version__
 
 __all__ = ["PeakProcessor", "pick_peaks", "PeakIndex", "PeakSet",
            "FittedPeak", "peak_statistics", "search", "fticr_denoising",

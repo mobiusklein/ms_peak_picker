@@ -28,6 +28,8 @@ no_openmp = has_option('no-openmp')
 
 with_openmp = not no_openmp
 
+use_python_implementation = has_option("pure-python")
+
 print("Building with OpenMP? %s" % with_openmp)
 
 
@@ -171,7 +173,7 @@ def run_setup(include_cext=True):
         version=version,
         packages=find_packages(),
         zip_safe=False,
-        install_requires=['numpy', "scipy"],
+        install_requires=['numpy', "scipy", "six"],
         ext_modules=make_cextensions() if include_cext else None,
         cmdclass=cmdclass,
         maintainer='Joshua Klein',
@@ -192,10 +194,12 @@ def run_setup(include_cext=True):
 try:
     run_setup(True)
 except Exception as exc:
-    run_setup(False)
-
-    status_msgs(
-        "WARNING: The C extension could not be compiled, " +
-        "speedups are not enabled.",
-        "Plain-Python build succeeded."
-    )
+    if use_python_implementation:
+        run_setup(False)
+        status_msgs(
+            "WARNING: The C extension could not be compiled, " +
+            "speedups are not enabled.",
+            "Plain-Python build succeeded."
+        )
+    else:
+        raise

@@ -5,7 +5,7 @@ import numpy as np
 from ms_peak_picker.peak_set import FittedPeak, PeakSet, _has_c, _PeakSet
 from ms_peak_picker.peak_index import PeakIndex
 from ms_peak_picker.reprofile import reprofile
-from ms_peak_picker.peak_picker import pick_peaks
+from ms_peak_picker.peak_picker import pick_peaks, PeakProcessor, _has_c as _has_peak_picker_c
 
 from ms_peak_picker.test.common import make_peak
 
@@ -53,6 +53,22 @@ class TestPeakPicker(unittest.TestCase):
     @staticmethod
     def make_profile():
         return reprofile([make_peak(*point) for point in points])
+
+    def test_peak_processor(self):
+        mzs, intensities = self.make_profile()
+        proc = PeakProcessor()
+        proc.discover_peaks(mzs, intensities)
+        peaks = proc.peak_data
+        assert len(peaks) == 3
+
+    def test_python_impl_peak_processor(self):
+        if _has_peak_picker_c:
+            from ms_peak_picker.peak_picker import _PeakProcessor
+            mzs, intensities = self.make_profile()
+            proc = _PeakProcessor()
+            proc.discover_peaks(mzs, intensities)
+            peaks = proc.peak_data
+            assert len(peaks) == 3
 
     def test_pick_peaks(self):
         mzs, intensities = self.make_profile()
