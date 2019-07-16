@@ -312,6 +312,31 @@ cdef class PeakSet(object):
         endp[0] = end
         return 0
 
+    cpdef tuple all_peaks_for(self, double mz, double error_tolerance=2e-5):
+        """Find all peaks within `error_tolerance` ppm of `mz` m/z.
+
+        Parameters
+        ----------
+        mz : float
+            The query m/z
+        error_tolerance : float, optional
+            The parts-per-million error tolerance (the default is 2e-5)
+
+        Returns
+        -------
+        tuple
+        """
+        cdef:
+            double lo, hi
+            size_t start, end
+            tuple sliced
+
+        lo = mz - (mz * error_tolerance)
+        hi = mz + (mz * error_tolerance)
+        self._between_bounds(lo, hi, &start, &end)
+        sliced = <tuple>PyTuple_GetSlice(self.peaks, start, end)
+        return sliced
+
     def __getstate__(self):
         return self.peaks
 

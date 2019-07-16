@@ -125,6 +125,22 @@ cdef class PeakIndex(object):
     cdef PeakSet _between(self, double start, double stop):
         return self.peaks._between(start, stop)
 
+    cpdef tuple all_peaks_for(self, double mz, double error_tolerance=2e-5):
+        """Find all peaks within `error_tolerance` ppm of `mz` m/z.
+
+        Parameters
+        ----------
+        mz : float
+            The query m/z
+        error_tolerance : float, optional
+            The parts-per-million error tolerance (the default is 2e-5)
+
+        Returns
+        -------
+        tuple
+        """
+        return self.peaks.all_peaks_for(mz, error_tolerance)
+
     cdef size_t get_size(self):
         return self.peaks.get_size()
 

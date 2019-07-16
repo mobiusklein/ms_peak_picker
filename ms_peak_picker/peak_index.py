@@ -115,6 +115,22 @@ class PeakIndex(object):
         """
         return self.peaks.between(start, stop)
 
+    def all_peaks_for(self, mz, error_tolerance=2e-5):
+        """Find all peaks within `error_tolerance` ppm of `mz` m/z.
+
+        Parameters
+        ----------
+        mz : float
+            The query m/z
+        error_tolerance : float, optional
+            The parts-per-million error tolerance (the default is 2e-5)
+
+        Returns
+        -------
+        tuple
+        """
+        return self.peaks.all_peaks_for(mz, error_tolerance)
+
     def has_peak_within_tolerance(self, mz, tol):
         return has_peak_within_tolerance(self.peaks, mz, tol)
 

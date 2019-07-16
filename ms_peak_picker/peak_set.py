@@ -232,6 +232,37 @@ class PeakSet(Base):
             end -= 1
         return self[start:end]
 
+    def all_peaks_for(self, mz, error_tolerance=2e-5):
+        """Find all peaks within `error_tolerance` ppm of `mz` m/z.
+
+        Parameters
+        ----------
+        mz : float
+            The query m/z
+        error_tolerance : float, optional
+            The parts-per-million error tolerance (the default is 2e-5)
+
+        Returns
+        -------
+        tuple
+        """
+        m1 = mz - (mz * error_tolerance)
+        m2 = mz + (mz * error_tolerance)
+
+        p1, _ = self.get_nearest_peak(m1)
+        p2, _ = self.get_nearest_peak(m2)
+
+        start = p1.peak_count
+        end = p2.peak_count + 1
+        start = p1.peak_count
+        end = p2.peak_count
+        n = len(self)
+        if p1.mz < m1 and start + 1 < n:
+            start += 1
+        if p2.mz > m2 and end > 0:
+            end -= 1
+        return self.peaks[start:end]
+
     def __eq__(self, other):
         if other is None:
             return False

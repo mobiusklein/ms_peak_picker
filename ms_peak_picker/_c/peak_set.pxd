@@ -45,6 +45,8 @@ cdef class PeakSet(object):
     cdef PeakSet _between(self, double m1, double m2)
     cdef int _between_bounds(self, double m1, double m2, size_t* startp, size_t* endp)
 
+    cpdef tuple all_peaks_for(self, double mz, double error_tolerance=*)
+
     cdef FittedPeak getitem(self, size_t i)
 
     cdef size_t get_size(self)
