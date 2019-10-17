@@ -76,7 +76,7 @@ cdef class PartialPeakFitState(object):
         self.full_width_at_half_max = full_width_at_half_max
         self.signal_to_noise = signal_to_noise
 
-    cpdef reset(self):
+    cpdef int reset(self) nogil:
         """Resets all the data in the object to initial configuration
         """
         self.set = False
@@ -84,6 +84,7 @@ cdef class PartialPeakFitState(object):
         self.right_width = -1
         self.full_width_at_half_max = -1
         self.signal_to_noise = -1
+        return 0
 
 
 cdef class PeakProcessor(object):

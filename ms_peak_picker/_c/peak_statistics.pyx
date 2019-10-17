@@ -29,13 +29,13 @@ cdef DTYPE_t minimum_signal_to_noise = 4.0
 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef bint isclose(DTYPE_t x, DTYPE_t y, DTYPE_t rtol=1.e-5, DTYPE_t atol=1.e-8) nogil:
+cdef inline bint isclose(DTYPE_t x, DTYPE_t y, DTYPE_t rtol=1.e-5, DTYPE_t atol=1.e-8) nogil:
     return math.fabs(x-y) <= (atol + rtol * math.fabs(y))
 
 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef bint aboutzero(DTYPE_t x) nogil:
+cdef inline bint aboutzero(DTYPE_t x) nogil:
     return isclose(x, 0)
 
 
@@ -77,7 +77,10 @@ cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1
 
         if aboutzero(min_intensity_left):
             if aboutzero(min_intensity_right):
-                return 100
+                # The peak has no neighboring signal, so noise level is incalculable.
+                # This may be really clean signal, or we may need to estimate noise over
+                # a larger area.
+                return target_val
             else:
                 return target_val / min_intensity_right
 
@@ -167,19 +170,21 @@ cdef DTYPE_t curve_reg_dv(DoubleVector* x, DoubleVector* y, size_t n,
         DTYPE_t mse, yfit, xpow
         size_t i, j
 
-    weights = np.ones(n)
+    # weights = np.ones(n)
 
     # Weighted powers of x transposed
     # Like Vandermonte Matrix?
     At = np.zeros((nterms + 1, n))
     for i in range(n):
-        At[0, i] = weights[i]
+        # At[0, i] = weights[i]
+        At[0, i] = 1.0
         for j in range(1, nterms + 1):
             At[j, i] = At[j - 1, i] * x.v[i]
 
     Z = np.zeros((n, 1))
     for i in range(n):
-        Z[i, 0] = weights[i] * y.v[i]
+        # Z[i, 0] = weights[i] * y.v[i]
+        Z[i, 0] = 1.0 * y.v[i]
 
     At_T = At.T
     At_At_T = At.dot(At_T)
@@ -192,7 +197,7 @@ cdef DTYPE_t curve_reg_dv(DoubleVector* x, DoubleVector* y, size_t n,
     At_Ai_At = I_At_At_T.dot(At)
     B = At_Ai_At.dot(Z)
     mse = 0
-    out = np.zeros((2, n))
+    # out = np.zeros((2, n))
     for i in range(n):
         terms[0] = B[0, 0]
         yfit = B[0, 0]
@@ -201,8 +206,8 @@ cdef DTYPE_t curve_reg_dv(DoubleVector* x, DoubleVector* y, size_t n,
             terms[j] = B[j, 0]
             yfit += B[j, 0] * xpow
             xpow = xpow * x.v[i]
-        out[0, i] = yfit
-        out[1, i] = y.v[i] - yfit
+        # out[0, i] = yfit
+        # out[1, i] = y.v[i] - yfit
         mse += y.v[i] - yfit
     return mse
 

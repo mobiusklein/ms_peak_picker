@@ -28,6 +28,9 @@ no_openmp = has_option('no-openmp')
 
 with_openmp = not no_openmp
 
+include_diagnostics = has_option("include-diagnostics")
+force_cythonize = has_option("force-cythonize")
+
 use_python_implementation = has_option("pure-python")
 
 print("Building with OpenMP? %s" % with_openmp)
@@ -52,52 +55,62 @@ def OpenMPExtension(*args, **kwargs):
 
 def make_cextensions():
     import numpy
+    macros = []
     try:
         from Cython.Build import cythonize
+        cython_directives = {
+            'embedsignature': True,
+            "profile": include_diagnostics
+        }
+        if include_diagnostics:
+            macros.append(("CYTHON_TRACE_NOGIL", "1"))
+        print("Using Directives", cython_directives)
         extensions = cythonize([
             OpenMPExtension(
                 name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.pyx"],
-                include_dirs=[numpy.get_include()]),
+                include_dirs=[numpy.get_include()], define_macros=macros),
             Extension(name='ms_peak_picker._c.peak_set', sources=["ms_peak_picker/_c/peak_set.pyx"]),
             Extension(name='ms_peak_picker._c.fft_patterson_charge_state',
                       sources=["ms_peak_picker/_c/fft_patterson_charge_state.pyx"],
-                      include_dirs=[numpy.get_include()]),
+                      include_dirs=[numpy.get_include()], define_macros=macros),
             Extension(name="ms_peak_picker._c.search", sources=["ms_peak_picker/_c/search.pyx"],
-                      include_dirs=[numpy.get_include()]),
+                      include_dirs=[numpy.get_include()], define_macros=macros),
             Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.pyx"],
-                      include_dirs=[numpy.get_include()]),
+                      include_dirs=[numpy.get_include()], define_macros=macros),
             Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
             Extension(name='ms_peak_picker._c.smoother', sources=["ms_peak_picker/_c/smoother.pyx"],
-                      include_dirs=[numpy.get_include()]),
+                      include_dirs=[numpy.get_include()], define_macros=macros),
             OpenMPExtension(name='ms_peak_picker._c.scan_averaging',
                             sources=['ms_peak_picker/_c/scan_averaging.pyx'],
-                            include_dirs=[numpy.get_include()]),
+                            include_dirs=[numpy.get_include()], define_macros=macros),
             Extension(name='ms_peak_picker._c.fticr_denoising', sources=['ms_peak_picker/_c/fticr_denoising.pyx'],
-                      include_dirs=[numpy.get_include()]),
+                      include_dirs=[numpy.get_include()], define_macros=macros),
             Extension(name="ms_peak_picker._c.peak_picker", sources=['ms_peak_picker/_c/peak_picker.pyx'],
-                      include_dirs=[numpy.get_include()]),
-        ])
+                      include_dirs=[numpy.get_include()], define_macros=macros),
+        ], compiler_directives=cython_directives, force=force_cythonize)
     except ImportError:
         extensions = ([
             OpenMPExtension(
                 name="ms_peak_picker._c.peak_statistics", sources=["ms_peak_picker/_c/peak_statistics.c"],
-                include_dirs=[numpy.get_include()]),
-            Extension(name='ms_peak_picker._c.peak_set', sources=["ms_peak_picker/_c/peak_set.c"]),
+                include_dirs=[numpy.get_include()], define_macros=macros),
+            Extension(name='ms_peak_picker._c.peak_set', sources=[
+                      "ms_peak_picker/_c/peak_set.c"], define_macros=macros),
             Extension(name='ms_peak_picker._c.fft_patterson_charge_state',
                       sources=["ms_peak_picker/_c/fft_patterson_charge_state.c"],
-                      include_dirs=[numpy.get_include()]),
+                      include_dirs=[numpy.get_include()], define_macros=macros),
             Extension(name="ms_peak_picker._c.search", sources=["ms_peak_picker/_c/search.c"],
-                      include_dirs=[numpy.get_include()]),
+                      include_dirs=[numpy.get_include()], define_macros=macros),
             Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.c"],
-                      include_dirs=[numpy.get_include()]),
-            Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.c"]),
+                      include_dirs=[numpy.get_include()], define_macros=macros),
+            Extension(name='ms_peak_picker._c.double_vector', sources=[
+                      "ms_peak_picker/_c/double_vector.c"], define_macros=macros),
             Extension(name='ms_peak_picker._c.smoother', sources=["ms_peak_picker/_c/smoother.c"],
-                      include_dirs=[numpy.get_include()]),
+                      include_dirs=[numpy.get_include()], define_macros=macros),
             OpenMPExtension(name='ms_peak_picker._c.scan_averaging',
                             sources=['ms_peak_picker/_c/scan_averaging.c'],
-                            include_dirs=[numpy.get_include()]),
+                            include_dirs=[numpy.get_include()], define_macros=macros),
             Extension(name='ms_peak_picker._c.fticr_denoising', sources=['ms_peak_picker/_c/fticr_denoising.c'],
-                      include_dirs=[numpy.get_include()])
+                      include_dirs=[numpy.get_include()], define_macros=macros)
         ])
     return extensions
 

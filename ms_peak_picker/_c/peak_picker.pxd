@@ -21,7 +21,7 @@ cdef class PartialPeakFitState(object):
         public double full_width_at_half_max
         public double signal_to_noise
 
-    cpdef reset(self)
+    cpdef int reset(self) nogil
 
 
 cdef class PeakProcessor(object):

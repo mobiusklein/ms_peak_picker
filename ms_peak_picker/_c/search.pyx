@@ -12,7 +12,7 @@ from libc.math cimport fabs
 cpdef size_t nearest_left(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target_val, size_t start_index=0):
     """Locate the index nearest to `target_val` in `vec` searching
     to the left of `start_index`
-    
+
     Parameters
     ----------
     vec : np.array
@@ -21,7 +21,7 @@ cpdef size_t nearest_left(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target
         The value to search for
     start_index : int, optional
         The starting point to search from
-    
+
     Returns
     -------
     int
@@ -30,16 +30,18 @@ cpdef size_t nearest_left(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target
     cdef:
         size_t nearest_index, next_index
         DTYPE_t next_val, best_distance, dist
+        mz_t* cvec
     nearest_index = start_index
     next_index = start_index
 
     if next_index == 0:
         return 0
-    next_val = vec[next_index]
+    cvec = &vec[0]
+    next_val = cvec[next_index]
     best_distance = fabs(target_val - next_val)
     while next_val > target_val:
         next_index -= 1
-        next_val = vec[next_index]
+        next_val = cvec[next_index]
         dist = fabs(next_val - target_val)
         if dist < best_distance:
             best_distance = dist
@@ -55,7 +57,7 @@ cpdef size_t nearest_left(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target
 cpdef size_t nearest_right(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target_val, size_t start_index=0):
     """Locate the index nearest to `target_val` in `vec` searching
     to the right of `start_index`
-    
+
     Parameters
     ----------
     vec : np.array
@@ -64,7 +66,7 @@ cpdef size_t nearest_right(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t targe
         The value to search for
     start_index : int, optional
         The starting point to search from
-    
+
     Returns
     -------
     int
@@ -73,18 +75,19 @@ cpdef size_t nearest_right(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t targe
     cdef:
         size_t nearest_index, next_index, size
         DTYPE_t next_val, best_distance, dist
+        mz_t* cvec
     nearest_index = start_index
     next_index = start_index
 
     size = vec.shape[0] - 1
     if next_index >= size:
         return size
-
-    next_val = vec[next_index]
+    cvec = &vec[0]
+    next_val = cvec[next_index]
     best_distance = fabs(next_val - target_val)
     while (next_val < target_val):
         next_index += 1
-        next_val = vec[next_index]
+        next_val = cvec[next_index]
         dist = fabs(next_val - target_val)
         if dist < best_distance:
             best_distance = dist
@@ -100,7 +103,7 @@ cpdef size_t nearest_right(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t targe
 cpdef size_t get_nearest_binary(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target_val, size_t start_index=0, object stop_index=None):
     """Find the nearest index to `target_val` in `vec` using binary
     search
-    
+
     Parameters
     ----------
     vec : np.ndarray
@@ -111,7 +114,7 @@ cpdef size_t get_nearest_binary(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t 
         The lower bound index
     stop_index : None, optional
         The upper bound index
-    
+
     Returns
     -------
     int
@@ -180,7 +183,7 @@ cpdef size_t get_nearest(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target_
         The value to search for
     start_index : int, optional
         The starting point to search from
-    
+
     Returns
     -------
     int
