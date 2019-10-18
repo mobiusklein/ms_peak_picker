@@ -90,7 +90,7 @@ cdef class PartialPeakFitState(object):
 cdef class PeakProcessor(object):
 
     def __init__(self, fit_type='quadratic', peak_mode=PROFILE, signal_to_noise_threshold=1, intensity_threshold=1,
-                 threshold_data=False, verbose=False):
+                 threshold_data=False, verbose=False, integrate=True):
         if fit_type not in fit_type_map:
             raise ValueError("Unknown fit_type %r" % (fit_type,))
         else:
@@ -112,6 +112,7 @@ cdef class PeakProcessor(object):
 
         self.peak_mode = peak_mode
         self.verbose = verbose
+        self.integrate = integrate
 
         self.partial_fit_state = PartialPeakFitState()
 
@@ -323,8 +324,11 @@ cdef class PeakProcessor(object):
                                 full_width_at_half_max = 0
 
                         if full_width_at_half_max > 0:
-                            area = self.area(
-                                mz_array, intensity_array, fitted_mz, full_width_at_half_max, index)
+                            if self.integrate:
+                                area = self.area(
+                                    mz_array, intensity_array, fitted_mz, full_width_at_half_max, index)
+                            else:
+                                area = current_intensity
                             if full_width_at_half_max > 1.:
                                 full_width_at_half_max = 1.
 

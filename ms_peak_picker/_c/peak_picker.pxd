@@ -39,6 +39,7 @@ cdef class PeakProcessor(object):
 
         public bint threshold_data
         public bint verbose
+        public bint integrate
 
     cpdef double get_signal_to_noise_threshold(self)
     cpdef object set_signal_to_noise_threshold(self, double signal_to_noise_threshold)

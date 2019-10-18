@@ -111,7 +111,7 @@ class PeakProcessor(object):
     """
 
     def __init__(self, fit_type='quadratic', peak_mode=PROFILE, signal_to_noise_threshold=1, intensity_threshold=1,
-                 threshold_data=False, verbose=False):
+                 threshold_data=False, verbose=False, integrate=True):
         if fit_type not in fit_type_map:
             raise ValueError("Unknown fit_type %r" % (fit_type,))
         if peak_mode not in peak_mode_map:
@@ -130,6 +130,7 @@ class PeakProcessor(object):
 
         self.peak_mode = peak_mode
         self.verbose = verbose
+        self.integrate = integrate
 
         self.partial_fit_state = PartialPeakFitState()
 
@@ -290,8 +291,11 @@ class PeakProcessor(object):
                                 full_width_at_half_max = 0
 
                         if full_width_at_half_max > 0:
-                            area = self.area(
-                                mz_array, intensity_array, fitted_mz, full_width_at_half_max, index)
+                            if self.integrate:
+                                area = self.area(
+                                    mz_array, intensity_array, fitted_mz, full_width_at_half_max, index)
+                            else:
+                                area = current_intensity
                             if full_width_at_half_max > 1.:
                                 full_width_at_half_max = 1.
 
@@ -426,7 +430,7 @@ class PeakProcessor(object):
 def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFILE,
                signal_to_noise_threshold=1., intensity_threshold=1., threshold_data=False,
                target_envelopes=None, transforms=None, verbose=False,
-               start_mz=None, stop_mz=None):
+               start_mz=None, stop_mz=None, integrate=True):
     """Picks peaks for the given m/z, intensity array pair, producing a centroid-containing
     PeakIndex instance.
 
@@ -469,6 +473,11 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
         A minimum m/z value to start picking peaks from
     stop_mz : None, optional
         A maximum m/z value to stop picking peaks after
+    integrate: bool, optional
+        Whether to integrate along each peak to calculate the area. Defaults
+        to :const:`True`, but the area value for each peak is not usually used
+        by downstream algorithms for consistency, so this expensive operation
+        can be omitted.
 
     Returns
     -------
@@ -495,7 +504,7 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
 
     processor = PeakProcessor(
         fit_type, peak_mode, signal_to_noise_threshold, intensity_threshold, threshold_data,
-        verbose=verbose)
+        verbose=verbose, integrate=integrate)
     if target_envelopes is None:
         processor.discover_peaks(
             mz_array, intensity_array,
