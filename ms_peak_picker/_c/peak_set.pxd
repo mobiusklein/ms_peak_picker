@@ -83,7 +83,7 @@ cdef class PeakSetIndexed(PeakSet):
         double* mz_index
         index_list* interval_index
 
-    cpdef _allocate_index(self)
+    cpdef _allocate_index(self, size_t interval_index_size)
 
     cpdef FittedPeak has_peak_hinted(self, double mz, double tolerance=*, size_t hint_start=*, size_t hint_end=*)
 

@@ -701,7 +701,7 @@ cdef class PeakSetIndexed(PeakSet):
             inst.reindex()
         return inst
 
-    cpdef _allocate_index(self):
+    cpdef _allocate_index(self, size_t interval_index_size):
         cdef:
             size_t i, n
             FittedPeak p
@@ -720,7 +720,7 @@ cdef class PeakSetIndexed(PeakSet):
                 free_index_list(self.interval_index)
                 self.interval_index = NULL
             interval_index = <index_list*>malloc(sizeof(index_list))
-            build_interval_index(self, interval_index, INTERVAL_INDEX_SIZE)
+            build_interval_index(self, interval_index, interval_index_size)
             if check_index(interval_index) != 0:
                 free_index_list(interval_index)
             else:
@@ -728,7 +728,7 @@ cdef class PeakSetIndexed(PeakSet):
 
     def _index(self):
         i = PeakSet._index(self)
-        self._allocate_index()
+        self._allocate_index(INTERVAL_INDEX_SIZE)
         return i
 
     @cython.cdivision(True)
