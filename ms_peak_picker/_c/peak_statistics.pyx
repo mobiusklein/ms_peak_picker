@@ -12,7 +12,7 @@ from ms_peak_picker._c.double_vector cimport (
     make_double_vector, double_vector_resize,
     double_vector_append, free_double_vector,
     print_double_vector, double_vector_to_list,
-    list_to_double_vector)
+    list_to_double_vector, reset_double_vector)
 
 from ms_peak_picker._c.peak_set cimport FittedPeak
 
@@ -25,6 +25,9 @@ from ms_peak_picker._c.search cimport get_nearest_binary
 np.import_array()
 
 cdef DTYPE_t minimum_signal_to_noise = 4.0
+
+
+cdef object np_zeros = np.zeros
 
 
 @cython.nonecheck(False)
@@ -123,7 +126,7 @@ cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1, mode='c'] x, np.ndarray[DTYP
 
     # Weighted powers of x transposed
     # the polynomial regression's design matrix
-    At = np.zeros((nterms + 1, n))
+    At = np_zeros((nterms + 1, n))
     for i in range(n):
         # set the intercept
         At[0, i] = weights[i]
@@ -131,7 +134,7 @@ cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1, mode='c'] x, np.ndarray[DTYP
             # the successive powers of x[i]
             At[j, i] = At[j - 1, i] * x[i]
 
-    Z = np.zeros((n, 1))
+    Z = np_zeros((n, 1))
     for i in range(n):
         Z[i, 0] = weights[i] * y[i]
 
@@ -141,7 +144,7 @@ cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1, mode='c'] x, np.ndarray[DTYP
     At_Ai_At = I_At_At_T.dot(At)
     B = At_Ai_At.dot(Z)
     mse = 0
-    out = np.zeros((2, n))
+    out = np_zeros((2, n))
     for i in range(n):
         terms[0] = B[0, 0]
         yfit = B[0, 0]
@@ -174,14 +177,14 @@ cdef DTYPE_t curve_reg_dv(DoubleVector* x, DoubleVector* y, size_t n,
 
     # Weighted powers of x transposed
     # Like Vandermonte Matrix?
-    At = np.zeros((nterms + 1, n))
+    At = np_zeros((nterms + 1, n))
     for i in range(n):
         # At[0, i] = weights[i]
         At[0, i] = 1.0
         for j in range(1, nterms + 1):
             At[j, i] = At[j - 1, i] * x.v[i]
 
-    Z = np.zeros((n, 1))
+    Z = np_zeros((n, 1))
     for i in range(n):
         # Z[i, 0] = weights[i] * y.v[i]
         Z[i, 0] = 1.0 * y.v[i]
@@ -197,7 +200,7 @@ cdef DTYPE_t curve_reg_dv(DoubleVector* x, DoubleVector* y, size_t n,
     At_Ai_At = I_At_At_T.dot(At)
     B = At_Ai_At.dot(Z)
     mse = 0
-    # out = np.zeros((2, n))
+    # out = np_zeros((2, n))
     for i in range(n):
         terms[0] = B[0, 0]
         yfit = B[0, 0]
@@ -230,12 +233,15 @@ cpdef DTYPE_t find_right_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, n
     peak_half = peak / 2.
     mass = mz_array[data_index]
 
-    coef = np.zeros(2)
+    vect_mzs = NULL
+    vect_intensity = NULL
+
+    coef = np_zeros(2)
 
     if peak == 0.0:
         return 0.
 
-    size = len(mz_array) - 1
+    size = (mz_array.shape[0]) - 1
     if data_index <= 0 or data_index >= size:
         return 0.
 
@@ -252,14 +258,17 @@ cpdef DTYPE_t find_right_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, n
             X2 = mz_array[index - 1]
 
             if((Y2 - Y1 != 0) and (Y1 < peak_half)):
+                # Linear interpolation approximation
                 lower = X1 - (X1 - X2) * (peak_half - Y1) / (Y2 - Y1)
             else:
                 lower = X1
                 points = index - data_index + 1
 
+                # Polynomial regression approximation
                 if points >= 3:
-                    vect_mzs = make_double_vector()
-                    vect_intensity = make_double_vector()
+                    if vect_mzs == NULL:
+                        vect_mzs = make_double_vector()
+                        vect_intensity = make_double_vector()
 
                     for k in range(points - 1, -1, -1):
                         double_vector_append(vect_mzs, mz_array[index - k])
@@ -269,15 +278,21 @@ cpdef DTYPE_t find_right_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, n
                         j += 1
 
                     if j == points:
+                        if vect_mzs != NULL:
+                            free_double_vector(vect_mzs)
+                            free_double_vector(vect_intensity)
                         return 0.0
 
                     # coef will contain the result
                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
-                    free_double_vector(vect_intensity)
-                    free_double_vector(vect_mzs)
+                    reset_double_vector(vect_intensity)
+                    reset_double_vector(vect_mzs)
                     lower = coef[1] * peak_half + coef[0]
             break
         last_Y1 = Y1
+    if vect_mzs != NULL:
+        free_double_vector(vect_mzs)
+        free_double_vector(vect_intensity)
     return abs(lower - mass)
 
 
@@ -301,12 +316,15 @@ cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np
     peak_half = peak / 2.
     mass = mz_array[data_index]
 
-    coef = np.zeros(2)
+    coef = np_zeros(2)
 
     if peak == 0.0:
         return 0.
 
-    size = len(mz_array) - 1
+    vect_mzs = NULL
+    vect_intensity = NULL
+
+    size = (mz_array.shape[0]) - 1
     if data_index <= 0 or data_index >= size:
         return 0.
     last_Y1 = peak
@@ -327,8 +345,9 @@ cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np
                 upper = X1
                 points = data_index - index + 1
                 if points >= 3:
-                    vect_mzs = make_double_vector()
-                    vect_intensity = make_double_vector()
+                    if vect_mzs == NULL:
+                        vect_mzs = make_double_vector()
+                        vect_intensity = make_double_vector()
 
                     for j in range(points - 1, -1, -1):
                         double_vector_append(vect_mzs, mz_array[data_index - j])
@@ -339,15 +358,21 @@ cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np
                         j += 1
 
                     if j == points:
+                        if vect_mzs != NULL:
+                            free_double_vector(vect_mzs)
+                            free_double_vector(vect_intensity)
                         return 0.
 
                     # coef will contain the results
                     mse = curve_reg_dv(vect_intensity, vect_mzs, points, coef, 1)
-                    free_double_vector(vect_intensity)
-                    free_double_vector(vect_mzs)
+                    reset_double_vector(vect_intensity)
+                    reset_double_vector(vect_mzs)
                     upper = coef[1] * peak_half + coef[0]
             break
         last_Y1 = Y1
+    if vect_mzs != NULL:
+        free_double_vector(vect_mzs)
+        free_double_vector(vect_intensity)
     return abs(mass - upper)
 
 
@@ -371,7 +396,7 @@ cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1, mode='c'] 
     peak_half = peak / 2.
     mass = mz_array[data_index]
 
-    coef = np.zeros(2)
+    coef = np_zeros(2)
 
     if aboutzero(peak):
         return 0.
