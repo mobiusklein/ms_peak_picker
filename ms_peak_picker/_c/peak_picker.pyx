@@ -44,6 +44,40 @@ cdef dict peak_mode_map = {
 
 
 
+@cython.boundscheck(False)
+cpdef bint is_increasing(np.ndarray[cython.floating, ndim=1] mz_array):
+    """Test whether the values in `mz_array` are increasing.
+
+    Occaisionally, the m/z array is not completely sorted. This should
+    efficiently check if the array is indeed not in the correct order and
+    a more expensive sort and re-index operation needs to be performed.
+
+    Parameters
+    ----------
+    mz_array : :class:`np.ndarray`
+        The array to test.
+
+    Returns
+    -------
+    bool:
+        Whether the array is strictly increasing or not.
+    """
+    cdef:
+        size_t i, n
+        cython.floating a, b
+
+    n = mz_array.shape[0]
+    if n <= 1:
+        return True
+    a = mz_array[0]
+    for i in range(1, n):
+        b = mz_array[i]
+        if a > b:
+            return False
+        a = b
+    return True
+
+
 @cython.final
 @cython.freelist(1000)
 cdef class PartialPeakFitState(object):

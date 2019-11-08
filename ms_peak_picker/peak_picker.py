@@ -491,10 +491,14 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
     mz_array = np.asanyarray(mz_array, dtype=np.float64)
     intensity_array = np.asanyarray(intensity_array, dtype=np.float64)
 
+    if len(mz_array) != len(intensity_array):
+        raise ValueError("The m/z array and intensity array must be the same size!")
+
     # make sure the m/z array is properly sorted
-    indexing = np.argsort(mz_array)
-    mz_array = mz_array[indexing]
-    intensity_array = intensity_array[indexing]
+    if not is_increasing(mz_array):
+        indexing = np.argsort(mz_array)
+        mz_array = mz_array[indexing]
+        intensity_array = intensity_array[indexing]
 
     mz_array, intensity_array = transform(
         mz_array, intensity_array, transforms)
@@ -518,11 +522,30 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
     return PeakIndex(mz_array, intensity_array, peaks)
 
 
+def is_increasing(mz_array):
+    """Test whether the values in `mz_array` are increasing.
+
+    Occaisionally, the m/z array is not completely sorted. This should
+    efficiently check if the array is indeed not in the correct order and
+    a more expensive sort and re-index operation needs to be performed.
+
+    Parameters
+    ----------
+    mz_array : :class:`np.ndarray`
+        The array to test.
+
+    Returns
+    -------
+    bool:
+        Whether the array is strictly increasing or not.
+    """
+    return np.all(mz_array[1:] >= mz_array[:-1])
+
 try:
     _has_c = True
     _PartialPeakFitState = PartialPeakFitState
     _PeakProcessor = PeakProcessor
-    from ms_peak_picker._c.peak_picker import PartialPeakFitState, PeakProcessor
+    from ms_peak_picker._c.peak_picker import PartialPeakFitState, PeakProcessor, is_increasing
 except ImportError as err:
     print(err)
     _has_c = False
