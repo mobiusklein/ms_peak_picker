@@ -539,7 +539,7 @@ def is_increasing(mz_array):
     bool:
         Whether the array is strictly increasing or not.
     """
-    return np.all(mz_array[1:] >= mz_array[:-1])
+    return np.all(mz_array[1:] > mz_array[:-1])
 
 try:
     _has_c = True
