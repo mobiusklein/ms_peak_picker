@@ -69,13 +69,14 @@ cpdef bint is_increasing(np.ndarray[cython.floating, ndim=1] mz_array):
     n = mz_array.shape[0]
     if n <= 1:
         return True
-    a = mz_array[0]
-    for i in range(1, n):
-        b = mz_array[i]
-        if a >= b:
-            return False
-        a = b
-    return True
+    with nogil:
+        a = mz_array[0]
+        for i in range(1, n):
+            b = mz_array[i]
+            if a >= b:
+                return False
+            a = b
+        return True
 
 
 @cython.final
