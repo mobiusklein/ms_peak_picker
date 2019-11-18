@@ -4,6 +4,7 @@ cimport cython
 from cython cimport parallel
 cimport numpy as np
 from libc cimport math
+from libc.math cimport fabs
 import numpy as np
 
 from ms_peak_picker._c.search cimport get_nearest
@@ -16,8 +17,11 @@ from ms_peak_picker._c.double_vector cimport (
 
 from ms_peak_picker._c.peak_set cimport FittedPeak
 
+from cpython.object cimport PyObject
 from cpython.list cimport PyList_GET_SIZE, PyList_GET_ITEM
 from cpython.tuple cimport PyTuple_GET_SIZE, PyTuple_GET_ITEM
+from cpython.sequence cimport PySequence_Fast, PySequence_Fast_ITEMS
+
 
 from ms_peak_picker._c.peak_set cimport FittedPeak
 from ms_peak_picker._c.search cimport get_nearest_binary
@@ -611,7 +615,7 @@ cpdef double peak_area(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarra
 
 
 @cython.cdivision(True)
-cpdef double gaussian_predict(FittedPeak peak, double mz):
+cpdef double gaussian_predict(FittedPeak peak, double mz) nogil:
     cdef:
         double x, center, amplitude, fwhm, spread, y
     x = mz
@@ -684,6 +688,41 @@ cdef class GaussianModel(PeakShapeModel):
         return gaussian_error(self.peak, mz, intensity)
 
 
+cdef size_t find_starting_index(double* array, double value, double error_tolerance, size_t n) nogil:
+    cdef:
+        size_t lo, hi, mid, i, best_index
+        double mid_value, error, best_error
+
+    if n == 0:
+        return 0
+    lo = 0
+    hi = n
+    while hi != lo:
+        mid = (hi + lo) // 2
+        mid_value = array[mid]
+        error = (mid_value - value)
+        if (fabs(error) < error_tolerance) or ((hi - 1) == lo):
+            i = 0
+            best_index = mid
+            best_error = fabs(error)
+            while mid - i  >= 0 and (mid - i) != (<size_t>-1):
+                mid_value = array[mid - i]
+                error = fabs(value - mid_value)
+                if error > best_error:
+                    break
+                else:
+                    best_index = mid - i
+                    best_error = error
+                i += 1
+            return best_index
+        elif error > 0:
+            hi = mid
+        else:
+            lo = mid
+    return 0
+
+DEF PEAK_SHAPE_WIDTH = 1
+
 cdef class PeakSetReprofiler(object):
 
     def __init__(self, models, dx=0.01):
@@ -700,42 +739,46 @@ cdef class PeakSetReprofiler(object):
         self.gridy = np.zeros_like(self.gridx, dtype=np.float64)
 
     @cython.boundscheck(False)
-    cpdef _reprofile(self):
+    cpdef _reprofile(PeakSetReprofiler self):
         cdef:
-            ssize_t i, j, nmodels, offset
-            double x, y, pred
-            PeakShapeModel model
+            size_t i, j, k, nmodels, n_pts
+            double x, y, pred, model_center
             np.ndarray[double, ndim=1, mode='c'] gridx, gridy
             list models
+            PyObject** pmodels
+            PyObject* model
+            double* xdata
+            double* ydata
+
         gridx = self.gridx
         gridy = self.gridy
+        xdata = &gridx[0]
+        ydata = &gridy[0]
+
+        n_pts = gridx.shape[0]
         models = self.models
         nmodels = PyList_GET_SIZE(models)
-        i = 0
-        for i in range(gridx.shape[0]):
-            x = gridx[i]
-            y = 0
-            offset = self._find_starting_model(x)
-            j = offset - 1
-            while j > 0:
-                model = <PeakShapeModel>PyList_GET_ITEM(models, j)
-                if (x - model.center) > 3:
+        pmodels = PySequence_Fast_ITEMS(PySequence_Fast(models, "error"))
+        for i in range(nmodels):
+            model = pmodels[i]
+            model_center = (<PeakShapeModel>model).center
+            k = j = find_starting_index(xdata, model_center, 1e-3, n_pts)
+            while j < n_pts:
+                x = gridx[j]
+                pred = (<PeakShapeModel>model).predict(x)
+                if pred == 0:
                     break
-                pred = model.predict(x)
-                y += pred
-                j -= 1
-            j = offset
-            while j < nmodels:
-                model = <PeakShapeModel>PyList_GET_ITEM(models, j)
-                if (model.center - x) > 3:
-                    break
-                pred = model.predict(x)
-                y += pred
+                ydata[j] += pred
                 j += 1
+            j = k - 1
+            while j >= 0 and j != (<size_t>-1):
+                x = gridx[j]
+                pred = (<PeakShapeModel>model).predict(x)
+                if pred == 0:
+                    break
+                ydata[j] += pred
+                j -= 1
 
-            gridy[i] = y
-        gridx = self.gridx
-        gridy = self.gridy
 
     cpdef size_t _find_starting_model(self, double x):
         cdef:
