@@ -145,7 +145,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
             n_workers = n_scans
         else:
             n_workers = num_processors
-        for k_array in parallel.prange(n_workers):
+        for k_array in parallel.prange(n_scans, num_threads=n_workers):
             intensity_array_local = <double*>calloc(sizeof(double), n_points)
             pair = spectrum_pairs[k_array]
             pmz = pair.mz
