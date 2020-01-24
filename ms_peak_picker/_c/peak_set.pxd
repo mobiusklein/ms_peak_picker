@@ -35,6 +35,8 @@ cdef class PeakSet(object):
     cdef PeakSet _create(tuple peaks)
 
     cpdef reindex(self)
+    cpdef size_t _index(self)
+
     cdef FittedPeak _get_nearest_peak(self, double mz, double* errout)
 
     cdef FittedPeak _has_peak(self, double mz, double tolerance=*)

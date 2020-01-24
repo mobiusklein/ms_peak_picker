@@ -70,7 +70,7 @@ class FittedPeak(Base):
                                 self.area, self.left_width, self.right_width)
 
     def __hash__(self):
-        return hash((self.mz, self.intensity, self.signal_to_noise, self.full_width_at_half_max))
+        return hash(self.mz)
 
     def __eq__(self, other):
         if other is None:

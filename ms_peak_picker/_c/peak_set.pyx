@@ -117,7 +117,7 @@ cdef class FittedPeak(PeakBase):
                             self.right_width)
 
     def __hash__(self):
-        return hash((self.mz, self.intensity, self.signal_to_noise, self.full_width_at_half_max))
+        return hash(self.mz)
 
     cpdef bint _eq(self, FittedPeak other):
         return (abs(self.mz - other.mz) < 1e-5) and (
@@ -179,10 +179,15 @@ cdef class PeakSet(object):
         """
         self._index()
 
-    def _index(self):
+    cpdef size_t _index(self):
+        cdef:
+            size_t i, n
+            FittedPeak peak
         self.peaks = tuple(sorted(self.peaks, key=operator.attrgetter('mz')))
         i = 0
-        for i, peak in enumerate(self.peaks):
+        n = self.get_size()
+        for i in range(n):
+            peak = self.getitem(i)
             peak.peak_count = i
             if peak.index == -1:
                 peak.index = i
@@ -715,7 +720,8 @@ cdef class PeakSetIndexed(PeakSet):
             p = self.getitem(i)
             self.mz_index[i] = p.mz
 
-        if n > 2:
+        # if n > 2:
+        if False:
             if self.interval_index != NULL:
                 free_index_list(self.interval_index)
                 self.interval_index = NULL
@@ -726,7 +732,7 @@ cdef class PeakSetIndexed(PeakSet):
             else:
                 self.interval_index = interval_index
 
-    def _index(self):
+    cpdef size_t _index(self):
         i = PeakSet._index(self)
         self._allocate_index(INTERVAL_INDEX_SIZE)
         return i
