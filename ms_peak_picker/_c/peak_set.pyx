@@ -503,9 +503,10 @@ cdef size_t double_binary_search_ppm(double* array, double value, double toleran
         mid = (hi + lo) // 2
         x = array[mid]
         err = (x - value) / value
-        if abs(err) < tolerance:
+        abs_err = abs(err)
+        if abs_err < tolerance:
             i = mid
-            best_error = err
+            best_error = abs_err
             best_ix = mid
             while i > 0:
                 i -= 1
@@ -675,7 +676,7 @@ cdef size_t double_binary_search_nearest_match_with_hint(double* array, double v
     return 0
 
 
-cdef size_t INTERVAL_INDEX_SIZE = 10000
+cdef size_t INTERVAL_INDEX_SIZE = 0
 
 cdef class PeakSetIndexed(PeakSet):
 
@@ -720,8 +721,8 @@ cdef class PeakSetIndexed(PeakSet):
             p = self.getitem(i)
             self.mz_index[i] = p.mz
 
-        # if n > 2:
-        if False:
+        if n > 2 and interval_index_size > 0:
+        # if False:
             if self.interval_index != NULL:
                 free_index_list(self.interval_index)
                 self.interval_index = NULL
@@ -731,6 +732,10 @@ cdef class PeakSetIndexed(PeakSet):
                 free_index_list(interval_index)
             else:
                 self.interval_index = interval_index
+        else:
+            if self.interval_index != NULL:
+                free_index_list(self.interval_index)
+                self.interval_index = NULL
 
     cpdef size_t _index(self):
         i = PeakSet._index(self)
@@ -805,16 +810,21 @@ cdef class PeakSetIndexed(PeakSet):
             int status
             size_t start, end
             size_t i
-
+        if self.interval_index == NULL:
+            return None, None, None
         status = find_search_interval(self.interval_index, value, &start, &end)
         return start, end, interpolate_index(self.interval_index, value)
 
     def find_interval_for(self, double value):
+        if self.interval_index == NULL:
+            return None
         return interpolate_index(self.interval_index, value)
 
     def check_interval(self, size_t i):
         cdef:
             index_cell cell
+        if self.interval_index == NULL:
+            return None
         cell = self.interval_index.index[i]
         return cell
 
