@@ -108,6 +108,8 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
         double* pmz
         double* pinten
         double* intensity_array_local
+        double* pintensity_array_total
+        double** intensity_layers
 
     if weights is None:
         weights = [1 for omz in arrays]
@@ -140,13 +142,15 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
     mz_array = np.arange(lo, hi, dx)
     intensity_array = np.zeros_like(mz_array)
     n_points = mz_array.shape[0]
+    pintensity_array_total = &(intensity_array[0])
     with nogil:
         if n_scans < num_processors:
             n_workers = n_scans
         else:
             n_workers = num_processors
+        intensity_layers = <double**>malloc(sizeof(double*) * n_scans)
         for k_array in parallel.prange(n_scans, num_threads=n_workers):
-            intensity_array_local = <double*>calloc(sizeof(double), n_points)
+            intensity_layers[k_array] = intensity_array_local = <double*>calloc(sizeof(double), n_points)
             pair = spectrum_pairs[k_array]
             pmz = pair.mz
             pinten = pair.intensity
@@ -170,14 +174,18 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
 
                 contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
                 intensity_array_local[i] += contrib * scan_weight
+
+        for k_array in range(n_scans):
+            intensity_array_local = intensity_layers[k_array]
             for i in range(n_points):
-                intensity_array[i] = intensity_array[i] + intensity_array_local[i]
+                pintensity_array_total[i] += intensity_array_local[i]
             free(intensity_array_local)
+        free(intensity_layers)
         scan_weight = 0
         for i in range(n_scans):
             scan_weight += pweights[i]
         for i in range(n_points):
-            intensity_array[i] /= scan_weight
+            pintensity_array_total[i] /= scan_weight
         free(spectrum_pairs)
         free(pweights)
     return mz_array, intensity_array
