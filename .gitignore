@@ -10,3 +10,5 @@ dist/
 .coverage
 htmlcov/
 .vscode/
+.cache/
+.pytest_cache/
