@@ -207,6 +207,8 @@ def run_setup(include_cext=True):
 try:
     run_setup(True)
 except Exception as exc:
+    import traceback
+    traceback.print_exc()
     if use_python_implementation:
         run_setup(False)
         status_msgs(
