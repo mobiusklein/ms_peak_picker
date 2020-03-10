@@ -7,10 +7,6 @@ jobs:
 - job: 'Test'
   strategy:
     matrix:
-    #  Python27:
-    #    python.version: '2.7'
-    #  Python34:
-    #    python.version: '3.4'
       Python35:
         python.version: '3.5'
         imageName: "vs2017-win2016"
@@ -20,6 +16,12 @@ jobs:
       Python37:
         python.version: '3.7'
         imageName: "vs2017-win2016"
+      Python35Ubuntu:
+        python.version: '3.5'
+        imageName: "ubuntu-16.04"
+      Python36Ubuntu:
+        python.version: '3.6'
+        imageName: "ubuntu-16.04"
       Python37Ubuntu:
         python.version: '3.7'
         imageName: "ubuntu-16.04"
@@ -50,21 +52,29 @@ jobs:
 
 - job: 'Publish'
   dependsOn: 'Test'
-  pool:
-    vmImage: 'vs2017-win2016'
   strategy:
     matrix:
-     # Python27:
-     #   python.version: '2.7'
-     # Python34:
-     #   python.version: '3.4'
       Python35:
         python.version: '3.5'
+        imageName: "vs2017-win2016"
       Python36:
         python.version: '3.6'
+        imageName: "vs2017-win2016"
       Python37:
         python.version: '3.7'
+        imageName: "vs2017-win2016"
+      Python35Ubuntu:
+        python.version: '3.5'
+        imageName: "ubuntu-16.04"
+      Python36Ubuntu:
+        python.version: '3.6'
+        imageName: "ubuntu-16.04"
+      Python37Ubuntu:
+        python.version: '3.7'
+        imageName: "ubuntu-16.04"
     maxParallel: 4
+  pool:
+    vmImage: '$(imageName)'
   steps:
   - task: UsePythonVersion@0
     inputs:
