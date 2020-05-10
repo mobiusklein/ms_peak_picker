@@ -7,3 +7,4 @@ recursive-exclude ms_peak_picker *.pyd
 
 include README.rst
 include requirements.txt
+include pyproject.toml
