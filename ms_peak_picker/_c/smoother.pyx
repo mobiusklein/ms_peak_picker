@@ -1,7 +1,7 @@
 # cython: embedsignature=True
-# 
+#
 
-from libc.math cimport sqrt, exp, pi, pow
+from libc.math cimport sqrt, exp, pow
 
 from ms_peak_picker._c.double_vector cimport (
     make_double_vector_with_size, make_double_vector,
@@ -13,6 +13,9 @@ cimport numpy as np
 import numpy as np
 
 np.import_array()
+
+
+cdef double pi = np.pi
 
 
 @cython.cdivision(True)
@@ -46,7 +49,7 @@ cdef int vgauss(double* x, size_t n, double mean, double variance, double scale,
     for i in range(n):
         err = double_vector_append(out, a * exp((-pow(x[i] - mean, 2)) / b))
         if err != 0:
-            return err            
+            return err
 
 
 
