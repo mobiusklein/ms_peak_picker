@@ -100,6 +100,8 @@ class SavitskyGolayFilter(FilterBase):
 
     def filter(self, mz_array, intensity_array):
         from scipy.signal import savgol_filter
+        if len(intensity_array) <= self.window_length:
+            return mz_array, intensity_array
         smoothed = savgol_filter(
             intensity_array, window_length=self.window_length,
             polyorder=self.polyorder, deriv=self.deriv).clip(0)
