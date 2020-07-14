@@ -38,11 +38,14 @@ def average_signal(arrays, dx=0.01, weights=None):
     intensity_array: :class:`np.ndarray`
     """
     if weights is None:
-        weights = [1 for omz in arrays]
+        weights = [1 for _omz in arrays]
     elif len(arrays) != len(weights):
         raise ValueError("`arrays` and `weights` must have the same length")
-    lo = max(min([x.min() for x, y in arrays]) - 1, 0)
-    hi = max([x.max() for x, y in arrays]) + 1
+    try:
+        lo = max(min([x.min() for x, y in arrays if len(x)]) - 1, 0)
+        hi = max([x.max() for x, y in arrays if len(x)]) + 1
+    except ValueError:
+        return np.array([]), np.array([])
     arrays = [(x.astype(float), y.astype(float)) for x, y in arrays]
     if isinstance(dx, float):
         mz_array = np.arange(lo, hi, dx)

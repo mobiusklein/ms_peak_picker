@@ -67,6 +67,9 @@ cdef int prepare_arrays(list arrays, spectrum_holder** out):
     return 0
 
 
+cdef double INF = float('inf')
+
+
 @cython.cdivision(True)
 @cython.boundscheck(False)
 cpdef average_signal(object arrays, double dx=0.01, object weights=None):
@@ -96,6 +99,8 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
         long k_array, n_scans, n_workers, worker_block
         object omz, ointen
         list convert
+        int n_empty
+        bint all_empty
 
         spectrum_holder* spectrum_pairs
         spectrum_holder pair
@@ -118,11 +123,16 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
 
     convert = []
     for omz, ointen in arrays:
+        if len(omz) == 0:
+            continue
         mz = omz.astype(np.double)
         inten = ointen.astype(np.double)
         convert.append((mz, inten))
 
-    lo = convert[0][0][0]
+    n_scans = len(convert)
+    if n_scans == 0:
+        return np.arange(0., 0.), np.arange(0., 0.)
+    lo = INF
     hi = 0
     for mz, inten in convert:
         lo = min(mz[0], lo)
@@ -130,8 +140,6 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
 
     lo = max(lo - 1, 0)
     hi += 1
-
-    n_scans = len(convert)
 
     pweights = <double*>malloc(sizeof(double) * n_scans)
     for i in range(n_scans):
