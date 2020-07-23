@@ -163,7 +163,7 @@ class FTICRBaselineRemoval(FilterBase):
         return fticr_remove_baseline(mz_array, intensity_array, self.window_length, self.region_width, self.scale)
 
 
-@register("linear_resampling", 0.01)
+@register("linear_resampling", 0.005)
 class LinearResampling(FilterBase):
     def __init__(self, spacing):
         self.spacing = spacing
