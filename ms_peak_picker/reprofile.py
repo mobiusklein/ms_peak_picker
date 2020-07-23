@@ -114,10 +114,14 @@ def reprofile(peaks, max_fwhm=0.2, dx=0.01, model_cls=GaussianModel, default_fwh
     intensity_array: np.ndarray[float64]
         The modeled total signal at each grid point
     """
+    if not peaks:
+        return np.array([], dtype=float), np.array([], dtype=float)
     if is_peak(peaks[0]):
         peaks = [peaks]
     models = models_from_peak_sets(
         peaks, max_fwhm, model_cls, default_fwhm, override_fwhm)
+    if not models:
+        return np.array([], dtype=float), np.array([], dtype=float)
     task = PeakSetReprofiler(models, dx)
     x, y = task.reprofile()
     y /= len(peaks)

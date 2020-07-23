@@ -733,10 +733,14 @@ cdef class PeakSetReprofiler(object):
         self._build_grid()
 
     cdef void _build_grid(self):
-        lo = self.models[0].center
-        hi = self.models[-1].center
-        self.gridx = np.arange(max(lo - 3, 0), hi + 3, self.dx, dtype=np.float64)
-        self.gridy = np.zeros_like(self.gridx, dtype=np.float64)
+        if PyList_GET_SIZE(self.models) == 0:
+            self.gridx = np.arange(0, 1, self.dx, dtype=np.float64)
+            self.gridy = np.zeros_like(self.gridx, dtype=np.float64)
+        else:
+            lo = self.models[0].center
+            hi = self.models[-1].center
+            self.gridx = np.arange(max(lo - 3, 0), hi + 3, self.dx, dtype=np.float64)
+            self.gridy = np.zeros_like(self.gridx, dtype=np.float64)
 
     @cython.boundscheck(False)
     cpdef _reprofile(PeakSetReprofiler self):
@@ -752,12 +756,14 @@ cdef class PeakSetReprofiler(object):
 
         gridx = self.gridx
         gridy = self.gridy
+        models = self.models
+        nmodels = PyList_GET_SIZE(models)
+        if nmodels == 0:
+            return
         xdata = &gridx[0]
         ydata = &gridy[0]
 
         n_pts = gridx.shape[0]
-        models = self.models
-        nmodels = PyList_GET_SIZE(models)
         pmodels = PySequence_Fast_ITEMS(PySequence_Fast(models, "error"))
         for i in range(nmodels):
             model = pmodels[i]
