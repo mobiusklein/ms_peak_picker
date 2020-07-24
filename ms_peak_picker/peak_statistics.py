@@ -494,6 +494,30 @@ def peak_area(mz_array, intensity_array, start, stop):
     return area
 
 
+def zero_pad(x, y, delta=0.05):
+    filled_x = []
+    filled_y = []
+    n = len(x)
+    for i, xi in enumerate(x):
+        if i == 0:
+            filled_x.append(xi - delta)
+            filled_y.append(0.0)
+        else:
+            if (xi - x[i - 1]) > delta:
+                filled_x.append(xi - delta)
+                filled_y.append(0.0)
+        filled_x.append(xi)
+        filled_y.append(y[i])
+        if i == n - 1:
+            filled_x.append(xi + delta)
+            filled_y.append(0.0)
+        else:
+            if (x[i + 1] - xi) > delta:
+                filled_x.append(xi + delta)
+                filled_y.append(0.0)
+    return np.array(filled_x), np.array(filled_y)
+
+
 try:
     from ._c import peak_statistics as cpeak_statistics
     _find_signal_to_noise = find_signal_to_noise
@@ -503,6 +527,7 @@ try:
     _peak_area = peak_area
     _quadratic_fit = quadratic_fit
     _lorentzian_fit = lorentzian_fit
+    _zero_pad = zero_pad
 
     find_signal_to_noise = cpeak_statistics.find_signal_to_noise
     peak_area = cpeak_statistics.peak_area
@@ -511,5 +536,6 @@ try:
     lorentzian_fit = cpeak_statistics.lorentzian_fit
     find_left_width = cpeak_statistics.find_left_width
     find_right_width = cpeak_statistics.find_right_width
+    zero_pad = cpeak_statistics.zero_pad
 except ImportError:
     pass

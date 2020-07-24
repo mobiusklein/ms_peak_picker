@@ -813,3 +813,49 @@ cdef class PeakSetReprofiler(object):
     def reprofile(self):
         self._reprofile()
         return self.gridx, self.gridy
+
+
+@cython.boundscheck(False)
+cpdef zero_pad(DTYPE_t[:] x, DTYPE_t[:] y, DTYPE_t delta=0.05):
+    cdef:
+        size_t i, n
+        DoubleVector* filled_x
+        DoubleVector* filled_y
+        DTYPE_t xi
+        np.ndarray[double, ndim=1, mode='c'] outx, outy
+
+    n = len(x)
+    if len(y) != n:
+        raise ValueError("Input arrays must have the same length")
+    with nogil:
+        filled_x = make_double_vector_with_size(n)
+        filled_y = make_double_vector_with_size(n)
+        for i in range(n):
+            xi = x[i]
+            if i == 0:
+                double_vector_append(filled_x, xi - delta)
+                double_vector_append(filled_y, 0.0)
+            else:
+                if (xi - x[i - 1]) > delta:
+                    double_vector_append(filled_x, xi - delta)
+                    double_vector_append(filled_y, 0.0)
+            double_vector_append(filled_x, xi)
+            double_vector_append(filled_y, y[i])
+            if i == n - 1:
+                double_vector_append(filled_x, xi + delta)
+                double_vector_append(filled_y, 0.0)
+            else:
+                if (x[i + 1] - xi) > delta:
+                    double_vector_append(filled_x, xi + delta)
+                    double_vector_append(filled_y, 0.0)
+
+    n = filled_x.used
+    outx = np.empty(n, dtype=float)
+    outy = np.empty(n, dtype=float)
+    for i in range(n):
+        outx[i] = filled_x.v[i]
+        outy[i] = filled_y.v[i]
+    free_double_vector(filled_x)
+    free_double_vector(filled_y)
+    return outx, outy
+

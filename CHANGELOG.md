@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 ## [Unreleased]
 
 ### Added
+1. Added the `peak_statistics.zero_pad` function to fill sparse arrays with delimiting zero values, and a
+   `scan_filter.ZeroFiller` (label: `zero_fill`) filter.
 
 ### Changed
 1. `ms_peak_picker.pick_peaks` no longer returns `None` when the input arrays are empty, instead returning

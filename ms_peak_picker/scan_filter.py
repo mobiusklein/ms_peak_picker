@@ -3,6 +3,7 @@ import numpy as np
 from .utils import Base
 from .fticr_denoising import denoise as fticr_remove_baseline
 from .smoothing import gaussian_smooth
+from .peak_statistics import zero_pad
 
 try:
     basestring
@@ -174,6 +175,15 @@ class LinearResampling(FilterBase):
         new_mz = np.arange(lo, hi + self.spacing, self.spacing)
         new_intensity = np.interp(new_mz, mz_array, intensity_array)
         return new_mz, new_intensity
+
+
+@register("zero_fill", 0.05)
+class ZeroFiller(FilterBase):
+    def __init__(self, delta=0.05):
+        self.delta = delta
+
+    def filter(self, mz_array, intensity_array):
+        return zero_pad(mz_array, intensity_array, self.delta)
 
 
 @register("over_10", 10)
