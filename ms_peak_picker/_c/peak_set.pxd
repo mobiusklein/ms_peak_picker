@@ -26,6 +26,17 @@ cdef class FittedPeak(PeakBase):
                             double right_width, long peak_count, long index,
                             double area)
 
+
+cdef class DriftFittedPeak(FittedPeak):
+    cdef:
+        public double drift_time
+
+    @staticmethod
+    cdef DriftFittedPeak _create_driftpeak(double mz, double intensity, double signal_to_noise,
+                                           double full_width_at_half_max, double left_width,
+                                           double right_width, long peak_count, long index,
+                                           double area, double drift_time)
+
 cdef class PeakSet(object):
     cdef:
         public tuple peaks

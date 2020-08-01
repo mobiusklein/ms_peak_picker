@@ -136,6 +136,64 @@ cdef class FittedPeak(PeakBase):
             return not self._eq(other)
 
 
+cdef class DriftFittedPeak(FittedPeak):
+
+    @staticmethod
+    cdef DriftFittedPeak _create_driftpeak(double mz, double intensity, double signal_to_noise,
+                                           double full_width_at_half_max, double left_width,
+                                           double right_width, long peak_count, long index,
+                                           double area, double drift_time):
+        cdef:
+            DriftFittedPeak inst
+
+        inst = DriftFittedPeak.__new__(DriftFittedPeak)
+        inst.mz = mz
+        inst.intensity = intensity
+        inst.signal_to_noise = signal_to_noise
+        inst.full_width_at_half_max = full_width_at_half_max
+        inst.left_width = left_width
+        inst.right_width = right_width
+        inst.peak_count = peak_count
+        inst.index = index
+        inst.area = area
+        inst.drift_time = drift_time
+        return inst
+
+    cpdef PeakBase clone(self):
+        return DriftFittedPeak._create_driftpeak(
+            self.mz, self.intensity, self.signal_to_noise,
+            self.full_width_at_half_max, self.left_width, self.right_width,
+            self.peak_count, self.index, self.area, self.drift_time)
+
+    def __repr__(self):
+        return ("DriftFittedPeak(mz=%0.3f, intensity=%0.3f, signal_to_noise=%0.3f, peak_count=%d, "
+                "index=%d, full_width_at_half_max=%0.3f, area=%0.3f, drift_time=%0.3f)") % (
+                self.mz, self.intensity, self.signal_to_noise,
+                self.peak_count, self.index, self.full_width_at_half_max,
+                self.area, self.drift_time)
+
+    def __getstate__(self):
+        return (self.mz, self.intensity, self.signal_to_noise,
+                self.peak_count, self.index, self.full_width_at_half_max,
+                self.area, self.left_width, self.right_width, self.drift_peak)
+
+    def __setstate__(self, state):
+        (self.mz, self.intensity, self.signal_to_noise,
+         self.peak_count, self.index, self.full_width_at_half_max,
+         self.area, self.left_width, self.right_width, self.drift_peak) = state
+
+    def __reduce__(self):
+        return FittedPeak, (self.mz, self.intensity, self.signal_to_noise, self.peak_count,
+                            self.index, self.full_width_at_half_max, self.left_width,
+                            self.right_width, self.drift_time)
+
+    cpdef bint _eq(self, FittedPeak other):
+        return (abs(self.mz - other.mz) < 1e-5) and (
+            abs(self.intensity - other.intensity) < 1e-5) and (
+            abs(self.signal_to_noise - other.signal_to_noise) < 1e-5) and (
+            abs(self.full_width_at_half_max - other.full_width_at_half_max) < 1e-5) and (
+            abs(self.drift_time - other.drift_time) < 1e-5)
+
 
 cdef class PeakSet(object):
     """A sequence of :class:`FittedPeak` instances, ordered by m/z,
