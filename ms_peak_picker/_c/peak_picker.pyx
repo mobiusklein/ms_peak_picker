@@ -295,11 +295,13 @@ cdef class PeakProcessor(object):
                 mz = mz_array[index]
                 signal_to_noise = current_intensity / (intensity_threshold or 1.0)
                 full_width_at_half_max = 0.025
-                peak = FittedPeak._create(
-                    mz, current_intensity, signal_to_noise,
-                    full_width_at_half_max, full_width_at_half_max / 2.,
-                    full_width_at_half_max / 2., len(peak_data), index, area)
-                peak_data.append(peak)
+
+                if signal_to_noise > signal_to_noise_threshold:
+                    peak = FittedPeak._create(
+                        mz, current_intensity, signal_to_noise,
+                        full_width_at_half_max, full_width_at_half_max / 2.,
+                        full_width_at_half_max / 2., len(peak_data), index, area)
+                    peak_data.append(peak)
             # Otherwise, carry out the peak finding and fitting procedure.
             else:
                 last_intensity = intensity_array[index - 1]

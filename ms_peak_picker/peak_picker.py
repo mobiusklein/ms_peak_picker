@@ -230,9 +230,10 @@ class PeakProcessor(object):
                     continue
                 mz = mz_array[index]
                 signal_to_noise = current_intensity / intensity_threshold
-                full_width_at_half_max = 0.1
-                peak_data.append(FittedPeak(mz, current_intensity, signal_to_noise, len(
-                    peak_data), index, full_width_at_half_max, current_intensity))
+                full_width_at_half_max = 0.025
+                if signal_to_noise > signal_to_noise_threshold:
+                    peak_data.append(FittedPeak(mz, current_intensity, signal_to_noise, len(
+                        peak_data), index, full_width_at_half_max, current_intensity))
             else:
                 last_intensity = intensity_array[index - 1]
                 next_intensity = intensity_array[index + 1]

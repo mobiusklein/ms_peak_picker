@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Unreleased]
 
+
 ### Added
 1. Added the `peak_statistics.zero_pad` function to fill sparse arrays with delimiting zero values, and a
    `scan_filter.ZeroFiller` (label: `zero_fill`) filter.
@@ -13,6 +14,8 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 1. `ms_peak_picker.pick_peaks` no longer returns `None` when the input arrays are empty, instead returning
    an empty `PeakIndex`.
 2. The `linear_resampling` filter now uses a 0.005 m/z spacing.
+3. `ms_peak_picker.pick_peaks` will now enforce `signal_to_noise_threshold` when the input data is already centroided
+   but the definition of "signal to noise" ratio differs from profile mode spectra.
 
 ### Deprecated
 
