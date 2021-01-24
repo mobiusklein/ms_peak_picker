@@ -24,3 +24,20 @@ def get_include():
     """Retrieve the path to compiled C extensions' source files to make linking simple.
     """
     return os.path.join(__path__[0], "_c")
+
+
+try:
+    from ms_peak_picker._c import peak_picker as _cpeak_picker
+    has_c = True
+    _has_c_error = None
+except ImportError as _has_c_error:
+    has_c = False
+
+
+def check_c_extensions():
+    if has_c:
+        print("C extensions appear to have imported successfully.")
+        return True
+    else:
+        print("Could not import peak picking machinery: %r" % (_has_c_error, ))
+    return False
