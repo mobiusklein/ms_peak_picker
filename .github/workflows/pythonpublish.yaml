@@ -26,6 +26,7 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel twine
         pip install coverage pytest pytest-cov -U
         pip install Cython --install-option="--no-cython-compile"
+        pip install --only-binary=numpy,scipy numpy scipy -U
         python setup.py build sdist
         pip install -e .
     - name: Test with pytest
@@ -57,6 +58,7 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel twine
         pip install coverage pytest pytest-cov -U
         pip install Cython --install-option="--no-cython-compile"
+        pip install --only-binary=numpy,scipy numpy scipy -U
         pip install -e .
     - name: Test with pytest
       run: |
