@@ -72,7 +72,7 @@ cdef double INF = float('inf')
 
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cpdef average_signal(object arrays, double dx=0.01, object weights=None):
+cpdef average_signal(object arrays, double dx=0.01, object weights=None, object num_threads=None):
     """Average multiple spectras' intensity arrays, with a common m/z axis
 
     Parameters
@@ -115,7 +115,10 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
         double* intensity_array_local
         double* pintensity_array_total
         double** intensity_layers
-
+    if num_threads is None or num_threads < 0:
+        n_workers = num_processors
+    else:
+        n_workers = num_threads
     if weights is None:
         weights = [1 for omz in arrays]
     elif len(arrays) != len(weights):
@@ -152,10 +155,8 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None):
     n_points = mz_array.shape[0]
     pintensity_array_total = &(intensity_array[0])
     with nogil:
-        if n_scans < num_processors:
+        if n_scans < n_workers:
             n_workers = n_scans
-        else:
-            n_workers = num_processors
         intensity_layers = <double**>malloc(sizeof(double*) * n_scans)
         for k_array in parallel.prange(n_scans, num_threads=n_workers):
             intensity_layers[k_array] = intensity_array_local = <double*>calloc(sizeof(double), n_points)
