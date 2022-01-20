@@ -88,16 +88,16 @@ cdef class GridAverager(object):
         public double dx
         double* mz_axis_
         size_t size
-        size_t width
+        size_t num_scans
         public np.ndarray intensities
         public np.ndarray empty
 
 
-    def __init__(self, min_mz, max_mz, width, dx=0.001, arrays=None):
+    def __init__(self, min_mz, max_mz, num_scans, dx=0.001, arrays=None):
         self.min_mz = min_mz
         self.max_mz = max_mz
         self.dx = dx
-        self.width = width
+        self.num_scans = num_scans
         self.init_mz_axis()
         self.init_intensities_grid()
 
@@ -109,8 +109,8 @@ cdef class GridAverager(object):
         self.mz_axis_ = &mz_axis[0]
 
     cdef void init_intensities_grid(self):
-        self.intensities = np.zeros((self.width, self.size), dtype=np.float64)
-        self.empty = np.zeros(self.width, dtype=np.uint8)
+        self.intensities = np.zeros((self.num_scans, self.size), dtype=np.float64)
+        self.empty = np.zeros(self.num_scans, dtype=np.uint8)
 
     cpdef add_spectrum(self, np.ndarray[double, ndim=1, mode='c'] mz_array, np.ndarray[double, ndim=1, mode='c'] intensity_array, size_t index):
         rebinned_intensities = self.create_intensity_axis(mz_array, intensity_array, index)
@@ -147,6 +147,7 @@ cdef class GridAverager(object):
         return 0
 
     @cython.cdivision(True)
+    @cython.boundscheck(False)
     cpdef np.ndarray create_intensity_axis(self, np.ndarray[double, ndim=1, mode='c'] mz_array, np.ndarray[double, ndim=1, mode='c'] intensity_array, size_t index):
         cdef:
             double* pmz
@@ -206,10 +207,10 @@ cdef class GridAverager(object):
 
 
     @cython.cdivision(True)
-    cpdef np.ndarray[double, ndim=1, mode='c'] average_indices(self, slice slc):
+    @cython.boundscheck(False)
+    cpdef np.ndarray[double, ndim=1, mode='c'] average_indices(self, size_t start, size_t stop, n_workers=None):
         cdef:
-            Py_ssize_t start, stop, step, slicelength, n
-            size_t i, j
+            size_t i, n
             np.ndarray[double, ndim=1, mode='c'] intensity_axis
             np.ndarray[double, ndim=1, mode='c'] intensity_frame
             double* intensity_frame_
@@ -218,10 +219,20 @@ cdef class GridAverager(object):
             double normalizer
             np.uint8_t[:] emptiness
             double[:, :] intensity_grid
+            int n_threads
+            ssize_t j, z
+
+        if n_workers is None:
+            n_threads = 1
+        else:
+            n_threads = PyInt_AsLong(n_workers)
+
+        if start > stop:
+            stop, start = start, stop
+        if stop > self.num_scans:
+            stop = self.num_scans
 
         n = PyList_GET_SIZE(self.intensities)
-        if PySlice_GetIndicesEx(slc, n, &start, &stop, &step, &slicelength) == -1:
-            raise ValueError("Invalid slice")
 
         intensity_axis = np.zeros_like(self.mz_axis)
         intensity_axis_ = &intensity_axis[0]
@@ -232,13 +243,30 @@ cdef class GridAverager(object):
         emptiness = self.empty
         intensity_grid = self.intensities
 
-        for i in range(<size_t>start, <size_t>stop):
-            is_empty = emptiness[i]
-            if is_empty:
-                continue
-            for j in range(self.size):
-                intensity_axis_[j] += intensity_grid[i, j] / normalizer
+        z = self.size
+
+        with nogil:
+            for i in range(start, stop):
+                is_empty = emptiness[i]
+                if is_empty:
+                    continue
+                for j in parallel.prange(z, num_threads=n_threads):
+                    intensity_axis_[j] += intensity_grid[i, j] / normalizer
         return intensity_axis
+
+    def __getitem__(self, i):
+        if isinstance(i, slice):
+            start = i.start or 0
+            stop = i.stop or self.num_scans
+        else:
+            start = i - 1
+            stop = i + 2
+        if start < 0:
+            start = 0
+        if stop > self.num_scans:
+            stop = self.num_scans
+        return self.mz_axis, self.average_indices(start, stop)
+
 
 
 
