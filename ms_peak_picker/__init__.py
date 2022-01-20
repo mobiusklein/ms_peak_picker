@@ -9,7 +9,7 @@ from . import fft_patterson_charge_state
 from . import scan_filter
 from .base import PeakLike
 from .reprofile import reprofile
-from .scan_averaging import average_signal
+from .scan_averaging import average_signal, GridAverager
 from .smoothing import gaussian_smooth
 from .version import version as __version__
 
@@ -17,7 +17,7 @@ __all__ = ["PeakProcessor", "pick_peaks", "PeakIndex", "PeakSet",
            "FittedPeak", "peak_statistics", "search", "fticr_denoising",
            "scan_filter", "fft_patterson_charge_state", "get_include",
            "fit_type_map", "peak_mode_map", "reprofile", "average_signal",
-           "gaussian_smooth", 'is_peak', 'simple_peak', "PeakLike"]
+           "gaussian_smooth", 'is_peak', 'simple_peak', "PeakLike", "GridAverager"]
 
 
 def get_include():

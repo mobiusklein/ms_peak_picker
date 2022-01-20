@@ -79,6 +79,7 @@ def average_signal(arrays, dx=0.01, weights=None):
 try:
     _has_c = True
     _average_signal = average_signal
-    from ms_peak_picker._c.scan_averaging import average_signal
+    GridAverager = None
+    from ms_peak_picker._c.scan_averaging import average_signal, GridAverager
 except ImportError:
     _has_c = False
