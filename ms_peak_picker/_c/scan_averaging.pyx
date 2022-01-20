@@ -87,8 +87,8 @@ cdef class GridAverager(object):
         public double max_mz
         public double dx
         double* mz_axis_
-        size_t size
-        size_t num_scans
+        public size_t size
+        public size_t num_scans
         public np.ndarray intensities
         public np.ndarray empty
 
