@@ -78,6 +78,8 @@ def make_cextensions():
             Extension(name="ms_peak_picker._c.peak_index", sources=["ms_peak_picker/_c/peak_index.pyx"],
                       include_dirs=[numpy.get_include()], define_macros=macros),
             Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
+            Extension(name='ms_peak_picker._c.size_t_vector', sources=[
+                      "ms_peak_picker/_c/size_t_vector.pyx"]),
             Extension(name='ms_peak_picker._c.smoother', sources=["ms_peak_picker/_c/smoother.pyx"],
                       include_dirs=[numpy.get_include()], define_macros=macros),
             OpenMPExtension(name='ms_peak_picker._c.scan_averaging',
@@ -104,6 +106,8 @@ def make_cextensions():
                       include_dirs=[numpy.get_include()], define_macros=macros),
             Extension(name='ms_peak_picker._c.double_vector', sources=[
                       "ms_peak_picker/_c/double_vector.c"], define_macros=macros),
+            Extension(name='ms_peak_picker._c.size_t_vector', sources=[
+                "ms_peak_picker/_c/size_t_vector.c"]),
             Extension(name='ms_peak_picker._c.smoother', sources=["ms_peak_picker/_c/smoother.c"],
                       include_dirs=[numpy.get_include()], define_macros=macros),
             OpenMPExtension(name='ms_peak_picker._c.scan_averaging',
