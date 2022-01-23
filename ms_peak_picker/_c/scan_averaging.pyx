@@ -444,7 +444,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
                     continue
 
                 contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
-                intensity_array_local[i] += contrib * scan_weight
+                intensity_array_local[i] = contrib * scan_weight
 
         for k_array in range(n_scans):
             intensity_array_local = intensity_layers[k_array]
