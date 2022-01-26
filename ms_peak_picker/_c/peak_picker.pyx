@@ -393,7 +393,8 @@ cdef class PeakProcessor(object):
                                 self.partial_fit_state.right_width, len(peak_data), index, area)
                             peak_data.append(peak)
 
-                        # Move past adjacent equal-height peaks
+                        # Move past adjacent equal-height peaks. This seems to fail when the spacing
+                        # between m/z coordinates is very, very small (1e-3)
                         incremented = False
                         while index < size and isclose(intensity_array[index], current_intensity):
                             incremented = True
