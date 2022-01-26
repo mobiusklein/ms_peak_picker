@@ -81,9 +81,15 @@ cdef class PeakIndex(object):
             If the underlying arrays have been stripped, this method
             cannot be used
         """
-        if self.mz_array is None:
+        mz_array = self.mz_array
+        if mz_array is None:
             raise ValueError("Cannot call get_nearest when raw arrays are None")
-        return get_nearest(self.mz_array, mz, index)
+        elif mz_array.dtype == np.float64:
+            return get_nearest(<np.ndarray[np.float64_t, ndim=1, mode='c']>mz_array, mz, index)
+        elif mz_array.dtype == np.float32:
+            return get_nearest(<np.ndarray[np.float32_t, ndim=1, mode='c']>mz_array, mz, index)
+        else:
+            return get_nearest(<np.ndarray[np.float64_t, ndim=1, mode='c']>(mz_array.astype(np.float64)), mz, index)
 
     def get_nearest_peak(self, double mz):
         """Wraps :meth:`PeakSet.get_nearest_peak`

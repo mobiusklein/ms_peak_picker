@@ -48,9 +48,22 @@ cdef class PeakProcessor(object):
     cpdef object set_intensity_threshold(self, double intensity_threshold)
 
 
-    cpdef size_t _discover_peaks(self, np.ndarray[cython.floating] mz_array, np.ndarray[cython.floating] intensity_array, double start_mz, double stop_mz)
-    cpdef double find_full_width_at_half_max(self, Py_ssize_t index, np.ndarray[cython.floating, ndim=1] mz_array,
-                                             np.ndarray[cython.floating, ndim=1] intensity_array, double signal_to_noise)
-    cpdef double fit_peak(self, Py_ssize_t index, np.ndarray[cython.floating] mz_array, np.ndarray[cython.floating] intensity_array)
-    cpdef double area(self, np.ndarray[cython.floating] mz_array, np.ndarray[cython.floating] intensity_array, double mz,
+    cpdef size_t _discover_peaks(self, np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,
+                                       np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
+                                       double start_mz, double stop_mz)
+
+    cpdef double find_full_width_at_half_max(self, Py_ssize_t index,
+                                             np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,
+                                             np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
+                                             double signal_to_noise)
+
+    cpdef double fit_peak(self,
+                          Py_ssize_t index,
+                          np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,
+                          np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array)
+
+    cpdef double area(self,
+                      np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,
+                      np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
+                      double mz,
                       double full_width_at_half_max, Py_ssize_t index)

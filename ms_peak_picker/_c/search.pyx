@@ -4,7 +4,6 @@ cimport numpy as np
 cimport cython
 
 from libc.math cimport fabs
-# ctypedef cython.floating mz_t
 
 @cython.boundscheck(False)
 @cython.nonecheck(False)

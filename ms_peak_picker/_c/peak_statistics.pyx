@@ -36,24 +36,24 @@ cdef object np_zeros = np.zeros
 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef inline bint isclose(DTYPE_t x, DTYPE_t y, DTYPE_t rtol=1.e-5, DTYPE_t atol=1.e-8) nogil:
+cdef inline bint isclose(cython.floating x, cython.floating y, cython.floating rtol=1.e-5, cython.floating atol=1.e-8) nogil:
     return math.fabs(x-y) <= (atol + rtol * math.fabs(y))
 
 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef inline bint aboutzero(DTYPE_t x) nogil:
+cdef inline bint aboutzero(cython.floating x) nogil:
     return isclose(x, 0)
 
 
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array, size_t index):
+cpdef cython.floating find_signal_to_noise(double target_val, np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array, size_t index):
     cdef:
-        DTYPE_t min_intensity_left, min_intensity_right
+        cython.floating min_intensity_left, min_intensity_right
         size_t size, i
-        DTYPE_t* pintensity_array
+        cython.floating* pintensity_array
         int path_id
 
     with nogil:
@@ -99,7 +99,8 @@ cpdef DTYPE_t find_signal_to_noise(double target_val, np.ndarray[DTYPE_t, ndim=1
 @cython.nonecheck(False)
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1, mode='c'] x, np.ndarray[DTYPE_t, ndim=1, mode='c'] y, size_t n,
+cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1, mode='c'] x,
+                        np.ndarray[DTYPE_t, ndim=1, mode='c'] y, size_t n,
                         np.ndarray[DTYPE_t, ndim=1, mode='c'] terms, size_t nterms):
     """
     Fit a least squares polynomial regression
@@ -168,7 +169,7 @@ cpdef DTYPE_t curve_reg(np.ndarray[DTYPE_t, ndim=1, mode='c'] x, np.ndarray[DTYP
 @cython.cdivision(True)
 @cython.boundscheck(False)
 cdef DTYPE_t curve_reg_dv(DoubleVector* x, DoubleVector* y, size_t n,
-                        np.ndarray[DTYPE_t, ndim=1, mode='c'] terms, size_t nterms):
+                          np.ndarray[DTYPE_t, ndim=1, mode='c'] terms, size_t nterms):
     cdef:
         np.ndarray[DTYPE_t, ndim=1] weights
         np.ndarray[DTYPE_t, ndim=2] At, Z, At_Ai_At
@@ -222,7 +223,8 @@ cdef DTYPE_t curve_reg_dv(DoubleVector* x, DoubleVector* y, size_t n,
 @cython.nonecheck(False)
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cpdef DTYPE_t find_right_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
+cpdef DTYPE_t find_right_width(np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,
+                               np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
                                size_t data_index, DTYPE_t signal_to_noise=0.):
     cdef:
         int points
@@ -304,7 +306,8 @@ cpdef DTYPE_t find_right_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, n
 @cython.nonecheck(False)
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
+cpdef DTYPE_t find_left_width(np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,
+                              np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
                               size_t data_index, DTYPE_t signal_to_noise=0.):
     cdef:
         int points
@@ -384,7 +387,7 @@ cpdef DTYPE_t find_left_width(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np
 @cython.nonecheck(False)
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
+cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[cython.floating, ndim=1, mode='c'] mz_array, np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
                                           size_t data_index, double signal_to_noise=0.):
     cdef:
         int points
@@ -488,9 +491,9 @@ cpdef DTYPE_t find_full_width_at_half_max(np.ndarray[DTYPE_t, ndim=1, mode='c'] 
 
 @cython.boundscheck(False)
 @cython.cdivision(True)
-cpdef DTYPE_t quadratic_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
-                            np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
-                            ssize_t index):
+cpdef cython.floating quadratic_fit(np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,
+                                    np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
+                                    ssize_t index):
     cdef:
         DTYPE_t x1, x2, x3
         DTYPE_t y1, y2, y3
@@ -517,8 +520,8 @@ cpdef DTYPE_t quadratic_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array,
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef double lorentzian_least_squares(DTYPE_t[:] mz_array,
-                                     DTYPE_t[:] intensity_array,
+cdef double lorentzian_least_squares(cython.floating[:] mz_array,
+                                     cython.floating[:] intensity_array,
                                      double amplitude, double full_width_at_half_max,
                                      double vo, size_t lstart, size_t lstop) nogil:
 
@@ -543,14 +546,14 @@ cdef double lorentzian_least_squares(DTYPE_t[:] mz_array,
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cpdef double lorentzian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c'] intensity_array,
+cpdef double lorentzian_fit(np.ndarray[cython.floating, ndim=1, mode='c'] mz_array, np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
                             size_t index, double full_width_at_half_max):
     cdef:
         double amplitude
         DTYPE_t vo, step, current_error, last_error
         size_t lstart, lstop, i
-        DTYPE_t[:] view_mz_array
-        DTYPE_t[:] view_intensity_array
+        cython.floating[:] view_mz_array
+        cython.floating[:] view_intensity_array
 
     amplitude = intensity_array[index]
     vo = mz_array[index]
@@ -596,7 +599,7 @@ cpdef double lorentzian_fit(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.n
 @cython.boundscheck(False)
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cpdef double peak_area(np.ndarray[DTYPE_t, ndim=1, mode='c'] mz_array, np.ndarray[DTYPE_t, ndim=1, mode='c']  intensity_array,
+cpdef double peak_area(np.ndarray[cython.floating, ndim=1, mode='c'] mz_array, np.ndarray[cython.floating, ndim=1, mode='c']  intensity_array,
                        size_t start, size_t stop):
     cdef:
         double area

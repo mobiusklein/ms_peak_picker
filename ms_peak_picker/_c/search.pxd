@@ -2,7 +2,7 @@ cimport cython
 cimport numpy as np
 
 ctypedef np.float64_t DTYPE_t
-ctypedef np.float64_t mz_t
+ctypedef cython.floating mz_t
 
 cpdef size_t nearest_left(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target_val, size_t start_index=*)
 cpdef size_t nearest_right(np.ndarray[mz_t, ndim=1, mode='c'] vec, DTYPE_t target_val, size_t start_index=*)
