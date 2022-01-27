@@ -353,7 +353,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
         double lo, hi
         double mz_j, mz_j1
         double inten_j, inten_j1
-        double x, contrib
+        double x, contrib, tmp
         double scan_weight
         size_t i, j, n, n_arrays, n_points
         long k_array, n_scans, n_workers, worker_block
@@ -394,7 +394,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
 
     n_scans = len(convert)
     if n_scans == 0:
-        return np.arange(0., 0.), np.arange(0., 0.)
+        return np.arange(0., 0., dtype=np.double), np.arange(0., 0., dtype=np.double)
     lo = INF
     hi = 0
     for mz, inten in convert:
@@ -410,8 +410,8 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
 
     prepare_arrays(convert, &spectrum_pairs)
 
-    mz_array = np.arange(lo, hi, dx)
-    intensity_array = np.zeros_like(mz_array)
+    mz_array = np.arange(lo, hi, dx, dtype=np.double)
+    intensity_array = np.zeros_like(mz_array, dtype=np.double)
     n_points = mz_array.shape[0]
     pintensity_array_total = &(intensity_array[0])
     with nogil:
@@ -442,8 +442,11 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
                     inten_j = pmz[j - 1]
                 else:
                     continue
-
-                contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
+                tmp = mz_j1 - mz_j
+                if tmp == 0:
+                    contrib = 0.0
+                else:
+                    contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
                 intensity_array_local[i] = contrib * scan_weight
 
         for k_array in range(n_scans):
