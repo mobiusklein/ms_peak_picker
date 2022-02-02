@@ -30,6 +30,14 @@ from ms_peak_picker._c.size_t_vector cimport (
 )
 
 
+from ms_peak_picker._c.interval_t_vector cimport (
+    interval_t,
+    make_interval_t_vector_with_size, make_interval_t_vector,
+    interval_t_vector_append, free_interval_t_vector,
+    interval_t_vector, interval_t_vector_reset, IntervalVector
+)
+
+
 np.import_array()
 
 cdef long num_processors = PyInt_AsLong(cpu_count())
@@ -102,7 +110,7 @@ cdef class GridAverager(object):
         public size_t num_scans
         public np.ndarray intensities
         public np.ndarray empty
-        size_t_vector* occupied_indices
+        interval_t_vector* occupied_indices
 
 
     def __init__(self, min_mz, max_mz, num_scans, dx=0.001, arrays=None):
@@ -127,10 +135,10 @@ cdef class GridAverager(object):
 
         self.intensities = np.zeros((self.num_scans, self.size), dtype=np.float64)
         self.empty = np.zeros(self.num_scans, dtype=np.uint8)
-        self.occupied_indices = <size_t_vector*>malloc(sizeof(size_t_vector) * self.num_scans)
+        self.occupied_indices = <interval_t_vector*>malloc(sizeof(interval_t_vector) * self.num_scans)
 
         for i in range(self.num_scans):
-            self.occupied_indices[i] = make_size_t_vector()[0]
+            self.occupied_indices[i] = make_interval_t_vector()[0]
 
     cpdef release(self):
         cdef:
@@ -146,10 +154,10 @@ cdef class GridAverager(object):
     def __dealloc__(self):
         self.release()
 
-    cpdef SizeTVector get_occupied_indices(self, size_t i):
+    cpdef IntervalVector get_occupied_indices(self, size_t i):
         if i > self.num_scans:
             raise IndexError(i)
-        return SizeTVector.wrap(&self.occupied_indices[i])
+        return IntervalVector.wrap(&self.occupied_indices[i])
 
     cpdef add_spectrum(self, np.ndarray[double, ndim=1, mode='c'] mz_array, np.ndarray[double, ndim=1, mode='c'] intensity_array, size_t index):
         self.empty[index] = mz_array.shape[0] == 0
@@ -157,14 +165,18 @@ cdef class GridAverager(object):
         return rebinned_intensities
 
     @cython.cdivision(True)
-    cdef int _populate_intensity_axis(self, double* pmz, double* pinten, double* intensity_axis, size_t n, size_t m, size_t_vector* occupied_acc) nogil:
+    cdef int _populate_intensity_axis(self, double* pmz, double* pinten, double* intensity_axis, size_t n, size_t m, interval_t_vector* occupied_acc) nogil:
         cdef:
             double x, mz_j, mz_j1, contrib, inten_j, inten_j1
             size_t i, j
+            bint opened
+            interval_t current_interval
 
         if m == 0:
             return 0
-
+        current_interval.start = 0
+        current_interval.end = 0
+        opened = False
         for i in range(n):
             x = self.mz_axis_[i]
             j = binsearch(&pmz[0], x, m)
@@ -184,8 +196,22 @@ cdef class GridAverager(object):
             contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
             intensity_axis[i] += contrib
             if intensity_axis[i] > 0:
-                if size_t_vector_append(occupied_acc, i) == -1:
-                    return -1
+                if opened:
+                    current_interval.end = i
+                else:
+                    current_interval.start = i
+                    opened = True
+            else:
+                if opened:
+                    current_interval.end = i
+                    opened = False
+                    if interval_t_vector_append(occupied_acc, current_interval) == -1:
+                        return -1
+        if opened:
+            current_interval.end = i
+            opened = False
+            if interval_t_vector_append(occupied_acc, current_interval) == -1:
+                return -1
         return 0
 
     @cython.cdivision(True)
@@ -213,13 +239,13 @@ cdef class GridAverager(object):
         n = self.size
 
         with nogil:
-            size_t_vector_reset(&self.occupied_indices[index])
+            interval_t_vector_reset(&self.occupied_indices[index])
             if self._populate_intensity_axis(pmz, pinten, intensity_axis_, n, m, &self.occupied_indices[index]) == -1:
                 with gil:
                     raise ValueError("Failed to populate intensity axis")
         return intensity_axis
 
-    @cython.boundscheck(False)
+    @cython.boundscheck(True)
     cpdef add_spectra(self, list spectra, n_workers=None):
         cdef:
             spectrum_holder* spectrum_pairs
@@ -245,7 +271,7 @@ cdef class GridAverager(object):
             for i in parallel.prange(n, num_threads=n_threads):
                 pair = spectrum_pairs[i]
                 emptiness[i] = pair.size == 0
-                size_t_vector_reset(&self.occupied_indices[i])
+                interval_t_vector_reset(&self.occupied_indices[i])
                 if emptiness[i]:
                     continue
                 if self._populate_intensity_axis(
@@ -257,12 +283,13 @@ cdef class GridAverager(object):
 
 
     @cython.cdivision(True)
-    @cython.boundscheck(False)
+    @cython.boundscheck(True)
     @cython.wraparound(False)
     cpdef np.ndarray[double, ndim=1, mode='c'] average_indices(self, size_t start, size_t stop, n_workers=None):
         cdef:
             size_t i, n, k
-            size_t_vector occupied
+            interval_t_vector occupied
+            interval_t current_interval
             np.ndarray[double, ndim=1, mode='c'] intensity_axis
             np.ndarray[double, ndim=1, mode='c'] intensity_frame
             double* intensity_frame_
@@ -306,12 +333,13 @@ cdef class GridAverager(object):
                     continue
                 occupied = self.occupied_indices[i]
                 for j in range(occupied.used):
-                    k = occupied.v[j]
-                    if i >= intensity_grid.shape[0]:
-                        printf("Overrun axis 0 %d/%d\n", i, intensity_grid.shape[0])
-                    if j >= intensity_grid.shape[1]:
-                        printf("Overrun axis 0 %d/%d\n", k, intensity_grid.shape[1])
-                    intensity_axis_[k] += intensity_grid[i, k] / normalizer
+                    current_interval = occupied.v[j]
+                    for k in range(current_interval.start, current_interval.end):
+                        if i >= intensity_grid.shape[0]:
+                            printf("Overrun axis 0 %d/%d\n", i, intensity_grid.shape[0])
+                        if j >= intensity_grid.shape[1]:
+                            printf("Overrun axis 0 %d/%d\n", k, intensity_grid.shape[1])
+                        intensity_axis_[k] += intensity_grid[i, k] / normalizer
         return intensity_axis
 
     def __getitem__(self, i):

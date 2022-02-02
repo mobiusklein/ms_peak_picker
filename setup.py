@@ -3,7 +3,7 @@ import traceback
 import os
 import platform
 
-from setuptools import setup, Extension, find_packages
+from setuptools import setup, Extension as _Extension, find_packages
 
 from distutils.command.build_ext import build_ext
 from distutils.errors import (CCompilerError, DistutilsExecError,
@@ -25,6 +25,7 @@ def has_option(name):
 
 # with_openmp = has_option('with-openmp')
 no_openmp = has_option('no-openmp')
+debug_symbols = has_option("debug")
 
 with_openmp = not no_openmp
 
@@ -46,6 +47,19 @@ def configure_openmp(ext):
         ext.extra_compile_args.append("-fopenmp")
         ext.extra_link_args.append("-fopenmp")
 
+
+def Extension(*args, **kwargs):
+    ext = _Extension(*args, **kwargs)
+    if debug_symbols:
+        if os.name == 'nt':
+            ext.extra_compile_args.append("-Zi")
+            ext.extra_compile_args.append("-Ox")
+            ext.extra_link_args.append("-debug:full")
+        else:
+            ext.extra_compile_args.append("-g3")
+            ext.extra_compile_args.append("-O0")
+    # ext.extra_compile_args.append("/fsanitize=address")
+    return ext
 
 def OpenMPExtension(*args, **kwargs):
     ext = Extension(*args, **kwargs)
@@ -80,6 +94,8 @@ def make_cextensions():
             Extension(name='ms_peak_picker._c.double_vector', sources=["ms_peak_picker/_c/double_vector.pyx"]),
             Extension(name='ms_peak_picker._c.size_t_vector', sources=[
                       "ms_peak_picker/_c/size_t_vector.pyx"]),
+            Extension(name='ms_peak_picker._c.interval_t_vector', sources=[
+                      "ms_peak_picker/_c/interval_t_vector.pyx"]),
             Extension(name='ms_peak_picker._c.smoother', sources=["ms_peak_picker/_c/smoother.pyx"],
                       include_dirs=[numpy.get_include()], define_macros=macros),
             OpenMPExtension(name='ms_peak_picker._c.scan_averaging',
@@ -108,6 +124,8 @@ def make_cextensions():
                       "ms_peak_picker/_c/double_vector.c"], define_macros=macros),
             Extension(name='ms_peak_picker._c.size_t_vector', sources=[
                 "ms_peak_picker/_c/size_t_vector.c"]),
+            Extension(name='ms_peak_picker._c.interval_t_vector', sources=[
+                      "ms_peak_picker/_c/interval_t_vector.c"]),
             Extension(name='ms_peak_picker._c.smoother', sources=["ms_peak_picker/_c/smoother.c"],
                       include_dirs=[numpy.get_include()], define_macros=macros),
             OpenMPExtension(name='ms_peak_picker._c.scan_averaging',
