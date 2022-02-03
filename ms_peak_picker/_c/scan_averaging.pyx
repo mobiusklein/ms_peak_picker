@@ -2,7 +2,7 @@
 
 cimport cython
 from cython cimport parallel
-cimport numpy as np
+cimport numpy as cnp
 from libc cimport math
 from libc.stdlib cimport malloc, calloc, free
 from multiprocessing import cpu_count
@@ -38,7 +38,7 @@ from ms_peak_picker._c.interval_t_vector cimport (
 )
 
 
-np.import_array()
+cnp.import_array()
 
 cdef long num_processors = PyInt_AsLong(cpu_count())
 
@@ -76,8 +76,8 @@ cdef int prepare_arrays(list arrays, spectrum_holder** out):
     cdef:
         size_t i, n
         spectrum_holder* converted
-        np.ndarray[double, ndim=1, mode='c'] mz
-        np.ndarray[double, ndim=1, mode='c'] inten
+        cnp.ndarray[double, ndim=1, mode='c'] mz
+        cnp.ndarray[double, ndim=1, mode='c'] inten
 
     n = len(arrays)
     converted = <spectrum_holder*>malloc(sizeof(spectrum_holder) * n)
@@ -101,15 +101,15 @@ cdef double INF = float('inf')
 
 cdef class GridAverager(object):
     cdef:
-        public np.ndarray mz_axis
+        public cnp.ndarray mz_axis
         public double min_mz
         public double max_mz
         public double dx
         double* mz_axis_
         public size_t size
         public size_t num_scans
-        public np.ndarray intensities
-        public np.ndarray empty
+        public cnp.ndarray intensities
+        public cnp.ndarray empty
         interval_t_vector* occupied_indices
 
 
@@ -124,7 +124,7 @@ cdef class GridAverager(object):
 
     cdef void init_mz_axis(self):
         cdef:
-            np.ndarray[double, ndim=1, mode='c'] mz_axis
+            cnp.ndarray[double, ndim=1, mode='c'] mz_axis
         self.mz_axis = mz_axis = np.arange(self.min_mz, self.max_mz + self.dx, self.dx)
         self.size = mz_axis.shape[0]
         self.mz_axis_ = &mz_axis[0]
@@ -159,7 +159,7 @@ cdef class GridAverager(object):
             raise IndexError(i)
         return IntervalVector.wrap(&self.occupied_indices[i])
 
-    cpdef add_spectrum(self, np.ndarray[double, ndim=1, mode='c'] mz_array, np.ndarray[double, ndim=1, mode='c'] intensity_array, size_t index):
+    cpdef add_spectrum(self, cnp.ndarray[double, ndim=1, mode='c'] mz_array, cnp.ndarray[double, ndim=1, mode='c'] intensity_array, size_t index):
         self.empty[index] = mz_array.shape[0] == 0
         rebinned_intensities = self.create_intensity_axis(mz_array, intensity_array, index)
         return rebinned_intensities
@@ -216,11 +216,11 @@ cdef class GridAverager(object):
 
     @cython.cdivision(True)
     @cython.boundscheck(True)
-    cpdef np.ndarray create_intensity_axis(self, np.ndarray[double, ndim=1, mode='c'] mz_array, np.ndarray[double, ndim=1, mode='c'] intensity_array, size_t index):
+    cpdef cnp.ndarray create_intensity_axis(self, cnp.ndarray[double, ndim=1, mode='c'] mz_array, cnp.ndarray[double, ndim=1, mode='c'] intensity_array, size_t index):
         cdef:
             double* pmz
             double* pinten
-            np.ndarray[double, ndim=1, mode='c'] intensity_axis
+            cnp.ndarray[double, ndim=1, mode='c'] intensity_axis
             double* intensity_axis_
             double x, mz_j, mz_j1, contrib, inten_j, inten_j1
             size_t i, j, n, m
@@ -251,7 +251,7 @@ cdef class GridAverager(object):
             spectrum_holder* spectrum_pairs
             spectrum_holder pair
             double[:, ::1] intensity_grid
-            np.uint8_t[::1] emptiness
+            cnp.uint8_t[::1] emptiness
             double[:] intensity_frame
             int n_threads, i, n
             size_t start, stop
@@ -285,19 +285,19 @@ cdef class GridAverager(object):
     @cython.cdivision(True)
     @cython.boundscheck(True)
     @cython.wraparound(False)
-    cpdef np.ndarray[double, ndim=1, mode='c'] average_indices(self, size_t start, size_t stop, n_workers=None):
+    cpdef cnp.ndarray[double, ndim=1, mode='c'] average_indices(self, size_t start, size_t stop, n_workers=None):
         cdef:
             size_t i, n, k
             interval_t_vector occupied
             interval_t current_interval
-            np.ndarray[double, ndim=1, mode='c'] intensity_axis
-            np.ndarray[double, ndim=1, mode='c'] intensity_frame
+            cnp.ndarray[double, ndim=1, mode='c'] intensity_axis
+            cnp.ndarray[double, ndim=1, mode='c'] intensity_frame
             double* intensity_frame_
             # double* intensity_axis_
             double[::1] intensity_axis_
             bint is_empty
             double normalizer
-            np.uint8_t[::1] emptiness
+            cnp.uint8_t[::1] emptiness
             double[:, ::1] intensity_grid
             int n_threads
             ssize_t j, z
@@ -336,9 +336,9 @@ cdef class GridAverager(object):
                     current_interval = occupied.v[j]
                     for k in range(current_interval.start, current_interval.end):
                         if i >= intensity_grid.shape[0]:
-                            printf("Overrun axis 0 %d/%d\n", i, intensity_grid.shape[0])
+                            printf("Overrun axis 0 %lld/%lld\n", i, intensity_grid.shape[0])
                         if j >= intensity_grid.shape[1]:
-                            printf("Overrun axis 0 %d/%d\n", k, intensity_grid.shape[1])
+                            printf("Overrun axis 0 %lld/%lld\n", k, intensity_grid.shape[1])
                         intensity_axis_[k] += intensity_grid[i, k] / normalizer
         return intensity_axis
 
@@ -389,18 +389,20 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
         list convert
         int n_empty
         bint all_empty
+        bint error
 
         spectrum_holder* spectrum_pairs
         spectrum_holder pair
 
-        np.ndarray[double, ndim=1, mode='c'] mz_array
-        np.ndarray[double, ndim=1, mode='c'] intensity_array
-        np.ndarray[double, ndim=1, mode='c'] mz
-        np.ndarray[double, ndim=1, mode='c'] inten
+        cnp.ndarray[double, ndim=1, mode='c'] mz_array
+        cnp.ndarray[double, ndim=1, mode='c'] intensity_array
+        cnp.ndarray[double, ndim=1, mode='c'] mz
+        cnp.ndarray[double, ndim=1, mode='c'] inten
         double* pweights
         double* pmz
         double* pinten
         double* intensity_array_local
+        double* pmz_array
         double* pintensity_array_total
         double** intensity_layers
     if num_threads is None or num_threads < 0:
@@ -437,17 +439,22 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
         pweights[i] = PyFloat_AsDouble(float(weights[i]))
 
     prepare_arrays(convert, &spectrum_pairs)
-
+    error = False
     mz_array = np.arange(lo, hi, dx, dtype=np.double)
     intensity_array = np.zeros_like(mz_array, dtype=np.double)
     n_points = mz_array.shape[0]
     pintensity_array_total = &(intensity_array[0])
+    pmz_array = &(mz_array[0])
     with nogil:
         if n_scans < n_workers:
             n_workers = n_scans
         intensity_layers = <double**>malloc(sizeof(double*) * n_scans)
         for k_array in parallel.prange(n_scans, num_threads=n_workers):
             intensity_layers[k_array] = intensity_array_local = <double*>calloc(sizeof(double), n_points)
+            if intensity_array_local == NULL:
+                printf("Unable to allocate temporary array %d for average_signal\n", k_array)
+                error = True
+                continue
             pair = spectrum_pairs[k_array]
             if pair.size == 0:
                 continue
@@ -456,7 +463,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
             contrib = 0
             scan_weight = pweights[k_array]
             for i in range(n_points):
-                x = mz_array[i]
+                x = pmz_array[i]
                 j = binsearch(pmz, x, pair.size)
                 mz_j = pmz[j]
                 if mz_j < x and j + 1 < pair.size:
@@ -479,6 +486,8 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
 
         for k_array in range(n_scans):
             intensity_array_local = intensity_layers[k_array]
+            if intensity_array_local == NULL:
+                continue
             for i in range(n_points):
                 pintensity_array_total[i] += intensity_array_local[i]
             free(intensity_array_local)
@@ -490,4 +499,6 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
             pintensity_array_total[i] /= scan_weight
         free(spectrum_pairs)
         free(pweights)
+    if error:
+        raise MemoryError("Unable to allocate memory for average_signal")
     return mz_array, intensity_array
