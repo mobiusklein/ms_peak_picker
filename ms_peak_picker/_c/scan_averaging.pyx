@@ -389,7 +389,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
         list convert
         int n_empty
         bint all_empty
-        bint error
+        int error
 
         spectrum_holder* spectrum_pairs
         spectrum_holder pair
@@ -439,7 +439,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
         pweights[i] = PyFloat_AsDouble(float(weights[i]))
 
     prepare_arrays(convert, &spectrum_pairs)
-    error = False
+    error = 0
     mz_array = np.arange(lo, hi, dx, dtype=np.double)
     intensity_array = np.zeros_like(mz_array, dtype=np.double)
     n_points = mz_array.shape[0]
@@ -452,8 +452,8 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
         for k_array in parallel.prange(n_scans, num_threads=n_workers):
             intensity_layers[k_array] = intensity_array_local = <double*>calloc(sizeof(double), n_points)
             if intensity_array_local == NULL:
-                printf("Unable to allocate temporary array %d for average_signal\n", k_array)
-                error = True
+                printf("Unable to allocate temporary array %d of size %ld for average_signal\n", k_array, n_points)
+                error += 1
                 continue
             pair = spectrum_pairs[k_array]
             if pair.size == 0:
@@ -500,5 +500,5 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
         free(spectrum_pairs)
         free(pweights)
     if error:
-        raise MemoryError("Unable to allocate memory for average_signal")
+        raise MemoryError("Unable to allocate memory for average_signal, failed %d partitions of size %d" % (error, n_points))
     return mz_array, intensity_array
