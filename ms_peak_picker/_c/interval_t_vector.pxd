@@ -10,6 +10,8 @@ cdef struct interval_t_vector:
     size_t used
     size_t size
 
+cdef int initialize_interval_vector_t(interval_t_vector* vec, size_t size) nogil
+
 cdef interval_t_vector* make_interval_t_vector_with_size(size_t size) nogil
 cdef interval_t_vector* make_interval_t_vector() nogil
 cdef int interval_t_vector_resize(interval_t_vector* vec) nogil

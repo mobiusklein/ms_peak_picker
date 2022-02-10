@@ -37,14 +37,22 @@ DEF GROWTH_RATE = 2
 DEF INITIAL_SIZE = 4
 
 
+cdef int initialize_interval_vector_t(interval_t_vector* vec, size_t size) nogil:
+    vec.v = <interval_t*>malloc(sizeof(interval_t) * size)
+    vec.size = size
+    vec.used = 0
+    if vec.v == NULL:
+        vec.size = 0
+        return 1
+    return 0
+
+
 cdef interval_t_vector* make_interval_t_vector_with_size(size_t size) nogil:
     cdef:
         interval_t_vector* vec
 
     vec = <interval_t_vector*>malloc(sizeof(interval_t_vector))
-    vec.v = <interval_t*>malloc(sizeof(interval_t) * size)
-    vec.size = size
-    vec.used = 0
+    initialize_interval_vector_t(vec, size)
 
     return vec
 

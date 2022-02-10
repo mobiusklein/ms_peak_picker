@@ -11,8 +11,7 @@ import numpy as np
 cdef extern from * nogil:
     int printf (const char *template, ...)
 
-from cpython cimport PyFloat_AsDouble
-from cpython cimport PyInt_AsLong
+from cpython cimport PyFloat_AsDouble, PyInt_AsLong, PyErr_SetString, PyErr_Format
 from cpython.list cimport PyList_GET_SIZE, PyList_GET_ITEM
 from cpython.tuple cimport PyTuple_GET_SIZE, PyTuple_GET_ITEM
 from cpython.slice cimport PySlice_GetIndicesEx
@@ -31,7 +30,7 @@ from ms_peak_picker._c.size_t_vector cimport (
 
 
 from ms_peak_picker._c.interval_t_vector cimport (
-    interval_t,
+    interval_t, initialize_interval_vector_t,
     make_interval_t_vector_with_size, make_interval_t_vector,
     interval_t_vector_append, free_interval_t_vector,
     interval_t_vector, interval_t_vector_reset, IntervalVector
@@ -72,7 +71,7 @@ cdef struct spectrum_holder:
     size_t size
 
 
-cdef int prepare_arrays(list arrays, spectrum_holder** out):
+cdef int prepare_arrays(list arrays, spectrum_holder** out) except 1:
     cdef:
         size_t i, n
         spectrum_holder* converted
@@ -82,6 +81,7 @@ cdef int prepare_arrays(list arrays, spectrum_holder** out):
     n = len(arrays)
     converted = <spectrum_holder*>malloc(sizeof(spectrum_holder) * n)
     if converted == NULL:
+        PyErr_Format(MemoryError, "Failed to allocate array holder of size %lu", n)
         return 1
     for i in range(n):
         mz, inten = arrays[i]
@@ -129,16 +129,23 @@ cdef class GridAverager(object):
         self.size = mz_axis.shape[0]
         self.mz_axis_ = &mz_axis[0]
 
-    cdef void init_intensities_grid(self):
+    cdef int init_intensities_grid(self) except 1:
         cdef:
             size_t i
+            int code
 
         self.intensities = np.zeros((self.num_scans, self.size), dtype=np.float64)
         self.empty = np.zeros(self.num_scans, dtype=np.uint8)
         self.occupied_indices = <interval_t_vector*>malloc(sizeof(interval_t_vector) * self.num_scans)
-
+        if self.occupied_indices == NULL:
+            PyErr_Format(MemoryError, "Failed to allocate index array of size %lu", self.num_scans)
+            return 1
         for i in range(self.num_scans):
-            self.occupied_indices[i] = make_interval_t_vector()[0]
+            code = initialize_interval_vector_t(&self.occupied_indices[i], 2)
+            if code == 1:
+                PyErr_Format(MemoryError, "Failed to allocate index array segment at %lu", i)
+                return 1
+        return 0
 
     cpdef release(self):
         cdef:
@@ -300,7 +307,8 @@ cdef class GridAverager(object):
             cnp.uint8_t[::1] emptiness
             double[:, ::1] intensity_grid
             int n_threads
-            ssize_t j, z
+            ssize_t z
+            long j, n_j
 
         if n_workers is None:
             n_threads = 1
@@ -332,7 +340,8 @@ cdef class GridAverager(object):
                 if is_empty:
                     continue
                 occupied = self.occupied_indices[i]
-                for j in range(occupied.used):
+                n_j = occupied.used
+                for j in parallel.prange(n_j, num_threads=n_threads):
                     current_interval = occupied.v[j]
                     for k in range(current_interval.start, current_interval.end):
                         if i >= intensity_grid.shape[0]:
@@ -452,7 +461,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
         for k_array in parallel.prange(n_scans, num_threads=n_workers):
             intensity_layers[k_array] = intensity_array_local = <double*>calloc(sizeof(double), n_points)
             if intensity_array_local == NULL:
-                printf("Unable to allocate temporary array %d of size %ld for average_signal\n", k_array, n_points)
+                printf("Unable to allocate temporary array %d of size %zu for average_signal\n", k_array, n_points)
                 error += 1
                 continue
             pair = spectrum_pairs[k_array]
