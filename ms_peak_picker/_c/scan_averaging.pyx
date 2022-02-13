@@ -414,6 +414,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
         double* pmz_array
         double* pintensity_array_total
         double** intensity_layers
+
     if num_threads is None or num_threads < 0:
         n_workers = num_processors
     else:
@@ -431,9 +432,9 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
         inten = ointen.astype(np.double)
         convert.append((mz, inten))
 
-    n_scans = len(convert)
+    n_scans = PyList_GET_SIZE(convert)
     if n_scans == 0:
-        return np.arange(0., 0., dtype=np.double), np.arange(0., 0., dtype=np.double)
+        return np.array([], dtype=np.double), np.array([], dtype=np.double)
     lo = INF
     hi = 0
     for mz, inten in convert:
@@ -442,24 +443,49 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
 
     lo = max(lo - 1, 0)
     hi += 1
-
     pweights = <double*>malloc(sizeof(double) * n_scans)
+    if pweights == NULL:
+        printf("Unable to allocate memory for average_signal, could not allocate weights array of size %d\n", n_scans)
+        raise MemoryError("Unable to allocate memory for average_signal, could not allocate weights array of size %d" % (n_scans, ))
     for i in range(n_scans):
         pweights[i] = PyFloat_AsDouble(float(weights[i]))
 
-    prepare_arrays(convert, &spectrum_pairs)
-    error = 0
     mz_array = np.arange(lo, hi, dx, dtype=np.double)
     intensity_array = np.zeros_like(mz_array, dtype=np.double)
     n_points = mz_array.shape[0]
     pintensity_array_total = &(intensity_array[0])
     pmz_array = &(mz_array[0])
+    error = 0
+    intensity_layers = <double**>malloc(sizeof(double*) * n_scans)
+    if intensity_layers == NULL:
+        free(pweights)
+        printf("Unable to allocate memory for average_signal, could not allocate temporary array of size %d\n", n_scans)
+        raise MemoryError("Unable to allocate memory for average_signal, could not allocate temporary array of size %d" % (n_scans, ))
+
+    for k_array in range(n_scans):
+        intensity_layers[k_array] = NULL
+
+    for k_array in range(n_scans):
+        intensity_layers[k_array] = intensity_array_local = <double*>calloc(sizeof(double), n_points)
+        if intensity_array_local == NULL:
+            printf("Unable to allocate temporary array %d of size %zu for average_signal\n", k_array, n_points)
+            error += 1
+
+    if error:
+        for k_array in range(n_scans):
+            if intensity_layers[k_array] != NULL:
+                free(intensity_layers[k_array])
+        free(pweights)
+        free(intensity_layers)
+        printf("Unable to allocate memory for average_signal, failed %d partitions of size %d\n", error, n_points)
+        raise MemoryError("Unable to allocate memory for average_signal, failed %d partitions of size %d" % (error, n_points))
+
+    prepare_arrays(convert, &spectrum_pairs)
     with nogil:
         if n_scans < n_workers:
             n_workers = n_scans
-        intensity_layers = <double**>malloc(sizeof(double*) * n_scans)
         for k_array in parallel.prange(n_scans, num_threads=n_workers):
-            intensity_layers[k_array] = intensity_array_local = <double*>calloc(sizeof(double), n_points)
+            intensity_array_local = intensity_layers[k_array]
             if intensity_array_local == NULL:
                 printf("Unable to allocate temporary array %d of size %zu for average_signal\n", k_array, n_points)
                 error += 1
