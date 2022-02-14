@@ -243,7 +243,7 @@ cdef class Window(object):
 
     cdef void _init_arrays(self):
         self._release_arrays()
-        self._bin_count = <count_type*>calloc(sizeof(count_type), self.bins)
+        self._bin_count = <count_type*>calloc(self.bins, sizeof(count_type))
         self._bin_edges = <intensity_type*>malloc(sizeof(intensity_type) * (self.bins + 1))
 
     cdef void _release_arrays(self):
@@ -401,7 +401,7 @@ cpdef list windowed_spectrum(np.ndarray[mz_type, ndim=1, mode='c'] mz_array,
         mz_type lo_mz, hi_mz
         ssize_t center_i, niter, lo_i, hi_i, i, n
         ssize_t last_lo_i, last_hi_i
-        list windows 
+        list windows
         Window win
         mz_type* _mz_array
 
@@ -426,11 +426,11 @@ cpdef list windowed_spectrum(np.ndarray[mz_type, ndim=1, mode='c'] mz_array,
         lo_mz = center_mz - step_size
         hi_mz = center_mz + step_size
         # find the indices that bound to lo_mz and hi_mz, but which
-        # do not exceed 
+        # do not exceed
         between_search(_mz_array, lo_mz, hi_mz, n, &lo_i, &hi_i)
         # if the found boundaries' average m/z is contained in the
         # theoretical boundary m/z range, this window is populated
-        if lo_mz <= (_mz_array[lo_i] + _mz_array[hi_i]) / 2 <= hi_mz:        
+        if lo_mz <= (_mz_array[lo_i] + _mz_array[hi_i]) / 2 <= hi_mz:
             win = Window(mz_array[lo_i:hi_i + 1],
                          intensity_array[lo_i:hi_i + 1],
                          lo_i, hi_i, center_mz, is_empty=False)
