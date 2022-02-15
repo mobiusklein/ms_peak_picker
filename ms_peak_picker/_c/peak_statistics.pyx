@@ -199,7 +199,7 @@ cdef DTYPE_t curve_reg_dv(DoubleVector* x, DoubleVector* y, size_t n,
     try:
         I_At_At_T = np.linalg.inv(At_At_T)
     except Exception:
-        for i in range(n):
+        for i in range(nterms):
             terms[i] = 0
         return -1
     At_Ai_At = I_At_At_T.dot(At)

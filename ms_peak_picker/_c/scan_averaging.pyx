@@ -368,7 +368,7 @@ cdef class GridAverager(object):
 
 
 @cython.cdivision(True)
-@cython.boundscheck(True)
+@cython.boundscheck(False)
 cpdef average_signal(object arrays, double dx=0.01, object weights=None, object num_threads=None):
     """Average multiple spectras' intensity arrays, with a common m/z axis
 
@@ -380,6 +380,10 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
         The m/z resolution to build the averaged m/z axis with
     weights : :class:`list` of :class:`float`, optional
         Weight of each entry in `arrays`. Defaults to 1.0 for each if not provided.
+    num_threads : int, optional
+        The maximum number of threads to use while averaging signal. Defaults
+        to the number of spectra being averaged or the maximum available from
+        the hardware, whichever is smaller.
 
     Returns
     -------
@@ -445,7 +449,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
     hi += 1
     pweights = <double*>malloc(sizeof(double) * n_scans)
     if pweights == NULL:
-        printf("Unable to allocate memory for average_signal, could not allocate weights array of size %zu\n", n_scans)
+        printf("Unable to allocate memory for average_signal, could not allocate weights array of size %ld\n", n_scans)
         raise MemoryError("Unable to allocate memory for average_signal, could not allocate weights array of size %d" % (n_scans, ))
     for i in range(n_scans):
         pweights[i] = PyFloat_AsDouble(float(weights[i]))
@@ -459,7 +463,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
     intensity_layers = <double**>malloc(sizeof(double*) * n_scans)
     if intensity_layers == NULL:
         free(pweights)
-        printf("Unable to allocate memory for average_signal, could not allocate temporary array of size %zu\n", n_scans)
+        printf("Unable to allocate memory for average_signal, could not allocate temporary array of size %ld\n", n_scans)
         raise MemoryError("Unable to allocate memory for average_signal, could not allocate temporary array of size %d" % (n_scans, ))
 
     for k_array in range(n_scans):
@@ -477,7 +481,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
                 free(intensity_layers[k_array])
         free(pweights)
         free(intensity_layers)
-        printf("Unable to allocate memory for average_signal, failed %zu partitions of size %zu\n", error, n_points)
+        printf("Unable to allocate memory for average_signal, failed %d partitions of size %zu\n", error, n_points)
         raise MemoryError("Unable to allocate memory for average_signal, failed %d partitions of size %d" % (error, n_points))
 
     prepare_arrays(convert, &spectrum_pairs)
