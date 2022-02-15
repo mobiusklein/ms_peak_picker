@@ -19,6 +19,21 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 ### Security
 
 
+## [v0.1.35] - 2022-02-15
+
+### Added
+
+### Changed
+- Registered Python versions supported changed to Py37-39
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 
 ## [v0.1.34] - 2022-02-14
 
