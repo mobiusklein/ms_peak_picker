@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Unreleased]
 
+### Added
+-
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
+
+## [v0.1.34] - 2022-02-14
+
 
 ### Added
 1. Added the `peak_statistics.zero_pad` function to fill sparse arrays with delimiting zero values, and a
@@ -43,6 +60,7 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.28...HEAD
+[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.34...HEAD
 [Released]: https://github.com/mobiusklein/ms_peak_picker/releases
 [0.1.28]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.28
+[0.1.34]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.34
