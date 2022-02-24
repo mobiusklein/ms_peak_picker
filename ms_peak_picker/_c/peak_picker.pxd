@@ -50,7 +50,8 @@ cdef class PeakProcessor(object):
 
     cpdef size_t _discover_peaks(self, np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,
                                        np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
-                                       double start_mz, double stop_mz)
+                                       double start_mz, double stop_mz,
+                                       Py_ssize_t start_index=*, Py_ssize_t stop_index=*)
 
     cpdef double find_full_width_at_half_max(self, Py_ssize_t index,
                                              np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,

@@ -199,7 +199,8 @@ cdef class PeakProcessor(object):
     intensity_threshold = property(
         get_intensity_threshold, set_intensity_threshold)
 
-    def discover_peaks(self, np.ndarray[cython.floating, ndim=1, mode='c'] mz_array, np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array, start_mz=None, stop_mz=None):
+    def discover_peaks(self, np.ndarray[cython.floating, ndim=1, mode='c'] mz_array, np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
+                       start_mz=None, stop_mz=None, start_index=None, stop_index=None):
         """Carries out the peak picking process on `mz_array` and `intensity_array`. All
         peaks picked are appended to :attr:`peak_data`.
 
@@ -221,6 +222,7 @@ cdef class PeakProcessor(object):
         """
         cdef:
             double _start_mz, _stop_mz
+            Py_ssize_t _start_index, _stop_index
 
         if start_mz is None:
             _start_mz = -1
@@ -230,12 +232,21 @@ cdef class PeakProcessor(object):
             _stop_mz = -1
         else:
             _stop_mz = stop_mz
-        return self._discover_peaks(mz_array, intensity_array, _start_mz, _stop_mz)
+        if start_index is None:
+            _start_index = 0
+        else:
+            _start_index = start_index
+        if stop_index is None:
+            _stop_index = 0
+        else:
+            _stop_index = stop_index
+        return self._discover_peaks(mz_array, intensity_array, _start_mz, _stop_mz, _start_index, _stop_index)
 
     @cython.nonecheck(False)
     @cython.cdivision(True)
     @cython.boundscheck(False)
-    cpdef size_t _discover_peaks(self, np.ndarray[cython.floating, ndim=1, mode='c'] mz_array, np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array, double start_mz, double stop_mz):
+    cpdef size_t _discover_peaks(self, np.ndarray[cython.floating, ndim=1, mode='c'] mz_array, np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
+                                 double start_mz, double stop_mz, Py_ssize_t start_index=0, Py_ssize_t stop_index=0):
         """Carries out the peak picking process on `mz_array` and `intensity_array`. All
         peaks picked are appended to :attr:`peak_data`.
 
@@ -256,7 +267,7 @@ cdef class PeakProcessor(object):
             The current number of peaks accumulated
         """
         cdef:
-            Py_ssize_t size, start_index, stop_index, ihigh, ilow, index
+            Py_ssize_t size, ihigh, ilow, index
             list peak_data
             bint verbose, is_centroid
             double intensity_threshold, signal_to_noise_threshold, signal_to_noise
@@ -283,8 +294,9 @@ cdef class PeakProcessor(object):
         intensity_threshold = self.intensity_threshold
         signal_to_noise_threshold = self.signal_to_noise_threshold
 
-        start_index = get_nearest_binary(mz_array, start_mz, 0, size)
-        stop_index = get_nearest_binary(mz_array, stop_mz, start_index, size)
+        if start_index == stop_index == 0:
+            start_index = get_nearest_binary(mz_array, start_mz, 0, size)
+            stop_index = get_nearest_binary(mz_array, stop_mz, start_index, size)
 
         if start_index <= 0 and not is_centroid:
             start_index = 1

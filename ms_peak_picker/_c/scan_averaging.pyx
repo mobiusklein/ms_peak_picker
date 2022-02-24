@@ -33,7 +33,8 @@ from ms_peak_picker._c.interval_t_vector cimport (
     interval_t, initialize_interval_vector_t,
     make_interval_t_vector_with_size, make_interval_t_vector,
     interval_t_vector_append, free_interval_t_vector,
-    interval_t_vector, interval_t_vector_reset, IntervalVector
+    interval_t_vector, interval_t_vector_reset, IntervalVector,
+    interval_overlaps
 )
 
 
@@ -201,7 +202,7 @@ cdef class GridAverager(object):
                 continue
 
             contrib = ((inten_j * (mz_j1 - x)) + (inten_j1 * (x - mz_j))) / (mz_j1 - mz_j)
-            intensity_axis[i] += contrib
+            intensity_axis[i] = contrib
             if intensity_axis[i] > 0:
                 if opened:
                     current_interval.end = i
@@ -222,7 +223,7 @@ cdef class GridAverager(object):
         return 0
 
     @cython.cdivision(True)
-    @cython.boundscheck(True)
+    @cython.boundscheck(False)
     cpdef cnp.ndarray create_intensity_axis(self, cnp.ndarray[double, ndim=1, mode='c'] mz_array, cnp.ndarray[double, ndim=1, mode='c'] intensity_array, size_t index):
         cdef:
             double* pmz
@@ -252,7 +253,7 @@ cdef class GridAverager(object):
                     raise ValueError("Failed to populate intensity axis")
         return intensity_axis
 
-    @cython.boundscheck(True)
+    @cython.boundscheck(False)
     cpdef add_spectra(self, list spectra, n_workers=None):
         cdef:
             spectrum_holder* spectrum_pairs
@@ -290,7 +291,7 @@ cdef class GridAverager(object):
 
 
     @cython.cdivision(True)
-    @cython.boundscheck(True)
+    @cython.boundscheck(False)
     @cython.wraparound(False)
     cpdef cnp.ndarray[double, ndim=1, mode='c'] average_indices(self, size_t start, size_t stop, n_workers=None):
         cdef:
@@ -344,12 +345,79 @@ cdef class GridAverager(object):
                 for j in parallel.prange(n_j, num_threads=n_threads):
                     current_interval = occupied.v[j]
                     for k in range(current_interval.start, current_interval.end):
-                        if i >= intensity_grid.shape[0]:
-                            printf("Overrun axis 0 %lld/%lld\n", i, intensity_grid.shape[0])
-                        if j >= intensity_grid.shape[1]:
-                            printf("Overrun axis 0 %lld/%lld\n", k, intensity_grid.shape[1])
                         intensity_axis_[k] += intensity_grid[i, k] / normalizer
         return intensity_axis
+
+    cpdef get_occupied_intervals(self, size_t start, size_t stop):
+        cdef:
+            size_t i, n, k, head_i
+            int advanced, did_update, keep_going
+            interval_t_vector* occupied
+            interval_t current_interval
+            interval_t_vector* acc
+            size_t* heads
+
+        if stop < start:
+            raise ValueError("Stop must be > Start")
+
+        acc = make_interval_t_vector()
+        k = stop - start
+        heads = <size_t*>malloc(sizeof(size_t) * k)
+        if heads == NULL:
+            raise MemoryError()
+        for i in range(k):
+            heads[i] = 0
+
+        has_more = True
+        while has_more:
+            current_interval.start = -1
+            current_interval.end = -1
+
+            for i in range(start, stop):
+                occupied = &self.occupied_indices[i]
+                head_i = heads[i - start]
+                if occupied.used > 0 and head_i < occupied.used:
+                    if occupied.v[head_i].start < current_interval.start:
+                        current_interval.start = occupied.v[head_i].start
+                    if occupied.v[head_i].end < current_interval.end:
+                        current_interval.end = occupied.v[head_i].end + 1
+
+            if current_interval.end < current_interval.start:
+                current_interval.end = current_interval.start
+            keep_going = True
+            advanced = 0
+            did_update = 0
+            while keep_going:
+                for i in range(start, stop):
+                    occupied = &self.occupied_indices[i]
+                    head_i = heads[i - start]
+                    if head_i < occupied.used and interval_overlaps(&occupied.v[head_i], &current_interval):
+                        current_interval.end = max(occupied.v[head_i].end, current_interval.end) + 1
+                        heads[i - start] += 1
+                        advanced += 1
+                did_update += advanced
+                keep_going = advanced
+                advanced = 0
+
+            if not did_update:
+                has_more = False
+            else:
+                if acc.used > 0 and (acc.v[acc.used - 1].end == current_interval.start or interval_overlaps(&acc.v[acc.used - 1], &current_interval)):
+                    acc.v[acc.used - 1].end = current_interval.end
+                else:
+                    interval_t_vector_append(acc, current_interval)
+
+
+        out = IntervalVector.wrap(acc)
+        out.set_should_free(True)
+        # result = []
+        # for i in range(acc.used):
+        #     current_interval = acc.v[i]
+        #     result.append((self.mz_axis[current_interval.start], self.mz_axis[current_interval.end]))
+        # free_interval_t_vector(acc)
+        free(heads)
+        return out
+
 
     def __getitem__(self, i):
         if isinstance(i, slice):

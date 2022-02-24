@@ -5,6 +5,10 @@ cdef struct interval_t:
     size_t end
 
 
+cdef bint interval_overlaps(interval_t* self, interval_t* other) nogil
+cdef bint interval_contains(interval_t* self, size_t point) nogil
+
+
 cdef struct interval_t_vector:
     interval_t* v
     size_t used

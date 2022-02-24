@@ -431,7 +431,7 @@ class PeakProcessor(object):
 def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFILE,
                signal_to_noise_threshold=1., intensity_threshold=1., threshold_data=False,
                target_envelopes=None, transforms=None, verbose=False,
-               start_mz=None, stop_mz=None, integrate=True):
+               start_mz=None, stop_mz=None, integrate=True, target_indices=None):
     """Picks peaks for the given m/z, intensity array pair, producing a centroid-containing
     PeakIndex instance.
 
@@ -510,14 +510,18 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
     processor = PeakProcessor(
         fit_type, peak_mode, signal_to_noise_threshold, intensity_threshold, threshold_data,
         verbose=verbose, integrate=integrate)
-    if target_envelopes is None:
-        processor.discover_peaks(
-            mz_array, intensity_array,
-            start_mz=start_mz, stop_mz=stop_mz)
-    else:
+    if target_envelopes:
         for start, stop in sorted(target_envelopes):
             processor.discover_peaks(
                 mz_array, intensity_array, start_mz=start, stop_mz=stop)
+    elif target_indices:
+        for start, stop in sorted(target_indices):
+            processor.discover_peaks(mz_array, intensity_array, start_index=start, stop_index=stop)
+    else:
+        processor.discover_peaks(
+            mz_array, intensity_array,
+            start_mz=start_mz, stop_mz=stop_mz)
+
     peaks = PeakSet(processor)
     peaks._index()
     return PeakIndex(mz_array, intensity_array, peaks)

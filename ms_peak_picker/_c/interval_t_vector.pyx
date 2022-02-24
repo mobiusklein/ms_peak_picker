@@ -27,6 +27,38 @@ cdef tuple tuple_from_interval(interval_t interval):
     return (interval.start, interval.end)
 
 
+cdef bint interval_overlaps(interval_t* self, interval_t* interval) nogil:
+    cdef:
+        bint cond
+    cond = ((self.start <= interval.start and self.end > interval.start) or (
+             self.start >= interval.start and self.end < interval.end) or (
+             self.start >= interval.start and self.end > interval.end and self.start < interval.end) or (
+             self.start <= interval.start and self.end > interval.start) or (
+             self.start < interval.end and self.end > interval.end))
+    return cond
+
+
+cdef bint interval_contains(interval_t* self, size_t point) nogil:
+    return self.start <= point < self.end
+
+
+cdef int compare_value_interval_t(const void* a, const void* b) nogil:
+    cdef:
+        interval_t* av
+        interval_t* bv
+    av = (<interval_t*>a)
+    bv = (<interval_t*>b)
+    if av.start < bv.start:
+        return -1
+    elif av.start == bv.start:
+        return 0
+    else:
+        return 1
+
+
+cdef int compare_value_interval_t_reverse(const void* a, const void* b) nogil:
+    return -compare_value_interval_t(a, b)
+
 
 cdef extern from * nogil:
     int printf (const char *template, ...)
