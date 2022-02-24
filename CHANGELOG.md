@@ -6,7 +6,8 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 ## [Unreleased]
 
 ### Added
--
+- Added fast path for skipping search for m/z index coordinates when picking peaks.
+- Added method to `get_occupied_intervals` for `GridAverager` to get coordinates on the m/z axis.
 
 ### Changed
 
