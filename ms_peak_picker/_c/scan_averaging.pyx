@@ -189,7 +189,7 @@ cdef class GridAverager(object):
             x = self.mz_axis_[i]
             j = binsearch(&pmz[0], x, m)
             mz_j = pmz[j]
-            if mz_j < x and j + 1 < m:
+            if mz_j <= x and j + 1 < m:
                 mz_j1 = pmz[j + 1]
                 inten_j = pinten[j]
                 inten_j1 = pinten[j + 1]
@@ -569,7 +569,7 @@ cpdef average_signal(object arrays, double dx=0.01, object weights=None, object 
                 x = pmz_array[i]
                 j = binsearch(pmz, x, pair.size)
                 mz_j = pmz[j]
-                if mz_j < x and j + 1 < pair.size:
+                if mz_j <= x and j + 1 < pair.size:
                     mz_j1 = pmz[j + 1]
                     inten_j = pinten[j]
                     inten_j1 = pinten[j + 1]
