@@ -2,6 +2,7 @@
 An implementation of the noise filtering methods from MasSpike
 '''
 
+from typing import Tuple
 import numpy as np
 
 
@@ -197,7 +198,7 @@ except ImportError:
     has_c = False
 
 
-def denoise(mz_array, intensity_array, window_size=1., region_width=10, scale=5):
+def denoise(mz_array: np.ndarray, intensity_array: np.ndarray, window_size: float=1., region_width: float=10, scale: float=5) -> Tuple[np.ndarray, np.ndarray]:
     scan = FTICRScan(mz_array, intensity_array)
     denoised = scan.denoise(window_size, region_width, scale)
     x, y = list(denoised)

@@ -43,6 +43,14 @@ class TestPeakSet(unittest.TestCase):
         for a, b in zip(inst.peaks, dup.peaks):
             self.assertEqual(a, b)
 
+    def test_all_peaks_for(self):
+        inst = self.make_peaks()
+        peaks = inst.all_peaks_for(862.1, 2e-5)
+        assert len(peaks) == 1
+
+        peaks = inst.all_peaks_for(1062)
+        assert len(peaks) == 0
+
 
 if _has_c:
     class TestPythonPeakSet(TestPeakSet):

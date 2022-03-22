@@ -254,13 +254,13 @@ class PeakSet(Base):
 
         start = p1.peak_count
         end = p2.peak_count + 1
-        start = p1.peak_count
-        end = p2.peak_count
         n = len(self)
         if p1.mz < m1 and start + 1 < n:
             start += 1
         if p2.mz > m2 and end > 0:
             end -= 1
+        if p2.mz < m1 or p1.mz > m2:
+            end = start = 0
         return self.peaks[start:end]
 
     def __eq__(self, other):

@@ -7,6 +7,8 @@ Fourier Patterson Charge State determination algorithm.
 import numpy as np
 from scipy import interpolate
 
+from ms_peak_picker.peak_set import FittedPeak
+
 
 def autocorr(inp):
     """
@@ -120,7 +122,7 @@ def _autocorrelation_scores(peak_index, peak, fwhm, min_mz, max_mz, left_index, 
     return autoscores, num_l
 
 
-def fft_patterson_charge_state(peak_index, peak, max_charge=25):
+def fft_patterson_charge_state(peak_index: "PeakIndex", peak: FittedPeak, max_charge: int=25) -> int:
     """
     Computes the optimal charge state for the given peak using the
     FFT+Patterson Charge State Deconvolution method as published in [1]

@@ -294,6 +294,8 @@ cdef class PeakSet(object):
             start += 1
         if p2.mz > m2 and end > 0:
             end -= 1
+        if p2.mz < m1 or p1.mz > m2:
+            end = start = 0
         sliced = <tuple>PyTuple_GetSlice(self.peaks, start, end)
         return PeakSet._create(sliced)
 
@@ -313,6 +315,8 @@ cdef class PeakSet(object):
             start += 1
         if p2.mz > m2 and end > 0:
             end -= 1
+        if p2.mz < m1 or p1.mz > m2:
+            end = start = 0
         startp[0] = start
         endp[0] = end
         return 0
