@@ -19,6 +19,22 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 ### Security
 
 
+## [v0.1.37] - 2022-03-21
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- `PeakSet.between` properly behaves for query m/z values beyond either end of the `PeakSet`'s m/z range
+
+### Security
+
+
 ## [v0.1.36] - 2022-03-21
 
 ### Added
@@ -93,9 +109,10 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.36...HEAD
+[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.37...HEAD
 [Released]: https://github.com/mobiusklein/ms_peak_picker/releases
 [0.1.28]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.28
 [v0.1.34]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.34
 [v0.1.35]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.35
 [v0.1.36]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.36
+[v0.1.37]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.37

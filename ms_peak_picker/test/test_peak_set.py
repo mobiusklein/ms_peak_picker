@@ -37,6 +37,9 @@ class TestPeakSet(unittest.TestCase):
         self.assertIn(inst.has_peak(576.5), list(inst.between(300.0, 1000.01)))
         self.assertNotIn(inst.has_peak(276.5), list(inst.between(300.0, 1000.01)))
 
+        assert len(inst.between(862, 863)) == 1
+        assert len(inst.between(1061, 1063)) == 0
+
     def test_clone(self):
         inst = self.make_peaks()
         dup = inst.clone()
