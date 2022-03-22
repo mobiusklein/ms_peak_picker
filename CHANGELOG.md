@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 ## [Unreleased]
 
 ### Added
+-
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+
+## [v0.1.36] - 2022-03-21
+
+### Added
 - Added fast path for skipping search for m/z index coordinates when picking peaks.
 - Added method to `get_occupied_intervals` for `GridAverager` to get coordinates on the m/z axis.
 
@@ -16,6 +32,7 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 ### Removed
 
 ### Fixed
+- `PeakSet.all_peaks_for` properly behaves for query m/z values beyond either end of the `PeakSet`'s m/z range
 
 ### Security
 
@@ -76,7 +93,9 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.34...HEAD
+[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.36...HEAD
 [Released]: https://github.com/mobiusklein/ms_peak_picker/releases
 [0.1.28]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.28
-[0.1.34]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.34
+[v0.1.34]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.34
+[v0.1.35]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.35
+[v0.1.36]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.36
