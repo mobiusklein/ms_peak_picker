@@ -274,6 +274,8 @@ cdef class PeakProcessor(object):
             double current_intensity, last_intensity, next_intensity, sum_intensity
             double low_intensity, high_intensity
             double full_width_at_half_max, current_mz, mz
+            size_t offset
+
             FittedPeak peak
 
         size = len(intensity_array) - 1
@@ -307,7 +309,9 @@ cdef class PeakProcessor(object):
         elif stop_index >= size and is_centroid:
             stop_index = size
 
-        for index in range(start_index, stop_index + 1):
+        index = start_index
+        while index <= stop_index:
+        # for index in range(start_index, stop_index + 1):
             self.partial_fit_state.reset()
             full_width_at_half_max = -1
             current_intensity = intensity_array[index]
@@ -318,6 +322,7 @@ cdef class PeakProcessor(object):
             # point a FittedPeak.
             if is_centroid:
                 if current_intensity <= 0:
+                    index += 1
                     continue
                 mz = mz_array[index]
                 signal_to_noise = current_intensity / (intensity_threshold or 1.0)
@@ -408,11 +413,14 @@ cdef class PeakProcessor(object):
                         # Move past adjacent equal-height peaks. This seems to fail when the spacing
                         # between m/z coordinates is very, very small (1e-3)
                         incremented = False
-                        while index < size and isclose(intensity_array[index], current_intensity):
+                        while index < size and isclose(intensity_array[index + 1], current_intensity):
                             incremented = True
+                            if verbose:
+                                debug("Advancing over equal intensity point %d @ %f", index, current_intensity)
                             index += 1
-                        if index > 0 and index < size and incremented:
-                            index -= 1
+                        # if index > 0 and index < size and incremented:
+                        #     index -= 1
+            index += 1
         self.peak_data.extend(peak_data)
         return len(peak_data)
 
