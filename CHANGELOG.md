@@ -3,10 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][Keep a Changelog] and this project adheres to [Semantic Versioning][Semantic Versioning].
 
-## [Unreleased]
+## [v0.1.38] - 2022-03-24
 
 ### Added
--
 
 ### Changed
 
@@ -15,6 +14,7 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 ### Removed
 
 ### Fixed
+- Properly skip adjacent m/z points at equal intensity to the most recently fit peak.
 
 ### Security
 
