@@ -7,7 +7,7 @@ from ms_peak_picker.peak_index import PeakIndex
 from ms_peak_picker.reprofile import reprofile
 from ms_peak_picker.peak_picker import pick_peaks, PeakProcessor, _has_c as _has_peak_picker_c
 
-from ms_peak_picker.test.common import make_peak
+from .common import make_peak
 
 
 points = [(276.5, 2e4), (576.5, 8e4), (862.1, 15e4)]

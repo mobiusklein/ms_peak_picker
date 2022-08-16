@@ -3,7 +3,7 @@ import unittest
 import numpy as np
 
 from ms_peak_picker.fticr_denoising import denoise
-from ms_peak_picker.test.common import make_peak
+from .common import make_peak
 from ms_peak_picker import reprofile, pick_peaks
 
 
