@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][Keep a Changelog] and this project adheres to [Semantic Versioning][Semantic Versioning].
 
+## [v0.1.40] - 2022-10-09
+
+### Changed
+1. The required NumPy version for Python 3.10+ is now 1.23.2
+
+
 ## [v0.1.38] - 2022-03-24
 
 ### Added
