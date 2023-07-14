@@ -7,3 +7,12 @@ requires = ["setuptools",
             "numpy==1.16.1; python_version <= '3.7' and python_version >= '3'",
             "numpy==1.13.3; python_version=='2.7'",
             "scipy"]
+
+[tool.ruff]
+target-version = "py38"
+line-length = 120
+select = ["D"]
+ignore = ["D415", "D400", "D212", "D205", "D203", "D105"]
+
+[tool.ruff.pydocstyle]
+convention = "numpy"

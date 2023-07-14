@@ -497,9 +497,10 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
 
     # make sure the m/z array is properly sorted
     if not is_increasing(mz_array):
-        indexing = np.argsort(mz_array)
-        mz_array = mz_array[indexing]
-        intensity_array = intensity_array[indexing]
+        mz_array, intensity_array = _resort_array(mz_array, intensity_array)
+        # indexing = np.argsort(mz_array)
+        # mz_array = mz_array[indexing]
+        # intensity_array = intensity_array[indexing]
 
     mz_array, intensity_array = transform(
         mz_array, intensity_array, transforms)
@@ -545,6 +546,35 @@ def is_increasing(mz_array):
         Whether the array is strictly increasing or not.
     """
     return np.all(mz_array[1:] > mz_array[:-1])
+
+
+def _resort_array(mz_array, intensity_array):
+    """
+    Sort the m/z and intensity arrays in ascending m/z order, descending
+    intensity order.
+
+    This prevents non-deterministic ordering of (m/z, intensity) pairs where
+    m/z is identical but intensity is not. This would otherwise lead to
+    inconsistent peak picking results on some platforms and hardware.
+
+    Parameters
+    ----------
+    mz_array : :class:`np.ndarray`
+        The m/z array to sort.
+    intensity_array : :class:`np.ndarray`
+        The intensity array parallel to the m/z array to sort.
+
+    Returns
+    -------
+    mz_array : :class:`np.ndarray`
+        The sorted m/z array.
+    intensity_array : :class:`np.ndarray`
+        The sorted intensity array.
+    """
+    pair = np.vstack((-intensity_array, mz_array))
+    indexing = np.lexsort(pair, axis=0)
+    return mz_array[indexing], intensity_array[indexing]
+
 
 try:
     _has_c = True
