@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][Keep a Changelog] and this project adheres to [Semantic Versioning][Semantic Versioning].
 
+## [v0.1.41] - 2023-07-14
+
+### Fixed
+1. Fixed a non-determinism problem during sorting of the m/z and intensity arrays prior to picking peaks.
+
 ## [v0.1.40] - 2022-10-09
 
 ### Changed
@@ -115,10 +120,14 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.37...HEAD
+[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.41...HEAD
 [Released]: https://github.com/mobiusklein/ms_peak_picker/releases
 [0.1.28]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.28
 [v0.1.34]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.34
 [v0.1.35]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.35
 [v0.1.36]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.36
 [v0.1.37]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.37
+[v0.1.38]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.38
+[v0.1.39]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.39
+[v0.1.40]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.40
+[v0.1.41]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.41
