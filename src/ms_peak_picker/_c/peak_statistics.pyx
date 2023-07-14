@@ -1,10 +1,9 @@
 # cython: embedsignature=True
 
 cimport cython
-from cython cimport parallel
 cimport numpy as np
 from libc cimport math
-from libc.math cimport fabs
+from libc.math cimport fabs, exp
 import numpy as np
 
 from ms_peak_picker._c.search cimport get_nearest
@@ -618,7 +617,7 @@ cpdef double peak_area(np.ndarray[cython.floating, ndim=1, mode='c'] mz_array, n
 
 
 @cython.cdivision(True)
-cpdef double gaussian_predict(FittedPeak peak, double mz) nogil:
+cdef double gaussian_predict(FittedPeak peak, double mz) nogil:
     cdef:
         double x, center, amplitude, fwhm, spread, y
     x = mz
@@ -626,7 +625,7 @@ cpdef double gaussian_predict(FittedPeak peak, double mz) nogil:
     amplitude = peak.intensity
     fwhm = peak.full_width_at_half_max
     spread = fwhm / 2.35482
-    y = amplitude * math.exp(-((x - center) ** 2) / (2 * spread ** 2))
+    y = amplitude * exp(-((x - center) ** 2) / (2 * spread ** 2))
     return y
 
 
@@ -787,7 +786,6 @@ cdef class PeakSetReprofiler(object):
                     break
                 ydata[j] += pred
                 j -= 1
-
 
     cpdef size_t _find_starting_model(self, double x):
         cdef:
