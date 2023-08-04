@@ -17,7 +17,7 @@ cdef enum VectorStateEnum:
     should_free = 1
 
 
-cdef int compare_value_size_t(const void* a, const void* b) nogil:
+cdef int compare_value_size_t(const void* a, const void* b) noexcept nogil:
     cdef:
         size_t av, bv
     av = (<size_t*>a)[0]
@@ -30,7 +30,7 @@ cdef int compare_value_size_t(const void* a, const void* b) nogil:
         return 1
 
 
-cdef int compare_value_size_t_reverse(const void* a, const void* b) nogil:
+cdef int compare_value_size_t_reverse(const void* a, const void* b) noexcept nogil:
     return -compare_value_size_t(a, b)
 
 
@@ -44,7 +44,7 @@ DEF GROWTH_RATE = 2
 DEF INITIAL_SIZE = 4
 
 
-cdef size_t_vector* make_size_t_vector_with_size(size_t size) nogil:
+cdef size_t_vector* make_size_t_vector_with_size(size_t size) noexcept nogil:
     cdef:
         size_t_vector* vec
 
@@ -56,11 +56,11 @@ cdef size_t_vector* make_size_t_vector_with_size(size_t size) nogil:
     return vec
 
 
-cdef size_t_vector* make_size_t_vector() nogil:
+cdef size_t_vector* make_size_t_vector() noexcept nogil:
     return make_size_t_vector_with_size(INITIAL_SIZE)
 
 
-cdef int size_t_vector_resize(size_t_vector* vec) nogil:
+cdef int size_t_vector_resize(size_t_vector* vec) noexcept nogil:
     cdef:
         size_t new_size
         size_t* v
@@ -74,7 +74,7 @@ cdef int size_t_vector_resize(size_t_vector* vec) nogil:
     return 0
 
 
-cdef int size_t_vector_append(size_t_vector* vec, size_t value) nogil:
+cdef int size_t_vector_append(size_t_vector* vec, size_t value) noexcept nogil:
     if (vec.used + 1) >= vec.size:
         if size_t_vector_resize(vec) == -1:
             return -1
@@ -83,12 +83,12 @@ cdef int size_t_vector_append(size_t_vector* vec, size_t value) nogil:
     return 0
 
 
-cdef void free_size_t_vector(size_t_vector* vec) nogil:
+cdef void free_size_t_vector(size_t_vector* vec) noexcept nogil:
     free(vec.v)
     free(vec)
 
 
-cdef void print_size_t_vector(size_t_vector* vec) nogil:
+cdef void print_size_t_vector(size_t_vector* vec) noexcept nogil:
     cdef:
         size_t i
     i = 0
@@ -101,11 +101,11 @@ cdef void print_size_t_vector(size_t_vector* vec) nogil:
     printf("]\n")
 
 
-cdef void size_t_vector_reset(size_t_vector* vec) nogil:
+cdef void size_t_vector_reset(size_t_vector* vec) noexcept nogil:
     vec.used = 0
 
 
-cdef int size_t_vector_reserve(size_t_vector* vec, size_t new_size) nogil:
+cdef int size_t_vector_reserve(size_t_vector* vec, size_t new_size) noexcept nogil:
     cdef:
         size_t* v
     v = <size_t*>realloc(vec.v, sizeof(size_t) * new_size)
@@ -159,7 +159,7 @@ cdef class SizeTVector(object):
         else:
             self.allocate_storage()
 
-    cdef int allocate_storage_with_size(self, size_t size) nogil:
+    cdef int allocate_storage_with_size(self, size_t size) noexcept nogil:
         if self.impl != NULL:
             if self.flags & VectorStateEnum.should_free:
                 free_size_t_vector(self.impl)
@@ -167,7 +167,7 @@ cdef class SizeTVector(object):
         self.flags |= VectorStateEnum.should_free
         return self.impl == NULL
 
-    cdef int allocate_storage(self) nogil:
+    cdef int allocate_storage(self) noexcept nogil:
         if self.impl != NULL:
             if self.flags & VectorStateEnum.should_free:
                 free_size_t_vector(self.impl)
@@ -175,28 +175,28 @@ cdef class SizeTVector(object):
         self.flags |= VectorStateEnum.should_free
         return self.impl == NULL
 
-    cdef int free_storage(self) nogil:
+    cdef int free_storage(self) noexcept nogil:
         free_size_t_vector(self.impl)
 
-    cdef bint get_should_free(self) nogil:
+    cdef bint get_should_free(self) noexcept nogil:
         return self.flags & VectorStateEnum.should_free
 
-    cdef void set_should_free(self, bint flag) nogil:
+    cdef void set_should_free(self, bint flag) noexcept nogil:
         self.flags &= VectorStateEnum.should_free * flag
 
-    cdef size_t* get_data(self) nogil:
+    cdef size_t* get_data(self) noexcept nogil:
         return self.impl.v
 
-    cdef size_t get(self, size_t i) nogil:
+    cdef size_t get(self, size_t i) noexcept nogil:
         return self.impl.v[i]
 
-    cdef void set(self, size_t i, size_t value) nogil:
+    cdef void set(self, size_t i, size_t value) noexcept nogil:
         self.impl.v[i] = value
 
-    cdef size_t size(self) nogil:
+    cdef size_t size(self) noexcept nogil:
         return self.impl.used
 
-    cdef int cappend(self, size_t value) nogil:
+    cdef int cappend(self, size_t value) noexcept nogil:
         return size_t_vector_append(self.impl, value)
 
     cpdef int append(self, object value) except *:
@@ -219,10 +219,10 @@ cdef class SizeTVector(object):
             if self.append(<object>PySequence_Fast_GET_ITEM(fast_seq, i)) != 0:
                 return 1
 
-    cpdef int reserve(self, size_t size) nogil:
+    cpdef int reserve(self, size_t size) noexcept nogil:
         return size_t_vector_reserve(self.impl, size)
 
-    cpdef int fill(self, size_t value) nogil:
+    cpdef int fill(self, size_t value) noexcept nogil:
         cdef:
             size_t i, n
         n = self.size()
@@ -326,7 +326,7 @@ cdef class SizeTVector(object):
         PyObject_Free(info.shape)
 
 
-    cpdef void qsort(self, bint reverse=False) nogil:
+    cpdef void qsort(self, bint reverse=False) noexcept nogil:
         if reverse:
             qsort(self.get_data(), self.size(), sizeof(size_t), compare_value_size_t_reverse)
         else:

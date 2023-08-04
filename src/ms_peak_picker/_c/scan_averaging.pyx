@@ -45,7 +45,7 @@ cdef long num_processors = PyInt_AsLong(cpu_count())
 
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cdef size_t binsearch(double* array, double x, size_t n) nogil:
+cdef size_t binsearch(double* array, double x, size_t n) noexcept nogil:
     cdef:
         size_t lo, hi, mid
         double y, err
@@ -173,7 +173,7 @@ cdef class GridAverager(object):
         return rebinned_intensities
 
     @cython.cdivision(True)
-    cdef int _populate_intensity_axis(self, double* pmz, double* pinten, double* intensity_axis, size_t n, size_t m, interval_t_vector* occupied_acc) nogil:
+    cdef int _populate_intensity_axis(self, double* pmz, double* pinten, double* intensity_axis, size_t n, size_t m, interval_t_vector* occupied_acc) noexcept nogil:
         cdef:
             double x, mz_j, mz_j1, contrib, inten_j, inten_j1
             size_t i, j

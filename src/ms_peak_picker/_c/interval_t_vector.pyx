@@ -27,7 +27,7 @@ cdef tuple tuple_from_interval(interval_t interval):
     return (interval.start, interval.end)
 
 
-cdef bint interval_overlaps(interval_t* self, interval_t* interval) nogil:
+cdef bint interval_overlaps(interval_t* self, interval_t* interval) noexcept nogil:
     cdef:
         bint cond
     cond = ((self.start <= interval.start and self.end > interval.start) or (
@@ -38,11 +38,11 @@ cdef bint interval_overlaps(interval_t* self, interval_t* interval) nogil:
     return cond
 
 
-cdef bint interval_contains(interval_t* self, size_t point) nogil:
+cdef bint interval_contains(interval_t* self, size_t point) noexcept nogil:
     return self.start <= point < self.end
 
 
-cdef int compare_value_interval_t(const void* a, const void* b) nogil:
+cdef int compare_value_interval_t(const void* a, const void* b) noexcept nogil:
     cdef:
         interval_t* av
         interval_t* bv
@@ -56,7 +56,7 @@ cdef int compare_value_interval_t(const void* a, const void* b) nogil:
         return 1
 
 
-cdef int compare_value_interval_t_reverse(const void* a, const void* b) nogil:
+cdef int compare_value_interval_t_reverse(const void* a, const void* b) noexcept nogil:
     return -compare_value_interval_t(a, b)
 
 
@@ -69,7 +69,7 @@ DEF GROWTH_RATE = 2
 DEF INITIAL_SIZE = 4
 
 
-cdef int initialize_interval_vector_t(interval_t_vector* vec, size_t size) nogil:
+cdef int initialize_interval_vector_t(interval_t_vector* vec, size_t size) noexcept nogil:
     vec.v = <interval_t*>malloc(sizeof(interval_t) * size)
     vec.size = size
     vec.used = 0
@@ -79,7 +79,7 @@ cdef int initialize_interval_vector_t(interval_t_vector* vec, size_t size) nogil
     return 0
 
 
-cdef interval_t_vector* make_interval_t_vector_with_size(size_t size) nogil:
+cdef interval_t_vector* make_interval_t_vector_with_size(size_t size) noexcept nogil:
     cdef:
         interval_t_vector* vec
 
@@ -89,11 +89,11 @@ cdef interval_t_vector* make_interval_t_vector_with_size(size_t size) nogil:
     return vec
 
 
-cdef interval_t_vector* make_interval_t_vector() nogil:
+cdef interval_t_vector* make_interval_t_vector() noexcept nogil:
     return make_interval_t_vector_with_size(INITIAL_SIZE)
 
 
-cdef int interval_t_vector_resize(interval_t_vector* vec) nogil:
+cdef int interval_t_vector_resize(interval_t_vector* vec) noexcept nogil:
     cdef:
         size_t new_size
         interval_t* v
@@ -107,7 +107,7 @@ cdef int interval_t_vector_resize(interval_t_vector* vec) nogil:
     return 0
 
 
-cdef int interval_t_vector_append(interval_t_vector* vec, interval_t value) nogil:
+cdef int interval_t_vector_append(interval_t_vector* vec, interval_t value) noexcept nogil:
     if (vec.used + 1) >= vec.size:
         interval_t_vector_resize(vec)
     vec.v[vec.used] = value
@@ -115,12 +115,12 @@ cdef int interval_t_vector_append(interval_t_vector* vec, interval_t value) nogi
     return 0
 
 
-cdef void free_interval_t_vector(interval_t_vector* vec) nogil:
+cdef void free_interval_t_vector(interval_t_vector* vec) noexcept nogil:
     free(vec.v)
     free(vec)
 
 
-cdef void print_interval_t_vector(interval_t_vector* vec) nogil:
+cdef void print_interval_t_vector(interval_t_vector* vec) noexcept nogil:
     cdef:
         size_t i
     i = 0
@@ -133,11 +133,11 @@ cdef void print_interval_t_vector(interval_t_vector* vec) nogil:
     printf("]\n")
 
 
-cdef void interval_t_vector_reset(interval_t_vector* vec) nogil:
+cdef void interval_t_vector_reset(interval_t_vector* vec) noexcept nogil:
     vec.used = 0
 
 
-cdef int interval_t_vector_reserve(interval_t_vector* vec, size_t new_size) nogil:
+cdef int interval_t_vector_reserve(interval_t_vector* vec, size_t new_size) noexcept nogil:
     cdef:
         interval_t* v
     v = <interval_t*>realloc(vec.v, sizeof(interval_t) * new_size)
@@ -190,7 +190,7 @@ cdef class IntervalVector(object):
         else:
             self.allocate_storage()
 
-    cdef int allocate_storage_with_size(self, size_t size) nogil:
+    cdef int allocate_storage_with_size(self, size_t size) noexcept nogil:
         if self.impl != NULL:
             if self.flags & VectorStateEnum.should_free:
                 free_interval_t_vector(self.impl)
@@ -198,7 +198,7 @@ cdef class IntervalVector(object):
         self.flags |= VectorStateEnum.should_free
         return self.impl == NULL
 
-    cdef int allocate_storage(self) nogil:
+    cdef int allocate_storage(self) noexcept nogil:
         if self.impl != NULL:
             if self.flags & VectorStateEnum.should_free:
                 free_interval_t_vector(self.impl)
@@ -206,28 +206,28 @@ cdef class IntervalVector(object):
         self.flags |= VectorStateEnum.should_free
         return self.impl == NULL
 
-    cdef int free_storage(self) nogil:
+    cdef int free_storage(self) noexcept nogil:
         free_interval_t_vector(self.impl)
 
-    cdef bint get_should_free(self) nogil:
+    cdef bint get_should_free(self) noexcept nogil:
         return self.flags & VectorStateEnum.should_free
 
-    cdef void set_should_free(self, bint flag) nogil:
+    cdef void set_should_free(self, bint flag) noexcept nogil:
         self.flags &= VectorStateEnum.should_free * flag
 
-    cdef interval_t* get_data(self) nogil:
+    cdef interval_t* get_data(self) noexcept nogil:
         return self.impl.v
 
-    cdef interval_t get(self, size_t i) nogil:
+    cdef interval_t get(self, size_t i) noexcept nogil:
         return self.impl.v[i]
 
-    cdef void set(self, size_t i, interval_t value) nogil:
+    cdef void set(self, size_t i, interval_t value) noexcept nogil:
         self.impl.v[i] = value
 
-    cdef size_t size(self) nogil:
+    cdef size_t size(self) noexcept nogil:
         return self.impl.used
 
-    cdef int cappend(self, interval_t value) nogil:
+    cdef int cappend(self, interval_t value) noexcept nogil:
         return interval_t_vector_append(self.impl, value)
 
     cpdef int append(self, tuple value) except *:
@@ -250,10 +250,10 @@ cdef class IntervalVector(object):
             if self.append(<object>PySequence_Fast_GET_ITEM(fast_seq, i)) != 0:
                 return 1
 
-    cpdef int reserve(self, size_t size) nogil:
+    cpdef int reserve(self, size_t size) noexcept nogil:
         return interval_t_vector_reserve(self.impl, size)
 
-    cpdef int fill(self, interval_t value) nogil:
+    cpdef int fill(self, interval_t value) noexcept nogil:
         cdef:
             size_t i, n
         n = self.size()

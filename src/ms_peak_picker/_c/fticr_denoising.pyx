@@ -21,19 +21,19 @@ ctypedef np.uint64_t count_type
 
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cdef double log2(double x) nogil:
+cdef double log2(double x) noexcept nogil:
     return log(x) / log(2)
 
 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef bint isclose(double x, double y, double rtol=1.e-5, double atol=1.e-8) nogil:
+cdef bint isclose(double x, double y, double rtol=1.e-5, double atol=1.e-8) noexcept nogil:
     return fabs(x-y) <= (atol + rtol * fabs(y))
 
 
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cdef size_t binsearch(double* array, double x, size_t n) nogil:
+cdef size_t binsearch(double* array, double x, size_t n) noexcept nogil:
     cdef:
         size_t lo, hi, mid
         double y, err
@@ -56,7 +56,7 @@ cdef size_t binsearch(double* array, double x, size_t n) nogil:
     return 0
 
 
-cdef int between_search(double *array, double lo, double hi, size_t n, ssize_t* lo_i_out, ssize_t* hi_i_out) nogil:
+cdef int between_search(double *array, double lo, double hi, size_t n, ssize_t* lo_i_out, ssize_t* hi_i_out) noexcept nogil:
     cdef:
         size_t lo_i, hi_i
     lo_i = binsearch(array, lo, n)
@@ -88,7 +88,7 @@ def pybinsearch(double[:] arr, double x):
 
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cdef double percentile(intensity_type[:] N, double percent) nogil:
+cdef double percentile(intensity_type[:] N, double percent) noexcept nogil:
     cdef:
         double k, f, c, d0, d1
     k = (N.shape[0] - 1) * percent
@@ -103,7 +103,7 @@ cdef double percentile(intensity_type[:] N, double percent) nogil:
 
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cdef double freedman_diaconis_bin_width(intensity_type[:] x) nogil:
+cdef double freedman_diaconis_bin_width(intensity_type[:] x) noexcept nogil:
     cdef:
         double q75, q25, iqr
 
@@ -115,7 +115,7 @@ cdef double freedman_diaconis_bin_width(intensity_type[:] x) nogil:
 
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cdef double sturges_bin_width(intensity_type[:] x) nogil:
+cdef double sturges_bin_width(intensity_type[:] x) noexcept nogil:
     cdef:
         double d
         double mn, mx
@@ -126,7 +126,7 @@ cdef double sturges_bin_width(intensity_type[:] x) nogil:
 
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cdef int minmax(intensity_type[:] x, intensity_type* minimum, intensity_type* maximum) nogil:
+cdef int minmax(intensity_type[:] x, intensity_type* minimum, intensity_type* maximum) noexcept nogil:
     cdef:
         size_t i, n
         intensity_type d, lo, hi
@@ -159,7 +159,7 @@ def pyminmax(x):
 
 @cython.cdivision(True)
 @cython.boundscheck(False)
-cdef int _histogram(intensity_type[:] a, count_type* bin_count, intensity_type* bin_edges, int bins=10) nogil:
+cdef int _histogram(intensity_type[:] a, count_type* bin_count, intensity_type* bin_edges, int bins=10) noexcept nogil:
     cdef:
         size_t i, n, j
         intensity_type mn, mx, norm, x

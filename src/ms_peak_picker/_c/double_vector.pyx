@@ -5,7 +5,7 @@ cdef extern from * nogil:
     int printf (const char *template, ...)
 
 
-cdef DoubleVector* make_double_vector_with_size(size_t size) nogil:
+cdef DoubleVector* make_double_vector_with_size(size_t size) noexcept nogil:
     cdef:
         DoubleVector* vec
 
@@ -17,11 +17,11 @@ cdef DoubleVector* make_double_vector_with_size(size_t size) nogil:
     return vec
 
 
-cdef DoubleVector* make_double_vector() nogil:
+cdef DoubleVector* make_double_vector() noexcept nogil:
     return make_double_vector_with_size(4)
 
 
-cdef int double_vector_resize(DoubleVector* vec) nogil:
+cdef int double_vector_resize(DoubleVector* vec) noexcept nogil:
     cdef:
         size_t new_size
         double* v
@@ -35,7 +35,7 @@ cdef int double_vector_resize(DoubleVector* vec) nogil:
     return 0
 
 
-cdef int double_vector_append(DoubleVector* vec, double value) nogil:
+cdef int double_vector_append(DoubleVector* vec, double value) noexcept nogil:
     if (vec.used + 1) == vec.size:
         double_vector_resize(vec)
     vec.v[vec.used] = value
@@ -43,12 +43,12 @@ cdef int double_vector_append(DoubleVector* vec, double value) nogil:
     return 0
 
 
-cdef void free_double_vector(DoubleVector* vec) nogil:
+cdef void free_double_vector(DoubleVector* vec) noexcept nogil:
     free(vec.v)
     free(vec)
 
 
-cdef void print_double_vector(DoubleVector* vec) nogil:
+cdef void print_double_vector(DoubleVector* vec) noexcept nogil:
     cdef:
         size_t i
     i = 0
@@ -61,7 +61,7 @@ cdef void print_double_vector(DoubleVector* vec) nogil:
     printf("]\n")
 
 
-cdef void reset_double_vector(DoubleVector* vec) nogil:
+cdef void reset_double_vector(DoubleVector* vec) noexcept nogil:
     vec.used = 0
 
 

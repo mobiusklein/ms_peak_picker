@@ -19,7 +19,7 @@ cdef double pi = np.pi
 
 
 @cython.cdivision(True)
-cdef int mean_var(double* x, size_t n, double* mean, double* variance) nogil:
+cdef int mean_var(double* x, size_t n, double* mean, double* variance) noexcept nogil:
     cdef:
         size_t i
         double acc, m
@@ -37,7 +37,7 @@ cdef int mean_var(double* x, size_t n, double* mean, double* variance) nogil:
 
 
 @cython.cdivision(True)
-cdef int vgauss(double* x, size_t n, double mean, double variance, double scale, DoubleVector* out) nogil:
+cdef int vgauss(double* x, size_t n, double mean, double variance, double scale, DoubleVector* out) noexcept nogil:
     cdef:
         size_t i
         int err

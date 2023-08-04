@@ -45,7 +45,7 @@ cdef class PeakSet(object):
     cpdef PeakSet copy(self)
 
     cdef PeakSet _between(self, double m1, double m2)
-    cdef int _between_bounds(self, double m1, double m2, size_t* startp, size_t* endp)
+    cdef int _between_bounds(self, double m1, double m2, size_t* startp, size_t* endp) noexcept
 
     cpdef tuple all_peaks_for(self, double mz, double error_tolerance=*)
 
@@ -89,6 +89,6 @@ cdef class PeakSetIndexed(PeakSet):
 
     cpdef FittedPeak has_peak_hinted(self, double mz, double tolerance=*, size_t hint_start=*, size_t hint_end=*)
 
-cdef size_t double_binary_search_ppm(double* array, double value, double tolerance, size_t n)
-cdef size_t double_binary_search_nearest_match(double* array, double value, size_t n)
-cdef size_t double_binary_search_ppm_with_hint(double* array, double value, double tolerance, size_t n, size_t hint)
+cdef size_t double_binary_search_ppm(double* array, double value, double tolerance, size_t n) noexcept
+cdef size_t double_binary_search_nearest_match(double* array, double value, size_t n) noexcept
+cdef size_t double_binary_search_ppm_with_hint(double* array, double value, double tolerance, size_t n, size_t hint) noexcept

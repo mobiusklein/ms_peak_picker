@@ -126,7 +126,7 @@ cdef class PartialPeakFitState(object):
         self.full_width_at_half_max = full_width_at_half_max
         self.signal_to_noise = signal_to_noise
 
-    cpdef int reset(self) nogil:
+    cpdef int reset(self) noexcept nogil:
         """Resets all the data in the object to initial configuration
         """
         self.set = False
@@ -246,7 +246,7 @@ cdef class PeakProcessor(object):
     @cython.cdivision(True)
     @cython.boundscheck(False)
     cpdef size_t _discover_peaks(self, np.ndarray[cython.floating, ndim=1, mode='c'] mz_array, np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
-                                 double start_mz, double stop_mz, Py_ssize_t start_index=0, Py_ssize_t stop_index=0):
+                                 double start_mz, double stop_mz, Py_ssize_t start_index=0, Py_ssize_t stop_index=0) noexcept:
         """Carries out the peak picking process on `mz_array` and `intensity_array`. All
         peaks picked are appended to :attr:`peak_data`.
 
@@ -425,7 +425,7 @@ cdef class PeakProcessor(object):
         return len(peak_data)
 
     cpdef double find_full_width_at_half_max(self, Py_ssize_t index, np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,
-                                             np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array, double signal_to_noise):
+                                             np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array, double signal_to_noise) noexcept:
         """Calculate full-width-at-half-max for a peak centered at `index` from
         `mz_array` and `intensity_array`, using the `signal_to_noise` to detect
         when to stop searching.
@@ -476,7 +476,7 @@ cdef class PeakProcessor(object):
 
     cpdef double fit_peak(self, Py_ssize_t index,
                           np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,
-                          np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array):
+                          np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array) noexcept:
         """Performs the peak shape fitting procedure.
 
         Parameters
@@ -510,7 +510,7 @@ cdef class PeakProcessor(object):
     cpdef double area(self,
                       np.ndarray[cython.floating, ndim=1, mode='c'] mz_array,
                       np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
-                      double mz, double full_width_at_half_max, Py_ssize_t index):
+                      double mz, double full_width_at_half_max, Py_ssize_t index) noexcept:
         """Integrate the peak found at `index` with width `full_width_at_half_max`,
         centered at `mz`.
 

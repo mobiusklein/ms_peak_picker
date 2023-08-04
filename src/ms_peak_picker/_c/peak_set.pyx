@@ -8,7 +8,9 @@ from libc.stdio cimport printf
 from cpython.tuple cimport PyTuple_GET_ITEM, PyTuple_GetItem, PyTuple_GetSlice, PyTuple_GET_SIZE
 from cpython cimport PyObject
 
-cdef double ppm_error(double x, double y):
+
+@cython.cdivision(True)
+cdef double ppm_error(double x, double y) noexcept nogil:
     return (x - y) / y
 
 
@@ -299,7 +301,7 @@ cdef class PeakSet(object):
         sliced = <tuple>PyTuple_GetSlice(self.peaks, start, end)
         return PeakSet._create(sliced)
 
-    cdef int _between_bounds(self, double m1, double m2, size_t* startp, size_t* endp):
+    cdef int _between_bounds(self, double m1, double m2, size_t* startp, size_t* endp) noexcept:
         cdef:
             FittedPeak p1
             FittedPeak p2
@@ -496,7 +498,7 @@ cdef FittedPeak _binary_search_nearest_match(tuple array, double value, size_t l
 
 
 @cython.cdivision(True)
-cdef size_t double_binary_search_ppm(double* array, double value, double tolerance, size_t n):
+cdef size_t double_binary_search_ppm(double* array, double value, double tolerance, size_t n) noexcept:
     cdef:
         size_t lo, hi, mid
         size_t i, best_ix
@@ -544,7 +546,7 @@ cdef size_t double_binary_search_ppm(double* array, double value, double toleran
 
 
 @cython.cdivision(True)
-cdef size_t double_binary_search_nearest_match(double* array, double value, size_t n):
+cdef size_t double_binary_search_nearest_match(double* array, double value, size_t n) noexcept:
     cdef:
         size_t lo, hi, mid
         size_t i, best_ix
@@ -589,7 +591,7 @@ cdef size_t double_binary_search_nearest_match(double* array, double value, size
 
 
 @cython.cdivision(True)
-cdef size_t double_binary_search_ppm_with_hint(double* array, double value, double tolerance, size_t n, size_t hint):
+cdef size_t double_binary_search_ppm_with_hint(double* array, double value, double tolerance, size_t n, size_t hint) noexcept:
     cdef:
         size_t lo, hi, mid
         size_t i, best_ix
@@ -636,7 +638,7 @@ cdef size_t double_binary_search_ppm_with_hint(double* array, double value, doub
     return 0
 
 @cython.cdivision(True)
-cdef size_t double_binary_search_nearest_match_with_hint(double* array, double value, size_t n, size_t hint):
+cdef size_t double_binary_search_nearest_match_with_hint(double* array, double value, size_t n, size_t hint) noexcept:
     cdef:
         size_t lo, hi, mid
         size_t i, best_ix

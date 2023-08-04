@@ -35,13 +35,13 @@ cdef object np_zeros = np.zeros
 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef inline bint isclose(cython.floating x, cython.floating y, cython.floating rtol=1.e-5, cython.floating atol=1.e-8) nogil:
+cdef inline bint isclose(cython.floating x, cython.floating y, cython.floating rtol=1.e-5, cython.floating atol=1.e-8) noexcept nogil:
     return math.fabs(x-y) <= (atol + rtol * math.fabs(y))
 
 
 @cython.nonecheck(False)
 @cython.cdivision(True)
-cdef inline bint aboutzero(cython.floating x) nogil:
+cdef inline bint aboutzero(cython.floating x) noexcept nogil:
     return isclose(x, 0)
 
 
@@ -522,7 +522,7 @@ cpdef cython.floating quadratic_fit(np.ndarray[cython.floating, ndim=1, mode='c'
 cdef double lorentzian_least_squares(cython.floating[:] mz_array,
                                      cython.floating[:] intensity_array,
                                      double amplitude, double full_width_at_half_max,
-                                     double vo, size_t lstart, size_t lstop) nogil:
+                                     double vo, size_t lstart, size_t lstop) noexcept nogil:
 
     cdef:
         double root_mean_squared_error, u, Y2
@@ -690,7 +690,7 @@ cdef class GaussianModel(PeakShapeModel):
         return gaussian_error(self.peak, mz, intensity)
 
 
-cdef size_t find_starting_index(double* array, double value, double error_tolerance, size_t n) nogil:
+cdef size_t find_starting_index(double* array, double value, double error_tolerance, size_t n) noexcept nogil:
     cdef:
         size_t lo, hi, mid, i, best_index
         double mid_value, error, best_error
