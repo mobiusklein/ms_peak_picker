@@ -1,8 +1,10 @@
-'''A collection of tools for drawing and annotating mass spectra
-'''
+"""A collection of tools for drawing and annotating mass spectra"""
 from collections import namedtuple
 
+from typing import Optional, Sequence
+
 from matplotlib import pyplot as plt
+from matplotlib.axes import Axes
 import numpy as np
 
 
@@ -12,8 +14,9 @@ from .base import PeakLike
 point = namedtuple('point', ('mz', 'intensity'))
 
 
-def draw_raw(mz_array, intensity_array=None, ax=None, normalize=False, **kwargs):
-    """Draws un-centroided profile data, visualizing continuous
+def draw_raw(mz_array, intensity_array=None, ax: Optional[Axes]=None, normalize: bool=False, **kwargs):
+    """
+    Draws un-centroided profile data, visualizing continuous
     data points
 
     Parameters
@@ -46,7 +49,7 @@ def draw_raw(mz_array, intensity_array=None, ax=None, normalize=False, **kwargs)
     if ax is None:
         _, ax = plt.subplots(1)
     if normalize:
-        intensity_array = intensity_array / intensity_array.max() * 100.0
+        intensity_array = intensity_array / np.abs(intensity_array).max() * 100.0
     ax.plot(mz_array, intensity_array, **kwargs)
     ax.set_xlabel("m/z")
     ax.set_ylabel("Relative Intensity")
@@ -59,8 +62,9 @@ def draw_raw(mz_array, intensity_array=None, ax=None, normalize=False, **kwargs)
     return ax
 
 
-def peaklist_to_vector(peaklist, width=0.000001):
-    """Convert a list of discrete centroided peaks into a pair of continuous m/z
+def peaklist_to_vector(peaklist: Sequence[PeakLike], width=0.000001):
+    """
+    Convert a list of discrete centroided peaks into a pair of continuous m/z
     and intensity arrays
 
     Parameters
@@ -106,8 +110,9 @@ def peaklist_to_vector(peaklist, width=0.000001):
                         " or (mz, intensity) pairs, but got %r instead" % type(pt))
 
 
-def draw_peaklist(peaklist, ax=None, normalize=False, **kwargs):
-    """Draws centroided peak data, visualizing peak apexes.
+def draw_peaklist(peaklist: Sequence[PeakLike], ax: Optional[Axes] = None, normalize: bool = False, **kwargs):
+    """
+    Draws centroided peak data, visualizing peak apexes.
 
     The peaks will be converted into a single smooth curve using
     :func:`peaklist_to_vector`.
@@ -135,7 +140,7 @@ def draw_peaklist(peaklist, ax=None, normalize=False, **kwargs):
         _, ax = plt.subplots(1)
     mz_array, intensity_array = peaklist_to_vector(peaklist)
     if normalize:
-        intensity_array = intensity_array / intensity_array.max() * 100.0
+        intensity_array = intensity_array / np.abs(intensity_array).max() * 100.0
     ax.plot(mz_array, intensity_array, **kwargs)
     ax.set_xlabel("m/z")
     ax.set_ylabel("Relative Intensity")
@@ -148,8 +153,10 @@ def draw_peaklist(peaklist, ax=None, normalize=False, **kwargs):
     return ax
 
 
-def mirror_peaks(peaklist1, peaklist2, ax=None, normalize=True, kwargs1=None, kwargs2=None, **kwargs):
-    """Create a mirror plot of two peak lists.
+def mirror_peaks(peaklist1: Sequence[PeakLike], peaklist2: Sequence[PeakLike], ax: Optional[Axes] = None,
+                 normalize: bool = True, kwargs1=None, kwargs2=None, **kwargs):
+    """
+    Create a mirror plot of two peak lists.
 
     Plot one peak list upside-down below another peak list. Commonly used to compare/contrast two
     two peak lists visually.
@@ -211,13 +218,14 @@ def mirror_peaks(peaklist1, peaklist2, ax=None, normalize=True, kwargs1=None, kw
     return ax
 
 
-def _beautify_axes(ax, set_ylim=True, normalize=False):
+def _beautify_axes(ax: Axes, set_ylim: bool=True, normalize: bool=False):
     ax.axes.spines['right'].set_visible(False)
     ax.axes.spines['top'].set_visible(False)
     ax.yaxis.tick_left()
     ax.xaxis.tick_bottom()
     ax.xaxis.set_ticks_position('none')
     ax.get_xaxis().get_major_formatter().set_useOffset(False)
+    ax.ticklabel_format(axis='y', scilimits=(1, 3))
     if set_ylim:
         ax.set_ylim(0, max(ax.get_ylim()))
     if normalize:
