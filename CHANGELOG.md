@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][Keep a Changelog] and this project adheres to [Semantic Versioning][Semantic Versioning].
 
+
+## [v0.1.42] - 2023-08-04
+
+### Fixed
+1. Fixed Cython 3 compatibility. There is now the potential for errors that were previously undetected
+   to error out with a traceback.
+
+
+### Changed
+1. The `plot` module will more aggressively use scientific notation offsets to simplify y tick labels.
+
+
 ## [v0.1.41] - 2023-07-14
 
 ### Fixed
@@ -131,3 +143,4 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [v0.1.39]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.39
 [v0.1.40]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.40
 [v0.1.41]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.41
+[v0.1.42]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.42
