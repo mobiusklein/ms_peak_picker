@@ -275,13 +275,23 @@ cdef class PeakProcessor(object):
             double low_intensity, high_intensity
             double full_width_at_half_max, current_mz, mz
             size_t offset
+            bint infer_range
 
             FittedPeak peak
 
+        verbose = self.verbose
+        is_centroid = self.peak_mode == PeakMode.centroid
+
         size = len(intensity_array) - 1
 
-        if size < 1:
-            return 0
+        if is_centroid:
+            if size == -1:
+                return 0
+        else:
+            if size < 1:
+                return 0
+
+        infer_range = start_mz <= -1 and stop_mz <= -1
 
         if start_mz <= -1:
             start_mz = mz_array[0]
@@ -290,15 +300,16 @@ cdef class PeakProcessor(object):
 
         peak_data = []
 
-        verbose = self.verbose
-        is_centroid = self.peak_mode == PeakMode.centroid
-
         intensity_threshold = self.intensity_threshold
         signal_to_noise_threshold = self.signal_to_noise_threshold
 
         if start_index == stop_index == 0:
-            start_index = get_nearest_binary(mz_array, start_mz, 0, size)
-            stop_index = get_nearest_binary(mz_array, stop_mz, start_index, size)
+            if infer_range and is_centroid:
+                start_index = 0
+                stop_index = size
+            else:
+                start_index = get_nearest_binary(mz_array, start_mz, 0, size)
+                stop_index = get_nearest_binary(mz_array, stop_mz, start_index, size)
 
         if start_index <= 0 and not is_centroid:
             start_index = 1
@@ -311,7 +322,6 @@ cdef class PeakProcessor(object):
 
         index = start_index
         while index <= stop_index:
-        # for index in range(start_index, stop_index + 1):
             self.partial_fit_state.reset()
             full_width_at_half_max = -1
             current_intensity = intensity_array[index]

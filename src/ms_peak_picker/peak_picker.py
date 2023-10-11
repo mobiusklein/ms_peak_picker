@@ -170,7 +170,8 @@ class PeakProcessor(object):
         get_intensity_threshold, set_intensity_threshold)
 
     def discover_peaks(self, mz_array, intensity_array, start_mz=None, stop_mz=None):
-        """Carries out the peak picking process on `mz_array` and `intensity_array`. All
+        """
+        Carries out the peak picking process on `mz_array` and `intensity_array`. All
         peaks picked are appended to :attr:`peak_data`.
 
         Parameters
@@ -191,8 +192,14 @@ class PeakProcessor(object):
         """
         size = len(intensity_array) - 1
 
-        if size < 1:
+        is_centroid = self.peak_mode == CENTROID
+
+        if is_centroid and size < 0:
             return 0
+        elif not is_centroid and size < 1:
+            return 0
+
+        infer_range =  start_mz is None and stop_mz is None
 
         if start_mz is None:
             start_mz = mz_array[0]
@@ -206,16 +213,20 @@ class PeakProcessor(object):
         intensity_threshold = self.intensity_threshold
         signal_to_noise_threshold = self.signal_to_noise_threshold
 
-        start_index = get_nearest_binary(mz_array, start_mz, 0, size)
-        stop_index = get_nearest_binary(mz_array, stop_mz, start_index, size)
-
-        if start_index <= 0 and self.peak_mode != CENTROID:
-            start_index = 1
-        elif start_index < 0 and self.peak_mode == CENTROID:
+        if infer_range and is_centroid:
             start_index = 0
-        if stop_index >= size - 1 and self.peak_mode != CENTROID:
+            stop_index = size
+        else:
+            start_index = get_nearest_binary(mz_array, start_mz, 0, size)
+            stop_index = get_nearest_binary(mz_array, stop_mz, start_index, size)
+
+        if start_index <= 0 and not is_centroid:
+            start_index = 1
+        elif start_index < 0 and is_centroid:
+            start_index = 0
+        if stop_index >= size - 1 and not is_centroid:
             stop_index = size - 1
-        elif stop_index >= size and self.peak_mode == CENTROID:
+        elif stop_index >= size and is_centroid:
             stop_index = size
 
         for index in range(start_index, stop_index + 1):
@@ -225,7 +236,7 @@ class PeakProcessor(object):
 
             current_mz = mz_array[index]
 
-            if self.peak_mode == CENTROID:
+            if is_centroid:
                 if current_intensity <= 0:
                     continue
                 mz = mz_array[index]
@@ -319,7 +330,8 @@ class PeakProcessor(object):
         return len(peak_data)
 
     def find_full_width_at_half_max(self, index, mz_array, intensity_array, signal_to_noise):
-        """Calculate full-width-at-half-max for a peak centered at `index` from
+        """
+        Calculate full-width-at-half-max for a peak centered at `index` from
         `mz_array` and `intensity_array`, using the `signal_to_noise` to detect
         when to stop searching.
 
@@ -366,7 +378,8 @@ class PeakProcessor(object):
         return fwhm
 
     def fit_peak(self, index, mz_array, intensity_array):
-        """Performs the peak shape fitting procedure.
+        """
+        Performs the peak shape fitting procedure.
 
         Parameters
         ----------
@@ -397,7 +410,8 @@ class PeakProcessor(object):
         return 0.0
 
     def area(self, mz_array, intensity_array, mz, full_width_at_half_max, index):
-        """Integrate the peak found at `index` with width `full_width_at_half_max`,
+        """
+        Integrate the peak found at `index` with width `full_width_at_half_max`,
         centered at `mz`.
 
         Parameters
@@ -432,7 +446,8 @@ def pick_peaks(mz_array, intensity_array, fit_type='quadratic', peak_mode=PROFIL
                signal_to_noise_threshold=1., intensity_threshold=1., threshold_data=False,
                target_envelopes=None, transforms=None, verbose=False,
                start_mz=None, stop_mz=None, integrate=True, target_indices=None):
-    """Picks peaks for the given m/z, intensity array pair, producing a centroid-containing
+    """
+    Picks peaks for the given m/z, intensity array pair, producing a centroid-containing
     PeakIndex instance.
 
     Applies each :class:`.FilterBase` in `transforms` in order to
