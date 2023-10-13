@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][Keep a Changelog] and this project adheres to [Semantic Versioning][Semantic Versioning].
 
+## [v0.1.43] - 2023-10-12
+
+### Fixed
+1. Fixed problem with conversion of a pre-centroided list of peaks with repeated m/z values near the end of
+   the mass range, or where the peak list is a single peak long.
+
 
 ## [v0.1.42] - 2023-08-04
 
@@ -132,7 +138,7 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.41...HEAD
+[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.43...HEAD
 [Released]: https://github.com/mobiusklein/ms_peak_picker/releases
 [0.1.28]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.28
 [v0.1.34]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.34
@@ -144,3 +150,4 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [v0.1.40]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.40
 [v0.1.41]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.41
 [v0.1.42]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.42
+[v0.1.43]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.43
