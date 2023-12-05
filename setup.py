@@ -58,7 +58,6 @@ def Extension(*args, **kwargs):
         else:
             ext.extra_compile_args.append("-g3")
             ext.extra_compile_args.append("-O0")
-    # ext.extra_compile_args.append("/fsanitize=address")
     return ext
 
 def OpenMPExtension(*args, **kwargs):

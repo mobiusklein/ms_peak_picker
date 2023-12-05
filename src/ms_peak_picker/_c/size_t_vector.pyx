@@ -11,7 +11,7 @@ from cpython.sequence cimport (
     PySequence_Fast_GET_ITEM, PySequence_Fast_GET_SIZE)
 from cpython.slice cimport PySlice_GetIndicesEx
 
-from cpython.int cimport PyInt_FromSize_t, PyInt_AsLong
+from cpython.long cimport PyLong_FromSize_t, PyLong_AsLong
 
 cdef enum VectorStateEnum:
     should_free = 1
@@ -333,7 +333,7 @@ cdef class SizeTVector(object):
             qsort(self.get_data(), self.size(), sizeof(size_t), compare_value_size_t)
 
     cpdef object _to_python(self, size_t value):
-        return PyInt_FromSize_t(value)
+        return PyLong_FromSize_t(value)
 
     cpdef size_t _to_c(self, object value) except *:
-        return PyInt_AsLong(value)
+        return PyLong_AsLong(value)

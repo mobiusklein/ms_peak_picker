@@ -223,30 +223,41 @@ cdef class PeakProcessor(object):
         cdef:
             double _start_mz, _stop_mz
             Py_ssize_t _start_index, _stop_index
+            discovery_range_t discovery_range
 
-        if start_mz is None:
-            _start_mz = -1
+        if start_mz is not None or stop_mz is not None:
+            if start_mz is None:
+                _start_mz = -1
+            else:
+                _start_mz = start_mz
+            if stop_mz is None:
+                _stop_mz = -1
+            else:
+                _stop_mz = stop_mz
+            discovery_range.mz.tag = range_tag.mz_range
+            discovery_range.mz.start_mz = _start_mz
+            discovery_range.mz.stop_mz = _stop_mz
+        elif start_index is not None or stop_index is not None:
+            if start_index is None:
+                _start_index = 0
+            else:
+                _start_index = start_index
+            if stop_index is None:
+                _stop_index = 0
+            else:
+                _stop_index = stop_index
+            discovery_range.index.tag = range_tag.index_range
+            discovery_range.index.start_index = _start_index
+            discovery_range.index.stop_index = _stop_index
         else:
-            _start_mz = start_mz
-        if stop_mz is None:
-            _stop_mz = -1
-        else:
-            _stop_mz = stop_mz
-        if start_index is None:
-            _start_index = 0
-        else:
-            _start_index = start_index
-        if stop_index is None:
-            _stop_index = 0
-        else:
-            _stop_index = stop_index
-        return self._discover_peaks(mz_array, intensity_array, _start_mz, _stop_mz, _start_index, _stop_index)
+            discovery_range.full.tag = range_tag.full_range
+        return self._discover_peaks(mz_array, intensity_array, discovery_range)
 
     @cython.nonecheck(False)
     @cython.cdivision(True)
     @cython.boundscheck(False)
-    cpdef size_t _discover_peaks(self, np.ndarray[cython.floating, ndim=1, mode='c'] mz_array, np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
-                                 double start_mz, double stop_mz, Py_ssize_t start_index=0, Py_ssize_t stop_index=0) noexcept:
+    cdef size_t _discover_peaks(self, np.ndarray[cython.floating, ndim=1, mode='c'] mz_array, np.ndarray[cython.floating, ndim=1, mode='c'] intensity_array,
+                                discovery_range_t discovery_range) noexcept:
         """Carries out the peak picking process on `mz_array` and `intensity_array`. All
         peaks picked are appended to :attr:`peak_data`.
 
@@ -277,7 +288,31 @@ cdef class PeakProcessor(object):
             size_t offset
             bint infer_range
 
+            double start_mz, stop_mz
+            ssize_t start_index, stop_index
+
             FittedPeak peak
+
+        if discovery_range.mz.tag == range_tag.mz_range:
+            start_mz = discovery_range.mz.start_mz
+            stop_mz = discovery_range.mz.stop_mz
+        else:
+            start_mz = -1
+            stop_mz = -1
+
+        if discovery_range.index.tag == range_tag.index_range:
+            start_index = discovery_range.index.start_index
+            stop_index = discovery_range.index.stop_index
+        else:
+            start_index = 0
+            stop_index = 0
+
+        if discovery_range.full.tag == range_tag.full_range:
+            start_mz = -1
+            stop_mz = -1
+            start_index = 0
+            stop_index = 0
+
 
         verbose = self.verbose
         is_centroid = self.peak_mode == PeakMode.centroid

@@ -11,7 +11,7 @@ import numpy as np
 cdef extern from * nogil:
     int printf (const char *template, ...)
 
-from cpython cimport PyFloat_AsDouble, PyInt_AsLong, PyErr_SetString, PyErr_Format
+from cpython cimport PyFloat_AsDouble, PyLong_AsLong, PyErr_SetString, PyErr_Format
 from cpython.list cimport PyList_GET_SIZE, PyList_GET_ITEM
 from cpython.tuple cimport PyTuple_GET_SIZE, PyTuple_GET_ITEM
 from cpython.slice cimport PySlice_GetIndicesEx
@@ -40,7 +40,7 @@ from ms_peak_picker._c.interval_t_vector cimport (
 
 cnp.import_array()
 
-cdef long num_processors = PyInt_AsLong(cpu_count())
+cdef long num_processors = PyLong_AsLong(cpu_count())
 
 
 @cython.cdivision(True)
@@ -266,7 +266,7 @@ cdef class GridAverager(object):
 
         if n_workers is None:
             n_workers = min(num_processors, len(spectra))
-        n_threads = PyInt_AsLong(n_workers)
+        n_threads = PyLong_AsLong(n_workers)
 
 
         prepare_arrays(spectra, &spectrum_pairs)
@@ -314,7 +314,7 @@ cdef class GridAverager(object):
         if n_workers is None:
             n_threads = 1
         else:
-            n_threads = PyInt_AsLong(n_workers)
+            n_threads = PyLong_AsLong(n_workers)
 
         if start > stop:
             stop, start = start, stop
