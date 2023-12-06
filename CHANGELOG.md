@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][Keep a Changelog] and this project adheres to [Semantic Versioning][Semantic Versioning].
 
+## [v0.1.44] - 2023-12-05
+
+### Fixed
+1. Fixed Cython code compatibility with Python 3.11. See [cython/issues/5894](https://github.com/cython/cython/issues/5894)
+   and [cpython/issues/112768](https://github.com/python/cpython/issues/112768)
+
 ## [v0.1.43] - 2023-10-12
 
 ### Fixed
@@ -138,7 +144,7 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.43...HEAD
+[Unreleased]: https://github.com/mobiusklein/ms_peak_picker/compare/v0.1.44...HEAD
 [Released]: https://github.com/mobiusklein/ms_peak_picker/releases
 [0.1.28]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.28
 [v0.1.34]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.34
@@ -151,3 +157,4 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [v0.1.41]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.41
 [v0.1.42]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.42
 [v0.1.43]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.43
+[v0.1.44]: https://github.com/mobiusklein/ms_peak_picker/releases/v0.1.44
