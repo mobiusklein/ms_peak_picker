@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][Keep a Changelog] and this project adheres to [Semantic Versioning][Semantic Versioning].
 
+## [v0.1.45] - 2023-12-05
 ## [v0.1.44] - 2023-12-05
 
 ### Fixed
