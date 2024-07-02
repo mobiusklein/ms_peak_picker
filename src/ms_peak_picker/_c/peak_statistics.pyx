@@ -32,6 +32,12 @@ cdef DTYPE_t minimum_signal_to_noise = 4.0
 
 cdef object np_zeros = np.zeros
 
+cdef object trapz = None
+try:
+    trapz = np.trapz
+except AttributeError:
+    trapz = np.trapezoid
+
 
 @cython.nonecheck(False)
 @cython.cdivision(True)
@@ -651,7 +657,7 @@ cpdef double gaussian_volume(FittedPeak peak):
     cdef:
         np.ndarray[double, ndim=1] x, y
     x, y = gaussian_shape(peak)
-    return np.trapz(y, x, dx=0.0001)
+    return trapz(y, x, dx=0.0001)
 
 
 cdef class PeakShapeModel(object):

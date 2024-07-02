@@ -3,6 +3,11 @@ import numpy as np
 from .utils import range
 from .search import get_nearest
 
+trapz = None
+try:
+    trapz = np.trapz
+except AttributeError:
+    trapz = np.trapezoid
 
 minimum_signal_to_noise = 4.
 
@@ -398,7 +403,7 @@ def gaussian_error(peak, mz, intensity):
 
 def gaussian_volume(peak):
     x, y = gaussian_shape(peak)
-    return np.trapz(y, x, dx=0.0001)
+    return trapz(y, x, dx=0.0001)
 
 
 def lorentzian_predict(peak, mz):
@@ -426,7 +431,7 @@ def lorentzian_error(peak, mz, intensity):
 
 def lorentzian_volume(peak):
     x, y = lorentzian_shape(peak)
-    return np.trapz(y, x, dx=0.0001)
+    return trapz(y, x, dx=0.0001)
 
 
 class PeakShapeModel(object):
