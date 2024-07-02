@@ -199,35 +199,45 @@ with open("src/ms_peak_picker/version.py") as version_file:
         print("Cannot determine version")
 
 
+install_requires = [
+    "numpy>=2.0.0; python_version >= '3.9'",
+    "numpy; python_version < '3.9'",
+    "scipy",
+    "six",
+]
+
+
 def run_setup(include_cext=True):
     setup(
-        name='ms_peak_picker',
-        description='A library to pick peaks from mass spectral data',
-        long_description='A library to pick peaks from mass spectral data',
+        name="ms_peak_picker",
+        description="A library to pick peaks from mass spectral data",
+        long_description="A library to pick peaks from mass spectral data",
         version=version,
-        packages=find_packages(where='src'),
+        packages=find_packages(where="src"),
         package_dir={"": "src"},
         zip_safe=False,
-        install_requires=['numpy', "scipy", "six"],
+        install_requires=install_requires,
         ext_modules=make_cextensions() if include_cext else None,
         cmdclass=cmdclass,
-        author='Joshua Klein',
+        author="Joshua Klein",
         author_email="jaklein@bu.edu",
-        maintainer='Joshua Klein',
+        maintainer="Joshua Klein",
         maintainer_email="jaklein@bu.edu",
         include_package_data=True,
         classifiers=[
-            'Intended Audience :: Science/Research',
-            'Programming Language :: Python :: 3.8',
-            'Programming Language :: Python :: 3.9',
-            'Programming Language :: Python :: 3.10',
-            'Programming Language :: Python :: 3.11',
-            'Topic :: Education',
-            'Topic :: Scientific/Engineering :: Bio-Informatics',
-            'Topic :: Scientific/Engineering :: Chemistry',
-            'Topic :: Software Development :: Libraries'
+            "Intended Audience :: Science/Research",
+            "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
+            "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
+            "Topic :: Education",
+            "Topic :: Scientific/Engineering :: Bio-Informatics",
+            "Topic :: Scientific/Engineering :: Chemistry",
+            "Topic :: Software Development :: Libraries",
         ],
-        license='License :: OSI Approved :: Apache Software License')
+        license="License :: OSI Approved :: Apache Software License",
+    )
 
 
 try:
