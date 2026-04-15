@@ -65,8 +65,9 @@ cdef extern from * nogil:
     void qsort (void *base, unsigned short n, unsigned short w, int (*cmp_func)(void*, void*))
 
 
-DEF GROWTH_RATE = 2
-DEF INITIAL_SIZE = 4
+cdef enum:
+    GROWTH_RATE = 2
+    INITIAL_SIZE = 4
 
 
 cdef int initialize_interval_vector_t(interval_t_vector* vec, size_t size) noexcept nogil:

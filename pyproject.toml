@@ -2,14 +2,11 @@
 requires = ["setuptools",
             "wheel",
             "Cython",
-            "numpy==2.0.0,<2.1.0; python_version >= '3.9'",
-            "oldest-supported-numpy; python_version >= '3.8' and python_version < '3.9'",
-            "numpy==1.16.1; python_version <= '3.7' and python_version >= '3'",
-            "numpy==1.13.3; python_version=='2.7'",
+            "numpy>=2.0.0; python_version >= '3.9'",
             "scipy"]
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py39"
 line-length = 120
 select = ["D"]
 ignore = ["D415", "D400", "D212", "D205", "D203", "D105"]

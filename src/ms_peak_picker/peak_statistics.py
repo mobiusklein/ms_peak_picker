@@ -1,6 +1,5 @@
 import numpy as np
 
-from .utils import range
 from .search import get_nearest
 
 trapz = None

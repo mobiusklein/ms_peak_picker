@@ -729,7 +729,8 @@ cdef size_t find_starting_index(double* array, double value, double error_tolera
             lo = mid
     return 0
 
-DEF PEAK_SHAPE_WIDTH = 1
+cdef enum:
+    PEAK_SHAPE_WIDTH = 1
 
 cdef class PeakSetReprofiler(object):
 

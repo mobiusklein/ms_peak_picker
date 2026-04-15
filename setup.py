@@ -5,9 +5,9 @@ import platform
 
 from setuptools import setup, Extension as _Extension, find_packages
 
-from distutils.command.build_ext import build_ext
-from distutils.errors import (CCompilerError, DistutilsExecError,
-                              DistutilsPlatformError)
+from setuptools.command.build_ext import build_ext
+from setuptools.errors import (CCompilerError, ExecError,
+                                PlatformError)
 
 
 def has_option(name):
@@ -136,17 +136,15 @@ def make_cextensions():
     return extensions
 
 
-ext_errors = (CCompilerError, DistutilsExecError, DistutilsPlatformError)
+ext_errors = (CCompilerError, ExecError, PlatformError)
 if sys.platform == 'win32':
-    # 2.6's distutils.msvc9compiler can raise an IOError when failing to
-    # find the compiler
     ext_errors += (IOError,)
 
 
 class BuildFailed(Exception):
 
     def __init__(self):
-        self.cause = sys.exc_info()[1]  # work around py 2/3 different syntax
+        self.cause = sys.exc_info()[1]
 
     def __str__(self):
         return str(self.cause)
@@ -158,7 +156,7 @@ class ve_build_ext(build_ext):
     def run(self):
         try:
             build_ext.run(self)
-        except DistutilsPlatformError:
+        except PlatformError:
             traceback.print_exc()
             raise BuildFailed()
 
@@ -171,7 +169,7 @@ class ve_build_ext(build_ext):
         except ValueError:
             # this can happen on Windows 64 bit, see Python issue 7511
             traceback.print_exc()
-            if "'path'" in str(sys.exc_info()[1]):  # works with both py 2/3
+            if "'path'" in str(sys.exc_info()[1]):
                 raise BuildFailed()
             raise
 
@@ -200,10 +198,8 @@ with open("src/ms_peak_picker/version.py") as version_file:
 
 
 install_requires = [
-    "numpy>=2.0.0; python_version >= '3.9'",
-    "numpy; python_version < '3.9'",
+    "numpy>=2.0.0",
     "scipy",
-    "six",
 ]
 
 
@@ -226,11 +222,11 @@ def run_setup(include_cext=True):
         include_package_data=True,
         classifiers=[
             "Intended Audience :: Science/Research",
-            "Programming Language :: Python :: 3.8",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
             "Programming Language :: Python :: 3.12",
+            "Programming Language :: Python :: 3.13",
             "Topic :: Education",
             "Topic :: Scientific/Engineering :: Bio-Informatics",
             "Topic :: Scientific/Engineering :: Chemistry",

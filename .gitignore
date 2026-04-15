@@ -14,3 +14,4 @@ htmlcov/
 .pytest_cache/
 __pycache__
 Untitled*
+*.so

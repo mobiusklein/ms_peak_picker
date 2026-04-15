@@ -1,5 +1,3 @@
-import unittest
-
 import numpy as np
 
 from ms_peak_picker import reprofile
@@ -7,7 +5,7 @@ from .common import make_peak
 from ms_peak_picker import pick_peaks
 
 
-class TestReprofile(unittest.TestCase):
+class TestReprofile:
     def make_data(self):
         peak = make_peak(200, 1e4)
         return [peak]

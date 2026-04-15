@@ -1,4 +1,3 @@
-import six
 import abc
 
 
@@ -15,8 +14,7 @@ class Base(object):
     __repr__ = simple_repr
 
 
-@six.add_metaclass(abc.ABCMeta)
-class PeakLike(object):
+class PeakLike(metaclass=abc.ABCMeta):
 
     @classmethod
     def __subclasshook__(cls, C):

@@ -1,5 +1,3 @@
-import unittest
-
 import numpy as np
 
 from ms_peak_picker.peak_set import FittedPeak, PeakSet, _has_c, _PeakSet
@@ -9,11 +7,13 @@ from ms_peak_picker.peak_picker import pick_peaks, PeakProcessor, _has_c as _has
 
 from .common import make_peak
 
+import pytest
+
 
 points = [(276.5, 2e4), (576.5, 8e4), (862.1, 15e4)]
 
 
-class TestPeakSet(unittest.TestCase):
+class TestPeakSet:
     peak_set_type = PeakSet
 
     def make_peaks(self):
@@ -23,19 +23,19 @@ class TestPeakSet(unittest.TestCase):
 
     def test_construct(self):
         inst = self.make_peaks()
-        self.assertEqual(len(inst), 3)
+        assert len(inst) == 3
 
     def test_has_peak(self):
         inst = self.make_peaks()
-        self.assertIsNotNone(inst.has_peak(576.5))
-        self.assertIsNone(inst.has_peak(1576.5))
+        assert inst.has_peak(576.5) is not None
+        assert inst.has_peak(1576.5) is None
         for peak in inst:
             assert inst.has_peak(peak.mz) is not None
 
     def test_between(self):
         inst = self.make_peaks()
-        self.assertIn(inst.has_peak(576.5), list(inst.between(300.0, 1000.01)))
-        self.assertNotIn(inst.has_peak(276.5), list(inst.between(300.0, 1000.01)))
+        assert inst.has_peak(576.5) in list(inst.between(300.0, 1000.01))
+        assert inst.has_peak(276.5) not in list(inst.between(300.0, 1000.01))
 
         assert len(inst.between(862, 863)) == 1
         assert len(inst.between(1061, 1063)) == 0
@@ -44,7 +44,7 @@ class TestPeakSet(unittest.TestCase):
         inst = self.make_peaks()
         dup = inst.clone()
         for a, b in zip(inst.peaks, dup.peaks):
-            self.assertEqual(a, b)
+            assert a == b
 
     def test_all_peaks_for(self):
         inst = self.make_peaks()
@@ -55,12 +55,12 @@ class TestPeakSet(unittest.TestCase):
         assert len(peaks) == 0
 
 
-if _has_c:
-    class TestPythonPeakSet(TestPeakSet):
-        peak_set_type = _PeakSet
+@pytest.mark.skipif(not _has_c, reason="C extensions not available")
+class TestPythonPeakSet(TestPeakSet):
+    peak_set_type = _PeakSet
 
 
-class TestPeakPicker(unittest.TestCase):
+class TestPeakPicker:
     @staticmethod
     def make_profile():
         return reprofile([make_peak(*point) for point in points])
@@ -85,7 +85,7 @@ class TestPeakPicker(unittest.TestCase):
         mzs, intensities = self.make_profile()
         peaks = pick_peaks(mzs, intensities)
         peak = peaks.has_peak(276.5, 1e-5)
-        self.assertIsNotNone(peak)
+        assert peak is not None
 
 
 class TestPeakIndex(TestPeakSet):
@@ -95,7 +95,3 @@ class TestPeakIndex(TestPeakSet):
         inst.reindex()
         inst = PeakIndex(np.array([]), np.array([]), inst)
         return inst
-
-
-if __name__ == '__main__':
-    unittest.main()

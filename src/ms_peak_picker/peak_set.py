@@ -1,7 +1,7 @@
 import operator
 import numpy as np
 
-from .utils import Base, ppm_error, range
+from .utils import Base, ppm_error
 
 
 class FittedPeak(Base):

@@ -1,9 +1,3 @@
-try:
-    range = xrange
-except NameError:
-    range = range
-
-
 from .base import Base
 
 
