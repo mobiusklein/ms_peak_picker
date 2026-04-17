@@ -5,11 +5,6 @@ from .fticr_denoising import denoise as fticr_remove_baseline
 from .smoothing import gaussian_smooth
 from .peak_statistics import zero_pad
 
-try:
-    basestring
-except NameError:
-    from six import string_types as basestring
-
 
 #: Global register of all named scan filters
 filter_register = {}
@@ -260,7 +255,7 @@ def transform(mz_array, intensity_array, filters=None):
         filters = []
 
     for filt in filters:
-        if isinstance(filt, basestring):
+        if isinstance(filt, str):
             filt = filter_register[filt]
         mz_array, intensity_array = filt(mz_array, intensity_array)
 

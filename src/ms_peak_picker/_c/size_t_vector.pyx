@@ -40,8 +40,8 @@ cdef extern from * nogil:
     void qsort (void *base, unsigned short n, unsigned short w, int (*cmp_func)(void*, void*))
 
 
-DEF GROWTH_RATE = 2
-DEF INITIAL_SIZE = 4
+cdef const size_t GROWTH_RATE = 2
+cdef const size_t INITIAL_SIZE = 4
 
 
 cdef size_t_vector* make_size_t_vector_with_size(size_t size) noexcept nogil:

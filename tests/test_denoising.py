@@ -1,5 +1,3 @@
-import unittest
-
 import numpy as np
 
 from ms_peak_picker.fticr_denoising import denoise
@@ -7,7 +5,7 @@ from .common import make_peak
 from ms_peak_picker import reprofile, pick_peaks
 
 
-class TestDenoising(unittest.TestCase):
+class TestDenoising:
     def make_data(self):
         peak = make_peak(200, 1e4)
         x = np.arange(0, 1000, 0.01)
@@ -27,7 +25,3 @@ class TestDenoising(unittest.TestCase):
         denoised_x, denoised_y = denoise(x, y, window_size=2.0, scale=0)
         assert np.allclose(x, denoised_x)
         assert np.allclose(y, denoised_y)
-
-
-if __name__ == '__main__':
-    unittest.main()
